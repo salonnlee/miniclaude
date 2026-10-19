@@ -1,0 +1,35 @@
+# ===== 敏感信息:绝不入库 =====
+.env
+.env.*
+*.env
+!.env.example
+secrets/
+*.pem
+*.key
+credentials*.json
+*apikey*.json
+
+# ===== Python(序章 · 搓丹线)=====
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# ===== 模型训练产物(大文件)=====
+*.pt
+*.pth
+*.ckpt
+checkpoints/
+
+# ===== Node(正文 · 铸剑线)=====
+node_modules/
+dist/
+*.log
+npm-debug.log*
+
+# ===== macOS / 编辑器 =====
+.DS_Store
+.idea/
+.vscode/
+*.swp

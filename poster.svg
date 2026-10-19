@@ -1,0 +1,42 @@
+<svg width="1080" height="1440" viewBox="0 0 1080 1440" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#8b93a3" opacity="0.10"/>
+    </pattern>
+    <radialGradient id="glow">
+      <stop offset="0" stop-color="#d97757" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#d97757" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1080" height="1440" fill="#0b0d12"/>
+  <rect width="1080" height="1440" fill="url(#dots)"/>
+  <ellipse cx="540" cy="730" rx="660" ry="520" fill="url(#glow)"/>
+
+  <!-- corner brackets -->
+  <g stroke="#3a4150" stroke-width="3" fill="none">
+    <path d="M 44 90 L 44 44 L 90 44"/>
+    <path d="M 990 44 L 1036 44 L 1036 90"/>
+    <path d="M 44 1350 L 44 1396 L 90 1396"/>
+    <path d="M 990 1396 L 1036 1396 L 1036 1350"/>
+  </g>
+
+  <!-- traffic lights -->
+  <circle cx="504" cy="580" r="6.5" fill="#ff5f56"/>
+  <circle cx="540" cy="580" r="6.5" fill="#ffbd2e"/>
+  <circle cx="576" cy="580" r="6.5" fill="#27c93f"/>
+
+  <!-- title -->
+  <text x="540" y="780" text-anchor="middle" font-family="ui-monospace,'SF Mono',Menlo,monospace"
+        font-size="140" font-weight="700" fill="#f0eff2" letter-spacing="-3">miniclaude</text>
+  <rect x="958" y="676" width="52" height="118" rx="7" fill="#e8845f">
+    <animate attributeName="opacity" calcMode="discrete" values="1;0" dur="1.1s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- subtitle -->
+  <text x="540" y="882" text-anchor="middle" font-family="'PingFang SC','Hiragino Sans GB',sans-serif"
+        font-size="46" font-weight="600" fill="#e8845f">从零手撸一个 Claude Code</text>
+
+  <!-- accent line -->
+  <rect x="460" y="946" width="160" height="4" rx="2" fill="#e8845f" opacity="0.85"/>
+</svg>

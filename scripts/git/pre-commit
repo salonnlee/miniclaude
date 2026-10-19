@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# ============================================================
+# 提交前密钥扫描:暂存内容里出现常见密钥形态 → 拦截提交
+# 确认是误报(比如教学示例)时:git commit --no-verify
+# ============================================================
+set -u
+fail=0
+
+# ---- 1) 文件名检查:.env 系列与密钥后缀(.env.example 白名单)----
+while IFS= read -r f; do
+  base=$(basename "$f")
+  case "$base" in
+    .env.example) ;;                                  # 白名单:模板文件
+    .env|*.env|.env.*|*.pem|*.key|credentials*.json)
+      echo "⛔ 疑似敏感文件被暂存: $f"
+      fail=1
+      ;;
+  esac
+done < <(git diff --cached --name-only)
+
+# ---- 2) 内容扫描:新增行里的高置信密钥形态 ----
+pat='sk-[A-Za-z0-9_-]{16,}|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{30,}|xox[baprs]-[A-Za-z0-9-]{10,}|-----BEGIN [A-Z ]*PRIVATE KEY'
+while IFS= read -r line; do
+  echo "⛔ 疑似密钥泄露(已截断): ${line:0:60}..."
+  fail=1
+done < <(git diff --cached | grep -E '^\+' | grep -Ev '^\+\+\+' | grep -E "$pat")
+
+if [ "$fail" -eq 1 ]; then
+  echo
+  echo "提交已被拦截。请清理后重试;确认误报可 git commit --no-verify"
+  exit 1
+fi
+exit 0

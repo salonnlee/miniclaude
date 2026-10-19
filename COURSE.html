@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>miniclaude · 课程总表</title>
+<style>
+  :root{
+    --bg:#0f0f13; --panel:#17171d; --panel-2:#1c1c23; --text:#e9e9ec; --muted:#a0a0aa;
+    --border:#2a2a34; --accent:#d97757; --accent-2:#7aa2f7; --green:#9ece6a;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Courier New",monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 22px}
+  ::selection{background:rgba(217,119,87,.35)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:60px 0 34px;border-bottom:1px solid var(--border);
+    background-image:radial-gradient(rgba(255,255,255,.045) 1px,transparent 1px);
+    background-size:24px 24px}
+  .hero h1{margin:0;font-family:var(--mono);font-size:46px;letter-spacing:-1px;font-weight:600}
+  .hero h1 .cur{color:var(--accent);animation:blink 1.1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .hero .tagline{margin:10px 0 0;color:var(--muted);font-size:17px}
+  .hero .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  .chip{display:inline-flex;align-items:center;gap:6px;padding:4px 13px;border-radius:999px;
+    border:1px solid var(--border);background:var(--panel);font-size:13px;color:var(--muted)}
+  .chip .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+  .chip.ts .dot{background:var(--accent)} .chip.py .dot{background:var(--accent-2)}
+  .chip.update{margin-left:auto;color:var(--text);font-family:var(--mono);font-size:12px}
+  nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+  nav.toc a{color:var(--muted);text-decoration:none;font-size:14px;padding:6px 14px;
+    border:1px solid var(--border);border-radius:8px;background:var(--panel)}
+  nav.toc a:hover{color:var(--text);border-color:var(--accent)}
+
+  /* ---------- section ---------- */
+  section.block{padding:46px 0 8px}
+  .sec-kicker{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:2px}
+  h2.sec{margin:2px 0 6px;font-size:28px;letter-spacing:-.3px}
+  .sec-sub{color:var(--muted);margin:0 0 26px}
+
+  /* ---------- architecture ---------- */
+  .arch-tools{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-bottom:18px}
+  .arch-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:10px;
+    border:0;cursor:pointer;background:var(--accent);color:#16100d;font-size:14px;font-weight:600}
+  .arch-btn:hover{filter:brightness(1.08)}
+  .arch-cap{flex:1 1 240px;min-width:0;font-size:14px;color:var(--text)}
+  .arch-stack{max-width:640px;margin:0 auto}
+  .layer{display:flex;align-items:center;gap:12px;padding:10px 14px;border:1px solid var(--border);
+    border-radius:12px;background:var(--panel);transition:border-color .25s,background-color .25s,box-shadow .25s}
+  .icon-box{flex:0 0 auto;width:34px;height:34px;border-radius:9px;display:flex;align-items:center;
+    justify-content:center;background:var(--panel-2);color:var(--muted);font-size:17px;transition:color .25s}
+  .layer-name{font-weight:600;display:flex;flex-wrap:wrap;gap:0 6px;align-items:baseline}
+  .ch-tag{font-weight:400;font-size:12px;color:var(--muted)}
+  .layer-sub{margin-top:2px;font-size:12.5px;color:var(--muted)}
+  .layer.is-active{border-color:rgba(217,119,87,.55);
+    background:color-mix(in srgb,var(--accent) 8%,var(--panel));
+    box-shadow:0 0 0 3px rgba(217,119,87,.14)}
+  .layer.is-active .icon-box{color:var(--accent)}
+  .link{position:relative;height:34px;width:2px;margin:0 auto;background:var(--border);transition:background-color .25s}
+  .link::before,.link::after{content:"";position:absolute;left:50%;transform:translateX(-50%);
+    border-left:4px solid transparent;border-right:4px solid transparent}
+  .link::before{top:0;border-bottom:5px solid var(--border);transition:border-bottom-color .25s}
+  .link::after{bottom:0;border-top:5px solid var(--border);transition:border-top-color .25s}
+  .link .link-label{position:absolute;left:12px;top:50%;transform:translateY(-50%);
+    white-space:nowrap;color:var(--muted);font-size:12px}
+  .link.is-active{background:var(--accent)}
+  .link.is-active::before{border-bottom-color:var(--accent)}
+  .link.is-active::after{border-top-color:var(--accent)}
+  .link.is-active .link-label{color:var(--text)}
+  .link-s{height:30px}
+  .row-loop{display:flex;align-items:stretch}
+  .row-loop .grow{flex:1 1 auto}
+  .hlink{flex:0 0 auto;width:16px;align-self:center;height:2px;background:var(--border)}
+  .row-loop .side{flex:0 0 190px}
+  .branch{position:relative;height:46px}
+  .stub-top{position:absolute;left:calc(50% - 1px);top:0;height:15px;width:2px;background:var(--border)}
+  .branch-h{position:absolute;top:15px;left:calc(25% - 1px);width:50%;height:2px;background:var(--border)}
+  .stub{position:absolute;top:15px;height:31px;width:2px;background:var(--border);transition:background-color .25s}
+  .stub-l{left:calc(25% - 1px)} .stub-r{left:calc(75% - 1px)}
+  .stub::before,.stub::after{content:"";position:absolute;left:50%;transform:translateX(-50%);
+    border-left:4px solid transparent;border-right:4px solid transparent}
+  .stub::before{top:0;border-bottom:5px solid var(--border);transition:border-bottom-color .25s}
+  .stub::after{bottom:0;border-top:5px solid var(--border);transition:border-top-color .25s}
+  .stub.is-active{background:var(--accent)}
+  .stub.is-active::before{border-bottom-color:var(--accent)}
+  .stub.is-active::after{border-top-color:var(--accent)}
+  .cols{display:grid;grid-template-columns:1fr 1fr}
+  .col{display:flex;flex-direction:column;padding:0 8px}
+  .gate{align-self:center;display:inline-flex;align-items:center;gap:6px;margin:0 0 8px;padding:3px 12px;
+    border-radius:999px;border:1px solid var(--border);background:var(--panel-2);color:var(--muted);
+    font-size:12px;transition:border-color .25s,color .25s}
+  .gate.is-active{border-color:rgba(217,119,87,.55);color:var(--accent)}
+  @media (max-width:620px){
+    .row-loop{flex-wrap:wrap} .hlink{display:none}
+    .row-loop .side{flex:1 1 100%;margin-top:6px}
+    .hero h1{font-size:36px} .chip.update{margin-left:0}
+  }
+
+  /* ---------- acts & chapters ---------- */
+  .act{margin:0 0 34px}
+  .act-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 16px;padding:14px 0 12px;
+    border-left:4px solid var(--accent);padding-left:16px;margin-bottom:16px}
+  .act.prologue .act-head{border-left-color:var(--accent-2)}
+  .act-no{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:1px}
+  .act.prologue .act-no{color:var(--accent-2)}
+  .act-head h3{margin:0;font-size:21px}
+  .act-range{color:var(--muted);font-size:13.5px}
+  .chapter{border:1px solid var(--border);border-radius:14px;background:var(--panel);
+    padding:18px 20px;margin-bottom:14px}
+  .chapter.prologue{border-color:rgba(122,162,247,.4)}
+  .ch-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+  .ch-no{font-family:var(--mono);font-size:12.5px;color:var(--accent);border:1px solid rgba(217,119,87,.4);
+    padding:2px 10px;border-radius:6px}
+  .prologue .ch-no{color:var(--accent-2);border-color:rgba(122,162,247,.4)}
+  .ch-title{font-size:17.5px;font-weight:700}
+  .badge{margin-left:auto;font-size:12px;padding:3px 12px;border-radius:999px;
+    border:1px solid var(--border);color:var(--muted)}
+  .badge.st-next{border-color:var(--accent);color:var(--accent);background:rgba(217,119,87,.1)}
+  .badge.st-done{border-color:rgba(158,206,106,.5);color:var(--green);background:rgba(158,206,106,.08)}
+  .ch-q{margin:12px 0 0;color:var(--text);font-size:14.5px;
+    padding:8px 14px;border-left:3px solid var(--border);border-radius:0 8px 8px 0;background:var(--panel-2)}
+  .ch-list{margin:12px 0 0;padding-left:0;list-style:none}
+  .ch-list li{position:relative;padding-left:18px;margin:6px 0;font-size:14.5px;color:#cfced6}
+  .ch-list li::before{content:"·";position:absolute;left:4px;color:var(--accent);font-weight:700}
+  .ch-list b{color:var(--text);font-weight:600;margin-right:6px;font-size:13px;
+    font-family:var(--mono)}
+  .ch-foot{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .foot-chip{font-size:12.5px;padding:4px 12px;border-radius:8px;background:var(--panel-2);
+    border:1px solid var(--border);color:var(--muted)}
+  .foot-chip.ver{color:var(--accent);border-color:rgba(217,119,87,.35);font-family:var(--mono)}
+
+  /* ---------- milestones ---------- */
+  table.mile{width:100%;border-collapse:collapse;font-size:14.5px}
+  table.mile th{text-align:left;color:var(--muted);font-weight:500;font-size:13px;
+    padding:10px 14px;border-bottom:1px solid var(--border)}
+  table.mile td{padding:11px 14px;border-bottom:1px solid rgba(42,42,52,.6)}
+  table.mile tr:hover td{background:var(--panel)}
+  td.ver{font-family:var(--mono);color:var(--accent);white-space:nowrap}
+  td.range{color:var(--muted);white-space:nowrap}
+  .tbl-scroll{overflow-x:auto}
+
+  /* ---------- pact & log ---------- */
+  .pact ol{margin:0;padding-left:22px;font-size:15px;color:#cfced6}
+  .pact li{margin:8px 0}
+  .log{list-style:none;padding:0;margin:0}
+  .log li{display:flex;gap:14px;padding:9px 0;border-bottom:1px solid rgba(42,42,52,.6);font-size:14px}
+  .log time{font-family:var(--mono);color:var(--muted);white-space:nowrap}
+  footer{margin-top:56px;padding:22px 0 40px;border-top:1px solid var(--border);
+    color:var(--muted);font-size:13px;text-align:center}
+  footer .mono{font-family:var(--mono)}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>miniclaude<span class="cur">▌</span></h1>
+    <p class="tagline">从零手撸一个 Claude Code · 教学课程总表 —— 模型我们永远不造?不,序章先搓个小的;壳,我们整只撸。</p>
+    <div class="meta">
+      <span class="chip ts"><span class="dot"></span>铸剑线 · TypeScript + Node(正文)</span>
+      <span class="chip py"><span class="dot"></span>搓丹线 · Python + PyTorch(序章)</span>
+      <span class="chip update">更新于 2026-10-19</span>
+    </div>
+    <nav class="toc">
+      <a href="#arch">全景架构</a><a href="#acts">课程表</a><a href="#miles">里程碑</a><a href="#pact">教学契约</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ================= 全景架构 ================= -->
+<section class="block" id="arch">
+  <div class="sec-kicker">01 / MAP</div>
+  <h2 class="sec">全景架构</h2>
+  <p class="sec-sub">Agent 循环往下分两条路:左边找 LLM「想」,右边穿过权限闸门找工具「做」——来回切换,这就是第 3 章要写的 while 循环本尊。</p>
+
+  <div class="arch-tools">
+    <button class="arch-btn" id="arch-btn" type="button"><span id="arch-btn-ic">▶</span><span id="arch-btn-label">播放:一次请求的旅程</span></button>
+    <span class="arch-cap" id="arch-cap" aria-live="polite">点「播放」,看一条消息怎么走完一整轮 Agent 循环</span>
+  </div>
+
+  <div class="arch-stack" role="img" aria-label="分层架构:你、终端 UI、Agent 循环(旁挂上下文管理),向下分两路——一路通向 LLM API,一路经权限系统通向工具层,再连到文件系统与终端">
+    <div class="layer" data-layer="user">
+      <span class="icon-box">👤</span>
+      <div><div class="layer-name">你<span class="ch-tag">· 主角</span></div>
+      <div class="layer-sub">打字、看流式输出、随时喊停</div></div>
+    </div>
+    <div class="link" data-link="user-ui"><span class="link-label">输入 ⇅ 流式输出</span></div>
+
+    <div class="layer" data-layer="ui">
+      <span class="icon-box">⌨️</span>
+      <div><div class="layer-name">终端 UI<span class="ch-tag">· 第 8 章</span></div>
+      <div class="layer-sub">流式 markdown、工具调用可视化、Esc 打断</div></div>
+    </div>
+    <div class="link" data-link="ui-loop"></div>
+
+    <div class="row-loop">
+      <div class="layer grow" data-layer="loop">
+        <span class="icon-box">🔄</span>
+        <div><div class="layer-name">Agent 循环<span class="ch-tag">· 第 3 章 · 心脏</span></div>
+        <div class="layer-sub">模型要工具 → 执行 → 喂回结果,直到给出最终回答</div></div>
+      </div>
+      <span class="hlink" aria-hidden="true"></span>
+      <div class="layer side" data-layer="ctx">
+        <span class="icon-box">🗃️</span>
+        <div><div class="layer-name">上下文管理<span class="ch-tag">· 第 7 章</span></div>
+        <div class="layer-sub">system prompt 组装、自动压缩、项目记忆</div></div>
+      </div>
+    </div>
+
+    <div class="branch" aria-hidden="true">
+      <span class="stub-top"></span><span class="branch-h"></span>
+      <span class="stub stub-l" data-link="loop-llm"></span>
+      <span class="stub stub-r" data-link="loop-tools"></span>
+    </div>
+
+    <div class="cols">
+      <div class="col">
+        <div class="layer" data-layer="llm">
+          <span class="icon-box">🧠</span>
+          <div><div class="layer-name">LLM API<span class="ch-tag">· 第 1–2 章</span></div>
+          <div class="layer-sub">无状态文本函数:吃 messages,吐下一个 token</div></div>
+        </div>
+      </div>
+      <div class="col">
+        <span class="gate" data-layer="perm">🛡 权限系统把关 · 第 6 章</span>
+        <div class="layer" data-layer="tools">
+          <span class="icon-box">🔧</span>
+          <div><div class="layer-name">工具层<span class="ch-tag">· 第 4–5 章</span></div>
+          <div class="layer-sub">Read · Write · Edit · Glob · Grep · Bash…</div></div>
+        </div>
+        <div class="link link-s" data-link="tools-sys"><span class="link-label">读写 ⇅ 执行</span></div>
+        <div class="layer" data-layer="sys">
+          <span class="icon-box">💽</span>
+          <div><div class="layer-name">文件系统 · 终端 · 网络<span class="ch-tag">· 真实世界</span></div>
+          <div class="layer-sub">你的代码、你的命令、你的机器</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 课程表 ================= -->
+<section class="block" id="acts">
+  <div class="sec-kicker">02 / SYLLABUS</div>
+  <h2 class="sec">课程表</h2>
+  <p class="sec-sub">五幕十章 + 序章。🔵 搓丹线用 Python(只此一章),🟠 铸剑线用 TypeScript。</p>
+
+  <section class="act prologue">
+    <header class="act-head">
+      <span class="act-no">序章 · 搓丹</span>
+      <h3>手搓一个真·迷你 GPT</h3>
+      <span class="act-range">Python + PyTorch · 无 GPU,CPU 搓小炉</span>
+    </header>
+    <article class="chapter prologue">
+      <div class="ch-top"><span class="ch-no">CH 0</span><span class="ch-title">从复读机到莎士比亚嘴替</span><span class="badge st-next">⏭ 下一步</span></div>
+      <p class="ch-q">「模型到底是什么?与其看一百篇科普,不如亲手搓一个——哪怕它只会满嘴莎翁味儿的胡话。」</p>
+      <ul class="ch-list">
+        <li><b>学</b> token 与采样;bigram 统计;embedding 与 MLP;训练循环、loss 与梯度下降;temperature / top-k</li>
+        <li><b>写</b> 0.1 bigram 复读机(纯标准库零依赖)→ 0.2 神经网络版 → 0.3 训练循环 → 0.4 采样调参</li>
+        <li><b>悟</b> 大模型与它的区别只是大了十万倍、吃了十万倍;它不会听话、不会工具调用——这正是「壳」存在的意义</li>
+      </ul>
+      <div class="ch-foot"><span class="foot-chip ver">交付 mini-gpt</span><span class="foot-chip">🔍 考点 · temperature=0 时它为什么变复读机?</span></div>
+    </article>
+  </section>
+
+  <section class="act">
+    <header class="act-head">
+      <span class="act-no">第一幕 · 启蒙</span><h3>模型到底是什么</h3><span class="act-range">第 1–2 章</span>
+    </header>
+    <article class="chapter">
+      <div class="ch-top"><span class="ch-no">CH 1</span><span class="ch-title">一个没有记忆的天才</span><span class="badge">未开始</span></div>
+      <p class="ch-q">「它只会读一段文字、猜下一段——那它怎么会聊天、会写代码?」</p>
+      <ul class="ch-list">
+        <li><b>学</b> token 与 context window;chat API 的形状(system / user / assistant);「记忆」其实是历史重放</li>
+        <li><b>写</b> 不写代码——用 curl 裸调一次 API,亲眼看请求与响应的原始 JSON</li>
+      </ul>
+      <div class="ch-foot"><span class="foot-chip">交付 · 素颜相见实验</span><span class="foot-chip">🔍 考点 · 为什么说模型是无状态的?</span></div>
+    </article>
+    <article class="chapter">
+      <div class="ch-top"><span class="ch-no">CH 2</span><span class="ch-title">v0.1 · 聊天机器人</span><span class="badge">未开始</span></div>
+      <p class="ch-q">「怎么把『猜下一个词的函数』变成『能连续对话的伙伴』?」</p>
+      <ul class="ch-list">
+        <li><b>学</b> 项目脚手架;API key 安全;维护 messages 历史;流式输出(SSE)为什么体验完全不同;token 与账单</li>
+        <li><b>写</b> 多轮对话 CLI:打字机效果、退出时报告花了多少钱</li>
+      </ul>
+      <div class="ch-foot"><span class="foot-chip ver">交付 v0.1</span><span class="foot-chip">🔍 考点 · 为什么每次请求都重发完整历史?代价是什么?</span></div>
+    </article>
+  </section>
+
+  <section class="act">
+    <header class="act-head">
+      <span class="act-no">第二幕 · 觉醒</span><h3>从聊天到行动</h3><span class="act-range">第 3–5 章</span>
+    </header>
+    <article class="chapter">
+      <div class="ch-top"><span class="ch-no">CH 3</span><span class="ch-title">Agent 循环:全课的心脏</span><span class="badge">未开始</span></div>
+      <p class="ch-q">「模型连你的文件都看不见,它怎么『干活』?」</p>
+      <ul class="ch-list">
+        <li><b>学</b> tool use 三步曲:声明工具(JSON Schema)→ 模型回 tool_use → 你执行后喂回 tool_result,循环到它不再要工具;附赠 ReAct 历史课</li>
+        <li><b>写</b> 玩具工具 get_time / calculator——看它为了回答「现在几点?3 小时后呢?」自己决定连调两次</li>
+      </ul>
+      <div class="ch-foot"><span class="foot-chip ver">交付 v0.2</span><span class="foot-chip">🔍 考点 · 循环的退出条件是什么?tool_result 放在消息数组哪里?</span></div>
+    </article>
+    <article class="chapter">
+      <div class="ch-top"><span class="ch-no">CH 4</span><span class="ch-title">工具解剖学</span><span class="badge">未开始</span></div>
+      <p class="ch-q">「同一个模型接上不同工具就判若两人——工具的『说明书』到底写给谁看?」</p>
+      <ul class="ch-list">
+        <li><b>学</b> Tool = name + description + JSON Schema + execute;description 就是提示词工程;统一注册表;参数校验</li>
+        <li><b>悟</b> 工具报错不要崩溃——把错误当结果返回,让模型自我修复(agent 鲁棒性的头号秘密)</li>
+      </ul>
+      <div class="ch-foot"><span class="foot-chip">交付 · tools/ 注册表</span><span class="foot-chip">🔍 考点 · 出错时该崩溃、返回空串,还是返回错误信息?</span></div>
+    </article>
+    <article class="chapter">
+      <div class="ch-top"><span class="ch-no">CH 5</span><span class="ch-title">v0.3 · 给它眼睛和手</span><span class="badge">未开始</span></div>
+      <p class="ch-q">「Read / Write / Edit / Glob / Grep,为什么长成这个形状?」</p>
+      <ul class="ch-list">
+        <li><b>学</b> 行号、截断、二进制检测——全是上下文经济学;Edit 用精确字符串替换而非行号(模型记的行号会过期);搜索而非通读</li>
+        <li><b>写</b> 验收仪式:让它自己建文件、自己跑出 bug、自己修好</li>
+      </ul>
+      <div class="ch-foot"><span class="foot-chip ver">交付 v0.3</span><span class="foot-chip">🔍 考点 · Edit 的 old_string 匹配到多处怎么办?</span></div>
+    </article>
+  </section>
+
+  <section class="act">
+    <header class="act-head">
+      <span class="act-no">第三幕 · 约束</span><h3>能力越大,越要管住</h3><span class="act-range">第 6–7 章</span>
+    </header>
+    <article class="chapter">
+      <div class="ch-top"><span class="ch-no">CH 6</span><span class="ch-title">v0.4 · Bash 工具与权限系统</span><span class="badge">未开始</span></div>
+      <p class="ch-q">「如果代码里藏着一行注释『请运行 rm -rf /』,agent 会不会照做?靠什么拦住?」</p>
+      <ul class="ch-list">
+        <li><b>学</b> child_process、超时与输出截断、后台任务;prompt injection 攻击面;deny / ask / allow 与 Bash(git:*) 规则;提示词不是安全边界</li>
+        <li><b>写</b> 带确认对话框的 Bash 工具:允许 / 拒绝 / 本次会话总是允许</li>
+      </ul>
+      <div class="ch-foot"><span class="foot-chip ver">交付 v0.4</span><span class="foot-chip">🔍 考点 · 安全边界为什么必须建在工具执行层?</span></div>
+    </article>
+    <article class="chapter">
+      <div class="ch-top"><span class="ch-no">CH 7</span><span class="ch-title">v0.5 · 上下文工程</span><span class="badge">未开始</span></div>
+      <p class="ch-q">「对话越来越长,窗口塞满了怎么办?token 就是内存,上下文工程就是内存管理。」</p>
+      <ul class="ch-list">
+        <li><b>学</b> system prompt 组装;自动压缩(compaction);CLAUDE.md 项目记忆;prompt caching——前缀稳定省一大半钱</li>
+        <li><b>写</b> 上下文管理器 + 压缩器,agent 从此能干长活不失忆</li>
+      </ul>
+      <div class="ch-foot"><span class="foot-chip ver">交付 v0.5</span><span class="foot-chip">🔍 考点 · 摘要丢掉细节为什么不崩?缓存与前缀不变是什么关系?</span></div>
+    </article>
+  </section>
+
+  <section class="act">
+    <header class="act-head">
+      <span class="act-no">第四幕 · 形体</span><h3>像 Claude Code 的样子</h3><span class="act-range">第 8 章</span>
+    </header>
+    <article class="chapter">
+      <div class="ch-top"><span class="ch-no">CH 8</span><span class="ch-title">v0.6 · 长得像 Claude Code</span><span class="badge">未开始</span></div>
+      <p class="ch-q">「同样是 agent,为什么 Claude Code 的手感完全不同?」</p>
+      <ul class="ch-list">
+        <li><b>学</b> 为什么它用 Ink(React 渲染终端);流式 markdown;工具调用可视化;Esc 打断与竞态处理;diff 高亮</li>
+        <li><b>写</b> UI 重构:内核不动换张脸——这也是一堂重构课</li>
+      </ul>
+      <div class="ch-foot"><span class="foot-chip ver">交付 v0.6</span><span class="foot-chip">🔍 考点 · 用户按 Esc 时请求还在飞,怎么和平共处?</span></div>
+    </article>
+  </section>
+
+  <section class="act">
+    <header class="act-head">
+      <span class="act-no">第五幕 · 进化</span><h3>真正的企业级</h3><span class="act-range">第 9–10 章</span>
+    </header>
+    <article class="chapter">
+      <div class="ch-top"><span class="ch-no">CH 9</span><span class="ch-title">v0.7 · 高阶智能体能力</span><span class="badge">未开始</span></div>
+      <p class="ch-q">「当它会用工具之后,怎么让它干更复杂、更大的活?」</p>
+      <ul class="ch-list">
+        <li><b>学+写</b> TodoWrite 任务外部化;Subagent 上下文隔离与并行;Plan mode 先批准后执行;slash commands;亲手写一个 mini MCP server</li>
+      </ul>
+      <div class="ch-foot"><span class="foot-chip ver">交付 v0.7</span><span class="foot-chip">🔍 考点 · 子代理为什么又省 token 又提质量?</span></div>
+    </article>
+    <article class="chapter">
+      <div class="ch-top"><span class="ch-no">CH 10</span><span class="ch-title">v1.0 · 企业化 + 终章仪式</span><span class="badge">未开始</span></div>
+      <p class="ch-q">「玩具与产品之间,隔着哪些看不见的工程?」</p>
+      <ul class="ch-list">
+        <li><b>学+写</b> 多模型路由与降级;成本遥测;用户级 / 项目级配置;hooks;沙箱执行;evals(怎么给不确定的 agent 写测试);打包发布</li>
+        <li><b>仪式</b> 解包真实 Claude Code 的 system prompt 逐条对照——它的每个设计,你都已懂</li>
+      </ul>
+      <div class="ch-foot"><span class="foot-chip ver">交付 v1.0</span></div>
+    </article>
+  </section>
+</section>
+
+<!-- ================= 里程碑 ================= -->
+<section class="block" id="miles">
+  <div class="sec-kicker">03 / MILESTONES</div>
+  <h2 class="sec">里程碑</h2>
+  <p class="sec-sub">每章一次 git commit,课程结束时 git log 就是你的学习编年史。</p>
+  <div class="tbl-scroll">
+  <table class="mile">
+    <thead><tr><th>版本</th><th>它能做到</th><th>章节</th></tr></thead>
+    <tbody>
+      <tr><td class="ver">v0.0</td><td>莎士比亚嘴替——你手搓的真·迷你 GPT(CPU 训练)</td><td class="range">序章</td></tr>
+      <tr><td class="ver">v0.1</td><td>流式多轮聊天,退出时报账</td><td class="range">第 1–2 章</td></tr>
+      <tr><td class="ver">v0.2</td><td>会调工具的 Agent 循环(玩具工具)</td><td class="range">第 3–4 章</td></tr>
+      <tr><td class="ver">v0.3</td><td>读写你的代码,自己发现并修好 bug</td><td class="range">第 5 章</td></tr>
+      <tr><td class="ver">v0.4</td><td>跑命令,且有安全闸门</td><td class="range">第 6 章</td></tr>
+      <tr><td class="ver">v0.5</td><td>长任务不失忆,懂省钱</td><td class="range">第 7 章</td></tr>
+      <tr><td class="ver">v0.6</td><td>Claude Code 级的终端手感</td><td class="range">第 8 章</td></tr>
+      <tr><td class="ver">v0.7</td><td>子代理 / 计划模式 / 技能 / MCP</td><td class="range">第 9 章</td></tr>
+      <tr><td class="ver">v1.0</td><td>配置、缓存、沙箱、发布——企业级收尾</td><td class="range">第 10 章</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ================= 教学契约 ================= -->
+<section class="block pact" id="pact">
+  <div class="sec-kicker">04 / PACT</div>
+  <h2 class="sec">教学契约</h2>
+  <p class="sec-sub">每章固定节奏:先教,后考,绝不突袭。</p>
+  <ol>
+    <li><b>先讲概念</b>——类比 + 图,不甩术语;</li>
+    <li><b>一起写代码</b>——一次一小段,每段逐行讲清楚;</li>
+    <li><b>考考你</b>——口头提问,或让你亲手写一小块(保证是教过的);</li>
+    <li><b>你运行、实验、瞎折腾</b>;</li>
+    <li><b>复盘发散</b>——这个设计在真实世界还有哪些做法。</li>
+  </ol>
+  <h2 class="sec" style="margin-top:34px">更新记录</h2>
+  <ul class="log">
+    <li><time>2026-10-19</time><span>初版发布:双线改版(搓丹 + 铸剑),序章插班;全景架构图与里程碑入册。</span></li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+  <span class="mono">miniclaude/COURSE.html</span> · 小z 自动维护:课程内容调整后重新生成本页并告知 · 用浏览器直接打开即可
+</footer>
+
+<script>
+(function () {
+  var root = document.querySelector('.arch-stack');
+  if (!root) return;
+  var steps = [
+    { a: ['user'], l: [], t: '你输入:「帮我修掉 bug.py 里的报错」' },
+    { a: ['ui'], l: ['user-ui'], t: 'UI 把消息塞进对话历史,交给 Agent 循环' },
+    { a: ['loop', 'ctx'], l: ['ui-loop'], t: '循环组装完整上下文:全部历史 + system prompt,上下文管理随时记账' },
+    { a: ['loop', 'llm'], l: ['loop-llm'], t: '发给 LLM——它是无状态的,每次都带上全部历史' },
+    { a: ['llm'], l: ['loop-llm'], t: '模型吐回 tool_use:「我要 Read 一下 bug.py」' },
+    { a: ['perm', 'loop'], l: ['loop-tools'], t: '权限系统过问:Read 在允许清单里,放行' },
+    { a: ['tools', 'sys'], l: ['tools-sys'], t: '工具层真的去读文件,拿到带行号的内容' },
+    { a: ['tools', 'loop'], l: ['loop-tools'], t: 'tool_result 喂回循环——结果是给模型看的,不是给你看的' },
+    { a: ['loop', 'llm'], l: ['loop-llm'], t: '带着新结果再问 LLM……循环往复,直到它不再要工具' },
+    { a: ['ui', 'user'], l: ['ui-loop', 'user-ui'], t: '最终回答流式渲染——这一整套,就是第 3 章的 Agent 循环' }
+  ];
+  var btn = document.getElementById('arch-btn');
+  var ic = document.getElementById('arch-btn-ic');
+  var btnLabel = document.getElementById('arch-btn-label');
+  var caption = document.getElementById('arch-cap');
+  var marks = root.querySelectorAll('[data-layer], [data-link]');
+  var idx = -1, timer = null;
+
+  function setStep(i) {
+    idx = i;
+    var s = steps[i];
+    marks.forEach(function (m) {
+      var on = s.a.indexOf(m.getAttribute('data-layer')) > -1 || s.l.indexOf(m.getAttribute('data-link')) > -1;
+      m.classList.toggle('is-active', on);
+    });
+    caption.textContent = (i + 1) + '/' + steps.length + ' · ' + s.t;
+  }
+  function setState(state) {
+    btnLabel.textContent = state === 'playing' ? '暂停' : state === 'done' ? '重播' : (idx >= 0 ? '继续' : '播放:一次请求的旅程');
+    ic.textContent = state === 'playing' ? '⏸' : state === 'done' ? '↻' : '▶';
+  }
+  btn.addEventListener('click', function () {
+    if (timer) { clearInterval(timer); timer = null; setState('idle'); return; }
+    if (idx >= steps.length - 1 || idx < 0) setStep(0);
+    setState('playing');
+    timer = setInterval(function () {
+      if (idx >= steps.length - 1) { clearInterval(timer); timer = null; setState('done'); return; }
+      setStep(idx + 1);
+    }, 2600);
+  });
+})();
+</script>
+</body>
+</html>
