@@ -194,6 +194,13 @@
   .bg-out{border:1px solid var(--border);border-radius:10px;background:var(--panel);min-height:84px;max-height:140px;overflow-y:auto;padding:10px;font-family:var(--mono);font-size:13px;line-height:1.7;word-break:break-all;white-space:pre-wrap}
   .bg-hint{margin-top:16px;color:var(--muted);font-size:13.5px}
 
+  /* ---------- s1 recap ---------- */
+  .s1-recap{margin:0 0 12px;font-size:14.5px;line-height:1.9;color:#cfced6}
+  .s1-recap b{color:var(--text)}
+  .s1-recap code{font-family:var(--mono);font-size:12.5px;color:var(--text);background:var(--panel-2);padding:1px 6px;border-radius:5px}
+  .s1-fig{overflow-x:auto}
+  .s1-fig svg{display:block;min-width:640px;height:auto}
+
   /* ---------- milestones ---------- */
   table.mile{width:100%;border-collapse:collapse;font-size:14.5px}
   table.mile th{text-align:left;color:var(--muted);font-weight:500;font-size:13px;
@@ -225,7 +232,7 @@
     <div class="meta">
       <span class="chip ts"><span class="dot"></span>铸剑线 · TypeScript + Node(正文)</span>
       <span class="chip py"><span class="dot"></span>搓丹线 · Python + PyTorch(序章)</span>
-      <span class="chip update">更新于 2026-10-19</span>
+      <span class="chip update">更新于 2026-10-20</span>
     </div>
     <nav class="toc">
       <a href="#arch">全景架构</a><a href="#acts">课程表</a><a href="#miles">里程碑</a><a href="#pact">教学契约</a>
@@ -451,12 +458,96 @@
       <div class="ch-top"><span class="ch-no">SQ</span><span class="ch-title">从旋钮到反向传播</span><span class="badge st-doing">🔥 进行中</span></div>
       <p class="ch-q">「02 看不顺?那就离开主线,把神经网络的第一性原理亲手搭一遍——讲法浅显,内容不变样。」</p>
       <ul class="ch-list">
-        <li><b>S1</b> 会学习的函数:旋钮(参数)、loss(打分)、数值梯度(量坡)、训练循环(下坡)——纯标准库 🔥</li>
-        <li><b>S2</b> 神经元 = 加权求和 + 激活;多层与非线性的必要性(XOR 之役)</li>
+        <li><b>S1</b> 会学习的函数:旋钮(参数)、loss(打分)、数值梯度(量坡)、训练循环(下坡)——纯标准库 ✅</li>
+        <li><b>S2</b> 神经元 = 加权求和 + 激活;多层与非线性的必要性(XOR 之役)🔥 已讲至第二幕 · 暂停消化</li>
         <li><b>S3</b> 反向传播 = 链式法则:手推梯度与数值梯度互证</li>
         <li><b>S4</b> softmax + 交叉熵:grad = p − y 数值验证 → 回归主线 02,豁然开朗</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付:看得懂 02_neural_bigram.py 的每一行</span></div>
+      <details class="ch-lab" id="s1-recap">
+        <summary><span class="ch-lab-arrow">▶</span>🧠 S1 全景 · 一段话 + 一张图(下坡运动 × 训练循环)<span class="ch-lab-hint">默认收起 · 点击展开</span></summary>
+        <div class="ch-lab-body">
+          <p class="s1-recap">S1 整站只干一件事:<b>教机器自己学会一个函数</b>。模型是带旋钮的式子 <code>ŷ = w·x + b</code>(旋钮 w、b 就是「参数」);loss 用均方误差把「错得多离谱」压成一个数字——类比 CI 的红色失败数;数值梯度 <code>[loss(w+H) − loss(w−H)] / 2H</code>(H=0.00001)就是拿尺子量坡:<b>符号指方向</b>(往哪边拧 loss 会降)、<b>大小给陡度</b>(坡有多陡);训练则是循环执行 <code>w −= LR·grad</code> 顺势下坡——两百步后机器自摸出造数据的隐藏规律,学到 <code>1.998x + 0.979</code>(真相 <code>y = 2x + 1</code>,残差恰好等于噪声,理论不可再降)。途中的教训值回票价:<b>LR 是步长</b>,太大(LR=10)会一步跨过谷底、越蹦越高,loss 爆到 2.7×10²⁶;<b>数据是教练</b>,约束数 ≥ 旋钮数解才唯一——单个点训练 loss 照样归零,但 w 从没被「骂」过、纹丝不动(loss 归零 ≠ 学到真相);<b>多维就多配旋钮</b>,x、z 各分一个 w 各管各的,这正是 S2「神经元」的雏形;而两个输入若总一起动(特征共线),机器预测全对、归因全错——<b>预测对 ≠ 理解对</b>。</p>
+          <div class="s1-fig">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="S1 知识点全景:左边是 loss 山谷下坡图,右边是训练循环五步骤">
+  <defs>
+    <marker id="s1ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
+    <marker id="s1arO" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d97757"/></marker>
+  </defs>
+
+  <text x="110" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 下坡 · loss 山谷滚 200 步</text>
+  <text x="110" y="48" font-size="11" fill="#a0a0aa">两端为真实数据,中间为下坡示意</text>
+
+  <line x1="70" y1="70" x2="70" y2="400" stroke="#2a2a34" stroke-width="1.5"/>
+  <line x1="70" y1="400" x2="420" y2="400" stroke="#2a2a34" stroke-width="1.5"/>
+  <text x="42" y="66" font-size="11" fill="#a0a0aa">loss</text>
+  <text x="426" y="404" font-size="11" fill="#a0a0aa">w →</text>
+  <text x="110" y="416" font-size="10.5" fill="#a0a0aa" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">0</text>
+  <text x="225" y="416" font-size="10.5" fill="#a0a0aa" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">1</text>
+  <text x="340" y="416" font-size="10.5" fill="#a0a0aa" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">2</text>
+
+  <line x1="340" y1="122" x2="340" y2="390" stroke="#9ece6a" stroke-width="1" stroke-dasharray="4 4" opacity=".5"/>
+  <text x="340" y="112" font-size="10.5" fill="#9ece6a" text-anchor="middle">真相 w=2</text>
+
+  <path d="M110,80 L133,138.9 L156,191.6 L179,238.1 L202,278.4 L225,312.5 L248,340.4 L271,362.1 L294,377.6 L317,386.9 L340,390 L363,386.9 L386,377.6 L386,400 L110,400 Z" fill="rgba(122,162,247,.06)"/>
+  <path d="M110,80 L133,138.9 L156,191.6 L179,238.1 L202,278.4 L225,312.5 L248,340.4 L271,362.1 L294,377.6 L317,386.9 L340,390 L363,386.9 L386,377.6" fill="none" stroke="#7aa2f7" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <path d="M122,98 Q158,168 168,206" fill="none" stroke="#d97757" stroke-width="1.6" marker-end="url(#s1arO)" opacity=".9"/>
+  <path d="M279,369 Q297,379 311,384" fill="none" stroke="#d97757" stroke-width="1.6" marker-end="url(#s1arO)" opacity=".9"/>
+
+  <circle cx="110" cy="80" r="6" fill="#d97757"/>
+  <circle cx="167.5" cy="215.6" r="3.2" fill="#d97757"/>
+  <circle cx="225" cy="312.5" r="3.2" fill="#d97757"/>
+  <circle cx="271" cy="362.1" r="3" fill="#d97757"/>
+  <circle cx="303.2" cy="382.1" r="2.8" fill="#d97757"/>
+  <circle cx="323.9" cy="388.5" r="2.6" fill="#d97757"/>
+  <circle cx="335.4" cy="389.9" r="2.4" fill="#d97757"/>
+  <circle cx="340" cy="390" r="11" fill="none" stroke="#9ece6a" opacity=".3"/>
+  <circle cx="340" cy="390" r="6.5" fill="#9ece6a"/>
+
+  <text x="124" y="68" font-size="10.5" fill="#e9e9ec" font-family="ui-monospace,Menlo,monospace">step 0 · w=0 · loss 9.61</text>
+  <text x="340" y="434" font-size="10.5" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">step 200 · w=1.998 · loss 0.0032</text>
+  <text x="128" y="120" font-size="11" fill="#a0a0aa">坡陡 → 步大</text>
+  <text x="128" y="136" font-size="10.5" fill="#a0a0aa" opacity=".8">梯度为负 → 拧大 w</text>
+  <text x="244" y="322" font-size="11" fill="#a0a0aa">坡缓 → 步小</text>
+
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② 循环 · 每一步的五个动作</text>
+
+  <rect x="500" y="64" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="86" font-size="13" font-weight="600" fill="#e9e9ec">📊 数据(监督信号)</text>
+  <text x="516" y="105" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">y = 2x + 1 ± 0.1(带噪声)</text>
+  <line x1="665" y1="118" x2="665" y2="136" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#s1ar)"/>
+
+  <rect x="500" y="142" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="164" font-size="13" font-weight="600" fill="#e9e9ec">🧮 预测(带旋钮的函数)</text>
+  <text x="516" y="183" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">ŷ = w·x + b(w、b = 参数)</text>
+  <line x1="665" y1="196" x2="665" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#s1ar)"/>
+
+  <rect x="500" y="220" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="242" font-size="13" font-weight="600" fill="#e9e9ec">📉 打分(loss)</text>
+  <text x="516" y="261" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">平均 (ŷ − y)² · 错得多离谱</text>
+  <line x1="665" y1="274" x2="665" y2="292" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#s1ar)"/>
+
+  <rect x="500" y="298" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="320" font-size="13" font-weight="600" fill="#e9e9ec">📏 量坡(数值梯度)</text>
+  <text x="516" y="339" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">[loss(w+H) − loss(w−H)] / 2H · H=1e−5</text>
+  <line x1="665" y1="352" x2="665" y2="370" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#s1ar)"/>
+
+  <rect x="500" y="376" width="330" height="52" rx="10" fill="#17171d" stroke="rgba(217,119,87,.55)"/>
+  <text x="516" y="398" font-size="13" font-weight="600" fill="#e9e9ec">🔧 下坡(更新旋钮)</text>
+  <text x="516" y="417" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">w −= LR·grad · 正拧小,负拧大</text>
+
+  <path d="M500,402 C466,402 466,90 496,90" fill="none" stroke="#a0a0aa" stroke-width="1.3" marker-end="url(#s1ar)" opacity=".75"/>
+  <text x="457" y="246" font-size="11" fill="#a0a0aa" text-anchor="middle" transform="rotate(-90 457 246)">🔁 ×200 步</text>
+
+  <rect x="500" y="448" width="330" height="42" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
+  <text x="665" y="467" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">×200 步 → w = 1.998 · b = 0.979</text>
+  <text x="665" y="483" font-size="10.5" fill="#a0a0aa" text-anchor="middle">≈ 真相 y = 2x + 1 · 残差 = 噪声,理论不可再降</text>
+</svg>
+          </div>
+        </div>
+      </details>
+
     </article>
   </details>
 
@@ -629,6 +720,7 @@
     <li><time>2026-10-19</time><span>插班「支线·内功」(sidequest/):学员反馈 02 读不顺,先补神经网络第一性原理。S1 开课即捷:两百次下坡,机器自摸出隐藏规律 y=2x+1(学到 1.998x+0.979)。</span></li>
     <li><time>2026-10-19</time><span>交互:展开/收起改为丝滑高度渐变(details::details-content 过渡,旧浏览器优雅退回瞬时);默认只展开「进行中」章节所在幕(现为支线·内功)。</span></li>
     <li><time>2026-10-19</time><span>课程表折叠化:各幕改为可展开/收起的折叠卡(箭头指示,默认展开进行中的序章与支线,未开始的各幕收起),章节变多后也能秒级定位。</span></li>
+    <li><time>2026-10-20</time><span>新增「S1 全景」抽屉:一段话 + 一张图(loss 山谷下坡 × 训练循环五动作,默认收起);S1 结课 ✅,S2 已讲至第二幕、暂停消化——学员节奏自控。</span></li>
   </ul>
 </section>
 
