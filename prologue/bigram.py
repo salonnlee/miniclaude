@@ -41,11 +41,15 @@ for prev, cnt in counts.items():
     probs[prev] = [(ch, n / total) for ch, n in cnt.items()]
 
 # ④ 采样:按概率抽签,一个字一个字往外吐 ──────────────────────
+# 一轮的真实样子(设此刻 cur = 'e'):
+#   chars   = (' ', 'r', 'n', 's', 'a', ...)        # 候选字符
+#   weights = (0.292, 0.126, 0.077, 0.072, 0.066, ...)  # 与 chars 一一对应
+#   random.choices 按权重抽中一个(多半是 ' ')→ 它成为新的 cur,进入下一轮
 random.seed(42)                    # 固定随机种子,让实验可复现
-cur, out = "\n", []                # 从换行符「开场」(剧本一行的开始)
-for _ in range(600):
-    if cur not in probs:           # 语料末字符没有后续记录——回到开场符
-        cur = "\n"
+cur, out = "\n", []                # 从换行符「开场」:行首语境,所以首字符常是大写
+for _ in range(600):               # 想要多长的输出就循环多少次:一次循环 = 一个字符
+    if cur not in probs:           # 兜底:语料最后一个字符从没当过「前字」
+        cur = "\n"                 # (本语料末字符恰好是 \n,这行实际不会触发)
     chars, weights = zip(*probs[cur])
     cur = random.choices(chars, weights=weights)[0]   # 加权抽签 = 采样
     out.append(cur)

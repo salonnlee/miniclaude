@@ -39,6 +39,22 @@ chars, weights = zip(*probs[cur])   # * 把 [(ch,w),(ch,w)..] 摊开成两条序
 const [chars, weights] = unzip(pairs);  // ≈ zip(...pairs) 的感觉
 ```
 
+### `random.choices`(带权重抽签)↔ 手写轮盘赌
+```python
+random.choices(chars, weights=weights)[0]   # 按权重随机取 1 个;返回 list,故取 [0]
+```
+```js
+function weightedPick(items, weights) {
+  const r = Math.random() * weights.reduce((a, b) => a + b, 0);
+  let acc = 0;
+  for (let i = 0; i < items.length; i++) {
+    acc += weights[i];
+    if (r < acc) return items[i];
+  }
+  return items.at(-1);   // 浮点误差兜底
+}
+```
+
 ### `Counter` ↔ 自动计数的 Map(标准库 collections)
 ```python
 cnt[nxt] += 1          # key 不存在从 0 起算,不报 KeyError
