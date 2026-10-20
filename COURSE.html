@@ -102,7 +102,8 @@
   .act{margin:0 0 34px}
   summary.act-head{cursor:pointer;list-style:none;user-select:none}
   summary.act-head::-webkit-details-marker{display:none}
-  summary.act-head::after{content:'▸';margin-left:auto;color:var(--muted);font-size:16px;align-self:center;transition:transform .25s ease}
+  summary.act-head::after{content:'▸';margin-left:auto;color:var(--accent);font-size:22px;font-weight:700;align-self:center;transition:transform .25s ease}
+  summary.act-head:hover::after{color:var(--text)}
   details.act[open] summary.act-head::after{transform:rotate(90deg)}
   :root{interpolate-size:allow-keywords}
   details::details-content{transition:height .35s cubic-bezier(.4,0,.2,1),content-visibility .35s allow-discrete;height:0;overflow:clip}
@@ -148,7 +149,8 @@
   .ch-lab{margin-top:16px;border-top:1px dashed var(--border);padding-top:14px}
   .ch-lab summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:var(--accent-2);user-select:none}
   .ch-lab summary::-webkit-details-marker{display:none}
-  .ch-lab summary .ch-lab-arrow{display:inline-block;transition:transform .2s;font-size:12px;color:var(--muted)}
+  .ch-lab summary .ch-lab-arrow{display:inline-block;transition:transform .2s;font-size:18px;color:var(--accent);font-weight:700}
+  .ch-lab summary:hover .ch-lab-arrow{color:var(--text)}
   .ch-lab[open] summary .ch-lab-arrow{transform:rotate(90deg)}
   .ch-lab summary .ch-lab-hint{margin-left:auto;font-weight:400;font-size:12px;color:var(--muted)}
   .ch-lab-body{margin-top:14px}
