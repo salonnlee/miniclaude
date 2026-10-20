@@ -48,8 +48,9 @@ for prev, cnt in counts.items():
 random.seed(42)                    # 固定随机种子,让实验可复现
 cur, out = "\n", []                # 从换行符「开场」:行首语境,所以首字符常是大写
 for _ in range(600):               # 想要多长的输出就循环多少次:一次循环 = 一个字符
-    if cur not in probs:           # 兜底:语料最后一个字符从没当过「前字」
-        cur = "\n"                 # (本语料末字符恰好是 \n,这行实际不会触发)
+    if cur not in probs:           # 兜底:某字符若只在语料末位出现(从没当过前字),
+        cur = "\n"                 # probs 里就没有它的表 → 查它会 KeyError;
+                                   # 本语料末字符 \n 在别处出现 16 万+ 次,故不触发
     chars, weights = zip(*probs[cur])
     cur = random.choices(chars, weights=weights)[0]   # 加权抽签 = 采样
     out.append(cur)
