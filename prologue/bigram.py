@@ -14,11 +14,27 @@ vocab = sorted(set(text))          # 字符级 token:词表 = 出现过的所有
 print(f"语料 {len(text):,} 字符 | 词表 {len(vocab)} 个 token")
 
 # ② 数数:前一个字符后面,都跟过哪些字符、各多少次 ─────────────
+# counts 是双层账本(下面是真实数据,直接可查):
+#   counts = {
+#       'q': {'u': 2591},                              # 莎翁笔下 q 后面 100% 是 u!
+#       'e': {' ': 112740, 'r': 48705, 'n': 29854, ...},  # e 后面最常跟空格(29%)
+#       ' ': {'t': 95137, 'a': 58009, 's': 49529, ...},   # 空格后 t/a/s 开头最多
+#       ...
+#   }
+# JS 视角:Map<string, Map<string, number>>,外层 key = 前一个字符
 counts = defaultdict(Counter)      # counts[prev] 是一张「后续字符 → 次数」的账本
 for prev, nxt in zip(text, text[1:]):
     counts[prev][nxt] += 1
 
 # ③ 次数 → 概率(归一化)──────────────────────────────────────
+# probs 与 counts 同构,内层从「次数」换算成「概率」(真实数据):
+#   probs = {
+#       'q': [('u', 1.0)],                             # 每张内表加起来 = 1
+#       'e': [(' ', 0.292), ('r', 0.126), ('n', 0.077), ...],
+#       ...
+#   }
+# 内层用 list[(字符, 概率)] 而不是 dict:方便直接拆成
+# random.choices 需要的两样东西——候选 chars 和权重 weights
 probs = {}
 for prev, cnt in counts.items():
     total = sum(cnt.values())
