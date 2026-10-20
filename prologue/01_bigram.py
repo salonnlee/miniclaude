@@ -3,7 +3,7 @@
 语言模型只有一个职责:给定前文,给出"下一个 token"的概率分布。
 bigram 是它最古老的形态——前文只看 1 个字符,概率全靠数出来。
 
-运行:.venv/bin/python prologue/bigram.py
+运行:.venv/bin/python prologue/01_bigram.py
 """
 import random
 from collections import Counter, defaultdict

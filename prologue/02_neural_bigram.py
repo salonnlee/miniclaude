@@ -3,7 +3,7 @@
 0.1 的概率表靠「数数」;这里的 W 是可训练参数,靠「梯度下降」自己学出那张表。
 训练完对比:两条路的 loss 在同一点会师——数数的最优解,梯度下降能自己走到。
 
-运行:.venv/bin/python prologue/neural_bigram.py
+运行:.venv/bin/python prologue/02_neural_bigram.py
 """
 import numpy as np
 

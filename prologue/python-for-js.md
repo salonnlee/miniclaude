@@ -11,7 +11,7 @@
 | 标准库,要 import | stdlib | Node 内置模块 `node:fs` | `collections` `json` `os` `re` `math` |
 | 第三方包,pip 装 | site-packages | npm 包 | `numpy`(装在 `.venv`) |
 
-## bigram.py 里出现的语法点
+## 01_bigram.py 里出现的语法点
 
 ### 切片 `text[1:]` ↔ `text.slice(1)`
 ```python
@@ -96,7 +96,7 @@ f"语料 {len(text):,} 字符"   # :, = 千分位
 `语料 ${text.length.toLocaleString()} 字符`
 ```
 
-## NumPy 速查(neural_bigram.py 起)
+## NumPy 速查(02_neural_bigram.py 起)
 
 ### 造数组与形状
 ```python
