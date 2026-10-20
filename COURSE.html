@@ -102,8 +102,11 @@
   .act{margin:0 0 34px}
   summary.act-head{cursor:pointer;list-style:none;user-select:none}
   summary.act-head::-webkit-details-marker{display:none}
-  summary.act-head::after{content:'▸';margin-left:auto;color:var(--muted);font-size:16px;align-self:center}
-  details.act[open] summary.act-head::after{content:'▾'}
+  summary.act-head::after{content:'▸';margin-left:auto;color:var(--muted);font-size:16px;align-self:center;transition:transform .25s ease}
+  details.act[open] summary.act-head::after{transform:rotate(90deg)}
+  :root{interpolate-size:allow-keywords}
+  details::details-content{transition:height .35s cubic-bezier(.4,0,.2,1),content-visibility .35s allow-discrete;height:0;overflow:clip}
+  details[open]::details-content{height:auto}
   .act-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 16px;padding:14px 0 12px;
     border-left:4px solid var(--accent);padding-left:16px;margin-bottom:16px}
   .act.prologue .act-head{border-left-color:var(--accent-2)}
@@ -308,7 +311,7 @@
   <h2 class="sec">课程表</h2>
   <p class="sec-sub">五幕十章 + 序章。🔵 搓丹线用 Python(只此一章),🟠 铸剑线用 TypeScript。</p>
 
-  <details class="act prologue" open>
+  <details class="act prologue">
     <summary class="act-head">
       <span class="act-no">序章 · 搓丹</span>
       <h3>手搓一个真·迷你 GPT</h3>
@@ -622,6 +625,7 @@
     <li><time>2026-10-19</time><span>新增 README.md(入口门户:学习路径/结构导览/快速开始)与 LEARNER.md(AI 教师手册:摸底三问/教学契约/环境事实/讲义沉淀规则)——「课程复印机」的复印指令落纸。</span></li>
     <li><time>2026-10-19</time><span>追补讲义底片:01-notes.md 与 02-notes.md(讲义 + 学员追问实录),命名与课次代码配对;0.3 起随课随写。</span></li>
     <li><time>2026-10-19</time><span>插班「支线·内功」(sidequest/):学员反馈 02 读不顺,先补神经网络第一性原理。S1 开课即捷:两百次下坡,机器自摸出隐藏规律 y=2x+1(学到 1.998x+0.979)。</span></li>
+    <li><time>2026-10-19</time><span>交互:展开/收起改为丝滑高度渐变(details::details-content 过渡,旧浏览器优雅退回瞬时);默认只展开「进行中」章节所在幕(现为支线·内功)。</span></li>
     <li><time>2026-10-19</time><span>课程表折叠化:各幕改为可展开/收起的折叠卡(箭头指示,默认展开进行中的序章与支线,未开始的各幕收起),章节变多后也能秒级定位。</span></li>
   </ul>
 </section>
