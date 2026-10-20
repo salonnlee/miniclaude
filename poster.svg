@@ -29,9 +29,6 @@
   <!-- title -->
   <text x="540" y="780" text-anchor="middle" font-family="ui-monospace,'SF Mono',Menlo,monospace"
         font-size="140" font-weight="700" fill="#f0eff2" letter-spacing="-3">miniclaude</text>
-  <rect x="958" y="676" width="52" height="118" rx="7" fill="#e8845f">
-    <animate attributeName="opacity" calcMode="discrete" values="1;0" dur="1.1s" repeatCount="indefinite"/>
-  </rect>
 
   <!-- subtitle -->
   <text x="540" y="882" text-anchor="middle" font-family="'PingFang SC','Hiragino Sans GB',sans-serif"
