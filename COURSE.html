@@ -201,6 +201,17 @@
   .s1-fig{overflow-x:auto}
   .s1-fig svg{display:block;min-width:640px;height:auto}
 
+  /* ---------- chapter recap card(紧贴章节行的复盘卡)---------- */
+  .ch-recap{margin:10px 0 2px;padding:0}
+  .ch-recap summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;font-weight:600;font-size:14.5px;color:var(--accent-2);user-select:none}
+  .ch-recap summary::-webkit-details-marker{display:none}
+  .ch-recap summary .ch-lab-arrow{display:inline-block;transition:transform .2s;font-size:16px;color:var(--accent);font-weight:700}
+  .ch-recap summary:hover .ch-lab-arrow{color:var(--text)}
+  .ch-recap[open] summary .ch-lab-arrow{transform:rotate(90deg)}
+  .ch-recap summary .ch-lab-hint{margin-left:auto;font-weight:400;font-size:12px;color:var(--muted)}
+  .ch-recap .ch-lab-body{margin-top:12px}
+  .ch-list.tight-top{margin-top:12px}
+
   /* ---------- milestones ---------- */
   table.mile{width:100%;border-collapse:collapse;font-size:14.5px}
   table.mile th{text-align:left;color:var(--muted);font-weight:500;font-size:13px;
@@ -331,7 +342,85 @@
       <p class="ch-q">「模型到底是什么?与其看一百篇科普,不如亲手搓一个——哪怕它只会满嘴莎翁味儿的胡话。」</p>
       <ul class="ch-list">
         <li><b>学</b> token 与采样;bigram 统计;embedding 与 MLP;训练循环、loss 与梯度下降;temperature / top-k</li>
-        <li><b>写</b> 0.1 bigram 复读机(纯标准库)✅ → 0.2 神经版 + 梯度训练 ✅ → 0.3 前文加长:击穿数数表 → 0.4 temperature 调参</li>
+        <li><b>写</b> 0.1 bigram 复读机(纯标准库)✅ → 0.2 神经版 + 梯度训练🔥 学至中途 · 转支线补课 → 0.3 前文加长:击穿数数表 → 0.4 temperature 调参</li>
+      </ul>
+      <details class="ch-recap" id="b01-recap">
+        <summary><span class="ch-lab-arrow">▶</span>🧠 0.1 全景 · 一段话 + 一张图(数数建表 × 查表抽签)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
+        <div class="ch-lab-body">
+          <p class="s1-recap">0.1 整课只干一件事:<b>用纯数数造出第一个会「说话」的模型</b>。bigram 的世界观:下一个字符只由当前这一个字符决定。训练 = 数数:把语料按相邻对配对 <code>zip(text, text[1:])</code>,<code>counts[prev][nxt] += 1</code> 记账,每行除以自己的总数归一化,得到 67 张概率表——真实语料里 <code>t</code> 后面接 <code>h</code> 的概率 41.4%、接空格 30.7%;生成 = 查表抽签:从换行符开场,查 <code>probs[cur]</code>,<code>random.choices</code> 按概率抽下一个字符,追加并把 cur 换成它,循环 600 次,吐出满嘴莎翁味儿的胡话。必修实验的教训:<b>贪心(每步只选概率最大的)会自锁</b>——要么掉进换行符自环坑(自环概率 34.2%),要么被 <code>␣→t→h→e</code> 循环圈吸走,这正是「temperature=0 时模型变复读机」的种子(0.4 见)。此刻的模型 = 无状态的查表函数,它「懂」的唯一东西是字符接续的频率——0.2 要做的,就是把这张手工数出来的表,换成用梯度下降学出来的神经网络。</p>
+          <div class="s1-fig">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="0.1 知识点全景:左边是数数建表五步,右边是查表抽签循环与贪心自锁陷阱">
+  <defs>
+    <marker id="b1ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
+  </defs>
+
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 训练 · 数数建表(在语料上跑一遍)</text>
+
+  <rect x="105" y="50" width="305" height="46" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="121" y="69" font-size="12.5" font-weight="600" fill="#e9e9ec">📄 语料</text>
+  <text x="121" y="87" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">data/input.txt(莎士比亚)</text>
+  <line x1="257" y1="98" x2="257" y2="114" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1ar)"/>
+
+  <rect x="105" y="118" width="305" height="46" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="121" y="137" font-size="12.5" font-weight="600" fill="#e9e9ec">🔗 相邻对(滑窗配对)</text>
+  <text x="121" y="155" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">zip(text, text[1:])</text>
+  <line x1="257" y1="166" x2="257" y2="182" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1ar)"/>
+
+  <rect x="105" y="186" width="305" height="46" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="121" y="205" font-size="12.5" font-weight="600" fill="#e9e9ec">📚 counts 账本</text>
+  <text x="121" y="223" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">counts[prev][nxt] += 1</text>
+  <line x1="257" y1="234" x2="257" y2="250" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1ar)"/>
+
+  <rect x="105" y="254" width="305" height="46" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="121" y="273" font-size="12.5" font-weight="600" fill="#e9e9ec">➗ 归一化</text>
+  <text x="121" y="291" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">每行除以自己的总数</text>
+  <line x1="257" y1="302" x2="257" y2="318" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1ar)"/>
+
+  <rect x="105" y="322" width="305" height="46" rx="10" fill="#17171d" stroke="rgba(217,119,87,.55)"/>
+  <text x="121" y="341" font-size="12.5" font-weight="600" fill="#e9e9ec">📊 probs:67 张概率表</text>
+  <text x="121" y="359" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">probs[cur] = 下一个字符的分布</text>
+
+  <text x="105" y="398" font-size="10.5" fill="#a0a0aa">真实语料实例(mono 概率行):</text>
+  <text x="105" y="414" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">probs[t]: h 41.4% · ␣ 30.7% · o 10.6%</text>
+
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② 生成 · 查表抽签(循环 ×600)</text>
+
+  <rect x="500" y="50" width="330" height="46" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="69" font-size="12.5" font-weight="600" fill="#e9e9ec">🎯 cur · 当前字符</text>
+  <text x="516" y="87" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">从 ⏎(换行符)开场</text>
+  <line x1="665" y1="98" x2="665" y2="114" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1ar)"/>
+
+  <rect x="500" y="118" width="330" height="46" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="137" font-size="12.5" font-weight="600" fill="#e9e9ec">🔍 查表</text>
+  <text x="516" y="155" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">probs[cur] → 候选概率行</text>
+  <line x1="665" y1="166" x2="665" y2="182" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1ar)"/>
+
+  <rect x="500" y="186" width="330" height="46" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="205" font-size="12.5" font-weight="600" fill="#e9e9ec">🎲 加权抽签</text>
+  <text x="516" y="223" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">random.choices(probs[cur])</text>
+  <line x1="665" y1="234" x2="665" y2="250" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1ar)"/>
+
+  <rect x="500" y="254" width="330" height="46" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="273" font-size="12.5" font-weight="600" fill="#e9e9ec">📝 追加 &amp; 更新</text>
+  <text x="516" y="291" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">out.append(c); cur = c</text>
+
+  <path d="M500,277 C466,277 466,73 496,73" fill="none" stroke="#a0a0aa" stroke-width="1.3" marker-end="url(#b1ar)" opacity=".75"/>
+  <text x="458" y="175" font-size="11" fill="#a0a0aa" text-anchor="middle" transform="rotate(-90 458 175)">🔁 ×600 步</text>
+
+  <rect x="500" y="310" width="330" height="76" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.5)"/>
+  <text x="516" y="332" font-size="12.5" font-weight="600" fill="#e9e9ec">⚠ 必修实验:贪心 argmax 自锁实录</text>
+  <text x="516" y="352" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">⏎ 自环坑(34.2%) · ␣→t→h→e 循环圈</text>
+  <text x="516" y="370" font-size="10.5" fill="#a0a0aa">= temperature=0 变复读机之种(0.4 见)</text>
+
+  <rect x="105" y="430" width="725" height="50" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
+  <text x="467" y="450" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">×600 步 → 满嘴莎翁味儿的胡话 · 模型 = 无状态的查表函数</text>
+  <text x="467" y="468" font-size="10.5" fill="#a0a0aa" text-anchor="middle">这张手工数出来的表,0.2 将换成梯度下降学出来的神经网络</text>
+</svg>
+          </div>
+        </div>
+      </details>
+
+      <ul class="ch-list tight-top">
         <li><b>悟</b> 大模型与它的区别只是大了十万倍、吃了十万倍;它不会听话、不会工具调用——这正是「壳」存在的意义</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 mini-gpt</span><span class="foot-chip">🔍 考点 · temperature=0 时它为什么变复读机?</span></div>
@@ -459,13 +548,10 @@
       <p class="ch-q">「02 看不顺?那就离开主线,把神经网络的第一性原理亲手搭一遍——讲法浅显,内容不变样。」</p>
       <ul class="ch-list">
         <li><b>S1</b> 会学习的函数:旋钮(参数)、loss(打分)、数值梯度(量坡)、训练循环(下坡)——纯标准库 ✅</li>
-        <li><b>S2</b> 神经元 = 加权求和 + 激活;多层与非线性的必要性(XOR 之役)🔥 已讲至第二幕 · 暂停消化</li>
-        <li><b>S3</b> 反向传播 = 链式法则:手推梯度与数值梯度互证</li>
-        <li><b>S4</b> softmax + 交叉熵:grad = p − y 数值验证 → 回归主线 02,豁然开朗</li>
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付:看得懂 02_neural_bigram.py 的每一行</span></div>
-      <details class="ch-lab" id="s1-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 S1 全景 · 一段话 + 一张图(下坡运动 × 训练循环)<span class="ch-lab-hint">默认收起 · 点击展开</span></summary>
+
+      <details class="ch-recap" id="s1-recap">
+        <summary><span class="ch-lab-arrow">▶</span>🧠 S1 全景 · 一段话 + 一张图(下坡运动 × 训练循环)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
         <div class="ch-lab-body">
           <p class="s1-recap">S1 整站只干一件事:<b>教机器自己学会一个函数</b>。模型是带旋钮的式子 <code>ŷ = w·x + b</code>(旋钮 w、b 就是「参数」);loss 用均方误差把「错得多离谱」压成一个数字——类比 CI 的红色失败数;数值梯度 <code>[loss(w+H) − loss(w−H)] / 2H</code>(H=0.00001)就是拿尺子量坡:<b>符号指方向</b>(往哪边拧 loss 会降)、<b>大小给陡度</b>(坡有多陡);训练则是循环执行 <code>w −= LR·grad</code> 顺势下坡——两百步后机器自摸出造数据的隐藏规律,学到 <code>1.998x + 0.979</code>(真相 <code>y = 2x + 1</code>,残差恰好等于噪声,理论不可再降)。途中的教训值回票价:<b>LR 是步长</b>,太大(LR=10)会一步跨过谷底、越蹦越高,loss 爆到 2.7×10²⁶;<b>数据是教练</b>,约束数 ≥ 旋钮数解才唯一——单个点训练 loss 照样归零,但 w 从没被「骂」过、纹丝不动(loss 归零 ≠ 学到真相);<b>多维就多配旋钮</b>,x、z 各分一个 w 各管各的,这正是 S2「神经元」的雏形;而两个输入若总一起动(特征共线),机器预测全对、归因全错——<b>预测对 ≠ 理解对</b>。</p>
           <div class="s1-fig">
@@ -547,6 +633,12 @@
           </div>
         </div>
       </details>
+      <ul class="ch-list tight-top">
+        <li><b>S2</b> 神经元 = 加权求和 + 激活;多层与非线性的必要性(XOR 之役)🔥 已讲至第二幕 · 暂停消化</li>
+        <li><b>S3</b> 反向传播 = 链式法则:手推梯度与数值梯度互证</li>
+        <li><b>S4</b> softmax + 交叉熵:grad = p − y 数值验证 → 回归主线 02,豁然开朗</li>
+      </ul>
+      <div class="ch-foot"><span class="foot-chip ver">交付:看得懂 02_neural_bigram.py 的每一行</span></div>
 
     </article>
   </details>
@@ -721,6 +813,7 @@
     <li><time>2026-10-19</time><span>交互:展开/收起改为丝滑高度渐变(details::details-content 过渡,旧浏览器优雅退回瞬时);默认只展开「进行中」章节所在幕(现为支线·内功)。</span></li>
     <li><time>2026-10-19</time><span>课程表折叠化:各幕改为可展开/收起的折叠卡(箭头指示,默认展开进行中的序章与支线,未开始的各幕收起),章节变多后也能秒级定位。</span></li>
     <li><time>2026-10-20</time><span>新增「S1 全景」抽屉:一段话 + 一张图(loss 山谷下坡 × 训练循环五动作,默认收起);S1 结课 ✅,S2 已讲至第二幕、暂停消化——学员节奏自控。</span></li>
+    <li><time>2026-10-20</time><span>复盘卡改版:0.1 与 S1 各配「全景」一段话 + 一张图,改为紧贴对应章节行的复盘卡形态(不再是章末实验室);状态勘误:0.2 神经版 =「学至中途 · 转支线补课」,未完成。</span></li>
   </ul>
 </section>
 
