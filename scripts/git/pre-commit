@@ -19,7 +19,7 @@ while IFS= read -r f; do
 done < <(git diff --cached --name-only)
 
 # ---- 2) 内容扫描:新增行里的高置信密钥形态 ----
-pat='sk-[A-Za-z0-9_-]{16,}|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{30,}|xox[baprs]-[A-Za-z0-9-]{10,}|-----BEGIN [A-Z ]*PRIVATE KEY'
+pat='sk-[A-Za-z0-9_-]{16,}|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{30,}|xox[baprs]-[A-Za-z0-9-]{10,}|[0-9a-f]{32}\.[A-Za-z0-9]{16}|-----BEGIN [A-Z ]*PRIVATE KEY'
 while IFS= read -r line; do
   echo "⛔ 疑似密钥泄露(已截断): ${line:0:60}..."
   fail=1
