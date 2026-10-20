@@ -212,6 +212,16 @@
   .ch-recap .ch-lab-body{margin-top:12px}
   .ch-list.tight-top{margin-top:12px}
 
+  /* ---------- reading list(暂停期书单)---------- */
+  .res-sec{margin:16px 0 0;font-size:13px;font-weight:700;color:var(--accent);letter-spacing:1px}
+  .res-list{margin:4px 0 0;padding-left:0;list-style:none}
+  .res-list li{position:relative;padding:10px 0 10px 38px;border-bottom:1px dashed var(--border);font-size:14px;color:#cfced6}
+  .res-list li:last-child{border-bottom:0}
+  .res-list .no{position:absolute;left:0;top:12px;font-family:var(--mono);font-size:13px;color:var(--accent);border:1px solid rgba(217,119,87,.4);border-radius:6px;padding:0 6px}
+  .res-list b{color:var(--text);margin-right:6px}
+  .res-list .tag{font-size:12px;color:var(--accent-2)}
+  .res-list .why{display:block;margin-top:3px;font-size:13px;color:var(--muted);line-height:1.7}
+
   /* ---------- milestones ---------- */
   table.mile{width:100%;border-collapse:collapse;font-size:14.5px}
   table.mile th{text-align:left;color:var(--muted);font-weight:500;font-size:13px;
@@ -635,6 +645,42 @@
       </details>
       <ul class="ch-list tight-top">
         <li><b>S2</b> 神经元 = 加权求和 + 激活;多层与非线性的必要性(XOR 之役)🔥 已讲至第二幕 · 暂停消化</li>
+      </ul>
+      <details class="ch-recap" id="s2-recap">
+        <summary><span class="ch-lab-arrow">▶</span>📚 S2 暂停期书单 · 深入浅出补给站<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
+        <div class="ch-lab-body">
+          <p class="s1-recap">暂停不是躺平。按序号食用:<b>① 动画打底 → ② 亲手玩 → ③ 深挖「直边为什么切不开」</b>——这三步足够回来消化 S2;④ 鱼书与课程同步精读,⑤ 当第二遍讲法,⑥ 攒到 S3 之后,⑦ 全程当字典,⑧ 回主线前的预告片。每条都标了与本课的呼应点。</p>
+          <div class="res-sec">🎬 视频类</div>
+          <ul class="res-list">
+            <li><span class="no">①</span><b>3Blue1Brown《神经网络》系列</b><span class="tag">深入浅出天花板 · B 站官方中文</span>
+              <span class="why">四集讲完「神经元是什么 → 梯度下降 → 反向传播」:第 1–2 集正是暂停在半路的 S2,梯度下降那集就是 S1 本集,反向传播那集提前给 S3 减负。</span></li>
+            <li><span class="no">⑤</span><b>李宏毅《机器学习》</b><span class="tag">中文网课口碑之王 · B 站搜「李宏毅 机器学习」</span>
+              <span class="why">梗多、节奏好、覆盖面大;ML 基础部分与本支线高度互补,适合当「第二遍讲法」。</span></li>
+            <li><span class="no">⑥</span><b>Andrej Karpathy《Neural Networks: Zero to Hero》</b><span class="tag">手搓流精神导师 · youtube.com/@AndrejKarpathy</span>
+              <span class="why">从手搓 micrograd 到手搓 GPT,与本课「古法手撸」精神同源;英文课,建议 S3/S4 消化后首刷,收获翻倍。</span></li>
+          </ul>
+          <div class="res-sec">🌐 互动类</div>
+          <ul class="res-list">
+            <li><span class="no">②</span><b>TensorFlow Playground</b><span class="tag">10 分钟互动 · playground.tensorflow.org</span>
+              <span class="why">亲手拧学习率、加减层、换激活函数,亲眼看「一条直边切不开螺旋与 XOR」——把 S2 的实验自己复现一遍,比看十篇文章都牢。</span></li>
+          </ul>
+          <div class="res-sec">📝 文章类</div>
+          <ul class="res-list">
+            <li><span class="no">③</span><b>Colah《Neural Networks, Manifolds, and Topology》</b><span class="tag">几何视角 · colah.github.io</span>
+              <span class="why">一层网络 = 折一次纸;从拓扑角度讲透「直边为什么切不开 XOR」——S2 第二幕的理论版,图多字少,适合慢慢读。</span></li>
+            <li><span class="no">⑧</span><b>Jay Alammar 图解系列(The Illustrated GPT-2 等)</b><span class="tag">主线预习 · jalammar.github.io</span>
+              <span class="why">等支线修完、回主线(0.3 前文加长 → Transformer)时的最佳预告片;现在收藏,届时再读。</span></li>
+          </ul>
+          <div class="res-sec">📖 书籍类</div>
+          <ul class="res-list">
+            <li><span class="no">④</span><b>《深度学习入门:基于 Python 的理论与实现》斋藤康毅(鱼书)</b><span class="tag">NumPy 手搓 · 与课程同源</span>
+              <span class="why">用 NumPy 亲手实现前向传播与反向传播,Python 代码极简——JS 老手现学现卖毫无压力,就是 S1–S3 的书本版。</span></li>
+            <li><span class="no">⑦</span><b>《神经网络与深度学习》邱锡鹏</b><span class="tag">中文系统教材 · 免费公开 nndl.github.io</span>
+              <span class="why">不必通读;哪个概念卡壳就翻哪一节,当全程工具书。</span></li>
+          </ul>
+        </div>
+      </details>
+      <ul class="ch-list tight-top">
         <li><b>S3</b> 反向传播 = 链式法则:手推梯度与数值梯度互证</li>
         <li><b>S4</b> softmax + 交叉熵:grad = p − y 数值验证 → 回归主线 02,豁然开朗</li>
       </ul>
@@ -814,6 +860,7 @@
     <li><time>2026-10-19</time><span>课程表折叠化:各幕改为可展开/收起的折叠卡(箭头指示,默认展开进行中的序章与支线,未开始的各幕收起),章节变多后也能秒级定位。</span></li>
     <li><time>2026-10-20</time><span>新增「S1 全景」抽屉:一段话 + 一张图(loss 山谷下坡 × 训练循环五动作,默认收起);S1 结课 ✅,S2 已讲至第二幕、暂停消化——学员节奏自控。</span></li>
     <li><time>2026-10-20</time><span>复盘卡改版:0.1 与 S1 各配「全景」一段话 + 一张图,改为紧贴对应章节行的复盘卡形态(不再是章末实验室);状态勘误:0.2 神经版 =「学至中途 · 转支线补课」,未完成。</span></li>
+    <li><time>2026-10-20</time><span>S2 暂停期书单入册:8 项资源按类目分组(视频/互动/文章/书籍)、全局浏览顺序编号、逐条标注与课程呼应点,紧贴 S2 行。</span></li>
   </ul>
 </section>
 
