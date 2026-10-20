@@ -60,3 +60,7 @@ step 19999 | loss 2.4980
 - 数数 = 穷举统计,梯度 = 迭代逼近:bigram 这里殊途同归;
 - **前文一长,穷举当场爆炸,梯度照常工作——这是全世界的语言模型都是神经网络的唯一原因**;
 - 0.3 预告:3 字符前文,神经版 vs 数数表当众对垒,现场处刑。
+
+## 追问补录(2026-10-19)
+
+5. **跑 `python3 prologue/02_neural_bigram.py` 报 `ModuleNotFoundError: No module named 'numpy'`?** → 不是代码问题,是用错解释器:系统 python3(/usr/local/bin/python3)里没装 numpy,依赖全在 `.venv`。跑法:`.venv/bin/python ...`(最稳)或 `source .venv/bin/activate` 后直接 python(activate 的本质:把 .venv/bin 排到 PATH 最前,deactivate 退出)。JS 类比:直接调 `node_modules/.bin/xxx` vs npm scripts 注入 PATH。诊断口径详见速查卡「venv 日常」。

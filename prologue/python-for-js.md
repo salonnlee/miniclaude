@@ -3,6 +3,21 @@
 搓丹线(Python)随用随记,每遇到一个新语法点就增补一行。
 对照基准:现代 JS / TypeScript。
 
+## venv 日常(踩坑实录)
+
+- 症状:`python3 xxx.py` 报 `ModuleNotFoundError: No module named 'numpy'` → **用错解释器了**:
+  系统的 `python3`(/usr/local/bin/python3)里没装 numpy,依赖全在项目 `.venv` 里;
+- 正确跑法二选一:
+  ```bash
+  .venv/bin/python prologue/02_neural_bigram.py    # ① 全路径,最稳,不用动环境
+  source .venv/bin/activate                        # ② 激活后直接用 python(deactivate 退出)
+  python prologue/02_neural_bigram.py
+  ```
+- 激活的本质:把 `.venv/bin` 排到 PATH 最前,`python3` 从此指向 venv 里的副本;
+- JS 类比:venv ≈ 项目的 node_modules + 专属解释器;全路径跑 ≈ 直接调 `node_modules/.bin/vite`;
+  activate ≈ npm scripts 帮你把 `node_modules/.bin` 注入 PATH;当初 pip 装不进系统 Python(PEP 668)
+  ≈ npm 不让你乱写全局的保守主义。
+
 ## 模块从哪来(Python 的三层世界)
 
 | 层 | Python | JS 对照 | 例子 |
