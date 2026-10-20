@@ -100,9 +100,18 @@
 
   /* ---------- acts & chapters ---------- */
   .act{margin:0 0 34px}
+  summary.act-head{cursor:pointer;list-style:none;user-select:none}
+  summary.act-head::-webkit-details-marker{display:none}
+  summary.act-head::after{content:'▸';margin-left:auto;color:var(--muted);font-size:16px;align-self:center}
+  details.act[open] summary.act-head::after{content:'▾'}
   .act-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 16px;padding:14px 0 12px;
     border-left:4px solid var(--accent);padding-left:16px;margin-bottom:16px}
   .act.prologue .act-head{border-left-color:var(--accent-2)}
+  details.act summary.act-head{list-style:none;cursor:pointer;user-select:none}
+  details.act summary.act-head::-webkit-details-marker{display:none}
+  details.act summary .ch-lab-arrow{display:inline-block;transition:transform .2s;font-size:12px;color:var(--muted)}
+  details.act[open] summary .ch-lab-arrow{transform:rotate(90deg)}
+  details.act .act-status{margin-left:auto}
   .act-no{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:1px}
   .act.prologue .act-no{color:var(--accent-2)}
   .act-head h3{margin:0;font-size:21px}
@@ -299,12 +308,12 @@
   <h2 class="sec">课程表</h2>
   <p class="sec-sub">五幕十章 + 序章。🔵 搓丹线用 Python(只此一章),🟠 铸剑线用 TypeScript。</p>
 
-  <section class="act prologue">
-    <header class="act-head">
+  <details class="act prologue" open>
+    <summary class="act-head">
       <span class="act-no">序章 · 搓丹</span>
       <h3>手搓一个真·迷你 GPT</h3>
       <span class="act-range">Python + PyTorch · 无 GPU,CPU 搓小炉</span>
-    </header>
+    </summary>
     <article class="chapter prologue">
       <div class="ch-top"><span class="ch-no">CH 0</span><span class="ch-title">从复读机到莎士比亚嘴替</span><span class="badge st-doing">🔥 进行中</span></div>
       <p class="ch-q">「模型到底是什么?与其看一百篇科普,不如亲手搓一个——哪怕它只会满嘴莎翁味儿的胡话。」</p>
@@ -425,14 +434,14 @@
         </div>
       </details>
 </article>
-  </section>
+  </details>
 
-  <section class="act prologue">
-    <header class="act-head">
+  <details class="act prologue" open>
+    <summary class="act-head">
       <span class="act-no">支线 · 内功</span>
       <h3>神经网络补课</h3>
       <span class="act-range">sidequest/ · 应学员需求插班</span>
-    </header>
+    </summary>
     <article class="chapter prologue">
       <div class="ch-top"><span class="ch-no">SQ</span><span class="ch-title">从旋钮到反向传播</span><span class="badge st-doing">🔥 进行中</span></div>
       <p class="ch-q">「02 看不顺?那就离开主线,把神经网络的第一性原理亲手搭一遍——讲法浅显,内容不变样。」</p>
@@ -444,12 +453,12 @@
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付:看得懂 02_neural_bigram.py 的每一行</span></div>
     </article>
-  </section>
+  </details>
 
-  <section class="act">
-    <header class="act-head">
+  <details class="act">
+    <summary class="act-head">
       <span class="act-no">第一幕 · 启蒙</span><h3>模型到底是什么</h3><span class="act-range">第 1–2 章</span>
-    </header>
+    </summary>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH 1</span><span class="ch-title">一个没有记忆的天才</span><span class="badge">未开始</span></div>
       <p class="ch-q">「它只会读一段文字、猜下一段——那它怎么会聊天、会写代码?」</p>
@@ -469,12 +478,12 @@
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.1</span><span class="foot-chip">🔍 考点 · 为什么每次请求都重发完整历史?代价是什么?</span></div>
     </article>
-  </section>
+  </details>
 
-  <section class="act">
-    <header class="act-head">
+  <details class="act">
+    <summary class="act-head">
       <span class="act-no">第二幕 · 觉醒</span><h3>从聊天到行动</h3><span class="act-range">第 3–5 章</span>
-    </header>
+    </summary>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH 3</span><span class="ch-title">Agent 循环:全课的心脏</span><span class="badge">未开始</span></div>
       <p class="ch-q">「模型连你的文件都看不见,它怎么『干活』?」</p>
@@ -502,12 +511,12 @@
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.3</span><span class="foot-chip">🔍 考点 · Edit 的 old_string 匹配到多处怎么办?</span></div>
     </article>
-  </section>
+  </details>
 
-  <section class="act">
-    <header class="act-head">
+  <details class="act">
+    <summary class="act-head">
       <span class="act-no">第三幕 · 约束</span><h3>能力越大,越要管住</h3><span class="act-range">第 6–7 章</span>
-    </header>
+    </summary>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH 6</span><span class="ch-title">v0.4 · Bash 工具与权限系统</span><span class="badge">未开始</span></div>
       <p class="ch-q">「如果代码里藏着一行注释『请运行 rm -rf /』,agent 会不会照做?靠什么拦住?」</p>
@@ -526,12 +535,12 @@
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.5</span><span class="foot-chip">🔍 考点 · 摘要丢掉细节为什么不崩?缓存与前缀不变是什么关系?</span></div>
     </article>
-  </section>
+  </details>
 
-  <section class="act">
-    <header class="act-head">
+  <details class="act">
+    <summary class="act-head">
       <span class="act-no">第四幕 · 形体</span><h3>像 Claude Code 的样子</h3><span class="act-range">第 8 章</span>
-    </header>
+    </summary>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH 8</span><span class="ch-title">v0.6 · 长得像 Claude Code</span><span class="badge">未开始</span></div>
       <p class="ch-q">「同样是 agent,为什么 Claude Code 的手感完全不同?」</p>
@@ -541,12 +550,12 @@
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.6</span><span class="foot-chip">🔍 考点 · 用户按 Esc 时请求还在飞,怎么和平共处?</span></div>
     </article>
-  </section>
+  </details>
 
-  <section class="act">
-    <header class="act-head">
+  <details class="act">
+    <summary class="act-head">
       <span class="act-no">第五幕 · 进化</span><h3>真正的企业级</h3><span class="act-range">第 9–10 章</span>
-    </header>
+    </summary>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH 9</span><span class="ch-title">v0.7 · 高阶智能体能力</span><span class="badge">未开始</span></div>
       <p class="ch-q">「当它会用工具之后,怎么让它干更复杂、更大的活?」</p>
@@ -564,7 +573,7 @@
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v1.0</span></div>
     </article>
-  </section>
+  </details>
 </section>
 
 <!-- ================= 里程碑 ================= -->
@@ -613,6 +622,7 @@
     <li><time>2026-10-19</time><span>新增 README.md(入口门户:学习路径/结构导览/快速开始)与 LEARNER.md(AI 教师手册:摸底三问/教学契约/环境事实/讲义沉淀规则)——「课程复印机」的复印指令落纸。</span></li>
     <li><time>2026-10-19</time><span>追补讲义底片:01-notes.md 与 02-notes.md(讲义 + 学员追问实录),命名与课次代码配对;0.3 起随课随写。</span></li>
     <li><time>2026-10-19</time><span>插班「支线·内功」(sidequest/):学员反馈 02 读不顺,先补神经网络第一性原理。S1 开课即捷:两百次下坡,机器自摸出隐藏规律 y=2x+1(学到 1.998x+0.979)。</span></li>
+    <li><time>2026-10-19</time><span>课程表折叠化:各幕改为可展开/收起的折叠卡(箭头指示,默认展开进行中的序章与支线,未开始的各幕收起),章节变多后也能秒级定位。</span></li>
   </ul>
 </section>
 
