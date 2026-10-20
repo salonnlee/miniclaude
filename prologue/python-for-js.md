@@ -95,3 +95,45 @@ f"语料 {len(text):,} 字符"   # :, = 千分位
 ```js
 `语料 ${text.length.toLocaleString()} 字符`
 ```
+
+## NumPy 速查(neural_bigram.py 起)
+
+### 造数组与形状
+```python
+W = rng.standard_normal((67, 67))     # 造 67×67 随机矩阵,W.shape → (67, 67)
+ids = np.array([...], dtype=np.int32) # 指定类型的数组
+```
+numpy 的多维是「真矩阵」(一整块内存 + 形状标签);JS 嵌套数组只是「数组的数组」。
+
+### 花式索引:一次取多行
+```python
+W[cur_ids]     # cur_ids shape=(B,) → 结果 shape=(B, 67)
+```
+≈ `cur_ids.map(i => W[i])`,但是零拷贝、免 for——矩阵运算的地基。
+
+### 广播 broadcasting
+```python
+e / e.sum(axis=1, keepdims=True)   # (B,67) ÷ (B,1):每行各自除以自己的和
+```
+JS 没有对应物:形状不同的数组按规则自动对齐,相当于「编译器替你写 for」。
+`axis=1` = 沿列方向折叠(每行得一个数);`keepdims=True` 保留 (B,1) 形状以便继续广播。
+
+### np.add.at:无缓冲散射
+```python
+np.add.at(W, cur, -lr * grads / batch)
+```
+同一行索引出现多次时逐次累加 ≈ `cur.forEach((r, i) => W[r] += g[i])` 的向量化版。
+
+### 随机与抽样
+```python
+rng = np.random.default_rng(42)   # 可种子化随机源 ≈ 可复现版 Math.random
+rng.integers(0, n, batch)         # 批量随机整数
+rng.choice(V, p=p)                # 按概率抽签 ≈ 前面手写的 weightedPick
+```
+
+### 杂项
+```python
+{ch: i for i, ch in enumerate(vocab)}  # 字典推导式 ≈ Object.fromEntries(vocab.map((c,i)=>[c,i]))
+if __name__ == "__main__":             # ≈ require.main === module(直接运行才执行)
+probs[np.arange(B), nxt]               # 二维花式索引:按 (行号, 列号) 成对取/改元素
+```

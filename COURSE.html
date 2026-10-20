@@ -310,7 +310,7 @@
       <p class="ch-q">「模型到底是什么?与其看一百篇科普,不如亲手搓一个——哪怕它只会满嘴莎翁味儿的胡话。」</p>
       <ul class="ch-list">
         <li><b>学</b> token 与采样;bigram 统计;embedding 与 MLP;训练循环、loss 与梯度下降;temperature / top-k</li>
-        <li><b>写</b> 0.1 bigram 复读机(纯标准库零依赖)→ 0.2 神经网络版 → 0.3 训练循环 → 0.4 采样调参</li>
+        <li><b>写</b> 0.1 bigram 复读机(纯标准库)✅ → 0.2 神经版 + 梯度训练 ✅ → 0.3 前文加长:击穿数数表 → 0.4 temperature 调参</li>
         <li><b>悟</b> 大模型与它的区别只是大了十万倍、吃了十万倍;它不会听话、不会工具调用——这正是「壳」存在的意义</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 mini-gpt</span><span class="foot-chip">🔍 考点 · temperature=0 时它为什么变复读机?</span></div>
@@ -590,6 +590,7 @@
     <li><time>2026-10-19</time><span>序章 0.1 完成:学员亲手实验验证「贪心 argmax = 复读机自锁」(\n 自环坑与 the 循环圈双吸引子),考点提前落地。</span></li>
     <li><time>2026-10-19</time><span>新增 05/BIGRAM LAB:bigram 工作原理流程图 + 互动实验台(嵌入真实概率表,支持抽签/贪心/切换开场字符)。</span></li>
     <li><time>2026-10-19</time><span>改版:实验室从独立区块迁入课程表序章卡片,成为可展开/折起的「章节实验室抽屉」(默认收起);课程表互动化,后续每章随开课解锁自己的实验室。</span></li>
+    <li><time>2026-10-19</time><span>序章 0.2 完成:神经版 bigram(NumPy)——初始 loss = ln67 ≈ 4.20,梯度下降 2 万步收敛到 2.50,追平数数版理论最优 2.47,「查表」与「学习」会师;0.3 主题定为「前文加长,击穿数数表」。</span></li>
   </ul>
 </section>
 
