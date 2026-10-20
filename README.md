@@ -48,6 +48,9 @@ curl -fsSL -o data/input.txt https://cs.stanford.edu/people/karpathy/char-rnn/sh
 │   ├── 01_bigram.py          0.1 数数表复读机:纯标准库,20 行理解「模型 = 概率表」
 │   ├── 02_neural_bigram.py   0.2 神经版 + 梯度下降:ln67 → 2.50,追平数数表 2.47
 │   └── python-for-js.md      JS 老手的 Python 速查卡(随课增补)
+├── sidequest/                🧠 支线 · 内功(神经网络补课,应学员需求插班)
+│   ├── 01_learning_function.py  S1 会学习的函数:旋钮 / loss / 数值梯度(纯标准库)
+│   └── 01-notes.md              S1 讲义与追问实录
 ├── scripts/git/pre-commit    提交前密钥扫描钩子(文件名 + 内容双保险)
 └── data/input.txt            莎士比亚语料,457 万字符(gitignore,可重新下载)
 ```
