@@ -4,254 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>miniclaude · 课程总表</title>
-<style>
-  :root{
-    --bg:#0f0f13; --panel:#17171d; --panel-2:#1c1c23; --text:#e9e9ec; --muted:#a0a0aa;
-    --border:#2a2a34; --accent:#d97757; --accent-2:#7aa2f7; --green:#9ece6a;
-    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Courier New",monospace;
-  }
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{margin:0;background:var(--bg);color:var(--text);
-    font:16px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
-  .wrap{max-width:1000px;margin:0 auto;padding:0 22px}
-  ::selection{background:rgba(217,119,87,.35)}
-
-  /* ---------- hero ---------- */
-  .hero{padding:60px 0 34px;border-bottom:1px solid var(--border);
-    background-image:radial-gradient(rgba(255,255,255,.045) 1px,transparent 1px);
-    background-size:24px 24px}
-  .hero h1{margin:0;font-family:var(--mono);font-size:46px;letter-spacing:-1px;font-weight:600}
-  .hero .tagline{margin:10px 0 0;color:var(--muted);font-size:17px}
-  .hero .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
-  .chip{display:inline-flex;align-items:center;gap:6px;padding:4px 13px;border-radius:999px;
-    border:1px solid var(--border);background:var(--panel);font-size:13px;color:var(--muted)}
-  .chip .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
-  .chip.ts .dot{background:var(--accent)} .chip.py .dot{background:var(--accent-2)}
-  .chip.update{margin-left:auto;color:var(--text);font-family:var(--mono);font-size:12px}
-  nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
-  nav.toc a{color:var(--muted);text-decoration:none;font-size:14px;padding:6px 14px;
-    border:1px solid var(--border);border-radius:8px;background:var(--panel)}
-  nav.toc a:hover{color:var(--text);border-color:var(--accent)}
-
-  /* ---------- section ---------- */
-  section.block{padding:46px 0 8px}
-  .sec-kicker{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:2px}
-  h2.sec{margin:2px 0 6px;font-size:28px;letter-spacing:-.3px}
-  .sec-sub{color:var(--muted);margin:0 0 26px}
-
-  /* ---------- architecture ---------- */
-  .arch-tools{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-bottom:18px}
-  .arch-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:10px;
-    border:0;cursor:pointer;background:var(--accent);color:#16100d;font-size:14px;font-weight:600}
-  .arch-btn:hover{filter:brightness(1.08)}
-  .arch-cap{flex:1 1 240px;min-width:0;font-size:14px;color:var(--text)}
-  .arch-stack{max-width:640px;margin:0 auto}
-  .layer{display:flex;align-items:center;gap:12px;padding:10px 14px;border:1px solid var(--border);
-    border-radius:12px;background:var(--panel);transition:border-color .25s,background-color .25s,box-shadow .25s}
-  .icon-box{flex:0 0 auto;width:34px;height:34px;border-radius:9px;display:flex;align-items:center;
-    justify-content:center;background:var(--panel-2);color:var(--muted);font-size:17px;transition:color .25s}
-  .layer-name{font-weight:600;display:flex;flex-wrap:wrap;gap:0 6px;align-items:baseline}
-  .ch-tag{font-weight:400;font-size:12px;color:var(--muted)}
-  .layer-sub{margin-top:2px;font-size:12.5px;color:var(--muted)}
-  .layer.is-active{border-color:rgba(217,119,87,.55);
-    background:color-mix(in srgb,var(--accent) 8%,var(--panel));
-    box-shadow:0 0 0 3px rgba(217,119,87,.14)}
-  .layer.is-active .icon-box{color:var(--accent)}
-  .link{position:relative;height:34px;width:2px;margin:0 auto;background:var(--border);transition:background-color .25s}
-  .link::before,.link::after{content:"";position:absolute;left:50%;transform:translateX(-50%);
-    border-left:4px solid transparent;border-right:4px solid transparent}
-  .link::before{top:0;border-bottom:5px solid var(--border);transition:border-bottom-color .25s}
-  .link::after{bottom:0;border-top:5px solid var(--border);transition:border-top-color .25s}
-  .link .link-label{position:absolute;left:12px;top:50%;transform:translateY(-50%);
-    white-space:nowrap;color:var(--muted);font-size:12px}
-  .link.is-active{background:var(--accent)}
-  .link.is-active::before{border-bottom-color:var(--accent)}
-  .link.is-active::after{border-top-color:var(--accent)}
-  .link.is-active .link-label{color:var(--text)}
-  .link-s{height:30px}
-  .row-loop{display:flex;align-items:stretch}
-  .row-loop .grow{flex:1 1 auto}
-  .hlink{flex:0 0 auto;width:16px;align-self:center;height:2px;background:var(--border)}
-  .row-loop .side{flex:0 0 190px}
-  .branch{position:relative;height:46px}
-  .stub-top{position:absolute;left:calc(50% - 1px);top:0;height:15px;width:2px;background:var(--border)}
-  .branch-h{position:absolute;top:15px;left:calc(25% - 1px);width:50%;height:2px;background:var(--border)}
-  .stub{position:absolute;top:15px;height:31px;width:2px;background:var(--border);transition:background-color .25s}
-  .stub-l{left:calc(25% - 1px)} .stub-r{left:calc(75% - 1px)}
-  .stub::before,.stub::after{content:"";position:absolute;left:50%;transform:translateX(-50%);
-    border-left:4px solid transparent;border-right:4px solid transparent}
-  .stub::before{top:0;border-bottom:5px solid var(--border);transition:border-bottom-color .25s}
-  .stub::after{bottom:0;border-top:5px solid var(--border);transition:border-top-color .25s}
-  .stub.is-active{background:var(--accent)}
-  .stub.is-active::before{border-bottom-color:var(--accent)}
-  .stub.is-active::after{border-top-color:var(--accent)}
-  .cols{display:grid;grid-template-columns:1fr 1fr}
-  .col{display:flex;flex-direction:column;padding:0 8px}
-  .gate{align-self:center;display:inline-flex;align-items:center;gap:6px;margin:0 0 8px;padding:3px 12px;
-    border-radius:999px;border:1px solid var(--border);background:var(--panel-2);color:var(--muted);
-    font-size:12px;transition:border-color .25s,color .25s}
-  .gate.is-active{border-color:rgba(217,119,87,.55);color:var(--accent)}
-  @media (max-width:620px){
-    .row-loop{flex-wrap:wrap} .hlink{display:none}
-    .row-loop .side{flex:1 1 100%;margin-top:6px}
-    .hero h1{font-size:36px} .chip.update{margin-left:0}
-  }
-
-  /* ---------- acts & chapters ---------- */
-  .act{margin:0 0 34px}
-  summary.act-head{cursor:pointer;list-style:none;user-select:none}
-  summary.act-head::-webkit-details-marker{display:none}
-  summary.act-head::after{content:'▸';margin-left:auto;color:var(--accent);font-size:22px;font-weight:700;align-self:center;transition:transform .25s ease}
-  summary.act-head:hover::after{color:var(--text)}
-  details.act[open] summary.act-head::after{transform:rotate(90deg)}
-  :root{interpolate-size:allow-keywords}
-  details::details-content{transition:height .35s cubic-bezier(.4,0,.2,1),content-visibility .35s allow-discrete;height:0;overflow:clip}
-  details[open]::details-content{height:auto}
-  .act-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 16px;padding:14px 0 12px;
-    border-left:4px solid var(--accent);padding-left:16px;margin-bottom:16px}
-  .act.prologue .act-head{border-left-color:var(--accent-2)}
-  details.act summary.act-head{list-style:none;cursor:pointer;user-select:none}
-  details.act summary.act-head::-webkit-details-marker{display:none}
-  details.act summary .ch-lab-arrow{display:inline-block;transition:transform .2s;font-size:12px;color:var(--muted)}
-  details.act[open] summary .ch-lab-arrow{transform:rotate(90deg)}
-  details.act .act-status{margin-left:auto}
-  .act-no{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:1px}
-  .act.prologue .act-no{color:var(--accent-2)}
-  .act-head h3{margin:0;font-size:21px}
-  .act-range{color:var(--muted);font-size:13.5px}
-  .chapter{border:1px solid var(--border);border-radius:14px;background:var(--panel);
-    padding:18px 20px;margin-bottom:14px}
-  .chapter.prologue{border-color:rgba(122,162,247,.4)}
-  .ch-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
-  .ch-no{font-family:var(--mono);font-size:12.5px;color:var(--accent);border:1px solid rgba(217,119,87,.4);
-    padding:2px 10px;border-radius:6px}
-  .prologue .ch-no{color:var(--accent-2);border-color:rgba(122,162,247,.4)}
-  .ch-title{font-size:17.5px;font-weight:700}
-  .badge{margin-left:auto;font-size:12px;padding:3px 12px;border-radius:999px;
-    border:1px solid var(--border);color:var(--muted)}
-  .badge.st-next{border-color:var(--accent);color:var(--accent);background:rgba(217,119,87,.1)}
-  .badge.st-doing{border-color:var(--accent-2);color:var(--accent-2);background:rgba(122,162,247,.1)}
-  .badge.st-done{border-color:rgba(158,206,106,.5);color:var(--green);background:rgba(158,206,106,.08)}
-  .ch-q{margin:12px 0 0;color:var(--text);font-size:14.5px;
-    padding:8px 14px;border-left:3px solid var(--border);border-radius:0 8px 8px 0;background:var(--panel-2)}
-  .ch-list{margin:12px 0 0;padding-left:0;list-style:none}
-  .ch-list li{position:relative;padding-left:18px;margin:6px 0;font-size:14.5px;color:#cfced6}
-  .ch-list li::before{content:"·";position:absolute;left:4px;color:var(--accent);font-weight:700}
-  .ch-list b{color:var(--text);font-weight:600;margin-right:6px;font-size:13px;
-    font-family:var(--mono)}
-  .ch-foot{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-  .foot-chip{font-size:12.5px;padding:4px 12px;border-radius:8px;background:var(--panel-2);
-    border:1px solid var(--border);color:var(--muted)}
-  .foot-chip.ver{color:var(--accent);border-color:rgba(217,119,87,.35);font-family:var(--mono)}
-
-  /* ---------- chapter lab drawer(章节实验室抽屉)---------- */
-  .ch-lab{margin-top:16px;border-top:1px dashed var(--border);padding-top:14px}
-  .ch-lab summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:var(--accent-2);user-select:none}
-  .ch-lab summary::-webkit-details-marker{display:none}
-  .ch-lab summary .ch-lab-arrow{display:inline-block;transition:transform .2s;font-size:18px;color:var(--accent);font-weight:700}
-  .ch-lab summary:hover .ch-lab-arrow{color:var(--text)}
-  .ch-lab[open] summary .ch-lab-arrow{transform:rotate(90deg)}
-  .ch-lab summary .ch-lab-hint{margin-left:auto;font-weight:400;font-size:12px;color:var(--muted)}
-  .ch-lab-body{margin-top:14px}
-  .ch-lab-soon{margin-top:14px;border-top:1px dashed var(--border);padding-top:12px;font-size:13px;color:var(--muted)}
-
-  /* ---------- bigram lab ---------- */
-  .bg-flow{max-width:920px;margin:0 auto}
-  .bg-lane{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:2px;margin:16px 0 10px}
-  .bg-row{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px}
-  .bg-node{flex:1 1 140px;min-width:136px;border:1px solid var(--border);border-radius:10px;background:var(--panel);padding:10px 12px;display:flex;flex-direction:column;gap:4px}
-  .bg-node b{font-size:14px}
-  .bg-node code{font-family:var(--mono);font-size:11.5px;color:var(--muted);word-break:break-all}
-  .bg-ico{font-size:18px}
-  .bg-arr{align-self:center;color:var(--muted)}
-  .bg-node.bg-out{border-color:rgba(217,119,87,.5)}
-  .bg-node.bg-cur{border-color:rgba(122,162,247,.5)}
-  .bg-drop{margin:16px auto 4px;width:max-content;font-family:var(--mono);font-size:12px;color:var(--accent);border:1px dashed rgba(217,119,87,.5);border-radius:999px;padding:3px 16px}
-  .bg-loopback{margin:10px 60px 0;height:22px;border:2px solid var(--border);border-top:0;border-radius:0 0 14px 14px}
-  .bg-loop-cap{text-align:center;font-size:12px;color:var(--muted);margin-top:6px}
-  .bg-lab{display:grid;grid-template-columns:320px 1fr;gap:20px;margin-top:28px}
-  @media (max-width:760px){.bg-lab{grid-template-columns:1fr}}
-  .bg-curbox{border:1px solid rgba(122,162,247,.5);border-radius:12px;background:var(--panel);padding:14px;text-align:center}
-  .bg-cur-ch{display:block;font-family:var(--mono);font-size:46px;color:var(--accent-2)}
-  .bg-cur-lab{font-size:12px;color:var(--muted)}
-  .bg-meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:8px}
-  .bg-starts{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-  .bg-start{font-family:var(--mono);min-width:36px;padding:5px 9px;border-radius:8px;border:1px solid var(--border);background:var(--panel);color:var(--text);cursor:pointer;font-size:13px}
-  .bg-start.is-on{border-color:var(--accent-2);color:var(--accent-2)}
-  .bg-btns{display:flex;flex-direction:column;gap:8px;margin-top:12px}
-  .bg-btn-greedy{background:var(--accent-2)}
-  .bg-btn-ghost{background:var(--panel-2);color:var(--text);border:1px solid var(--border)}
-  .bg-lab-cap{font-size:12px;color:var(--muted);margin-bottom:6px}
-  .brow{display:grid;grid-template-columns:36px 1fr 52px 22px;align-items:center;gap:8px;margin:6px 0}
-  .brow code{font-family:var(--mono);text-align:center;background:var(--panel-2);border-radius:6px;padding:2px 0;font-size:13px}
-  .bbar{height:14px;background:var(--panel-2);border-radius:7px;overflow:hidden}
-  .bbar i{display:block;height:100%;background:var(--accent-2);border-radius:7px}
-  .brow.ismax .bbar i{background:var(--accent)}
-  .brow span{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right}
-  .brow.ismax span{color:var(--accent)}
-  .bmax{font-size:12px;text-align:center}
-  .bg-out{border:1px solid var(--border);border-radius:10px;background:var(--panel);min-height:84px;max-height:140px;overflow-y:auto;padding:10px;font-family:var(--mono);font-size:13px;line-height:1.7;word-break:break-all;white-space:pre-wrap}
-  .bg-hint{margin-top:16px;color:var(--muted);font-size:13.5px}
-
-  /* ---------- s1 recap ---------- */
-  .s1-recap{margin:0 0 12px;font-size:14.5px;line-height:1.9;color:#cfced6}
-  .s1-recap b{color:var(--text)}
-  .s1-recap code{font-family:var(--mono);font-size:12.5px;color:var(--text);background:var(--panel-2);padding:1px 6px;border-radius:5px}
-  .s1-fig{overflow-x:auto}
-  .s1-fig svg{display:block;min-width:640px;height:auto}
-
-  /* ---------- chapter recap card(紧贴章节行的复盘卡)---------- */
-  .ch-recap{margin:10px 0 2px;padding:0}
-  .ch-recap summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;font-weight:600;font-size:14.5px;color:var(--accent-2);user-select:none}
-  .ch-recap summary::-webkit-details-marker{display:none}
-  .ch-recap summary .ch-lab-arrow{display:inline-block;transition:transform .2s;font-size:16px;color:var(--accent);font-weight:700}
-  .ch-recap summary:hover .ch-lab-arrow{color:var(--text)}
-  .ch-recap[open] summary .ch-lab-arrow{transform:rotate(90deg)}
-  .ch-recap summary .ch-lab-hint{margin-left:auto;font-weight:400;font-size:12px;color:var(--muted)}
-  .ch-recap .ch-lab-body{margin-top:12px}
-  .ch-list.tight-top{margin-top:12px}
-
-  /* ---------- reading list(暂停期书单)---------- */
-  .res-sec{margin:16px 0 0;font-size:13px;font-weight:700;color:var(--accent);letter-spacing:1px}
-  .res-list{margin:4px 0 0;padding-left:0;list-style:none}
-  .res-list li{position:relative;padding:10px 0 10px 38px;border-bottom:1px dashed var(--border);font-size:14px;color:#cfced6}
-  .res-list li:last-child{border-bottom:0}
-  .res-list .no{position:absolute;left:0;top:12px;font-family:var(--mono);font-size:13px;color:var(--accent);border:1px solid rgba(217,119,87,.4);border-radius:6px;padding:0 6px}
-  .res-list b{color:var(--text);margin-right:6px}
-  .res-list .tag{font-size:12px;color:var(--accent-2)}
-  .res-list .why{display:block;margin-top:3px;font-size:13px;color:var(--muted);line-height:1.7}
-
-  /* ---------- milestones ---------- */
-  table.mile{width:100%;border-collapse:collapse;font-size:14.5px}
-  table.mile th{text-align:left;color:var(--muted);font-weight:500;font-size:13px;
-    padding:10px 14px;border-bottom:1px solid var(--border)}
-  table.mile td{padding:11px 14px;border-bottom:1px solid rgba(42,42,52,.6)}
-  table.mile tr:hover td{background:var(--panel)}
-  td.ver{font-family:var(--mono);color:var(--accent);white-space:nowrap}
-  td.range{color:var(--muted);white-space:nowrap}
-  .tbl-scroll{overflow-x:auto}
-
-  /* ---------- pact & log ---------- */
-  .pact ol{margin:0;padding-left:22px;font-size:15px;color:#cfced6}
-  .pact li{margin:8px 0}
-  .log{list-style:none;padding:0;margin:0}
-  .log li{display:flex;gap:14px;padding:9px 0;border-bottom:1px solid rgba(42,42,52,.6);font-size:14px}
-  .log time{font-family:var(--mono);color:var(--muted);white-space:nowrap}
-  details.log-box{margin-top:34px}
-  .log-box summary{display:flex;align-items:center;gap:12px;cursor:pointer;list-style:none;user-select:none}
-  .log-box summary::-webkit-details-marker{display:none}
-  .log-box summary .sec{margin:0}
-  .log-box summary .ch-lab-arrow{display:inline-block;transition:transform .2s;font-size:18px;color:var(--accent);font-weight:700}
-  .log-box summary:hover .ch-lab-arrow{color:var(--text)}
-  .log-box[open] summary .ch-lab-arrow{transform:rotate(90deg)}
-  .log-box .log-hint{margin-left:auto;font-family:var(--mono);font-weight:400;font-size:12px;color:var(--muted)}
-  .log-box[open] .log{margin-top:8px}
-  footer{margin-top:56px;padding:22px 0 40px;border-top:1px solid var(--border);
-    color:var(--muted);font-size:13px;text-align:center}
-  footer .mono{font-family:var(--mono)}
-  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-</style>
+<link rel="stylesheet" href="COURSE.css">
+<script>
+/* 带 #区块 锚点打开/刷新时先藏内容(见 COURSE.css 的 html.cloak),
+   由页尾脚本瞬时跳到目标位置后再显示——否则浏览器先画顶部一帧再恢复滚动,看起来闪一下 */
+if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
+  document.documentElement.classList.add('cloak');
+  setTimeout(function () { document.documentElement.classList.remove('cloak'); }, 1500); // 保险:页尾脚本万一没跑也不至于白屏
+}
+</script>
 </head>
 <body>
 
@@ -348,7 +109,7 @@
 <section class="block" id="acts">
   <div class="sec-kicker">02 / SYLLABUS</div>
   <h2 class="sec">课程表</h2>
-  <p class="sec-sub">五幕十章 + 序章。🔵 搓丹线用 Python(只此一章),🟠 铸剑线用 TypeScript。</p>
+  <p class="sec-sub">五幕十章 + 序章。🔵 搓丹线用 Python(只此一章),🟠 铸剑线用 TypeScript。<br><b>代称规则(全局唯一)</b>:CH1–CH10 = 正文章节 · P0.x = 序章课次(prologue/)· v0.x = 交付版本(v0.1 ≠ P0.1)· 支线之间发散无序,不共用编号——卡片代称 = 名字缩写,线内课次 = 前缀 + 序号:NN = 支线·内功(神经网络,sidequest/,课次 NN1 起)· 3B = 支线·观影(3Blue1Brown,课次 3B1 起,3B 是品牌名不是序数)。新支线 = 新前缀,永不撞号。</p>
 
   <details class="act prologue">
     <summary class="act-head">
@@ -357,18 +118,20 @@
       <span class="act-range">Python + PyTorch · 无 GPU,CPU 搓小炉</span>
     </summary>
     <article class="chapter prologue">
-      <div class="ch-top"><span class="ch-no">CH 0</span><span class="ch-title">从复读机到莎士比亚嘴替</span><span class="badge st-doing">🔥 进行中</span></div>
+      <div class="ch-top"><span class="ch-no">P0</span><span class="ch-title">从复读机到莎士比亚嘴替</span><span class="badge st-doing">🔥 进行中</span></div>
       <p class="ch-q">「模型到底是什么?与其看一百篇科普,不如亲手搓一个——哪怕它只会满嘴莎翁味儿的胡话。」</p>
       <ul class="ch-list">
-        <li><b>学</b> token 与采样;bigram 统计;embedding 与 MLP;训练循环、loss 与梯度下降;temperature / top-k</li>
-        <li><b>写</b> 0.1 bigram 复读机(纯标准库)✅ → 0.2 神经版 + 梯度训练🔥 学至中途 · 转支线补课 → 0.3 前文加长:击穿数数表 → 0.4 temperature 调参</li>
+        <li><b>P0.1</b> bigram 复读机(纯标准库)✅</li>
       </ul>
       <details class="ch-recap" id="b01-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 0.1 全景 · 一段话 + 一张图(数数建表 × 查表抽签)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 P0.1 全景 · 几段话 + 一张图(数数建表 × 查表抽签)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
         <div class="ch-lab-body">
-          <p class="s1-recap">0.1 整课只干一件事:<b>用纯数数造出第一个会「说话」的模型</b>。bigram 的世界观:下一个字符只由当前这一个字符决定。训练 = 数数:把语料按相邻对配对 <code>zip(text, text[1:])</code>,<code>counts[prev][nxt] += 1</code> 记账,每行除以自己的总数归一化,得到 67 张概率表——真实语料里 <code>t</code> 后面接 <code>h</code> 的概率 41.4%、接空格 30.7%;生成 = 查表抽签:从换行符开场,查 <code>probs[cur]</code>,<code>random.choices</code> 按概率抽下一个字符,追加并把 cur 换成它,循环 600 次,吐出满嘴莎翁味儿的胡话。必修实验的教训:<b>贪心(每步只选概率最大的)会自锁</b>——要么掉进换行符自环坑(自环概率 34.2%),要么被 <code>␣→t→h→e</code> 循环圈吸走,这正是「temperature=0 时模型变复读机」的种子(0.4 见)。此刻的模型 = 无状态的查表函数,它「懂」的唯一东西是字符接续的频率——0.2 要做的,就是把这张手工数出来的表,换成用梯度下降学出来的神经网络。</p>
+          <p class="s1-recap">P0.1 整课只干一件事:<b>用纯数数造出第一个会「说话」的模型</b>。bigram 的世界观:下一个字符只由当前这一个字符决定。训练 = 数数:把语料按相邻对配对 <code>zip(text, text[1:])</code>,<code>counts[prev][nxt] += 1</code> 记账,每行除以自己的总数归一化,得到 67 张概率表——真实语料里 <code>t</code> 后面接 <code>h</code> 的概率 41.4%、接空格 30.7%。</p>
+          <p class="s1-recap">生成 = 查表抽签:从换行符开场,查 <code>probs[cur]</code>,<code>random.choices</code> 按概率抽下一个字符,追加并把 cur 换成它,循环 600 次,吐出满嘴莎翁味儿的胡话。</p>
+          <p class="s1-recap">必修实验的教训:<b>贪心(每步只选概率最大的)会自锁</b>——要么掉进换行符自环坑(自环概率 34.2%),要么被 <code>␣→t→h→e</code> 循环圈吸走,这正是「temperature=0 时模型变复读机」的种子(P0.4 见)。</p>
+          <p class="s1-recap">此刻的模型 = 无状态的查表函数,它「懂」的唯一东西是字符接续的频率——P0.2 要做的,就是把这张手工数出来的表,换成用梯度下降学出来的神经网络。</p>
           <div class="s1-fig">
-<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="0.1 知识点全景:左边是数数建表五步,右边是查表抽签循环与贪心自锁陷阱">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="P0.1 知识点全景:左边是数数建表五步,右边是查表抽签循环与贪心自锁陷阱">
   <defs>
     <marker id="b1ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
   </defs>
@@ -429,18 +192,21 @@
   <rect x="500" y="310" width="330" height="76" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.5)"/>
   <text x="516" y="332" font-size="12.5" font-weight="600" fill="#e9e9ec">⚠ 必修实验:贪心 argmax 自锁实录</text>
   <text x="516" y="352" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">⏎ 自环坑(34.2%) · ␣→t→h→e 循环圈</text>
-  <text x="516" y="370" font-size="10.5" fill="#a0a0aa">= temperature=0 变复读机之种(0.4 见)</text>
+  <text x="516" y="370" font-size="10.5" fill="#a0a0aa">= temperature=0 变复读机之种(P0.4 见)</text>
 
   <rect x="105" y="430" width="725" height="50" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
   <text x="467" y="450" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">×600 步 → 满嘴莎翁味儿的胡话 · 模型 = 无状态的查表函数</text>
-  <text x="467" y="468" font-size="10.5" fill="#a0a0aa" text-anchor="middle">这张手工数出来的表,0.2 将换成梯度下降学出来的神经网络</text>
+  <text x="467" y="468" font-size="10.5" fill="#a0a0aa" text-anchor="middle">这张手工数出来的表,P0.2 将换成梯度下降学出来的神经网络</text>
 </svg>
           </div>
         </div>
       </details>
 
       <ul class="ch-list tight-top">
-        <li><b>悟</b> 大模型与它的区别只是大了十万倍、吃了十万倍;它不会听话、不会工具调用——这正是「壳」存在的意义</li>
+        <li><b>P0.2</b> 神经版 + 梯度训练🔥 学至中途 · 转支线补课</li>
+        <li><b>P0.3</b> 前文加长:击穿数数表 → <b>P0.4</b> temperature 调参</li>
+        <li><b>知识点</b> token 与采样;bigram 统计;embedding 与 MLP;训练循环、loss 与梯度下降;temperature / top-k</li>
+        <li><b>总结</b> 大模型与它的区别只是大了十万倍、吃了十万倍;它不会听话、不会工具调用——这正是「壳」存在的意义</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 mini-gpt</span><span class="foot-chip">🔍 考点 · temperature=0 时它为什么变复读机?</span></div>
           <details class="ch-lab" id="bigram-lab">
@@ -493,7 +259,7 @@
   </div>
   <div class="bg-lab-cap" style="margin-top:14px">out · 生成结果(⏎ = 换行,␣ = 空格,只显示最近 120 字符)</div>
   <div class="bg-out" id="bl-out"></div>
-  <p class="bg-hint">玩法:连点「🎯 贪心」十几下,亲眼看它掉进 <code>\n</code> 自环坑或 <code>␣→t→h→e</code> 循环圈;换「🎲 抽签」,胡话立刻复活——这就是 temperature 存在的意义(0.4 见)。</p>
+  <p class="bg-hint">玩法:连点「🎯 贪心」十几下,亲眼看它掉进 <code>\n</code> 自环坑或 <code>␣→t→h→e</code> 循环圈;换「🎲 抽签」,胡话立刻复活——这就是 temperature 存在的意义(P0.4 见)。</p>
 
   <script>
   (function () {
@@ -563,18 +329,21 @@
       <span class="act-range">sidequest/ · 应学员需求插班</span>
     </summary>
     <article class="chapter prologue">
-      <div class="ch-top"><span class="ch-no">SQ</span><span class="ch-title">从旋钮到反向传播</span><span class="badge st-doing">🔥 进行中</span></div>
-      <p class="ch-q">「02 看不顺?那就离开主线,把神经网络的第一性原理亲手搭一遍——讲法浅显,内容不变样。」</p>
+      <div class="ch-top"><span class="ch-no">NN</span><span class="ch-title">从旋钮到反向传播</span><span class="badge st-doing">🔥 进行中</span></div>
+      <p class="ch-q">「02_neural_bigram.py 看不顺?那就离开主线,把神经网络的第一性原理亲手搭一遍——讲法浅显,内容不变样。」</p>
       <ul class="ch-list">
-        <li><b>S1</b> 会学习的函数:旋钮(参数)、loss(打分)、数值梯度(量坡)、训练循环(下坡)——纯标准库 ✅</li>
+        <li><b>NN1</b> 会学习的函数:旋钮(参数)、loss(打分)、数值梯度(量坡)、训练循环(下坡)——纯标准库 ✅</li>
       </ul>
 
       <details class="ch-recap" id="s1-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 S1 全景 · 一段话 + 一张图(下坡运动 × 训练循环)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 NN1 全景 · 几段话 + 一张图(下坡运动 × 训练循环)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
         <div class="ch-lab-body">
-          <p class="s1-recap">S1 整站只干一件事:<b>教机器自己学会一个函数</b>。模型是带旋钮的式子 <code>ŷ = w·x + b</code>(旋钮 w、b 就是「参数」);loss 用均方误差把「错得多离谱」压成一个数字——类比 CI 的红色失败数;数值梯度 <code>[loss(w+H) − loss(w−H)] / 2H</code>(H=0.00001)就是拿尺子量坡:<b>符号指方向</b>(往哪边拧 loss 会降)、<b>大小给陡度</b>(坡有多陡);训练则是循环执行 <code>w −= LR·grad</code> 顺势下坡——两百步后机器自摸出造数据的隐藏规律,学到 <code>1.998x + 0.979</code>(真相 <code>y = 2x + 1</code>,残差恰好等于噪声,理论不可再降)。途中的教训值回票价:<b>LR 是步长</b>,太大(LR=10)会一步跨过谷底、越蹦越高,loss 爆到 2.7×10²⁶;<b>数据是教练</b>,约束数 ≥ 旋钮数解才唯一——单个点训练 loss 照样归零,但 w 从没被「骂」过、纹丝不动(loss 归零 ≠ 学到真相);<b>多维就多配旋钮</b>,x、z 各分一个 w 各管各的,这正是 S2「神经元」的雏形;而两个输入若总一起动(特征共线),机器预测全对、归因全错——<b>预测对 ≠ 理解对</b>。</p>
+          <p class="s1-recap">NN1 整课只干一件事:<b>教机器自己学会一个函数</b>。模型是带旋钮的式子 <code>ŷ = w·x + b</code>(旋钮 w、b 就是「参数」);loss 用均方误差把「错得多离谱」压成一个数字——类比 CI 的红色失败数。</p>
+          <p class="s1-recap">数值梯度 <code>[loss(w+H) − loss(w−H)] / 2H</code>(H=0.00001)就是拿尺子量坡:<b>符号指方向</b>(往哪边拧 loss 会降)、<b>大小给陡度</b>(坡有多陡);训练则是循环执行 <code>w −= LR·grad</code> 顺势下坡——两百步后机器自摸出造数据的隐藏规律,学到 <code>1.998x + 0.979</code>(真相 <code>y = 2x + 1</code>,残差恰好等于噪声,理论不可再降)。</p>
+          <p class="s1-recap">途中的教训值回票价:<b>LR 是步长</b>,太大(LR=10)会一步跨过谷底、越蹦越高,loss 爆到 2.7×10²⁶;<b>数据是教练</b>,约束数 ≥ 旋钮数解才唯一——单个点训练 loss 照样归零,但 w 从没被「骂」过、纹丝不动(loss 归零 ≠ 学到真相)。</p>
+          <p class="s1-recap"><b>多维就多配旋钮</b>,x、z 各分一个 w 各管各的,这正是 NN2「神经元」的雏形;而两个输入若总一起动(特征共线),机器预测全对、归因全错——<b>预测对 ≠ 理解对</b>。</p>
           <div class="s1-fig">
-<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="S1 知识点全景:左边是 loss 山谷下坡图,右边是训练循环五步骤">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="NN1 知识点全景:左边是 loss 山谷下坡图,右边是训练循环五步骤">
   <defs>
     <marker id="s1ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
     <marker id="s1arO" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d97757"/></marker>
@@ -653,45 +422,46 @@
         </div>
       </details>
       <ul class="ch-list tight-top">
-        <li><b>S2</b> 神经元 = 加权求和 + 激活;多层与非线性的必要性(XOR 之役)🔥 已讲至第二幕 · 暂停消化</li>
+        <li><b>NN2</b> 神经元 = 加权求和 + 激活;多层与非线性的必要性(XOR 之役)🔥 四幕剧已讲至第二幕 · 暂停消化</li>
       </ul>
       <details class="ch-recap" id="s2-recap">
-        <summary><span class="ch-lab-arrow">▶</span>📚 S2 暂停期书单 · 深入浅出补给站<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
+        <summary><span class="ch-lab-arrow">▶</span>📚 NN2 暂停期书单 · 深入浅出补给站<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
         <div class="ch-lab-body">
-          <p class="s1-recap">暂停不是躺平。按序号食用:<b>① 动画打底 → ② 亲手玩 → ③ 深挖「直边为什么切不开」</b>——这三步足够回来消化 S2;④ 鱼书与课程同步精读,⑤ 当第二遍讲法,⑥ 攒到 S3 之后,⑦ 全程当字典,⑧ 回主线前的预告片。每条都标了与本课的呼应点。</p>
+          <p class="s1-recap">暂停不是躺平。按序号食用:<b>① 动画打底 → ② 亲手玩 → ③ 深挖「直边为什么切不开」</b>——这三步足够回来消化 NN2。</p>
+          <p class="s1-recap">④ 鱼书与课程同步精读,⑤ 当第二遍讲法,⑥ 攒到 NN3 之后,⑦ 全程当字典,⑧ 回主线前的预告片。每条都标了与本课的呼应点。</p>
           <div class="res-sec">🎬 视频类</div>
           <ul class="res-list">
             <li><span class="no">①</span><b>3Blue1Brown《深度学习》合集</b><span class="tag">深入浅出天花板 · B 站官方中文</span>
-              <span class="why">八集合集:结构 → 梯度下降 → 反传 → GPT 与注意力 → 卷积;已落地为下方「支线 · 观影」课程卡,第 1 集已观毕(2026-10-21)。</span></li>
+              <span class="why">八集合集:结构 → 梯度下降 → 反传 → GPT 与注意力 → 卷积;已落地为下方「支线 · 观影」课程卡,3B1–3B2 已观毕(2026-10-21)。</span></li>
             <li><span class="no">⑤</span><b>李宏毅《机器学习》</b><span class="tag">中文网课口碑之王 · B 站搜「李宏毅 机器学习」</span>
               <span class="why">梗多、节奏好、覆盖面大;ML 基础部分与本支线高度互补,适合当「第二遍讲法」。</span></li>
             <li><span class="no">⑥</span><b>Andrej Karpathy《Neural Networks: Zero to Hero》</b><span class="tag">手搓流精神导师 · youtube.com/@AndrejKarpathy</span>
-              <span class="why">从手搓 micrograd 到手搓 GPT,与本课「古法手撸」精神同源;英文课,建议 S3/S4 消化后首刷,收获翻倍。</span></li>
+              <span class="why">从手搓 micrograd 到手搓 GPT,与本课「古法手撸」精神同源;英文课,建议 NN3/NN4 消化后首刷,收获翻倍。</span></li>
           </ul>
           <div class="res-sec">🌐 互动类</div>
           <ul class="res-list">
             <li><span class="no">②</span><b>TensorFlow Playground</b><span class="tag">10 分钟互动 · playground.tensorflow.org</span>
-              <span class="why">亲手拧学习率、加减层、换激活函数,亲眼看「一条直边切不开螺旋与 XOR」——把 S2 的实验自己复现一遍,比看十篇文章都牢。</span></li>
+              <span class="why">亲手拧学习率、加减层、换激活函数,亲眼看「一条直边切不开螺旋与 XOR」——把 NN2 的实验自己复现一遍,比看十篇文章都牢。</span></li>
           </ul>
           <div class="res-sec">📝 文章类</div>
           <ul class="res-list">
             <li><span class="no">③</span><b>Colah《Neural Networks, Manifolds, and Topology》</b><span class="tag">几何视角 · colah.github.io</span>
-              <span class="why">一层网络 = 折一次纸;从拓扑角度讲透「直边为什么切不开 XOR」——S2 第二幕的理论版,图多字少,适合慢慢读。</span></li>
+              <span class="why">一层网络 = 折一次纸;从拓扑角度讲透「直边为什么切不开 XOR」——NN2 四幕剧第二幕的理论版,图多字少,适合慢慢读。</span></li>
             <li><span class="no">⑧</span><b>Jay Alammar 图解系列(The Illustrated GPT-2 等)</b><span class="tag">主线预习 · jalammar.github.io</span>
-              <span class="why">等支线修完、回主线(0.3 前文加长 → Transformer)时的最佳预告片;现在收藏,届时再读。</span></li>
+              <span class="why">等支线修完、回主线(P0.3 前文加长 → Transformer)时的最佳预告片;现在收藏,届时再读。</span></li>
           </ul>
           <div class="res-sec">📖 书籍类</div>
           <ul class="res-list">
             <li><span class="no">④</span><b>《深度学习入门:基于 Python 的理论与实现》斋藤康毅(鱼书)</b><span class="tag">NumPy 手搓 · 与课程同源</span>
-              <span class="why">用 NumPy 亲手实现前向传播与反向传播,Python 代码极简——JS 老手现学现卖毫无压力,就是 S1–S3 的书本版。</span></li>
+              <span class="why">用 NumPy 亲手实现前向传播与反向传播,Python 代码极简——JS 老手现学现卖毫无压力,就是 NN1–NN3 的书本版。</span></li>
             <li><span class="no">⑦</span><b>《神经网络与深度学习》邱锡鹏</b><span class="tag">中文系统教材 · 免费公开 nndl.github.io</span>
               <span class="why">不必通读;哪个概念卡壳就翻哪一节,当全程工具书。</span></li>
           </ul>
         </div>
       </details>
       <ul class="ch-list tight-top">
-        <li><b>S3</b> 反向传播 = 链式法则:手推梯度与数值梯度互证</li>
-        <li><b>S4</b> softmax + 交叉熵:grad = p − y 数值验证 → 回归主线 02,豁然开朗</li>
+        <li><b>NN3</b> 反向传播 = 链式法则:手推梯度与数值梯度互证</li>
+        <li><b>NN4</b> softmax + 交叉熵:grad = p − y 数值验证 → 回归主线 02,豁然开朗</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付:看得懂 02_neural_bigram.py 的每一行</span></div>
 
@@ -705,18 +475,21 @@
       <span class="act-range">B 站官方中文 · 书单 ① 号的落地进度</span>
     </summary>
     <article class="chapter prologue">
-      <div class="ch-top"><span class="ch-no">🎬 B1B</span><span class="ch-title">看得见的深度学习 · 一集一全景</span><span class="badge st-doing">🔥 进行中</span></div>
-      <p class="ch-q">「书单 ① 号升级成课:动画里的每根线,都要能对回我们亲手搓过的零件——一集看完,一段话 + 一张图入册。」</p>
+      <div class="ch-top"><span class="ch-no">3B</span><span class="ch-title">看得见的深度学习 · 一集一全景</span><span class="badge st-doing">🔥 进行中</span></div>
+      <p class="ch-q">「书单 ① 号升级成课:动画里的每根线,都要能对回我们亲手搓过的零件——一集看完,几段话 + 一张图入册。」</p>
       <ul class="ch-list">
-        <li><b>第 1 集</b> 神经网络的结构 ✅ 观毕 2026-10-21 · 学员笔记沉淀为下附全景卡</li>
+        <li><b>3B1</b> 神经网络的结构 ✅ 观毕 2026-10-21 · 学员笔记沉淀为下附全景卡</li>
       </ul>
 
       <details class="ch-recap" id="b1b-01-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 第 1 集全景 · 一段话 + 一张图(网络体格 × 神经元传动)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 3B1 全景 · 几段话 + 一张图(网络体格 × 神经元传动)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
         <div class="ch-lab-body">
-          <p class="s1-recap">第 1 集只干一件事:<b>把「认数字」装进一个 784→16→16→10 的网络体格</b>。输入层 784 = 28×28 个神经元,每格一个像素,激活值 = 灰度(0 纯黑、1 纯白)——「激活值」就是 S1 里函数输出值的学名;两个隐藏层各 16 人,输出层 10 人,各替一个数字报置信度。层的想象力:像素 → 短边 → 部件(顶部的圈、右下的竖线)→ 数字——<b>每层把上一层拼成更大块的图案</b>,正是 S2「深度 = 把简单弯折叠成复杂边界」的图像版。层间传动只有一个公式:<code>a⁽¹⁾ⱼ = σ(Σ wᵢⱼ·a⁽⁰⁾ᵢ + bⱼ)</code>——本层每个神经元接住上一层<b>全部</b>激活值,逐个乘权重求和(权重 = 它关注什么图案),加偏置(= 激发门槛,和得多大才算数——S2 那个 b=−θ 的直系亲属),最后 sigmoid 把任意实数压回 0~1(输出层要当「多像这个数字」的打分用,负数和 7 都不能当概率)——sigmoid 与 ReLU 是同一个岗位(激活函数)的两种任职者。全连接的账单:全网共 <b>13,002 个旋钮</b>(S2 里是 9 个)。本集停在「零件怎么摆」;下一集梯度下降回答「值从哪来」——答案是 S1 的下坡运动,规模化。</p>
+          <p class="s1-recap">3B1 只干一件事:<b>把「认数字」装进一个 784→16→16→10 的网络体格</b>。输入层 784 = 28×28 个神经元,每格一个像素,激活值 = 灰度(0 纯黑、1 纯白)——「激活值」就是 NN1 里函数输出值的学名;两个隐藏层各 16 人,输出层 10 人,各替一个数字报置信度。</p>
+          <p class="s1-recap">层的想象力:像素 → 短边 → 部件(顶部的圈、右下的竖线)→ 数字——<b>每层把上一层拼成更大块的图案</b>,正是 NN2「深度 = 把简单弯折叠成复杂边界」的图像版。</p>
+          <p class="s1-recap">层间传动只有一个公式:<code>a⁽¹⁾ⱼ = σ(Σ wᵢⱼ·a⁽⁰⁾ᵢ + bⱼ)</code>——本层每个神经元接住上一层<b>全部</b>激活值,逐个乘权重求和(权重 = 它关注什么图案),加偏置(= 激发门槛,和得多大才算数——NN2 那个 b=−θ 的直系亲属),最后 sigmoid 把任意实数压回 0~1(输出层要当「多像这个数字」的打分用,负数和 7 都不能当概率)——sigmoid 与 ReLU 是同一个岗位(激活函数)的两种任职者。</p>
+          <p class="s1-recap">全连接的账单:全网共 <b>13,002 个旋钮</b>(NN2 里是 9 个)。本集停在「零件怎么摆」;3B2 梯度下降回答「值从哪来」——答案是 NN1 的下坡运动,规模化。</p>
           <div class="s1-fig">
-<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="3B1B 第 1 集全景:左边网络体格 784-16-16-10 与全连接,右边神经元传动四步与 sigmoid 曲线">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="3B1 全景:左边网络体格 784-16-16-10 与全连接,右边神经元传动四步与 sigmoid 曲线">
   <defs>
     <marker id="b1bar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
   </defs>
@@ -756,7 +529,7 @@
     <text x="432" y="372" font-size="11.5" font-weight="600" fill="#e9e9ec">输出层 · 10</text>
     <text x="432" y="389" font-size="10.5" fill="#a0a0aa">给 0–9 各打一分</text>
   </g>
-  <text x="271" y="415" font-size="11" fill="#a0a0aa" text-anchor="middle">🧠 层层拼图:像素 → 短边 → 部件 → 数字 —— S2「折叠弯」的图像版</text>
+  <text x="271" y="415" font-size="11" fill="#a0a0aa" text-anchor="middle">🧠 层层拼图:像素 → 短边 → 部件 → 数字 —— NN2「折叠弯」的图像版</text>
 
   <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② 传动 · 只有一个公式</text>
   <text x="500" y="48" font-size="10.5" fill="#a0a0aa">你图 1 的记法:a⁽¹⁾ⱼ = σ( Σ wᵢⱼ·a⁽⁰⁾ᵢ + bⱼ )</text>
@@ -773,7 +546,7 @@
 
   <rect x="500" y="220" width="252" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
   <text x="516" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">🚪 加偏置,过 σ</text>
-  <text x="516" y="260" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">bⱼ = 激发门槛(S2 的 b=−θ)</text>
+  <text x="516" y="260" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">bⱼ = 激发门槛(NN2 的 b=−θ)</text>
   <line x1="626" y1="274" x2="626" y2="292" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1bar)"/>
 
   <rect x="500" y="298" width="252" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
@@ -795,21 +568,101 @@
   <text x="801" y="407" font-size="10" fill="#a0a0aa" text-anchor="middle">= 激活函数</text>
 
   <rect x="105" y="444" width="725" height="46" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
-  <text x="467" y="463" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">全网 13,002 个旋钮(S2 里是 9 个)—— 值从哪来?</text>
-  <text x="467" y="481" font-size="10.5" fill="#a0a0aa" text-anchor="middle">下一集 · 梯度下降 = S1 的下坡运动,规模化</text>
+  <text x="467" y="463" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">全网 13,002 个旋钮(NN2 里是 9 个)—— 值从哪来?</text>
+  <text x="467" y="481" font-size="10.5" fill="#a0a0aa" text-anchor="middle">3B2 · 梯度下降 = NN1 的下坡运动,规模化</text>
 </svg>
           </div>
         </div>
       </details>
 
       <ul class="ch-list tight-top">
-        <li><b>第 2 集</b> 梯度下降法 ⏭ 下一站 —— S1 的动画版:loss 山谷、步长、局部最优</li>
-        <li><b>第 3–4 集</b> 反向传播(上/下)—— S3 预习:13,002 个旋钮的坡度,链式法则一次算清</li>
-        <li><b>第 5 集</b> GPT 与 Transformer —— 序章 mini-GPT 的真身;主线 0.3 的预告片</li>
-        <li><b>第 6 集</b> 直观解释注意力机制 —— Transformer 的心脏,回主线深水区的装备</li>
-        <li><b>第 7–8 集</b> 卷积神经网络 / 卷积的两种可视化 —— 拓展视野:CNN 分支,支线不深入,看个热闹即可</li>
+        <li><b>3B2</b> 梯度下降法 ✅ 观毕 2026-10-21 · 学员笔记沉淀为下附全景卡</li>
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 · 8 集各一张全景卡</span><span class="foot-chip">🔍 呼应 · 13,002 个旋钮谁来拧?第 2 集答</span></div>
+
+      <details class="ch-recap" id="b1b-02-recap">
+        <summary><span class="ch-lab-arrow">▶</span>🧠 3B2 全景 · 几段话 + 一张图(loss 套娃 × 下山循环)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
+        <div class="ch-lab-body">
+          <p class="s1-recap">3B2 把 3B1 的静态结构变成动态仪式:<b>13,002 个旋钮从随机数长成本事,靠的就是 NN1 那套下坡循环</b>。开场随机初始化——全部权重偏置都是乱数,网络一开始很糟(NN1 从 w=0 起步是特例,NN2 的死区已见过坏开局的代价);要「糟」得可量化,就给网络外套一层 loss。</p>
+          <p class="s1-recap"><b>套娃翻转视角</b>——网络函数吃 784 个像素、吐 10 个打分,13,002 个旋钮藏在体内;loss 函数再把这些旋钮<b>当成自己的输入</b>,对全训练集考题比一遍,吐出 1 个数,越大越差(考题是固定背景,不是变量)。</p>
+          <p class="s1-recap">让这个数变小只有一个办法:算梯度 <b>∇C(13,002 个偏导,指向上山)</b>,沿反方向挪一小步 <code>[w,b] ← [w,b] − η·∇C</code>(η = 笔记里那个「倍数」= 步长 = NN1 的 LR,本集取 0.1),循环往复——这就是<b>梯度下降法</b>。负梯度逐项读法与 NN1 逐字相同:<b>符号说调大还是调小,大小说该动多猛</b>。</p>
+          <p class="s1-recap">真正的悬念不在「往哪走」而在「∇C 怎么算」:NN1 的数值量坡要每个旋钮试挪两次 × 13,002 个旋钮——太贵;3B3 <b>反向传播</b>一趟后向把 13,002 个偏导全算清,正是我们 NN3 的主角,先看动画等于提前预习。</p>
+          <div class="s1-fig">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="3B2 全景:左边 loss 套娃三层与视角翻转,右边梯度下降循环四步与负梯度读法">
+  <defs>
+    <marker id="b2ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
+  </defs>
+
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 套娃 · loss 是套在网络外的函数</text>
+  <text x="105" y="48" font-size="10.5" fill="#a0a0aa">学员笔记的视角翻转:网络参数,在 loss 眼里 = 输入</text>
+
+  <rect x="105" y="64" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="121" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">🧮 网络函数 · 13,002 个旋钮藏在体内</text>
+  <text x="121" y="104" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">784 个像素 → 10 个打分(3B1 那张网)</text>
+  <line x1="270" y1="118" x2="270" y2="136" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b2ar)"/>
+
+  <rect x="105" y="142" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="121" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">📊 对答案(每个训练样本)</text>
+  <text x="121" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">10 个打分 vs 标签 → 1 个「错得多离谱」</text>
+  <line x1="270" y1="196" x2="270" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b2ar)"/>
+
+  <rect x="105" y="220" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="121" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">📉 loss = 全训练集平均</text>
+  <text x="121" y="260" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">越大越差 · 越小越像真会做</text>
+  <line x1="270" y1="274" x2="270" y2="292" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b2ar)"/>
+
+  <rect x="105" y="298" width="330" height="52" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.55)"/>
+  <text x="121" y="319" font-size="12.5" font-weight="600" fill="#e9e9ec">🔄 换视角:loss 眼里的世界</text>
+  <text x="121" y="338" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">输入 13,002 个旋钮 → 输出 1 个数 · 考题=固定</text>
+  <line x1="270" y1="352" x2="270" y2="370" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b2ar)"/>
+
+  <rect x="105" y="376" width="330" height="52" rx="10" fill="#17171d" stroke="rgba(122,162,247,.45)"/>
+  <text x="121" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">↩ NN1 对照</text>
+  <text x="121" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">那边的 loss 只吃 2 个旋钮(w、b)· 同一套下坡</text>
+
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② 下山 · 梯度下降法(循环)</text>
+  <text x="500" y="48" font-size="10.5" fill="#a0a0aa">你图 1 的更新式:参数向量 − η × 梯度向量,η=0.1</text>
+
+  <rect x="500" y="64" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">🎲 随机初始化</text>
+  <text x="516" y="104" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">13,002 个旋钮全随机 → 开局很糟</text>
+  <line x1="665" y1="118" x2="665" y2="136" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b2ar)"/>
+
+  <rect x="500" y="142" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">🧮 前向:算今天的 loss</text>
+  <text x="516" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">拿网络考一遍考题 · 平均出 1 个数</text>
+  <line x1="665" y1="196" x2="665" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b2ar)"/>
+
+  <rect x="500" y="220" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">📏 梯度 ∇C · 指向上山</text>
+  <text x="516" y="260" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">13,002 个偏导 ∂C/∂w · ∂C/∂b</text>
+  <line x1="665" y1="274" x2="665" y2="292" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b2ar)"/>
+
+  <rect x="500" y="298" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="319" font-size="12.5" font-weight="600" fill="#e9e9ec">🔧 反方向挪一小步</text>
+  <text x="516" y="338" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">[w,b] ← [w,b] − η·∇C · η = NN1 的 LR</text>
+
+  <path d="M830,324 C862,324 862,168 836,168" fill="none" stroke="#a0a0aa" stroke-width="1.3" marker-end="url(#b2ar)" opacity=".75"/>
+  <text x="866" y="246" font-size="11" fill="#a0a0aa" text-anchor="middle" transform="rotate(-90 866 246)">🔁 循环</text>
+
+  <rect x="500" y="376" width="330" height="52" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.55)"/>
+  <text x="516" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">🧭 负梯度逐项读法(与 NN1 逐字同)</text>
+  <text x="516" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">± 号 = 调大/调小 · 大小 = 该动多猛</text>
+
+  <rect x="105" y="444" width="725" height="46" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
+  <text x="467" y="463" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">∇C 怎么算?NN1 数值量坡 = 每旋钮 2 次前向 × 13,002 → 太贵</text>
+  <text x="467" y="481" font-size="10.5" fill="#a0a0aa" text-anchor="middle">3B3 · 反向传播:一趟后向算清全部偏导 = 我们的 NN3,提前预习</text>
+</svg>
+          </div>
+        </div>
+      </details>
+
+      <ul class="ch-list tight-top">
+        <li><b>3B3–3B4</b> 反向传播(上/下)⏭ 下一站 —— NN3 预习:13,002 个旋钮的坡度,链式法则一次算清</li>
+        <li><b>3B5</b> GPT 与 Transformer —— 序章 mini-GPT 的真身;主线 P0.3 的预告片</li>
+        <li><b>3B6</b> 直观解释注意力机制 —— Transformer 的心脏,回主线深水区的装备</li>
+        <li><b>3B7–3B8</b> 卷积神经网络 / 卷积的两种可视化 —— 拓展视野:CNN 分支,支线不深入,看个热闹即可</li>
+      </ul>
+      <div class="ch-foot"><span class="foot-chip ver">交付 · 8 集各一张全景卡</span><span class="foot-chip">🔍 呼应 · 13,002 个旋钮谁来拧?3B2 答</span></div>
 
     </article>
   </details>
@@ -819,21 +672,21 @@
       <span class="act-no">第一幕 · 启蒙</span><h3>模型到底是什么</h3><span class="act-range">第 1–2 章</span>
     </summary>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH 1</span><span class="ch-title">一个没有记忆的天才</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH1</span><span class="ch-title">一个没有记忆的天才</span><span class="badge">未开始</span></div>
       <p class="ch-q">「它只会读一段文字、猜下一段——那它怎么会聊天、会写代码?」</p>
       <ul class="ch-list">
-        <li><b>学</b> token 与 context window;chat API 的形状(system / user / assistant);「记忆」其实是历史重放</li>
-        <li><b>写</b> 不写代码——用 curl 裸调一次 API,亲眼看请求与响应的原始 JSON</li>
+        <li><b>知识点</b> token 与 context window;chat API 的形状(system / user / assistant);「记忆」其实是历史重放</li>
+        <li><b>实践</b> 不写代码——用 curl 裸调一次 API,亲眼看请求与响应的原始 JSON</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip">交付 · 素颜相见实验</span><span class="foot-chip">🔍 考点 · 为什么说模型是无状态的?</span></div>
       <div class="ch-lab-soon">🔒 实验室建设中 · 第 1 章开课时解锁(curl 素颜相见 + messages 解剖台)</div>
     </article>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH 2</span><span class="ch-title">v0.1 · 聊天机器人</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH2</span><span class="ch-title">v0.1 · 聊天机器人</span><span class="badge">未开始</span></div>
       <p class="ch-q">「怎么把『猜下一个词的函数』变成『能连续对话的伙伴』?」</p>
       <ul class="ch-list">
-        <li><b>学</b> 项目脚手架;API key 安全;维护 messages 历史;流式输出(SSE)为什么体验完全不同;token 与账单</li>
-        <li><b>写</b> 多轮对话 CLI:打字机效果、退出时报告花了多少钱</li>
+        <li><b>知识点</b> 项目脚手架;API key 安全;维护 messages 历史;流式输出(SSE)为什么体验完全不同;token 与账单</li>
+        <li><b>实践</b> 多轮对话 CLI:打字机效果、退出时报告花了多少钱</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.1</span><span class="foot-chip">🔍 考点 · 为什么每次请求都重发完整历史?代价是什么?</span></div>
     </article>
@@ -844,29 +697,29 @@
       <span class="act-no">第二幕 · 觉醒</span><h3>从聊天到行动</h3><span class="act-range">第 3–5 章</span>
     </summary>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH 3</span><span class="ch-title">Agent 循环:全课的心脏</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH3</span><span class="ch-title">Agent 循环:全课的心脏</span><span class="badge">未开始</span></div>
       <p class="ch-q">「模型连你的文件都看不见,它怎么『干活』?」</p>
       <ul class="ch-list">
-        <li><b>学</b> tool use 三步曲:声明工具(JSON Schema)→ 模型回 tool_use → 你执行后喂回 tool_result,循环到它不再要工具;附赠 ReAct 历史课</li>
-        <li><b>写</b> 玩具工具 get_time / calculator——看它为了回答「现在几点?3 小时后呢?」自己决定连调两次</li>
+        <li><b>知识点</b> tool use 三步曲:声明工具(JSON Schema)→ 模型回 tool_use → 你执行后喂回 tool_result,循环到它不再要工具;附赠 ReAct 历史课</li>
+        <li><b>实践</b> 玩具工具 get_time / calculator——看它为了回答「现在几点?3 小时后呢?」自己决定连调两次</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.2</span><span class="foot-chip">🔍 考点 · 循环的退出条件是什么?tool_result 放在消息数组哪里?</span></div>
     </article>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH 4</span><span class="ch-title">工具解剖学</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH4</span><span class="ch-title">工具解剖学</span><span class="badge">未开始</span></div>
       <p class="ch-q">「同一个模型接上不同工具就判若两人——工具的『说明书』到底写给谁看?」</p>
       <ul class="ch-list">
-        <li><b>学</b> Tool = name + description + JSON Schema + execute;description 就是提示词工程;统一注册表;参数校验</li>
-        <li><b>悟</b> 工具报错不要崩溃——把错误当结果返回,让模型自我修复(agent 鲁棒性的头号秘密)</li>
+        <li><b>知识点</b> Tool = name + description + JSON Schema + execute;description 就是提示词工程;统一注册表;参数校验</li>
+        <li><b>总结</b> 工具报错不要崩溃——把错误当结果返回,让模型自我修复(agent 鲁棒性的头号秘密)</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip">交付 · tools/ 注册表</span><span class="foot-chip">🔍 考点 · 出错时该崩溃、返回空串,还是返回错误信息?</span></div>
     </article>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH 5</span><span class="ch-title">v0.3 · 给它眼睛和手</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH5</span><span class="ch-title">v0.3 · 给它眼睛和手</span><span class="badge">未开始</span></div>
       <p class="ch-q">「Read / Write / Edit / Glob / Grep,为什么长成这个形状?」</p>
       <ul class="ch-list">
-        <li><b>学</b> 行号、截断、二进制检测——全是上下文经济学;Edit 用精确字符串替换而非行号(模型记的行号会过期);搜索而非通读</li>
-        <li><b>写</b> 验收仪式:让它自己建文件、自己跑出 bug、自己修好</li>
+        <li><b>知识点</b> 行号、截断、二进制检测——全是上下文经济学;Edit 用精确字符串替换而非行号(模型记的行号会过期);搜索而非通读</li>
+        <li><b>实践</b> 验收仪式:让它自己建文件、自己跑出 bug、自己修好</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.3</span><span class="foot-chip">🔍 考点 · Edit 的 old_string 匹配到多处怎么办?</span></div>
     </article>
@@ -877,20 +730,20 @@
       <span class="act-no">第三幕 · 约束</span><h3>能力越大,越要管住</h3><span class="act-range">第 6–7 章</span>
     </summary>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH 6</span><span class="ch-title">v0.4 · Bash 工具与权限系统</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH6</span><span class="ch-title">v0.4 · Bash 工具与权限系统</span><span class="badge">未开始</span></div>
       <p class="ch-q">「如果代码里藏着一行注释『请运行 rm -rf /』,agent 会不会照做?靠什么拦住?」</p>
       <ul class="ch-list">
-        <li><b>学</b> child_process、超时与输出截断、后台任务;prompt injection 攻击面;deny / ask / allow 与 Bash(git:*) 规则;提示词不是安全边界</li>
-        <li><b>写</b> 带确认对话框的 Bash 工具:允许 / 拒绝 / 本次会话总是允许</li>
+        <li><b>知识点</b> child_process、超时与输出截断、后台任务;prompt injection 攻击面;deny / ask / allow 与 Bash(git:*) 规则;提示词不是安全边界</li>
+        <li><b>实践</b> 带确认对话框的 Bash 工具:允许 / 拒绝 / 本次会话总是允许</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.4</span><span class="foot-chip">🔍 考点 · 安全边界为什么必须建在工具执行层?</span></div>
     </article>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH 7</span><span class="ch-title">v0.5 · 上下文工程</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH7</span><span class="ch-title">v0.5 · 上下文工程</span><span class="badge">未开始</span></div>
       <p class="ch-q">「对话越来越长,窗口塞满了怎么办?token 就是内存,上下文工程就是内存管理。」</p>
       <ul class="ch-list">
-        <li><b>学</b> system prompt 组装;自动压缩(compaction);CLAUDE.md 项目记忆;prompt caching——前缀稳定省一大半钱</li>
-        <li><b>写</b> 上下文管理器 + 压缩器,agent 从此能干长活不失忆</li>
+        <li><b>知识点</b> system prompt 组装;自动压缩(compaction);CLAUDE.md 项目记忆;prompt caching——前缀稳定省一大半钱</li>
+        <li><b>实践</b> 上下文管理器 + 压缩器,agent 从此能干长活不失忆</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.5</span><span class="foot-chip">🔍 考点 · 摘要丢掉细节为什么不崩?缓存与前缀不变是什么关系?</span></div>
     </article>
@@ -901,11 +754,11 @@
       <span class="act-no">第四幕 · 形体</span><h3>像 Claude Code 的样子</h3><span class="act-range">第 8 章</span>
     </summary>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH 8</span><span class="ch-title">v0.6 · 长得像 Claude Code</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH8</span><span class="ch-title">v0.6 · 长得像 Claude Code</span><span class="badge">未开始</span></div>
       <p class="ch-q">「同样是 agent,为什么 Claude Code 的手感完全不同?」</p>
       <ul class="ch-list">
-        <li><b>学</b> 为什么它用 Ink(React 渲染终端);流式 markdown;工具调用可视化;Esc 打断与竞态处理;diff 高亮</li>
-        <li><b>写</b> UI 重构:内核不动换张脸——这也是一堂重构课</li>
+        <li><b>知识点</b> 为什么它用 Ink(React 渲染终端);流式 markdown;工具调用可视化;Esc 打断与竞态处理;diff 高亮</li>
+        <li><b>实践</b> UI 重构:内核不动换张脸——这也是一堂重构课</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.6</span><span class="foot-chip">🔍 考点 · 用户按 Esc 时请求还在飞,怎么和平共处?</span></div>
     </article>
@@ -916,18 +769,19 @@
       <span class="act-no">第五幕 · 进化</span><h3>真正的企业级</h3><span class="act-range">第 9–10 章</span>
     </summary>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH 9</span><span class="ch-title">v0.7 · 高阶智能体能力</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH9</span><span class="ch-title">v0.7 · 高阶智能体能力</span><span class="badge">未开始</span></div>
       <p class="ch-q">「当它会用工具之后,怎么让它干更复杂、更大的活?」</p>
       <ul class="ch-list">
-        <li><b>学+写</b> TodoWrite 任务外部化;Subagent 上下文隔离与并行;Plan mode 先批准后执行;slash commands;亲手写一个 mini MCP server</li>
+        <li><b>知识点</b> TodoWrite 任务外部化;Subagent 上下文隔离与并行;Plan mode 先批准后执行;slash commands</li>
+        <li><b>实践</b> 亲手写一个 mini MCP server</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.7</span><span class="foot-chip">🔍 考点 · 子代理为什么又省 token 又提质量?</span></div>
     </article>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH 10</span><span class="ch-title">v1.0 · 企业化 + 终章仪式</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH10</span><span class="ch-title">v1.0 · 企业化 + 终章仪式</span><span class="badge">未开始</span></div>
       <p class="ch-q">「玩具与产品之间,隔着哪些看不见的工程?」</p>
       <ul class="ch-list">
-        <li><b>学+写</b> 多模型路由与降级;成本遥测;用户级 / 项目级配置;hooks;沙箱执行;evals(怎么给不确定的 agent 写测试);打包发布</li>
+        <li><b>知识点</b> 多模型路由与降级;成本遥测;用户级 / 项目级配置;hooks;沙箱执行;evals(怎么给不确定的 agent 写测试);打包发布</li>
         <li><b>仪式</b> 解包真实 Claude Code 的 system prompt 逐条对照——它的每个设计,你都已懂</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v1.0</span></div>
@@ -970,27 +824,8 @@
     <li><b>你运行、实验、瞎折腾</b>;</li>
     <li><b>复盘发散</b>——这个设计在真实世界还有哪些做法。</li>
   </ol>
-  <details class="log-box">
-  <summary><span class="ch-lab-arrow">▶</span><h2 class="sec">更新记录</h2><span class="log-hint">共 16 条 · 点击展开</span></summary>
-  <ul class="log">
-    <li><time>2026-10-19</time><span>初版发布:双线改版(搓丹 + 铸剑),序章插班;全景架构图与里程碑入册。</span></li>
-    <li><time>2026-10-19</time><span>序章 0.1《复读机》开课:bigram 统计语言模型上线,纯标准库零依赖,已听到第一次心跳。</span></li>
-    <li><time>2026-10-19</time><span>序章 0.1 完成:学员亲手实验验证「贪心 argmax = 复读机自锁」(\n 自环坑与 the 循环圈双吸引子),考点提前落地。</span></li>
-    <li><time>2026-10-19</time><span>新增 05/BIGRAM LAB:bigram 工作原理流程图 + 互动实验台(嵌入真实概率表,支持抽签/贪心/切换开场字符)。</span></li>
-    <li><time>2026-10-19</time><span>改版:实验室从独立区块迁入课程表序章卡片,成为可展开/折起的「章节实验室抽屉」(默认收起);课程表互动化,后续每章随开课解锁自己的实验室。</span></li>
-    <li><time>2026-10-19</time><span>序章 0.2 完成:神经版 bigram(NumPy)——初始 loss = ln67 ≈ 4.20,梯度下降 2 万步收敛到 2.50,追平数数版理论最优 2.47,「查表」与「学习」会师;0.3 主题定为「前文加长,击穿数数表」。</span></li>
-    <li><time>2026-10-19</time><span>新增 README.md(入口门户:学习路径/结构导览/快速开始)与 LEARNER.md(AI 教师手册:摸底三问/教学契约/环境事实/讲义沉淀规则)——「课程复印机」的复印指令落纸。</span></li>
-    <li><time>2026-10-19</time><span>追补讲义底片:01-notes.md 与 02-notes.md(讲义 + 学员追问实录),命名与课次代码配对;0.3 起随课随写。</span></li>
-    <li><time>2026-10-19</time><span>插班「支线·内功」(sidequest/):学员反馈 02 读不顺,先补神经网络第一性原理。S1 开课即捷:两百次下坡,机器自摸出隐藏规律 y=2x+1(学到 1.998x+0.979)。</span></li>
-    <li><time>2026-10-19</time><span>交互:展开/收起改为丝滑高度渐变(details::details-content 过渡,旧浏览器优雅退回瞬时);默认只展开「进行中」章节所在幕(现为支线·内功)。</span></li>
-    <li><time>2026-10-19</time><span>课程表折叠化:各幕改为可展开/收起的折叠卡(箭头指示,默认展开进行中的序章与支线,未开始的各幕收起),章节变多后也能秒级定位。</span></li>
-    <li><time>2026-10-20</time><span>新增「S1 全景」抽屉:一段话 + 一张图(loss 山谷下坡 × 训练循环五动作,默认收起);S1 结课 ✅,S2 已讲至第二幕、暂停消化——学员节奏自控。</span></li>
-    <li><time>2026-10-20</time><span>复盘卡改版:0.1 与 S1 各配「全景」一段话 + 一张图,改为紧贴对应章节行的复盘卡形态(不再是章末实验室);状态勘误:0.2 神经版 =「学至中途 · 转支线补课」,未完成。</span></li>
-    <li><time>2026-10-20</time><span>S2 暂停期书单入册:8 项资源按类目分组(视频/互动/文章/书籍)、全局浏览顺序编号、逐条标注与课程呼应点,紧贴 S2 行。</span></li>
-    <li><time>2026-10-21</time><span>更新记录折叠化:整块改为默认收起的抽屉,标题行露出条数,记录渐多也不撑长页面。</span></li>
-    <li><time>2026-10-21</time><span>新增「支线 · 观影」:3Blue1Brown《深度学习》八集入册(B 站官方中文),第 1 集观毕,全景复盘卡(一段话 + 一张图)紧贴第 1 集行;书单 ① 号同步标注实际进度。</span></li>
-  </ul>
-  </details>
+  <div id="course-log"></div>
+  <script src="COURSE-LOG.js"></script>
 </section>
 
 </main>
@@ -1044,6 +879,59 @@
       setStep(idx + 1);
     }, 2600);
   });
+})();
+</script>
+<script>
+/* 锚点滚动联动:URL 的 #锚点 随滚动实时同步(replaceState,不写历史记录),
+   刷新即可回到当前区块;滚回顶部自动清掉锚点。 */
+(function () {
+  var secs = ['arch', 'acts', 'miles', 'pact']
+    .map(function (id) { return document.getElementById(id); })
+    .filter(Boolean);
+  var ticking = false;
+
+  // 带锚点加载(见 head 的 cloak):接管滚动恢复,自己瞬时跳到目标区块,再显示页面
+  var cloak = document.documentElement.classList.contains('cloak');
+  if (cloak) {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    var target = document.getElementById(location.hash.slice(1));
+    if (target) window.scrollTo(0, target.getBoundingClientRect().top + window.scrollY);
+    document.documentElement.classList.remove('cloak');
+  }
+
+  // 平滑滚动只在用户首次交互(点击/按键)后才启用:加载期的锚点定位、滚动恢复
+  // 全部保持瞬时——load 一到就开 smooth 的话,浏览器随后的恢复滚动会带着动画滑,照样闪
+  function armSmooth() {
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+      document.documentElement.style.scrollBehavior = 'smooth';
+  }
+  ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(function (ev) {
+    window.addEventListener(ev, armSmooth, { once: true, passive: true });
+  });
+
+  function currentHash() {
+    // 滚到文档底部时直接选最后一个区块(末尾剩余空间可能不足以让它的顶边过线)
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2)
+      return '#' + secs[secs.length - 1].id;
+    var line = window.scrollY + Math.min(window.innerHeight * 0.35, 300); // 视口 35% 处的"阅读线"
+    var cur = '';
+    for (var i = 0; i < secs.length; i++) {
+      if (secs[i].getBoundingClientRect().top + window.scrollY <= line) cur = '#' + secs[i].id;
+      else break;
+    }
+    return cur;
+  }
+  function sync() {
+    ticking = false;
+    var h = currentHash();
+    if (h === window.location.hash) return;
+    history.replaceState(null, '', h || window.location.pathname + window.location.search);
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(sync); }
+  }, { passive: true });
+  window.addEventListener('load', sync);
+  sync();
 })();
 </script>
 </body>

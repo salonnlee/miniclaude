@@ -38,19 +38,25 @@ curl -fsSL -o data/input.txt https://cs.stanford.edu/people/karpathy/char-rnn/sh
 
 ```
 ├── COURSE.html               课程总中枢:课程表(含可展开的实验室抽屉)/ 全景架构图 /
-│                             里程碑 / 教学契约 / 更新日志——章节状态的唯一事实源
+│                             里程碑 / 教学契约——章节状态的唯一事实源(样式与更新记录
+│                             拆在下面两个文件,三个文件同目录、相对路径引用)
+├── COURSE.css                课程页全部样式
+├── COURSE-LOG.js             更新记录(数据 + 渲染器):最新日期在顶,当天往下追加,
+│                             天数 / 条数 / 最新一天默认展开全部自动计算
 ├── README.md                 你在这里:入口门户
 ├── LEARNER.md                AI 教师手册:给「想用本仓库重讲这门课」的 AI 或人类
 ├── poster.svg / poster.png   3:4 极客风课程海报(SVG 里的光标会闪)
 ├── requirements.txt          Python 依赖(目前仅 numpy)
 ├── .env.example              API key 模板(cp 成 .env 填真实 key;真实 .env 永不入库)
 ├── prologue/                 🔵 序章 · 搓丹线(Python)
-│   ├── 01_bigram.py          0.1 数数表复读机:纯标准库,20 行理解「模型 = 概率表」
-│   ├── 02_neural_bigram.py   0.2 神经版 + 梯度下降:ln67 → 2.50,追平数数表 2.47
+│   ├── 01_bigram.py          P0.1 数数表复读机:纯标准库,20 行理解「模型 = 概率表」
+│   ├── 02_neural_bigram.py   P0.2 神经版 + 梯度下降:ln67 → 2.50,追平数数表 2.47
+│   ├── 0X-notes.md           各课讲义 + 学员追问实录(01 / 02 已建,随课随写)
 │   └── python-for-js.md      JS 老手的 Python 速查卡(随课增补)
 ├── sidequest/                🧠 支线 · 内功(神经网络补课,应学员需求插班)
-│   ├── 01_learning_function.py  S1 会学习的函数:旋钮 / loss / 数值梯度(纯标准库)
-│   └── 01-notes.md              S1 讲义与追问实录
+│   ├── 01_learning_function.py  NN1 会学习的函数:旋钮 / loss / 数值梯度(纯标准库)
+│   ├── 02_learning_function.py  NN2 神经元与 XOR:四幕剧 + 死区逃逸实录
+│   └── *-notes.md              讲义与追问实录(与课次代码自动配对)
 ├── scripts/git/pre-commit    提交前密钥扫描钩子(文件名 + 内容双保险)
 └── data/input.txt            莎士比亚语料,457 万字符(gitignore,可重新下载)
 ```
@@ -63,4 +69,4 @@ curl -fsSL -o data/input.txt https://cs.stanford.edu/people/karpathy/char-rnn/sh
 
 ## 📈 当前进度
 
-序章 0.1 ✅ · 0.2 ✅ · 0.3 ⏳ · 0.4 ⏳ | 正文(第 1–10 章)未开课 —— 实时状态以 **COURSE.html** 为准。
+序章 P0.1 ✅ · P0.2 学至中途(转支线补课)· P0.3 ⏳ · P0.4 ⏳ | 支线·内功 NN1 ✅ · NN2 挂起消化 | 支线·观影 3B1–3B2 ✅ | 正文 CH1–CH10 未开课 —— 实时状态以 **COURSE.html** 为准。
