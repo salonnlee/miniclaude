@@ -661,8 +661,8 @@
           <p class="s1-recap">暂停不是躺平。按序号食用:<b>① 动画打底 → ② 亲手玩 → ③ 深挖「直边为什么切不开」</b>——这三步足够回来消化 S2;④ 鱼书与课程同步精读,⑤ 当第二遍讲法,⑥ 攒到 S3 之后,⑦ 全程当字典,⑧ 回主线前的预告片。每条都标了与本课的呼应点。</p>
           <div class="res-sec">🎬 视频类</div>
           <ul class="res-list">
-            <li><span class="no">①</span><b>3Blue1Brown《神经网络》系列</b><span class="tag">深入浅出天花板 · B 站官方中文</span>
-              <span class="why">四集讲完「神经元是什么 → 梯度下降 → 反向传播」:第 1–2 集正是暂停在半路的 S2,梯度下降那集就是 S1 本集,反向传播那集提前给 S3 减负。</span></li>
+            <li><span class="no">①</span><b>3Blue1Brown《深度学习》合集</b><span class="tag">深入浅出天花板 · B 站官方中文</span>
+              <span class="why">八集合集:结构 → 梯度下降 → 反传 → GPT 与注意力 → 卷积;已落地为下方「支线 · 观影」课程卡,第 1 集已观毕(2026-10-21)。</span></li>
             <li><span class="no">⑤</span><b>李宏毅《机器学习》</b><span class="tag">中文网课口碑之王 · B 站搜「李宏毅 机器学习」</span>
               <span class="why">梗多、节奏好、覆盖面大;ML 基础部分与本支线高度互补,适合当「第二遍讲法」。</span></li>
             <li><span class="no">⑥</span><b>Andrej Karpathy《Neural Networks: Zero to Hero》</b><span class="tag">手搓流精神导师 · youtube.com/@AndrejKarpathy</span>
@@ -694,6 +694,122 @@
         <li><b>S4</b> softmax + 交叉熵:grad = p − y 数值验证 → 回归主线 02,豁然开朗</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付:看得懂 02_neural_bigram.py 的每一行</span></div>
+
+    </article>
+  </details>
+
+  <details class="act prologue" open>
+    <summary class="act-head">
+      <span class="act-no">支线 · 观影</span>
+      <h3>3Blue1Brown《深度学习》八集</h3>
+      <span class="act-range">B 站官方中文 · 书单 ① 号的落地进度</span>
+    </summary>
+    <article class="chapter prologue">
+      <div class="ch-top"><span class="ch-no">🎬 B1B</span><span class="ch-title">看得见的深度学习 · 一集一全景</span><span class="badge st-doing">🔥 进行中</span></div>
+      <p class="ch-q">「书单 ① 号升级成课:动画里的每根线,都要能对回我们亲手搓过的零件——一集看完,一段话 + 一张图入册。」</p>
+      <ul class="ch-list">
+        <li><b>第 1 集</b> 神经网络的结构 ✅ 观毕 2026-10-21 · 学员笔记沉淀为下附全景卡</li>
+      </ul>
+
+      <details class="ch-recap" id="b1b-01-recap">
+        <summary><span class="ch-lab-arrow">▶</span>🧠 第 1 集全景 · 一段话 + 一张图(网络体格 × 神经元传动)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
+        <div class="ch-lab-body">
+          <p class="s1-recap">第 1 集只干一件事:<b>把「认数字」装进一个 784→16→16→10 的网络体格</b>。输入层 784 = 28×28 个神经元,每格一个像素,激活值 = 灰度(0 纯黑、1 纯白)——「激活值」就是 S1 里函数输出值的学名;两个隐藏层各 16 人,输出层 10 人,各替一个数字报置信度。层的想象力:像素 → 短边 → 部件(顶部的圈、右下的竖线)→ 数字——<b>每层把上一层拼成更大块的图案</b>,正是 S2「深度 = 把简单弯折叠成复杂边界」的图像版。层间传动只有一个公式:<code>a⁽¹⁾ⱼ = σ(Σ wᵢⱼ·a⁽⁰⁾ᵢ + bⱼ)</code>——本层每个神经元接住上一层<b>全部</b>激活值,逐个乘权重求和(权重 = 它关注什么图案),加偏置(= 激发门槛,和得多大才算数——S2 那个 b=−θ 的直系亲属),最后 sigmoid 把任意实数压回 0~1(输出层要当「多像这个数字」的打分用,负数和 7 都不能当概率)——sigmoid 与 ReLU 是同一个岗位(激活函数)的两种任职者。全连接的账单:全网共 <b>13,002 个旋钮</b>(S2 里是 9 个)。本集停在「零件怎么摆」;下一集梯度下降回答「值从哪来」——答案是 S1 的下坡运动,规模化。</p>
+          <div class="s1-fig">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="3B1B 第 1 集全景:左边网络体格 784-16-16-10 与全连接,右边神经元传动四步与 sigmoid 曲线">
+  <defs>
+    <marker id="b1bar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
+  </defs>
+
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 体格 · 784 → 16 → 16 → 10(全连接)</text>
+  <text x="105" y="48" font-size="10.5" fill="#a0a0aa">层间全连接:仅输入→隐藏① 一层就要 784×16 = 12,544 条权重</text>
+
+  <g stroke="#3d3d4d" stroke-width=".8" opacity=".55">
+    <line x1="117" y1="198" x2="225" y2="66"/><line x1="117" y1="198" x2="225" y2="98"/><line x1="117" y1="198" x2="225" y2="130"/><line x1="117" y1="198" x2="225" y2="226"/><line x1="117" y1="198" x2="225" y2="290"/><line x1="117" y1="198" x2="225" y2="326"/>
+    <line x1="239" y1="162" x2="327" y2="66"/><line x1="239" y1="162" x2="327" y2="130"/><line x1="239" y1="162" x2="327" y2="194"/><line x1="239" y1="162" x2="327" y2="258"/><line x1="239" y1="162" x2="327" y2="322"/><line x1="239" y1="162" x2="327" y2="354"/>
+    <line x1="341" y1="194" x2="425" y2="66"/><line x1="341" y1="194" x2="425" y2="98"/><line x1="341" y1="194" x2="425" y2="162"/><line x1="341" y1="194" x2="425" y2="226"/><line x1="341" y1="194" x2="425" y2="290"/><line x1="341" y1="194" x2="425" y2="354"/>
+  </g>
+  <g stroke="#d97757" stroke-width="1.4" opacity=".95">
+    <line x1="110" y1="230" x2="232" y2="130"/><line x1="232" y1="130" x2="334" y2="194"/><line x1="334" y1="194" x2="432" y2="162"/>
+  </g>
+
+  <g fill="#17171d" stroke="#4a4a5a" stroke-width="1.2">
+    <circle cx="110" cy="70" r="7"/><circle cx="110" cy="102" r="7"/><circle cx="110" cy="134" r="7"/><circle cx="110" cy="166" r="7"/><circle cx="110" cy="198" r="7"/><circle cx="110" cy="230" r="7"/><circle cx="110" cy="262" r="7"/><circle cx="110" cy="294" r="7"/><circle cx="110" cy="326" r="7"/>
+    <circle cx="232" cy="66" r="7"/><circle cx="232" cy="98" r="7"/><circle cx="232" cy="130" r="7"/><circle cx="232" cy="162" r="7"/><circle cx="232" cy="194" r="7"/><circle cx="232" cy="226" r="7"/><circle cx="232" cy="258" r="7"/><circle cx="232" cy="290" r="7"/><circle cx="232" cy="322" r="7"/><circle cx="232" cy="354" r="7"/>
+    <circle cx="334" cy="66" r="7"/><circle cx="334" cy="98" r="7"/><circle cx="334" cy="130" r="7"/><circle cx="334" cy="162" r="7"/><circle cx="334" cy="194" r="7"/><circle cx="334" cy="226" r="7"/><circle cx="334" cy="258" r="7"/><circle cx="334" cy="290" r="7"/><circle cx="334" cy="322" r="7"/><circle cx="334" cy="354" r="7"/>
+    <circle cx="432" cy="66" r="7"/><circle cx="432" cy="98" r="7"/><circle cx="432" cy="130" r="7"/><circle cx="432" cy="162" r="7"/><circle cx="432" cy="194" r="7"/><circle cx="432" cy="226" r="7"/><circle cx="432" cy="258" r="7"/><circle cx="432" cy="290" r="7"/><circle cx="432" cy="322" r="7"/><circle cx="432" cy="354" r="7"/>
+  </g>
+  <circle cx="110" cy="230" r="7" fill="#17171d" stroke="#d97757" stroke-width="1.6"/>
+  <circle cx="232" cy="130" r="6.5" fill="#d97757"/>
+  <circle cx="334" cy="194" r="6.5" fill="#d97757"/>
+  <circle cx="432" cy="162" r="6.5" fill="#d97757"/>
+  <text x="432" y="150" font-size="10.5" fill="#d97757" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">9</text>
+  <text x="110" y="352" font-size="13" fill="#a0a0aa" text-anchor="middle">⋮</text>
+
+  <g text-anchor="middle">
+    <text x="110" y="372" font-size="11.5" font-weight="600" fill="#e9e9ec">输入层 · 784</text>
+    <text x="110" y="389" font-size="10.5" fill="#a0a0aa">像素灰度 0~1</text>
+    <text x="232" y="372" font-size="11.5" font-weight="600" fill="#e9e9ec">隐藏层① · 16</text>
+    <text x="232" y="389" font-size="10.5" fill="#a0a0aa">短边检测员</text>
+    <text x="334" y="372" font-size="11.5" font-weight="600" fill="#e9e9ec">隐藏层② · 16</text>
+    <text x="334" y="389" font-size="10.5" fill="#a0a0aa">部件装配员</text>
+    <text x="432" y="372" font-size="11.5" font-weight="600" fill="#e9e9ec">输出层 · 10</text>
+    <text x="432" y="389" font-size="10.5" fill="#a0a0aa">给 0–9 各打一分</text>
+  </g>
+  <text x="271" y="415" font-size="11" fill="#a0a0aa" text-anchor="middle">🧠 层层拼图:像素 → 短边 → 部件 → 数字 —— S2「折叠弯」的图像版</text>
+
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② 传动 · 只有一个公式</text>
+  <text x="500" y="48" font-size="10.5" fill="#a0a0aa">你图 1 的记法:a⁽¹⁾ⱼ = σ( Σ wᵢⱼ·a⁽⁰⁾ᵢ + bⱼ )</text>
+
+  <rect x="500" y="64" width="252" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">📥 接住上一层全部激活</text>
+  <text x="516" y="104" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">a₀, a₁, …, a₇₈₃ · 全连接</text>
+  <line x1="626" y1="118" x2="626" y2="136" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1bar)"/>
+
+  <rect x="500" y="142" width="252" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">⚖ 加权求和</text>
+  <text x="516" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">Σ wᵢⱼ·aᵢ · w = 关注什么图案</text>
+  <line x1="626" y1="196" x2="626" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1bar)"/>
+
+  <rect x="500" y="220" width="252" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">🚪 加偏置,过 σ</text>
+  <text x="516" y="260" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">bⱼ = 激发门槛(S2 的 b=−θ)</text>
+  <line x1="626" y1="274" x2="626" y2="292" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1bar)"/>
+
+  <rect x="500" y="298" width="252" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="319" font-size="12.5" font-weight="600" fill="#e9e9ec">📤 本层激活 aⱼ</text>
+  <text x="516" y="338" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">0 ≤ aⱼ ≤ 1 · 喂给下一层</text>
+  <line x1="626" y1="352" x2="626" y2="370" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1bar)"/>
+
+  <rect x="500" y="376" width="252" height="52" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.55)"/>
+  <text x="516" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">🌀 sigmoid:任意实数 → 0~1</text>
+  <text x="516" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">−3 → 0.05 · 0 → 0.5 · 7 → 0.999</text>
+
+  <line x1="768" y1="80" x2="768" y2="368" stroke="#2a2a34" stroke-width="1.5"/>
+  <line x1="768" y1="368" x2="838" y2="368" stroke="#2a2a34" stroke-width="1.5" marker-end="url(#b1bar)"/>
+  <path d="M772,362 C794,360 798,88 818,88 C824,88 830,88 834,88" fill="none" stroke="#7aa2f7" stroke-width="2"/>
+  <text x="762" y="92" font-size="10.5" fill="#a0a0aa" text-anchor="end">1</text>
+  <text x="762" y="364" font-size="10.5" fill="#a0a0aa" text-anchor="end">0</text>
+  <text x="812" y="226" font-size="12" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">σ</text>
+  <text x="801" y="392" font-size="10" fill="#a0a0aa" text-anchor="middle">与 ReLU 同岗</text>
+  <text x="801" y="407" font-size="10" fill="#a0a0aa" text-anchor="middle">= 激活函数</text>
+
+  <rect x="105" y="444" width="725" height="46" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
+  <text x="467" y="463" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">全网 13,002 个旋钮(S2 里是 9 个)—— 值从哪来?</text>
+  <text x="467" y="481" font-size="10.5" fill="#a0a0aa" text-anchor="middle">下一集 · 梯度下降 = S1 的下坡运动,规模化</text>
+</svg>
+          </div>
+        </div>
+      </details>
+
+      <ul class="ch-list tight-top">
+        <li><b>第 2 集</b> 梯度下降法 ⏭ 下一站 —— S1 的动画版:loss 山谷、步长、局部最优</li>
+        <li><b>第 3–4 集</b> 反向传播(上/下)—— S3 预习:13,002 个旋钮的坡度,链式法则一次算清</li>
+        <li><b>第 5 集</b> GPT 与 Transformer —— 序章 mini-GPT 的真身;主线 0.3 的预告片</li>
+        <li><b>第 6 集</b> 直观解释注意力机制 —— Transformer 的心脏,回主线深水区的装备</li>
+        <li><b>第 7–8 集</b> 卷积神经网络 / 卷积的两种可视化 —— 拓展视野:CNN 分支,支线不深入,看个热闹即可</li>
+      </ul>
+      <div class="ch-foot"><span class="foot-chip ver">交付 · 8 集各一张全景卡</span><span class="foot-chip">🔍 呼应 · 13,002 个旋钮谁来拧?第 2 集答</span></div>
 
     </article>
   </details>
@@ -855,7 +971,7 @@
     <li><b>复盘发散</b>——这个设计在真实世界还有哪些做法。</li>
   </ol>
   <details class="log-box">
-  <summary><span class="ch-lab-arrow">▶</span><h2 class="sec">更新记录</h2><span class="log-hint">共 15 条 · 点击展开</span></summary>
+  <summary><span class="ch-lab-arrow">▶</span><h2 class="sec">更新记录</h2><span class="log-hint">共 16 条 · 点击展开</span></summary>
   <ul class="log">
     <li><time>2026-10-19</time><span>初版发布:双线改版(搓丹 + 铸剑),序章插班;全景架构图与里程碑入册。</span></li>
     <li><time>2026-10-19</time><span>序章 0.1《复读机》开课:bigram 统计语言模型上线,纯标准库零依赖,已听到第一次心跳。</span></li>
@@ -872,6 +988,7 @@
     <li><time>2026-10-20</time><span>复盘卡改版:0.1 与 S1 各配「全景」一段话 + 一张图,改为紧贴对应章节行的复盘卡形态(不再是章末实验室);状态勘误:0.2 神经版 =「学至中途 · 转支线补课」,未完成。</span></li>
     <li><time>2026-10-20</time><span>S2 暂停期书单入册:8 项资源按类目分组(视频/互动/文章/书籍)、全局浏览顺序编号、逐条标注与课程呼应点,紧贴 S2 行。</span></li>
     <li><time>2026-10-21</time><span>更新记录折叠化:整块改为默认收起的抽屉,标题行露出条数,记录渐多也不撑长页面。</span></li>
+    <li><time>2026-10-21</time><span>新增「支线 · 观影」:3Blue1Brown《深度学习》八集入册(B 站官方中文),第 1 集观毕,全景复盘卡(一段话 + 一张图)紧贴第 1 集行;书单 ① 号同步标注实际进度。</span></li>
   </ul>
   </details>
 </section>
