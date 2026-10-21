@@ -238,6 +238,15 @@
   .log{list-style:none;padding:0;margin:0}
   .log li{display:flex;gap:14px;padding:9px 0;border-bottom:1px solid rgba(42,42,52,.6);font-size:14px}
   .log time{font-family:var(--mono);color:var(--muted);white-space:nowrap}
+  details.log-box{margin-top:34px}
+  .log-box summary{display:flex;align-items:center;gap:12px;cursor:pointer;list-style:none;user-select:none}
+  .log-box summary::-webkit-details-marker{display:none}
+  .log-box summary .sec{margin:0}
+  .log-box summary .ch-lab-arrow{display:inline-block;transition:transform .2s;font-size:18px;color:var(--accent);font-weight:700}
+  .log-box summary:hover .ch-lab-arrow{color:var(--text)}
+  .log-box[open] summary .ch-lab-arrow{transform:rotate(90deg)}
+  .log-box .log-hint{margin-left:auto;font-family:var(--mono);font-weight:400;font-size:12px;color:var(--muted)}
+  .log-box[open] .log{margin-top:8px}
   footer{margin-top:56px;padding:22px 0 40px;border-top:1px solid var(--border);
     color:var(--muted);font-size:13px;text-align:center}
   footer .mono{font-family:var(--mono)}
@@ -253,7 +262,7 @@
     <div class="meta">
       <span class="chip ts"><span class="dot"></span>铸剑线 · TypeScript + Node(正文)</span>
       <span class="chip py"><span class="dot"></span>搓丹线 · Python + PyTorch(序章)</span>
-      <span class="chip update">更新于 2026-10-20</span>
+      <span class="chip update">更新于 2026-10-21</span>
     </div>
     <nav class="toc">
       <a href="#arch">全景架构</a><a href="#acts">课程表</a><a href="#miles">里程碑</a><a href="#pact">教学契约</a>
@@ -845,7 +854,8 @@
     <li><b>你运行、实验、瞎折腾</b>;</li>
     <li><b>复盘发散</b>——这个设计在真实世界还有哪些做法。</li>
   </ol>
-  <h2 class="sec" style="margin-top:34px">更新记录</h2>
+  <details class="log-box">
+  <summary><span class="ch-lab-arrow">▶</span><h2 class="sec">更新记录</h2><span class="log-hint">共 15 条 · 点击展开</span></summary>
   <ul class="log">
     <li><time>2026-10-19</time><span>初版发布:双线改版(搓丹 + 铸剑),序章插班;全景架构图与里程碑入册。</span></li>
     <li><time>2026-10-19</time><span>序章 0.1《复读机》开课:bigram 统计语言模型上线,纯标准库零依赖,已听到第一次心跳。</span></li>
@@ -861,7 +871,9 @@
     <li><time>2026-10-20</time><span>新增「S1 全景」抽屉:一段话 + 一张图(loss 山谷下坡 × 训练循环五动作,默认收起);S1 结课 ✅,S2 已讲至第二幕、暂停消化——学员节奏自控。</span></li>
     <li><time>2026-10-20</time><span>复盘卡改版:0.1 与 S1 各配「全景」一段话 + 一张图,改为紧贴对应章节行的复盘卡形态(不再是章末实验室);状态勘误:0.2 神经版 =「学至中途 · 转支线补课」,未完成。</span></li>
     <li><time>2026-10-20</time><span>S2 暂停期书单入册:8 项资源按类目分组(视频/互动/文章/书籍)、全局浏览顺序编号、逐条标注与课程呼应点,紧贴 S2 行。</span></li>
+    <li><time>2026-10-21</time><span>更新记录折叠化:整块改为默认收起的抽屉,标题行露出条数,记录渐多也不撑长页面。</span></li>
   </ul>
+  </details>
 </section>
 
 </main>
