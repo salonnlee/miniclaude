@@ -545,7 +545,91 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
         </div>
       </details>
       <ul class="ch-list tight-top">
-        <li><b>NN3</b> 反向传播 = 链式法则：手推梯度与数值梯度互证</li>
+        <li><b>NN3</b> 反向传播 = 链式法则：手推梯度与数值梯度互证 ✅ <span class="done-date">2026-10-22</span><span class="done-date">（一次开课通关）</span></li>
+      </ul>
+
+      <details class="ch-recap" id="s3-panorama">
+        <summary><span class="ch-lab-arrow">▶</span>🧠 NN3 全景（链式法则 × 前向记账反向查账）</summary>
+        <div class="ch-lab-body">
+          <p class="s1-recap">反向传播解决一个账单问题：数值梯度每量一个旋钮跑两遍前向，NN4 主线网络 13,002 个参数 → 每步训练 26,004 次前向，还没学会认数字先跑死自己。反向传播的承诺：<b>一次前向 + 一次反向，全部梯度一次算齐</b>——旋钮数涨四千倍，前向次数纹丝不动。凭什么？所有参数共享同一条前向路，路上的中间值（每层加权和、每个 ReLU 的输出）记一次就够。</p>
+          <p class="s1-recap">梯度能算齐靠链式法则，规矩只有两条：<b>一条路上，本地导数连乘</b>（例：loss = ((3x)²+2)，x=4 时 3 × 2×12 × 1 = 72——平方层用<b>自己的输入</b> a=12 算本地导数 24，展开成 9x² 拿 9 就让乘 3 层背两遍锅）；<b>一个岔口，各路责任相加</b>（loss = (3x)²+(x+1)：72 + 1 = 73）。每个节点只懂自己的本地导数——用 3B4 的话说，loss 涨了责任往回追，节点乘着上游传回的责任继续传给下游。</p>
+          <p class="s1-recap">落到 NN2 的 2-2-1 网络上手推：<b>读出层三旋钮 = 各自乘的东西 × δ</b>（δ = 2(out−y)·out(1−out)，链尾过了 sigmoid 的责任）——权重乘 h′ 取 h′，偏置乘常数 1 取 1；<b>穿 ReLU 进隐层</b>：δ1 = w20·δ·(h1&gt;0?1:0)，隐层六旋钮再按「各自乘的东西 × δ1」领锅。九个梯度一段一段全是这两条规矩的机械执行。死区的精确版顺手拿到：两隐层全灭时 dw20=dw21o=0 但 db2o≠0——<b>偏置旁路还活着，责任只是过不去 ReLU</b>。</p>
+          <p class="s1-recap">互证收官：三组参数 × 9 旋钮、手推对数值梯度 27 行对表，远离刀刃的 25 行精确到小数点后 6 位吻合；唯一不一致的 2 行全在同一处——h1 恰好 = 0，正卡 ReLU 折角，<b>导数不存在的点，两边各选一边</b>（数值版只量到右侧坡 0.125，PyTorch 惯例同手推版选 &gt;0）。最后用反向梯度训练 XOR：第一跑撞回死区（loss 卡 0.175，换种子才活）——梯度下降不挑梯度来源，坑也是老坑；seed=10 跑通，loss 0.000025 四题全对。挂向 NN4：softmax + 交叉熵，学完回主线 02。</p>
+          <div class="s1-fig">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="NN3 知识点全景：左边是数值梯度与反向传播的前向次数账单对比，中间是链式法则示例链条与岔路，右边是 2-2-1 网络反向责任流，底部是 ReLU 折角与死区两个陷阱">
+  <defs>
+    <marker id="s3par" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
+    <marker id="s3parR" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e06c75"/></marker>
+    <marker id="s3parO" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d97757"/></marker>
+  </defs>
+
+  <text x="110" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 账单：量坡的两种付法</text>
+
+  <rect x="50" y="52" width="200" height="120" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="150" y="78" font-size="12.5" font-weight="600" fill="#e9e9ec" text-anchor="middle">📏 数值梯度（老尺子）</text>
+  <text x="150" y="102" font-size="11" fill="#a0a0aa" text-anchor="middle">每旋钮量两次 loss</text>
+  <text x="150" y="124" font-size="11" fill="#e9e9ec" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">9 旋钮 → 18 次前向</text>
+  <text x="150" y="146" font-size="11" fill="#d97757" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">13,002 → 26,004 次/步</text>
+  <text x="150" y="162" font-size="10" fill="#a0a0aa" text-anchor="middle">参数越多，跑死自己</text>
+
+  <rect x="272" y="52" width="200" height="120" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
+  <text x="372" y="78" font-size="12.5" font-weight="600" fill="#9ece6a" text-anchor="middle">⚡ 反向传播</text>
+  <text x="372" y="102" font-size="11" fill="#a0a0aa" text-anchor="middle">前向算值并记账，反向查账</text>
+  <text x="372" y="124" font-size="11" fill="#e9e9ec" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">任意多旋钮 → 1 前 + 1 反</text>
+  <text x="372" y="146" font-size="11" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">旋钮数×4000，前向数不变</text>
+  <text x="372" y="162" font-size="10" fill="#a0a0aa" text-anchor="middle">所有参数共享同一条前向路</text>
+
+  <text x="110" y="212" font-size="13" font-weight="600" fill="#e9e9ec">② 链式法则：两条规矩</text>
+
+  <text x="60" y="238" font-size="11" fill="#a0a0aa">一条路上 · 本地导数连乘</text>
+  <text x="60" y="262" font-size="11.5" fill="#e9e9ec" font-family="ui-monospace,Menlo,monospace">x=4 → [×3] a=12 → [²] 144 → [+2] 146</text>
+  <text x="60" y="284" font-size="11.5" fill="#e9e9ec" font-family="ui-monospace,Menlo,monospace">3 × 2×12 × 1 = 72 ✓数值=72</text>
+  <text x="60" y="306" font-size="10.5" fill="#d97757">平方层用自己的输入 12——展开拿 9 = 乘 3 层背两遍锅</text>
+
+  <text x="60" y="338" font-size="11" fill="#a0a0aa">一个岔口 · 各路责任相加</text>
+  <text x="60" y="362" font-size="11.5" fill="#e9e9ec" font-family="ui-monospace,Menlo,monospace">loss = (3x)² + (x+1)：72 + 1 = 73</text>
+  <text x="60" y="384" font-size="10.5" fill="#a0a0aa">x 走几条路，就领几份锅再相加</text>
+
+  <rect x="60" y="408" width="412" height="70" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.5)"/>
+  <text x="72" y="432" font-size="12" font-weight="600" fill="#e9e9ec">⚠ 本课唯一的不一致 · ReLU 折角</text>
+  <text x="72" y="452" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">h1=0 正卡刀刃：手推给 0，数值只量右侧坡 0.125</text>
+  <text x="72" y="468" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">折角处导数不存在——27 行对表其余全 ✓</text>
+
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">③ 反向责任流（NN2 的 2-2-1 网络）</text>
+
+  <text x="516" y="62" font-size="11.5" fill="#e9e9ec" font-family="ui-monospace,Menlo,monospace">h1' h2' ─[×W2]→ out ─[sigmoid]→ loss</text>
+  <line x1="660" y1="70" x2="660" y2="90" stroke="#e06c75" stroke-width="1.6" marker-end="url(#s3parR)"/>
+  <text x="672" y="84" font-size="10" fill="#e06c75">责任 δ 往回走</text>
+
+  <rect x="500" y="96" width="360" height="58" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="118" font-size="12" font-weight="600" fill="#e9e9ec">读出层：三旋钮 = 各自乘的东西 × δ</text>
+  <text x="516" y="140" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">δ=2(out−y)·out(1−out) · dw20=h1'·δ · db2o=1·δ</text>
+
+  <line x1="680" y1="158" x2="680" y2="176" stroke="#e06c75" stroke-width="1.6" marker-end="url(#s3parR)"/>
+  <text x="692" y="172" font-size="10" fill="#e06c75">穿 ReLU（查账：h&gt;0?1:0）</text>
+
+  <rect x="500" y="182" width="360" height="58" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="204" font-size="12" font-weight="600" fill="#e9e9ec">隐层：δ1 = w20·δ·(h1&gt;0?1:0)</text>
+  <text x="516" y="226" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">六旋钮 = 各自乘的东西（x1、x2、1）× δ1/δ2</text>
+
+  <rect x="500" y="258" width="360" height="58" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.5)"/>
+  <text x="516" y="280" font-size="12" font-weight="600" fill="#e9e9ec">⚠ 死区精确版</text>
+  <text x="516" y="302" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">两隐层全灭：dw20=dw21o=0，但 db2o=0.25≠0</text>
+  <text x="516" y="312" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">偏置旁路活着——责任只是过不去 ReLU</text>
+
+  <rect x="500" y="334" width="360" height="70" rx="10" fill="rgba(158,206,106,.06)" stroke="rgba(158,206,106,.5)"/>
+  <text x="680" y="360" font-size="12.5" font-weight="600" fill="#9ece6a" text-anchor="middle">反向梯度训练 XOR · 实测</text>
+  <text x="680" y="382" font-size="11" fill="#a0a0aa" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">首跑撞回死区（loss 卡 0.175）→ 换种子才活</text>
+  <text x="680" y="398" font-size="11" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">seed=10：8000 步 loss 0.000025 · 四题全对</text>
+
+  <line x1="680" y1="412" x2="680" y2="434" stroke="#d97757" stroke-width="2" marker-end="url(#s3parO)"/>
+  <rect x="500" y="438" width="360" height="40" rx="10" fill="#17171d" stroke="rgba(217,119,87,.55)"/>
+  <text x="680" y="463" font-size="11.5" fill="#d97757" text-anchor="middle">→ NN4：softmax + 交叉熵，学完回主线 02</text>
+</svg>
+          </div>
+        </div>
+      </details>
+      <ul class="ch-list tight-top">
         <li><b>NN4</b> softmax + 交叉熵：grad = p − y 数值验证 → 回归主线 02，豁然开朗</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付：看得懂 02_neural_bigram.py 的每一行</span></div>
