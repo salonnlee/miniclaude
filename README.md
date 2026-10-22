@@ -29,7 +29,7 @@ curl -fsSL -o data/input.txt https://cs.stanford.edu/people/karpathy/char-rnn/sh
 | 你是谁 / 你想要 | 入口 |
 |---|---|
 | 从头系统学 | 本文件 → 浏览器打开 **COURSE.html** 看全景 → 按 `prologue/01 → 02 → …` 顺序逐个啃 py(有 JS 底子就把 `prologue/python-for-js.md` 放手边) |
-| 只想玩互动实验室(5 分钟) | 浏览器打开 **COURSE.html**,在序章卡片里展开「🔬 实验室」抽屉:亲手抽签 / 贪心解码 / 看复读机掉坑 |
+| 只想玩互动实验室(5 分钟) | 浏览器打开 **COURSE.html**,展开「🔬 实验室」抽屉:P0.1 抽签台(亲手抽字/贪心掉坑)、NN 内功合成台(XOR 训练 + softmax 试押)、3B 观影三台(神经元打分/loss 山小球/链式对表) |
 | 只想看海报 | `poster.png`(1080×1440,3:4) |
 | 我是 AI,要给别人重讲这门课 | **LEARNER.md**(教师手册,先读它) |
 | 想看这门课怎么一步步长出来 | `git log --reverse --oneline`——提交信息按教学脉络写,倒放即教程 |
@@ -56,6 +56,8 @@ curl -fsSL -o data/input.txt https://cs.stanford.edu/people/karpathy/char-rnn/sh
 ├── sidequest/                🧠 支线 · 内功(神经网络补课,应学员需求插班)
 │   ├── 01_learning_function.py  NN1 会学习的函数:旋钮 / loss / 数值梯度(纯标准库)
 │   ├── 02_learning_function.py  NN2 神经元与 XOR:四幕剧 + 死区逃逸实录
+│   ├── 03_backprop.py           NN3 反向传播:手推 × 数值梯度互证 27 行对表
+│   ├── 04_softmax.py            NN4 softmax + 交叉熵:grad = p − y 互证 + 下山实验
 │   └── *-notes.md              讲义与追问实录(与课次代码自动配对)
 ├── scripts/git/pre-commit    提交前密钥扫描钩子(文件名 + 内容双保险)
 └── data/input.txt            莎士比亚语料,457 万字符(gitignore,可重新下载)
@@ -69,4 +71,4 @@ curl -fsSL -o data/input.txt https://cs.stanford.edu/people/karpathy/char-rnn/sh
 
 ## 📈 当前进度
 
-序章 P0.1 ✅ · P0.2 学至中途(转支线补课)· P0.3 ⏳ · P0.4 ⏳ | 支线·内功 NN1 ✅ · NN2 挂起消化 | 支线·观影 3B1–3B2 ✅ | 正文 CH1–CH10 未开课 —— 实时状态以 **COURSE.html** 为准。
+序章 P0.1 ✅ · P0.2 学至中途(转支线补课,即将回归)· P0.3 ⏳ · P0.4 ⏳ | 支线·内功 NN1–NN4 ✅ 全清(2026-10-22,附连读大全景 + 实验室) | 支线·观影 3B1–3B4 ✅(附四集连读全景 + 实验室三台)· 3B5–3B8 ⏳ | 正文 CH1–CH10 未开课 —— 实时状态以 **COURSE.html** 为准。
