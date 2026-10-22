@@ -761,7 +761,11 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       <details class="ch-recap" id="nn-all-panorama">
         <summary>🧠 内功支线连读大全景（NN1–NN4：带走了什么 · 后面在哪用）</summary>
         <div class="recap-body">
-          <p class="s1-recap">四站其实是一条问题链：函数怎么学会？——NN1 答「loss 量错、梯度指坡、LR 定步长，循环下坡」，同时留下万能查账工具（数值梯度）。单个神经元为什么不够？——NN2 答「加权和 + 激活是全部零件，单层切不开 XOR，叠一层把空间折叠后就一刀开」，顺带踩了死区和种子坑。梯度算太贵怎么办？——NN3 答「前向记账、反向查账，链式法则两规矩（一路连乘、岔口相加）一次算齐全部旋钮」，手推梯度靠数值梯度对表验明。输出怎么变概率、罚多重？——NN4 答「softmax 归一、−ln 只看押对那格，配对抵消后梯度裸成 p − y」。</p>
+          <p class="s1-recap">四站其实是一条问题链：<br>
+          函数怎么学会？——NN1 答「loss 量错、梯度指坡、LR 定步长，循环下坡」，同时留下万能查账工具（数值梯度）。<br>
+          单个神经元为什么不够？——NN2 答「加权和 + 激活是全部零件，单层切不开 XOR，叠一层把空间折叠后就一刀开」，顺带踩了死区和种子坑。<br>
+          梯度算太贵怎么办？——NN3 答「前向记账、反向查账，链式法则两规矩（一路连乘、岔口相加）一次算齐全部旋钮」，手推梯度靠数值梯度对表验明。<br>
+          输出怎么变概率、罚多重？——NN4 答「softmax 归一、−ln 只看押对那格，配对抵消后梯度裸成 p − y」。</p>
           <p class="s1-recap">拼回主线 02_neural_bigram.py，每一行都有出处：嵌入查表 = NN2 的加权和（权重就是嵌入向量），matmul 出 logits = NN1 的「网络是带旋钮的函数」，softmax + −ln = NN4 的输出与损失，<code>probs − y</code> = NN4 的裸梯度，backward = NN3 的反向查账，SGD 更新 = NN1 的下坡循环。P0.3 的 mini-GPT 还是同一套，只多注意力。训不动时：先查 loss 卡不卡（NN2 死区）、换种子、拿数值梯度对表（NN3）——三招全从这条支线来。</p>
           <div class="svg-wrap">
 <svg viewBox="0 0 880 690" xmlns="http://www.w3.org/2000/svg">
