@@ -764,72 +764,197 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
           <p class="s1-recap">四站其实是一条问题链：函数怎么学会？——NN1 答「loss 量错、梯度指坡、LR 定步长，循环下坡」，同时留下万能查账工具（数值梯度）。单个神经元为什么不够？——NN2 答「加权和 + 激活是全部零件，单层切不开 XOR，叠一层把空间折叠后就一刀开」，顺带踩了死区和种子坑。梯度算太贵怎么办？——NN3 答「前向记账、反向查账，链式法则两规矩（一路连乘、岔口相加）一次算齐全部旋钮」，手推梯度靠数值梯度对表验明。输出怎么变概率、罚多重？——NN4 答「softmax 归一、−ln 只看押对那格，配对抵消后梯度裸成 p − y」。</p>
           <p class="s1-recap">拼回主线 02_neural_bigram.py，每一行都有出处：嵌入查表 = NN2 的加权和（权重就是嵌入向量），matmul 出 logits = NN1 的「网络是带旋钮的函数」，softmax + −ln = NN4 的输出与损失，<code>probs − y</code> = NN4 的裸梯度，backward = NN3 的反向查账，SGD 更新 = NN1 的下坡循环。P0.3 的 mini-GPT 还是同一套，只多注意力。训不动时：先查 loss 卡不卡（NN2 死区）、换种子、拿数值梯度对表（NN3）——三招全从这条支线来。</p>
           <div class="svg-wrap">
-<svg viewBox="0 0 880 620" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 880 690" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <marker id="nnap" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7aa2f7"/></marker>
-    <marker id="nnapO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d97757"/></marker>
   </defs>
 
   <text x="440" y="30" font-size="14" font-weight="600" fill="#e9e9ec" text-anchor="middle">四站一条问题链 · 四包行李 · 一张去向单</text>
   <text x="100" y="52" font-size="11" fill="#a0a0aa">带走的东西（知识点 / 结论 / 工具）</text>
   <text x="725" y="52" font-size="11" fill="#a0a0aa" text-anchor="middle">后面在哪用</text>
 
-  <rect x="20" y="62" width="80" height="100" rx="8" fill="rgba(122,162,247,.12)" stroke="#7aa2f7"/>
-  <text x="60" y="102" font-size="13" font-weight="600" fill="#7aa2f7" text-anchor="middle">NN1</text>
-  <text x="60" y="122" font-size="9.5" fill="#a0a0aa" text-anchor="middle">会学习的函数</text>
-  <rect x="110" y="62" width="440" height="100" rx="8" fill="#17171d" stroke="rgba(122,162,247,.35)"/>
-  <text x="122" y="82" font-size="10.5" fill="#e9e9ec">网络 = 带旋钮的函数；loss 量错 · 梯度指坡 · LR 定步长</text>
-  <text x="122" y="99" font-size="10.5" fill="#e9e9ec">循环下坡就能学（0.5 = 蒙基率的投降书）</text>
-  <text x="122" y="116" font-size="10.5" fill="#9ece6a">工具：数值梯度 —— 任何梯度都拿它对表查账</text>
-  <text x="122" y="133" font-size="10.5" fill="#9ece6a">工具：train loop 骨架（forward → loss → 更新）</text>
-  <rect x="560" y="62" width="300" height="100" rx="8" fill="#17171d" stroke="rgba(217,119,87,.4)"/>
-  <text x="710" y="92" font-size="10.5" fill="#d97757" text-anchor="middle">02 的训练循环 = 这套循环原样搬过去</text>
-  <text x="710" y="112" font-size="10.5" fill="#d97757" text-anchor="middle">之后一切「训练」都是它的变体</text>
+  <rect x="20" y="62" width="80" height="108" rx="8" fill="rgba(122,162,247,.12)" stroke="#7aa2f7"/>
+  <text x="60" y="110" font-size="13" font-weight="600" fill="#7aa2f7" text-anchor="middle">NN1</text>
+  <text x="60" y="130" font-size="9.5" fill="#a0a0aa" text-anchor="middle">会学习的函数</text>
+  <rect x="110" y="62" width="440" height="108" rx="8" fill="#17171d" stroke="rgba(122,162,247,.35)"/>
+  <text x="122" y="86" font-size="10.5" fill="#e9e9ec">网络 = 带旋钮的函数</text>
+  <text x="122" y="108" font-size="10.5" fill="#e9e9ec">loss 量错 · 梯度指坡 · LR 定步长 → 循环下坡就能学</text>
+  <text x="122" y="130" font-size="10.5" fill="#9ece6a">工具：数值梯度 —— 任何梯度都拿它对表查账</text>
+  <text x="122" y="152" font-size="10.5" fill="#9ece6a">工具：train loop 骨架（forward → loss → 更新）</text>
+  <rect x="560" y="62" width="300" height="108" rx="8" fill="#17171d" stroke="rgba(217,119,87,.4)"/>
+  <text x="710" y="105" font-size="10.5" fill="#d97757" text-anchor="middle">02 的训练循环 = 这套循环原样搬过去</text>
+  <text x="710" y="127" font-size="10.5" fill="#d97757" text-anchor="middle">之后一切「训练」都是它的变体</text>
 
-  <rect x="20" y="172" width="80" height="100" rx="8" fill="rgba(158,206,106,.12)" stroke="#9ece6a"/>
-  <text x="60" y="212" font-size="13" font-weight="600" fill="#9ece6a" text-anchor="middle">NN2</text>
-  <text x="60" y="232" font-size="9.5" fill="#a0a0aa" text-anchor="middle">神经元与 XOR</text>
-  <rect x="110" y="172" width="440" height="100" rx="8" fill="#17171d" stroke="rgba(158,206,106,.35)"/>
-  <text x="122" y="192" font-size="10.5" fill="#e9e9ec">神经元 = 加权和 + 激活，全部零件就这两样</text>
-  <text x="122" y="209" font-size="10.5" fill="#e9e9ec">单层切不开 XOR → 叠一层折叠空间，一条直边开</text>
-  <text x="122" y="226" font-size="10.5" fill="#9ece6a">结论：死区存在（loss 卡住先换种子）；解不唯一</text>
-  <text x="122" y="243" font-size="10.5" fill="#9ece6a">结论：深度 = 把不可分折叠成可分</text>
-  <rect x="560" y="172" width="300" height="100" rx="8" fill="#17171d" stroke="rgba(217,119,87,.4)"/>
-  <text x="710" y="202" font-size="10.5" fill="#d97757" text-anchor="middle">02 的嵌入层 = 一张可学的权重表</text>
-  <text x="710" y="222" font-size="10.5" fill="#d97757" text-anchor="middle">训不动的第一反应：换种子、查死区</text>
+  <rect x="20" y="182" width="80" height="108" rx="8" fill="rgba(158,206,106,.12)" stroke="#9ece6a"/>
+  <text x="60" y="230" font-size="13" font-weight="600" fill="#9ece6a" text-anchor="middle">NN2</text>
+  <text x="60" y="250" font-size="9.5" fill="#a0a0aa" text-anchor="middle">神经元与 XOR</text>
+  <rect x="110" y="182" width="440" height="108" rx="8" fill="#17171d" stroke="rgba(158,206,106,.35)"/>
+  <text x="122" y="206" font-size="10.5" fill="#e9e9ec">神经元 = 加权和 + 激活，全部零件就这两样</text>
+  <text x="122" y="228" font-size="10.5" fill="#e9e9ec">单层切不开 XOR → 叠一层折叠空间，一条直边开</text>
+  <text x="122" y="250" font-size="10.5" fill="#9ece6a">结论：死区存在（loss 卡住先换种子）· 解不唯一</text>
+  <text x="122" y="272" font-size="10.5" fill="#9ece6a">结论：深度 = 把不可分折叠成可分</text>
+  <rect x="560" y="182" width="300" height="108" rx="8" fill="#17171d" stroke="rgba(217,119,87,.4)"/>
+  <text x="710" y="225" font-size="10.5" fill="#d97757" text-anchor="middle">02 的嵌入层 = 一张可学的权重表</text>
+  <text x="710" y="247" font-size="10.5" fill="#d97757" text-anchor="middle">训不动的第一反应：换种子、查死区</text>
 
-  <rect x="20" y="282" width="80" height="100" rx="8" fill="rgba(224,108,117,.12)" stroke="#e06c75"/>
-  <text x="60" y="322" font-size="13" font-weight="600" fill="#e06c75" text-anchor="middle">NN3</text>
-  <text x="60" y="342" font-size="9.5" fill="#a0a0aa" text-anchor="middle">反向传播</text>
-  <rect x="110" y="282" width="440" height="100" rx="8" fill="#17171d" stroke="rgba(224,108,117,.35)"/>
-  <text x="122" y="302" font-size="10.5" fill="#e9e9ec">链式法则两规矩：一路连乘 · 岔口相加</text>
-  <text x="122" y="319" font-size="10.5" fill="#e9e9ec">本地导数用本节点自己的输入 · 一次前向记账、一次反向查账</text>
-  <text x="122" y="336" font-size="10.5" fill="#9ece6a">结论：旋钮再多也只跑 1 前 1 后（13,002 个对 26,004 次前向）</text>
-  <text x="122" y="353" font-size="10.5" fill="#9ece6a">陷阱：ReLU 折角导数不存在，两边各选一边</text>
-  <rect x="560" y="282" width="300" height="100" rx="8" fill="#17171d" stroke="rgba(217,119,87,.4)"/>
-  <text x="710" y="312" font-size="10.5" fill="#d97757" text-anchor="middle">loss.backward() 的真身</text>
-  <text x="710" y="332" font-size="10.5" fill="#d97757" text-anchor="middle">手推 × 数值互证 = 终身 debug 神器</text>
+  <rect x="20" y="302" width="80" height="108" rx="8" fill="rgba(224,108,117,.12)" stroke="#e06c75"/>
+  <text x="60" y="350" font-size="13" font-weight="600" fill="#e06c75" text-anchor="middle">NN3</text>
+  <text x="60" y="370" font-size="9.5" fill="#a0a0aa" text-anchor="middle">反向传播</text>
+  <rect x="110" y="302" width="440" height="108" rx="8" fill="#17171d" stroke="rgba(224,108,117,.35)"/>
+  <text x="122" y="326" font-size="10.5" fill="#e9e9ec">链式法则两规矩：一路连乘 · 岔口相加</text>
+  <text x="122" y="348" font-size="10.5" fill="#e9e9ec">本地导数用本节点自己的输入</text>
+  <text x="122" y="370" font-size="10.5" fill="#9ece6a">结论：旋钮再多也只跑 1 前 1 后（一次前向记账、一次反向查账）</text>
+  <text x="122" y="392" font-size="10.5" fill="#9ece6a">陷阱：ReLU 折角导数不存在，两边各选一边</text>
+  <rect x="560" y="302" width="300" height="108" rx="8" fill="#17171d" stroke="rgba(217,119,87,.4)"/>
+  <text x="710" y="345" font-size="10.5" fill="#d97757" text-anchor="middle">loss.backward() 的真身</text>
+  <text x="710" y="367" font-size="10.5" fill="#d97757" text-anchor="middle">手推 × 数值互证 = 终身 debug 神器</text>
 
-  <rect x="20" y="392" width="80" height="100" rx="8" fill="rgba(217,119,87,.12)" stroke="#d97757"/>
-  <text x="60" y="432" font-size="13" font-weight="600" fill="#d97757" text-anchor="middle">NN4</text>
-  <text x="60" y="452" font-size="9.5" fill="#a0a0aa" text-anchor="middle">softmax+交叉熵</text>
-  <rect x="110" y="392" width="440" height="100" rx="8" fill="#17171d" stroke="rgba(217,119,87,.35)"/>
-  <text x="122" y="412" font-size="10.5" fill="#e9e9ec">softmax：分数 → 概率，和恒为 1 · 只看相对差距（平移不变）</text>
-  <text x="122" y="429" font-size="10.5" fill="#e9e9ec">交叉熵 −ln(押对那格)：对「自信地错」罚得陡</text>
-  <text x="122" y="446" font-size="10.5" fill="#9ece6a">结论：配对抵消，梯度裸成 p − y（预测减真值）</text>
-  <text x="122" y="463" font-size="10.5" fill="#9ece6a">陷阱：exp 溢出 → 先减 max（平移不变形的合法运用）</text>
-  <rect x="560" y="392" width="300" height="100" rx="8" fill="#17171d" stroke="rgba(217,119,87,.4)"/>
-  <text x="710" y="412" font-size="10.5" fill="#d97757" text-anchor="middle">02 的输出层 + 损失就是这两件</text>
-  <text x="710" y="432" font-size="10.5" fill="#d97757" text-anchor="middle">生成 = 从 p 里抽下一字符（P0.4 再加 temperature）</text>
+  <rect x="20" y="422" width="80" height="108" rx="8" fill="rgba(217,119,87,.12)" stroke="#d97757"/>
+  <text x="60" y="464" font-size="13" font-weight="600" fill="#d97757" text-anchor="middle">NN4</text>
+  <text x="60" y="484" font-size="9.5" fill="#a0a0aa" text-anchor="middle">softmax+交叉熵</text>
+  <rect x="110" y="422" width="440" height="108" rx="8" fill="#17171d" stroke="rgba(217,119,87,.35)"/>
+  <text x="122" y="446" font-size="10.5" fill="#e9e9ec">softmax：分数 → 概率，和恒为 1 · 只看相对差距</text>
+  <text x="122" y="468" font-size="10.5" fill="#e9e9ec">交叉熵 −ln(押对那格)：对「自信地错」罚得陡</text>
+  <text x="122" y="490" font-size="10.5" fill="#9ece6a">结论：配对抵消，梯度裸成 p − y（预测减真值）</text>
+  <text x="122" y="512" font-size="10.5" fill="#9ece6a">陷阱：exp 溢出 → 先减 max（平移不变的合法运用）</text>
+  <rect x="560" y="422" width="300" height="108" rx="8" fill="#17171d" stroke="rgba(217,119,87,.4)"/>
+  <text x="710" y="465" font-size="10.5" fill="#d97757" text-anchor="middle">02 的输出层 + 损失就是这两件</text>
+  <text x="710" y="487" font-size="10.5" fill="#d97757" text-anchor="middle">生成 = 从 p 里抽下一字符</text>
 
-  <line x1="60" y1="495" x2="60" y2="508" stroke="#a0a0aa" stroke-width="1.4" marker-end="url(#nnap)"/>
-  <rect x="20" y="512" width="840" height="88" rx="10" fill="#17171d" stroke="rgba(122,162,247,.5)"/>
-  <text x="440" y="534" font-size="12" font-weight="600" fill="#7aa2f7" text-anchor="middle">四包行李拼回主线 02_neural_bigram.py —— 每一行都有出处</text>
-  <text x="440" y="556" font-size="10.5" fill="#e9e9ec" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">嵌入查表(NN2 加权和) → matmul 出 logits(NN1 函数) → softmax(NN4)</text>
-  <text x="440" y="574" font-size="10.5" fill="#e9e9ec" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">→ −ln(NN4) → probs−y(NN4) → backward(NN3 查账) → SGD 更新(NN1 下坡)</text>
-  <text x="440" y="593" font-size="10.5" fill="#d97757" text-anchor="middle">P0.3 mini-GPT 同一套，只多注意力 · 训不动三招：换种子(NN2) · 对表(NN3) · 看 p 押谁(NN4)</text>
+  <line x1="60" y1="533" x2="60" y2="548" stroke="#a0a0aa" stroke-width="1.4" marker-end="url(#nnap)"/>
+  <rect x="20" y="552" width="840" height="122" rx="10" fill="#17171d" stroke="rgba(122,162,247,.5)"/>
+  <text x="440" y="576" font-size="12" font-weight="600" fill="#7aa2f7" text-anchor="middle">四包行李拼回主线 02_neural_bigram.py —— 每一行都有出处</text>
+  <text x="440" y="600" font-size="10.5" fill="#e9e9ec" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">嵌入查表(NN2 加权和) → matmul 出 logits(NN1 函数) → softmax(NN4)</text>
+  <text x="440" y="622" font-size="10.5" fill="#e9e9ec" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">→ −ln(NN4) → probs−y(NN4) → backward(NN3 查账) → SGD 更新(NN1 下坡)</text>
+  <text x="440" y="644" font-size="10.5" fill="#d97757" text-anchor="middle">P0.3 mini-GPT 同一套，只多注意力；P0.4 的 temperature 就是对 p 动手脚</text>
+  <text x="440" y="664" font-size="10.5" fill="#d97757" text-anchor="middle">训不动三招：换种子(NN2) · 对表(NN3) · 看 p 押谁(NN4)</text>
 </svg>
           </div>
+        </div>
+      </details>
+      <details class="ch-lab" id="nn-lab">
+        <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · 内功合成台（XOR 训练台 + softmax 试押台）<span class="ch-lab-hint">种子 / LR 自己拧，亲手复现死区与通关</span></summary>
+        <div class="ch-lab-body">
+  <style>
+  #nn-lab .nnl-grid{display:grid;grid-template-columns:280px 1fr;gap:16px;align-items:start}
+  #nn-lab .nnl-box{border:1px solid var(--border);border-radius:12px;padding:14px;background:rgba(255,255,255,.02)}
+  #nn-lab .nnl-cap{font-size:12.5px;color:var(--muted);margin:14px 0 8px}
+  #nn-lab .nnl-cap:first-child{margin-top:0}
+  #nn-lab .nnl-row{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:12px;flex-wrap:wrap}
+  #nn-lab .nnl-row label{width:60px;color:var(--muted);flex:none}
+  #nn-lab select{background:#17171d;color:var(--text);border:1px solid var(--border);border-radius:8px;padding:4px 8px;font-size:12px}
+  #nn-lab input[type=range]{flex:1;accent-color:var(--accent)}
+  #nn-lab .nnl-stat{font-family:ui-monospace,Menlo,monospace;font-size:12px}
+  #nn-lab .nnl-badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;margin-left:8px;border:1px solid #3a3a44;color:var(--muted)}
+  #nn-lab .nnl-pred{display:flex;align-items:center;gap:10px;margin:6px 0;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+  #nn-lab .nnl-pred>span:first-child{width:86px;flex:none}
+  #nn-lab .nnl-pbar{flex:1;height:10px;border-radius:6px;background:#17171d;overflow:hidden}
+  #nn-lab .nnl-pfill{height:100%;background:linear-gradient(90deg,#7aa2f7,#d97757)}
+  #nn-lab .nnl-chip{cursor:pointer;padding:3px 14px;border-radius:8px;border:1px solid var(--border);font-size:12px;user-select:none}
+  #nn-lab .nnl-chip.on{border-color:#d97757;color:#d97757}
+  #nn-lab .bg-hint{margin-top:12px}
+  </style>
+
+  <div class="nnl-cap">A · 2-2-1 九旋钮训练台 —— NN1 的下坡循环 + NN3 的反向梯度在跑，NN2 的死区等你踩</div>
+  <div class="nnl-grid">
+    <div class="nnl-box">
+      <div class="nnl-row"><label>种子</label>
+        <select id="nnl-seed">
+          <option value="2" selected>2 ✅ 学得动</option>
+          <option value="7">7 ✅ 学得动</option>
+          <option value="11">11 ✅ 学得动</option>
+          <option value="0">0 🧊 全 0.499 投降书</option>
+          <option value="3">3 🧊 三题 0.324 死区</option>
+          <option value="21">21 🧊 半死（0.659）</option>
+        </select>
+      </div>
+      <div class="nnl-row"><label>LR 步长</label><input type="range" id="nnl-lr" min="0.1" max="2" step="0.1" value="0.5"><span class="nnl-stat" id="nnl-lrv">0.5</span></div>
+      <div class="nnl-row">
+        <button class="arch-btn" id="nnl-s1" type="button">走 1 步</button>
+        <button class="arch-btn" id="nnl-s100" type="button">走 100 步</button>
+        <button class="arch-btn" id="nnl-all" type="button">一把梭 8000</button>
+        <button class="arch-btn" id="nnl-re" type="button">↻ 重置</button>
+      </div>
+      <div class="nnl-stat" style="margin-top:12px">step <span id="nnl-step">0</span> · loss <span id="nnl-loss">—</span><span class="nnl-badge" id="nnl-badge"></span></div>
+    </div>
+    <div class="nnl-box">
+      <svg id="nnl-curve" viewBox="0 0 840 120" width="100%" role="img" aria-label="loss 曲线"></svg>
+      <div id="nnl-preds"></div>
+    </div>
+  </div>
+  <p class="bg-hint">玩法：先用 🧊 0 号一把梭,亲眼看 loss 卡在 0.25、四题全答 0.499——NN2 的投降书；换 2 号再一把梭，loss 掉到 0.00003 四题全对。死区是常态（40 个种子里只有 4 个爬得出来），种子就是第一批超参数；LR 拉到 2 试试大步长会不会翻车。</p>
+
+  <div class="nnl-cap">B · softmax 试押台 —— 拉一拉分数，看 p − y 怎么动</div>
+  <div class="nnl-grid">
+    <div class="nnl-box">
+      <div class="nnl-row"><label>z(a)</label><input type="range" id="nnl-z0" min="-4" max="4" step="0.1" value="2"><span class="nnl-stat" id="nnl-z0v">2.0</span></div>
+      <div class="nnl-row"><label>z(b)</label><input type="range" id="nnl-z1" min="-4" max="4" step="0.1" value="1"><span class="nnl-stat" id="nnl-z1v">1.0</span></div>
+      <div class="nnl-row"><label>z(c)</label><input type="range" id="nnl-z2" min="-4" max="4" step="0.1" value="0.1"><span class="nnl-stat" id="nnl-z2v">0.1</span></div>
+      <div class="nnl-row"><label>答案</label>
+        <span class="nnl-chip" data-a="0">a</span><span class="nnl-chip" data-a="1">b</span><span class="nnl-chip on" data-a="2">c</span>
+      </div>
+      <div class="nnl-stat" style="margin-top:12px">loss = −ln(押在答案上的概率) = <span id="nnl-xe">—</span></div>
+    </div>
+    <div class="nnl-box">
+      <div id="nnl-bars"></div>
+      <div id="nnl-grads" class="nnl-stat" style="margin-top:10px"></div>
+    </div>
+  </div>
+  <p class="bg-hint">玩法：三个滑条一起 +1（比如拉到 3 / 2 / 1.1），概率一格不动——平移不变，softmax 只看相对差距；把答案那格拉到最低，loss 飙升、那格梯度变成最大负数——「自信地错」罚得最狠，p − y 就是往回拽的力。</p>
+
+  <script>
+  (function () {
+    var DATA = [[0,0,0],[0,1,1],[1,0,1],[1,1,0]];
+    function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+    function initP(seed){var r=mulberry32(seed),p=[];for(var i=0;i<9;i++)p.push(r()*2-1);return p}
+    function fwd(p,x1,x2){var h1=p[0]*x1+p[1]*x2+p[2],h1r=Math.max(0,h1),h2=p[3]*x1+p[4]*x2+p[5],h2r=Math.max(0,h2),pre=p[6]*h1r+p[7]*h2r+p[8],out=1/(1+Math.exp(-pre));return{out:out,h1:h1,h2:h2,h1r:h1r,h2r:h2r}}
+    function $id(x){return document.getElementById(x)}
+    function fmt(v,n){return v.toFixed(n==null?4:n)}
+    var P,step,hist,LR=0.5,seed=2;
+    function avgLoss(){var t=0;for(var i=0;i<4;i++){t+=Math.pow(fwd(P,DATA[i][0],DATA[i][1]).out-DATA[i][2],2)}return t/4}
+    function stepOnce(){for(var i=0;i<4;i++){var d=DATA[i],f=fwd(P,d[0],d[1]);var delta=2*(f.out-d[2])*f.out*(1-f.out);var d1=P[6]*delta*(f.h1>0?1:0),d2=P[7]*delta*(f.h2>0?1:0);var g=[d[0]*d1,d[1]*d1,d1,d[0]*d2,d[1]*d2,d2,f.h1r*delta,f.h2r*delta,delta];for(var k=0;k<9;k++)P[k]-=LR*g[k]}step++;hist.push(avgLoss())}
+    function render(){
+      $id('nnl-step').textContent=step;
+      var L=hist[hist.length-1];
+      $id('nnl-loss').textContent=fmt(L,5);
+      var b=$id('nnl-badge');
+      if(L<0.01){b.textContent='🎉 四题通关';b.style.cssText='color:#9ece6a;border:1px solid rgba(158,206,106,.5)'}
+      else if(step>=400&&Math.abs(L-hist[hist.length-201])<1e-6){b.textContent='🧊 卡死区 · 换种子';b.style.cssText='color:#e06c75;border:1px solid rgba(224,108,117,.5)'}
+      else{b.textContent='下坡中…';b.style.cssText='color:#a0a0aa;border:1px solid #3a3a44'}
+      var n=Math.min(hist.length,240),pts=[];
+      for(var i=0;i<n;i++){var h=hist[Math.floor(i*(hist.length-1)/Math.max(1,n-1))];var l=Math.max(1e-7,Math.min(1,h));pts.push((10+i/Math.max(1,n-1)*820).toFixed(1)+','+(10+(-Math.log10(l))/6*100).toFixed(1))}
+      $id('nnl-curve').innerHTML='<line x1="10" y1="110" x2="830" y2="110" stroke="#3a3a44"/><text x="14" y="104" font-size="9" fill="#a0a0aa">纵轴 loss 对数（顶=1 底=1e-7） · 横轴 = step</text><polyline points="'+pts.join(' ')+'" fill="none" stroke="#7aa2f7" stroke-width="1.8"/>';
+      var html='';
+      for(var i=0;i<4;i++){var d=DATA[i],f=fwd(P,d[0],d[1]);var ok=(d[2]===1&&f.out>0.9)||(d[2]===0&&f.out<0.1);html+='<div class="nnl-pred"><span>('+d[0]+','+d[1]+')→'+d[2]+'</span><div class="nnl-pbar"><div class="nnl-pfill" style="width:'+(f.out*100).toFixed(1)+'%"></div></div><span>'+fmt(f.out,3)+'</span><span>'+(ok?'✓':'✗')+'</span></div>'}
+      $id('nnl-preds').innerHTML=html;
+    }
+    function reset(){P=initP(seed);step=0;hist=[avgLoss()];render()}
+    $id('nnl-seed').onchange=function(){seed=+this.value;reset()};
+    $id('nnl-lr').oninput=function(){LR=+this.value;$id('nnl-lrv').textContent=fmt(LR,1)};
+    $id('nnl-s1').onclick=function(){stepOnce();render()};
+    $id('nnl-s100').onclick=function(){for(var i=0;i<100;i++)stepOnce();render()};
+    $id('nnl-all').onclick=function(){for(var i=0;i<8000;i++)stepOnce();render()};
+    $id('nnl-re').onclick=reset;
+    reset();
+
+    var zs=[2,1,0.1],ans=2,names=['a','b','c'];
+    function smx(z){var m=Math.max.apply(null,z),e=z.map(function(v){return Math.exp(v-m)}),s=e.reduce(function(a,b){return a+b},0);return e.map(function(v){return v/s})}
+    function renderS(){
+      for(var i=0;i<3;i++)$id('nnl-z'+i+'v').textContent=fmt(zs[i],1);
+      var p=smx(zs),html='';
+      for(var i=0;i<3;i++){html+='<div class="nnl-pred"><span>'+names[i]+(i===ans?' ← 答案':'')+'</span><div class="nnl-pbar"><div class="nnl-pfill" style="width:'+(p[i]*100).toFixed(1)+'%"></div></div><span>'+fmt(p[i],3)+'</span></div>'}
+      $id('nnl-bars').innerHTML=html;
+      $id('nnl-xe').textContent=fmt(-Math.log(p[ans]),3);
+      var t='';
+      for(var i=0;i<3;i++){var g=p[i]-(i===ans?1:0);t+='grad z('+names[i]+')='+(g>=0?'+':'')+fmt(g,3)+'  '}
+      $id('nnl-grads').textContent=t+'（p − y：答案格负=往上加，其余正=往下按）';
+    }
+    for(var k=0;k<3;k++)(function(k){$id('nnl-z'+k).oninput=function(){zs[k]=+this.value;renderS()}})(k);
+    var chips=document.querySelectorAll('#nn-lab .nnl-chip');
+    for(var c=0;c<chips.length;c++)(function(el){el.onclick=function(){for(var j=0;j<chips.length;j++)chips[j].classList.remove('on');el.classList.add('on');ans=+el.getAttribute('data-a');renderS()}})(chips[c]);
+    renderS();
+  })();
+  </script>
         </div>
       </details>
       <div class="ch-foot"><span class="foot-chip ver">交付：看得懂 02_neural_bigram.py 的每一行</span></div>
