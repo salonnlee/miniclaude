@@ -81,24 +81,25 @@ def make_net(act, seed=SEED):
 
 def train_net(act, seed=SEED, steps=8000, lr=0.5):
     """9 个旋钮逐个『量坡下坡』(数值梯度;S3 手推链式法则后可省 99% 计算量)"""
-    W1, W2, net, loss = make_net(act, seed)
-
-    def bump(k, dv):
+    W1, W2, net, loss = make_net(act, seed)  # 初始化网络、权重、loss函数
+    
+    def bump(k, dv):  # 局部辅助函数，拨动第k个参数
         if k < 6:
             i, j = divmod(k, 3)
             W1[i][j] += dv
         else:
             W2[k - 6] += dv
-
-    for _ in range(steps):
-        for k in range(9):
+    
+    for _ in range(steps):         # 多轮迭代
+        for k in range(9):         # 逐个参数算梯度、更新
+            # 中心差分计算g
             bump(k, H)
             lp = loss()
             bump(k, -2 * H)
             lm = loss()
-            bump(k, H)                      # 复位
+            bump(k, H)
             g = (lp - lm) / (2 * H)
-            bump(k, -lr * g)                # 下坡
+            bump(k, -lr * g)
     return W1, W2, net, loss
 
 
@@ -127,9 +128,12 @@ def show_hidden():
         x1, x2 = xy
         hs = tuple(relu(W1[i][0] * x1 + W1[i][1] * x2 + W1[i][2]) for i in range(2))
         print(f"    输入 {xy} → 隐层激活 {hs}")
-    print("  → (0,1) 和 (1,0) 这两个『看似不同』的输入,被隐层折到相近的表示:")
-    print("    网络自己发明了『恰好一个开』这个中间概念。这叫表示学习——")
-    print("    大模型里几十亿参数的『特征』,就是它的豪华版")
+    print("  → 隐层两只神经元 = 两个方向探测器:h1 ≈ −x1+x2(只 x2 开),h2 ≈ x1−x2(只 x1 开)")
+    print("    读出层相加:『恰好一个开』= 两个探测器或开其一。隐层的全部工作 =")
+    print("    把直刀切不开的输入空间,折叠成读出层一条直边就能切开的隐层空间")
+    print("    (实测本解里 (0,1)→(1.03,0)、(1,0)→(0,1.08) 并不相邻——『折到相近』")
+    print("     只是某些解的长相,不是必须;不变的是『不可分 → 可分』。学员抓错更正,2026-10-22)")
+    print("    网络自己发明中间概念,这叫表示学习——大模型里几十亿参数的『特征』,就是它的豪华版")
 
 
 if __name__ == "__main__":
