@@ -424,6 +424,91 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       <ul class="ch-list tight-top">
         <li><b>NN2</b> 神经元 = 加权求和 + 激活;多层与非线性的必要性(XOR 之役)✅ 完课 2026-10-22(第三、四幕恢复直讲,考题双交卷)</li>
       </ul>
+
+      <details class="ch-recap" id="s2-panorama">
+        <summary><span class="ch-lab-arrow">▶</span>🧠 NN2 全景(一条直边的死局 × 折一折的胜利)</summary>
+        <div class="ch-lab-body">
+          <p class="s1-recap">神经元 = 流水线两站:<code>score = w1x1 + w2x2 + b</code>(<b>b 画及格线</b>:同一组权重 (1,1),b=0 是 OR 门、b=−1 变 AND 门)→ <code>ReLU(score)</code>(<b>折叠</b>:负分归零)。层叠起来之前先撞墙——<b>XOR 要亮的两个点在对角线上</b>,一刀(半个平面)怎么切都会把该亮与不该亮切进同一侧;这不是学得慢,是「每个输入独立打分再相加」的架构装不下「x1 该加分还是减分取决于 x2」的联动(夏天加冰爽、冬天加冰惨)。</p>
+          <p class="s1-recap">两层 + ReLU 破局。手工款:隐层 h1=OR、h2=AND,输出 <code>h1 − h2</code> =「至少一个开,但排除两个都开」;网络款(seed=21 实测):<code>h1 ≈ −x1+x2、h2 ≈ x1−x2</code> 两个方向探测器,读出层相加。款不同,本职相同——<b>把直刀切不开的输入空间,折叠成读出层一条直边就切得开的隐层空间(不可分 → 可分)</b>;解不唯一,seed=10 就学出「(0,1)/(1,0) 折到相近」的另一款。</p>
+          <p class="s1-recap">反证锁死结论:同样的两层,激活换恒等函数 <code>f(t)=t</code>,loss 死守 0.25、四个预测全是 0.500——线性套线性,两层坍缩回一层;而 0.5 = 答案均值(MSE 下猜不出的题就蒙基率:换个「更努力」的 0.5x1+0.5x2 反而 loss 0.375 更差)。对照 ReLU 版 loss=0.000000 四题全对:<b>唯一的魔法是那道折叠,层数本身不值钱</b>。</p>
+          <p class="s1-recap">训练日常:ReLU 全灭时梯度顺着零往回传、什么也传不回去(死区,loss 卡 0.25)——30 个种子 6 个能活,<b>调不动先换种子,再查学习率,最后才怀疑人生</b>。9 个旋钮 × 每步 2 次全量前向的数值梯度账单,挂向 NN3:手推链式法则,一次反向扫完全部旋钮。</p>
+          <div class="s1-fig">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="NN2 知识点全景:左边是神经元流水线(b 画线、ReLU 折叠),右边是 XOR 之役输入空间切不开、隐层折叠后一条直边切开,底部两个陷阱(死区与恒等激活)">
+  <defs>
+    <marker id="s2par" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
+    <marker id="s2parO" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d97757"/></marker>
+  </defs>
+
+  <text x="110" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 神经元 = 加权求和 + ReLU(流水线两站)</text>
+
+  <text x="60" y="80" font-size="12" fill="#e9e9ec" font-family="ui-monospace,Menlo,monospace">x1, x2</text>
+  <line x1="105" y1="76" x2="135" y2="76" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#s2par)"/>
+
+  <rect x="140" y="52" width="150" height="48" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="215" y="72" font-size="12" font-weight="600" fill="#e9e9ec" text-anchor="middle">Σ w·x + b</text>
+  <text x="215" y="89" font-size="10.5" fill="#a0a0aa" text-anchor="middle">b 画及格线</text>
+  <line x1="290" y1="76" x2="320" y2="76" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#s2par)"/>
+  <text x="305" y="66" font-size="10.5" fill="#a0a0aa" text-anchor="middle">score</text>
+
+  <rect x="322" y="52" width="118" height="48" rx="10" fill="rgba(217,119,87,.08)" stroke="rgba(217,119,87,.55)"/>
+  <text x="381" y="72" font-size="12" font-weight="600" fill="#e9e9ec" text-anchor="middle">ReLU</text>
+  <text x="381" y="89" font-size="10.5" fill="#a0a0aa" text-anchor="middle">负分归零 · 折叠</text>
+
+  <text x="70" y="130" font-size="11" fill="#a0a0aa">同一组权重 (1,1),挪门槛换门:</text>
+  <text x="70" y="150" font-size="11.5" fill="#e9e9ec" font-family="ui-monospace,Menlo,monospace">b=0 :输出 (00,01,10,11)=(0,1,1,2)</text>
+  <text x="70" y="168" font-size="11" fill="#a0a0aa">→ OR 门「至少一个开」</text>
+  <text x="70" y="192" font-size="11.5" fill="#e9e9ec" font-family="ui-monospace,Menlo,monospace">b=−1:输出 (00,01,10,11)=(0,0,0,1)</text>
+  <text x="70" y="210" font-size="11" fill="#a0a0aa">→ AND 门「两个都开才亮」</text>
+  <text x="70" y="234" font-size="11" fill="#9ece6a">b 管画线,ReLU 管折叠——一个神经元 = 画线再折叠</text>
+
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② XOR 之役:一刀切不开 → 折一折就能切</text>
+
+  <text x="520" y="52" font-size="11" fill="#a0a0aa">输入空间(单神经元视角)</text>
+  <rect x="520" y="62" width="120" height="120" rx="6" fill="#17171d" stroke="#2a2a34"/>
+  <circle cx="544" cy="86" r="6" fill="#9ece6a"/>
+  <circle cx="616" cy="158" r="6" fill="#9ece6a"/>
+  <circle cx="616" cy="86" r="6" fill="none" stroke="#a0a0aa" stroke-width="1.6"/>
+  <circle cx="544" cy="158" r="6" fill="none" stroke="#a0a0aa" stroke-width="1.6"/>
+  <text x="533" y="74" font-size="10" fill="#9ece6a">(0,1)</text>
+  <text x="608" y="176" font-size="10" fill="#9ece6a">(1,0)</text>
+  <line x1="528" y1="182" x2="632" y2="62" stroke="#a0a0aa" stroke-width="1.4" stroke-dasharray="4 4"/>
+  <text x="580" y="212" font-size="10.5" fill="#d97757" text-anchor="middle">✗ 任意一刀必切错</text>
+  <text x="580" y="228" font-size="10.5" fill="#a0a0aa" text-anchor="middle">亮点在对角线</text>
+
+  <line x1="668" y1="120" x2="700" y2="120" stroke="#d97757" stroke-width="2" marker-end="url(#s2parO)"/>
+  <text x="684" y="106" font-size="10" fill="#d97757" text-anchor="middle">隐层折叠</text>
+
+  <text x="708" y="52" font-size="11" fill="#a0a0aa">隐层空间(seed=21 实测)</text>
+  <rect x="708" y="62" width="120" height="120" rx="6" fill="#17171d" stroke="#2a2a34"/>
+  <circle cx="790" cy="92" r="5.5" fill="#9ece6a"/>
+  <circle cx="746" cy="130" r="5.5" fill="#9ece6a"/>
+  <circle cx="722" cy="168" r="4.5" fill="none" stroke="#a0a0aa" stroke-width="1.5"/>
+  <circle cx="734" cy="174" r="4.5" fill="none" stroke="#a0a0aa" stroke-width="1.5"/>
+  <line x1="716" y1="150" x2="816" y2="96" stroke="#9ece6a" stroke-width="1.8"/>
+  <text x="768" y="212" font-size="10.5" fill="#9ece6a" text-anchor="middle">✓ 读出层一条直边切开</text>
+  <text x="768" y="228" font-size="10.5" fill="#a0a0aa" text-anchor="middle">h1≈−x1+x2 · h2≈x1−x2</text>
+
+  <text x="500" y="258" font-size="11.5" fill="#e9e9ec">反证:激活换恒等 f(t)=t → 线性套线性,两层坍缩一层</text>
+  <text x="500" y="276" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">loss 死守 0.25 · 四预测全 0.500(= 答案均值,蒙基率的投降书)</text>
+  <text x="500" y="294" font-size="11" fill="#9ece6a">ReLU 版 loss=0.000000——唯一的魔法是那道折叠,层数本身不值钱</text>
+
+  <rect x="500" y="316" width="328" height="52" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.5)"/>
+  <text x="516" y="338" font-size="12.5" font-weight="600" fill="#e9e9ec">⚠ 陷阱一 · 死区</text>
+  <text x="516" y="356" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">ReLU 全灭→梯度失联,loss 卡 0.25(SEED 0 卡死 / 10 存活)</text>
+
+  <rect x="500" y="384" width="328" height="52" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.5)"/>
+  <text x="516" y="406" font-size="12.5" font-weight="600" fill="#e9e9ec">⚠ 陷阱二 · 解不唯一</text>
+  <text x="516" y="424" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">seed21 双探测器 / seed10 折到相近——不变的是不可分→可分</text>
+
+  <rect x="60" y="316" width="400" height="120" rx="10" fill="rgba(158,206,106,.06)" stroke="rgba(158,206,106,.5)"/>
+  <text x="260" y="348" font-size="13" font-weight="600" fill="#9ece6a" text-anchor="middle">训练日常的姿势</text>
+  <text x="260" y="374" font-size="11.5" fill="#e9e9ec" text-anchor="middle">调不动 → 先换种子,再查学习率,最后才怀疑人生</text>
+  <text x="260" y="398" font-size="10.5" fill="#a0a0aa" text-anchor="middle">数值梯度:9 个旋钮 × 每步 2 次全量前向,逐个量坡</text>
+  <text x="260" y="418" font-size="10.5" fill="#d97757" text-anchor="middle">→ NN3:链式法则一次反向扫完全部旋钮</text>
+</svg>
+          </div>
+        </div>
+      </details>
       <details class="ch-recap" id="s2-recap">
         <summary><span class="ch-lab-arrow">▶</span>📚 NN2 书单 · 深入浅出补给站</summary>
         <div class="ch-lab-body">
