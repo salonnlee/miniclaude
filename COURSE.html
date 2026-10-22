@@ -1370,6 +1370,213 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
           </div>
         </div>
       </details>
+      <details class="ch-lab" id="lab3b">
+        <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · 观影三台（神经元打分台 × loss 小球场 × 链式对表台）<span class="ch-lab-hint">3B1/3B2/3B4 的核心画面，亲手拧</span></summary>
+        <div class="ch-lab-body">
+  <style>
+  #lab3b .l3-grid{display:grid;grid-template-columns:280px 1fr;gap:16px;align-items:start}
+  #lab3b .l3-box{border:1px solid var(--border);border-radius:12px;padding:14px;background:rgba(255,255,255,.02)}
+  #lab3b .l3-cap{font-size:12.5px;color:var(--muted);margin:14px 0 8px}
+  #lab3b .l3-cap:first-child{margin-top:0}
+  #lab3b .l3-row{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:12px;flex-wrap:wrap}
+  #lab3b .l3-row label{width:60px;color:var(--muted);flex:none}
+  #lab3b input[type=range]{flex:1;accent-color:var(--accent)}
+  #lab3b .l3-stat{font-family:ui-monospace,Menlo,monospace;font-size:12px}
+  #lab3b .l3-mesh{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;width:200px}
+  #lab3b .l3-cell{aspect-ratio:1;border-radius:3px;cursor:pointer;border:1px solid #26262e}
+  #lab3b .l3-meshwrap{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+  #lab3b .l3-meshlab{font-size:11px;color:var(--muted);text-align:center;margin-bottom:6px}
+  #lab3b .l3-out{font-size:12px;margin-top:10px;font-family:ui-monospace,Menlo,monospace}
+  #lab3b .l3-outbar{height:12px;border-radius:6px;background:#17171d;overflow:hidden;margin:6px 0}
+  #lab3b .l3-outfill{height:100%;background:linear-gradient(90deg,#7aa2f7,#d97757)}
+  #lab3b .l3-chain{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:6px}
+  #lab3b .l3-card{border:1px solid #3a3a44;border-radius:8px;padding:6px 10px;text-align:center;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;min-width:76px}
+  #lab3b .l3-card b{display:block;font-size:10px;color:var(--muted);font-weight:400;margin-bottom:2px}
+  #lab3b .l3-arrow{color:var(--muted);font-size:12px}
+  #lab3b .l3-mini{font-size:11px;color:var(--muted);padding:2px 10px;border:1px solid var(--border);border-radius:999px;cursor:pointer;user-select:none}
+  #lab3b .l3-mini.on{border-color:#d97757;color:#d97757}
+  </style>
+
+  <div class="l3-cap">A · 神经元打分台（3B1）—— 权重 = 你想检测的图案，偏置 = 激发门槛；点格子涂权重，看 σ 冲不冲</div>
+  <div class="l3-grid">
+    <div class="l3-box">
+      <div class="l3-row"><label>输入图案</label>
+        <span class="l3-mini" data-x="spot">左上亮斑</span><span class="l3-mini" data-x="vline">竖线</span><span class="l3-mini" data-x="hline">横线</span><span class="l3-mini" data-x="all">全亮</span><span class="l3-mini" data-x="none">全黑</span>
+      </div>
+      <div class="l3-row"><label>权重预设</label>
+        <span class="l3-mini" data-w="v">竖边检测器</span><span class="l3-mini" data-w="spot">亮斑检测器</span><span class="l3-mini" data-w="zero">清零</span>
+      </div>
+      <div class="l3-row"><label>偏置 b</label><input type="range" id="l3-b" min="-3" max="3" step="0.1" value="0"><span class="l3-stat" id="l3-bv">0.0</span></div>
+      <div class="l3-stat" style="margin-top:10px;line-height:1.9">h = Σ w·x + b = <span id="l3-sum">—</span><br>σ(h) 激活 = <span id="l3-act">—</span></div>
+    </div>
+    <div class="l3-box">
+      <div class="l3-meshwrap">
+        <div><div class="l3-meshlab">输入 x（0/1，可点击）</div><div class="l3-mesh" id="l3-xmesh"></div></div>
+        <div><div class="l3-meshlab">权重 w（点击循环 +1→−1→0）</div><div class="l3-mesh" id="l3-wmesh"></div></div>
+      </div>
+      <div class="l3-out">激活度 σ(h)</div>
+      <div class="l3-outbar"><div class="l3-outfill" id="l3-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+  <p class="bg-hint">玩法：权重选「竖边检测器」（左半 −1 = 要暗、右半 +1 = 要亮），输入切「竖线」，σ 冲上 1.0；输入换「横线」，σ 掉回 0.5——横线左右两半在权重里正负抵消，加权和为零，它无话可说。再把横线的亮格点进左半（负权重区），σ 直接趴到 0——亮的不是它要的地方，反而扣分。最后把 b 拉到 −3：图案没变，门槛抬高，激活熄火——3B1 的偏置 = 激发门槛。</p>
+
+  <div class="l3-cap">B · loss 山小球场（3B2）—— 负梯度方向下山，LR 定步长；小球自己会告诉你步子大了会翻车</div>
+  <div class="l3-grid">
+    <div class="l3-box">
+      <div class="l3-row"><label>LR 步长</label><input type="range" id="l3-lr" min="0.05" max="2.2" step="0.05" value="0.3"><span class="l3-stat" id="l3-lrv">0.30</span></div>
+      <div class="l3-row"><label>SGD</label><span class="l3-mini" id="l3-sgd">每步只看一个样本的坡（带噪声）</span></div>
+      <div class="l3-row">
+        <button class="arch-btn" id="l3-s1" type="button">走 1 步</button>
+        <button class="arch-btn" id="l3-s20" type="button">走 20 步</button>
+        <button class="arch-btn" id="l3-re" type="button">↻ 回起点</button>
+      </div>
+      <div class="l3-stat" style="margin-top:10px">step <span id="l3-step">0</span> · w = <span id="l3-wv">—</span> · loss = <span id="l3-cv">—</span></div>
+    </div>
+    <div class="l3-box">
+      <svg id="l3-hill" viewBox="0 0 840 150" width="100%" role="img" aria-label="loss 山与小球"></svg>
+    </div>
+  </div>
+  <p class="bg-hint">玩法：LR 0.3 走 20 步，小球稳稳滚进谷底；拉到 1.9 再走——左右横跳，步子比谷宽还大；勾上 SGD，每步的坡带样本噪声，轨迹抖着下但大方向不变——打乱分批的意义（3B2 结尾的 SGD）。</p>
+
+  <div class="l3-cap">C · 链式法则对表台（3B3/3B4）—— 上排前向算值，下排本地导数连乘；和数值梯度当场对表</div>
+  <div class="l3-grid">
+    <div class="l3-box">
+      <div class="l3-row"><label>x 的值</label><input type="range" id="l3-x" min="0.5" max="6" step="0.1" value="4"><span class="l3-stat" id="l3-xv">4.0</span></div>
+      <div class="l3-stat" style="margin-top:10px;line-height:1.9">链：x → ×3 → 平方 → +2 → C<br>反向连乘：3 × 2a × 1 = <span id="l3-chainmul">—</span><br>数值梯度 ε=1e-5：<span id="l3-numg">—</span> <span id="l3-ok"></span></div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px">本地导数「2a」用的是本节点自己的输入 a——展开成 9x² 拿 9，乘 3 层就背两遍锅（NN3 亲手踩过的坑）。</div>
+    </div>
+    <div class="l3-box">
+      <div class="l3-chain" id="l3-fwd"></div>
+      <div style="height:10px"></div>
+      <div class="l3-chain" id="l3-bwd"></div>
+    </div>
+  </div>
+  <p class="bg-hint">玩法：x 拖到 4，正是 NN3 第一幕那道题——连乘 72、数值梯度 72 ✓；随便拖到别的数，两行永远对得上。岔口相加（loss=(3x)²+(x+1) → 72+1=73）在 NN3 已手推，这里只演一条路的版本。</p>
+
+  <script>
+  (function () {
+    var $id = function (x) { return document.getElementById(x); };
+    function fmt(v, n) { return v.toFixed(n == null ? 2 : n); }
+
+    /* A 台 */
+    var N = 10, X = [], W = [], b0 = 0;
+    function mesh(el, arr, editable) {
+      el.innerHTML = '';
+      for (var i = 0; i < N * N; i++) {
+        (function (i) {
+          var d = document.createElement('div');
+          d.className = 'l3-cell';
+          d.onclick = function () {
+            if (editable) { arr[i] = ((arr[i] + 2) % 3) - 1; } else { arr[i] = 1 - arr[i]; }
+            renderA();
+          };
+          el.appendChild(d);
+        })(i);
+      }
+      el._cells = el.children;
+    }
+    function paint() {
+      var xc = $id('l3-xmesh')._cells, wc = $id('l3-wmesh')._cells;
+      for (var i = 0; i < N * N; i++) {
+        xc[i].style.background = X[i] ? 'rgba(233,233,236,.85)' : '#101014';
+        wc[i].style.background = W[i] > 0 ? 'rgba(224,108,117,.8)' : (W[i] < 0 ? 'rgba(122,162,247,.8)' : '#17171d');
+      }
+    }
+    function renderA() {
+      var s = 0;
+      for (var i = 0; i < N * N; i++) s += W[i] * X[i];
+      var h = s + b0, a = 1 / (1 + Math.exp(-h));
+      $id('l3-sum').textContent = fmt(h, 2);
+      $id('l3-act').textContent = fmt(a, 3);
+      $id('l3-fill').style.width = (a * 100).toFixed(1) + '%';
+      paint();
+    }
+    function presetX(kind) {
+      X = [];
+      for (var r = 0; r < N; r++) for (var c = 0; c < N; c++) {
+        var v = 0;
+        if (kind === 'spot') v = (r < 3 && c < 3) ? 1 : 0;
+        if (kind === 'vline') v = (c === 6 || c === 7) ? 1 : 0;
+        if (kind === 'hline') v = (r === 2 || r === 3) ? 1 : 0;
+        if (kind === 'all') v = 1;
+        X.push(v);
+      }
+      renderA();
+    }
+    function presetW(kind) {
+      W = [];
+      for (var r = 0; r < N; r++) for (var c = 0; c < N; c++) {
+        var v = 0;
+        if (kind === 'v') v = c < 5 ? -1 : 1;
+        if (kind === 'spot') v = (r < 3 && c < 3) ? 1 : 0;
+        W.push(v);
+      }
+      renderA();
+    }
+    mesh($id('l3-xmesh'), X, false);
+    mesh($id('l3-wmesh'), W, true);
+    var xbtns = document.querySelectorAll('#lab3b [data-x]');
+    for (var i = 0; i < xbtns.length; i++) xbtns[i].onclick = (function (el) { return function () { presetX(el.getAttribute('data-x')); }; })(xbtns[i]);
+    var wbtns = document.querySelectorAll('#lab3b [data-w]');
+    for (var j = 0; j < wbtns.length; j++) wbtns[j].onclick = (function (el) { return function () { presetW(el.getAttribute('data-w')); }; })(wbtns[j]);
+    $id('l3-b').oninput = function () { b0 = +this.value; $id('l3-bv').textContent = fmt(b0, 1); renderA(); };
+    presetX('vline'); presetW('v');
+
+    /* B 台 */
+    var WMIN = -2, WMAX = 6, LRb = 0.3, sgd = false, wb, stepb, trail;
+    function Cf(w) { return 0.5 * (w - 2.2) * (w - 2.2) + 0.15; }
+    function dC(w) { return 1.0 * (w - 2.2); }
+    function px(w) { return 20 + (w - WMIN) / (WMAX - WMIN) * 800; }
+    function py(c) { return 130 - c / 12 * 115; }
+    function resetB() { wb = -1.6; stepb = 0; trail = [wb]; renderB(); }
+    function stepBall() {
+      var g = dC(wb);
+      if (sgd) g *= 1 + (Math.random() - 0.5);
+      wb = Math.max(WMIN + 0.05, Math.min(WMAX - 0.05, wb - LRb * g));
+      stepb++; trail.push(wb);
+    }
+    function renderB() {
+      $id('l3-step').textContent = stepb;
+      $id('l3-wv').textContent = fmt(wb, 3);
+      $id('l3-cv').textContent = fmt(Cf(wb), 4);
+      var pts = [];
+      for (var w = WMIN; w <= WMAX + 0.01; w += 0.05) pts.push(px(w).toFixed(1) + ',' + py(Cf(w)).toFixed(1));
+      var tp = '';
+      for (var i = 0; i < trail.length; i++) tp += '<circle cx="' + px(trail[i]).toFixed(1) + '" cy="' + py(Cf(trail[i])).toFixed(1) + '" r="2" fill="rgba(217,119,87,.55)"/>';
+      $id('l3-hill').innerHTML = '<polyline points="' + pts.join(' ') + '" fill="none" stroke="#7aa2f7" stroke-width="1.8"/>' + tp +
+        '<circle cx="' + px(wb).toFixed(1) + '" cy="' + py(Cf(wb)).toFixed(1) + '" r="7" fill="#d97757"/>' +
+        '<text x="24" y="20" font-size="10" fill="#a0a0aa">loss 山 C(w) · 谷底在 w=2.2 · 小球沿 −梯度 走</text>';
+    }
+    $id('l3-lr').oninput = function () { LRb = +this.value; $id('l3-lrv').textContent = fmt(LRb, 2); };
+    $id('l3-sgd').onclick = function () { sgd = !sgd; this.classList.toggle('on', sgd); };
+    $id('l3-s1').onclick = function () { stepBall(); renderB(); };
+    $id('l3-s20').onclick = function () { for (var i = 0; i < 20; i++) stepBall(); renderB(); };
+    $id('l3-re').onclick = resetB;
+    resetB();
+
+    /* C 台 */
+    function renderC() {
+      var x = +$id('l3-x').value;
+      $id('l3-xv').textContent = fmt(x, 1);
+      var a = 3 * x, sq = a * a, C = sq + 2;
+      $id('l3-fwd').innerHTML =
+        card('x', fmt(x, 1)) + arw() + card('a = 3x', fmt(a, 1)) + arw() + card('b = a²', fmt(sq, 1)) + arw() + card('C = b+2', fmt(C, 1));
+      var d1 = 1, da = 2 * a, dx = 3, mul = d1 * da * dx;
+      $id('l3-bwd').innerHTML =
+        card('dC/db = 1', fmt(d1, 0)) + arw(true) + card('db/da = 2a', fmt(da, 1)) + arw(true) + card('da/dx = 3', fmt(dx, 0)) + arw(true) + card('连乘 dC/dx', fmt(mul, 1));
+      var eps = 1e-5, num = ((3 * (x + eps)) * (3 * (x + eps)) + 2 - C) / eps;
+      $id('l3-chainmul').textContent = fmt(mul, 1);
+      $id('l3-numg').textContent = fmt(num, 1);
+      $id('l3-ok').textContent = Math.abs(num - mul) < 0.01 ? '✓' : '✗';
+    }
+    function card(t, v) { return '<div class="l3-card"><b>' + t + '</b>' + v + '</div>'; }
+    function arw(back) { return '<span class="l3-arrow">' + (back ? '←' : '→') + '</span>'; }
+    $id('l3-x').oninput = renderC;
+    renderC();
+  })();
+  </script>
+        </div>
+      </details>
       <ul class="ch-list tight-top">
         <li><b>3B5</b> GPT 与 Transformer ⏭ 下一站 —— 序章 mini-GPT 的真身；主线 P0.3 的预告片</li>
         <li><b>3B6</b> 直观解释注意力机制 —— Transformer 的心脏，回主线深水区的装备</li>
