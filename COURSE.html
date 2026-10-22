@@ -673,8 +673,91 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
         </div>
       </details>
       <ul class="ch-list tight-top">
-        <li><b>NN4</b> softmax + 交叉熵：grad = p − y 数值验证 → 回归主线 02，豁然开朗</li>
+        <li><b>NN4</b> softmax + 交叉熵：grad = p − y 数值验证 → 回归主线 02，豁然开朗 ✅ <span class="done-date">2026-10-22</span><span class="done-date">（一次开课通关）</span></li>
       </ul>
+      <details class="ch-recap" id="s4-panorama">
+        <summary>🧠 NN4 全景（softmax × 交叉熵 × p − y）</summary>
+        <div class="recap-body">
+          <p class="s1-recap">sigmoid 到头了：XOR 只要「是/不是」，主线 02 要在 65 个字符里猜「下一个是谁」，得给每个格子押一份概率，且全套加起来必须 = 1。装 65 个 sigmoid 各吐各的不行——加起来不保证是 1,账对不上。softmax 是生下来就守这条规矩的转换器：任意分数进来，一套加起来恰好 = 1 的概率出去。</p>
+          <p class="s1-recap">它两步走：全员过 exp（负数变正、差距拉开），再除以总和（归一）。实测 <b>softmax 只看相对差距，绝对大小无所谓</b>——分数集体 +18，概率一位不变（分子分母同乘 e¹⁸，约掉）。这性质顺手当保命符：算之前全员减最大值，躲开 exp(700) 溢出。量差距换交叉熵：loss = −ln（押在<b>正确答案</b>那格的概率），答案只当指针（one-hot 选格子，其余不进场）；押 1 → 0 分，押 0.5 → 0.69，押 0.01 → 4.6——对「自信地错」罚得陡。</p>
+          <p class="s1-recap">主角是配对抵消的礼物：softmax 的岔路项 + 交叉熵的 ln 在求导里互相抵消，NN3 那坨 sigmoid 复合导数整个消失，梯度裸成 <b>p − y（预测减真值）</b>——对每个分数 z[i]：答对越满梯度越接近 0（越对越不用学），错得越狠拉得越猛（p=0.9 押错 0.9 往下按，p=0.05 该押 1 是 −0.95 往上猛加）。数值梯度对表 3 行全 ✓；z 当旋钮、LR=1.0 纯 p − y 更新，100 步把答案从 9.9% 押到 99.3%，loss 2.32 → 0.0013。</p>
+          <p class="s1-recap">分工收口：梯度符号 = 方向、大小 = 坡度，步长再乘自己定的学习率；loss 只报海拔不进场导航。内功支线 NN1–NN4 至此集齐：会学的函数 → 神经元叠层 → 反向传播 → softmax+交叉熵。p − y 之后过一遍 NN3 的链式法则传回嵌入层——主线 02_neural_bigram.py 从此无生词。</p>
+          <div class="svg-wrap">
+<svg viewBox="0 0 880 430" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="s4par" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7aa2f7"/></marker>
+    <marker id="s4parR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e06c75"/></marker>
+  </defs>
+
+  <text x="440" y="30" font-size="14" font-weight="600" fill="#e9e9ec" text-anchor="middle">softmax 把分数变概率 · 交叉熵只看押对那格 · 梯度裸成 p − y</text>
+
+  <text x="20" y="66" font-size="13" font-weight="600" fill="#e9e9ec">① softmax 转换器</text>
+  <rect x="20" y="78" width="90" height="58" rx="8" fill="#17171d" stroke="rgba(122,162,247,.5)"/>
+  <text x="65" y="102" font-size="11" fill="#7aa2f7" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">z</text>
+  <text x="65" y="120" font-size="9.5" fill="#a0a0aa" text-anchor="middle">分数·任意值</text>
+
+  <line x1="112" y1="107" x2="168" y2="107" stroke="#7aa2f7" stroke-width="1.6" marker-end="url(#s4par)"/>
+  <text x="140" y="98" font-size="9.5" fill="#7aa2f7" text-anchor="middle">exp</text>
+  <text x="140" y="124" font-size="9" fill="#a0a0aa" text-anchor="middle">差距拉开</text>
+
+  <rect x="170" y="78" width="100" height="58" rx="8" fill="#17171d" stroke="rgba(122,162,247,.5)"/>
+  <text x="220" y="102" font-size="10" fill="#e9e9ec" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">[7.39,2.72,</text>
+  <text x="220" y="118" font-size="10" fill="#e9e9ec" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">1.11]</text>
+
+  <line x1="272" y1="107" x2="328" y2="107" stroke="#7aa2f7" stroke-width="1.6" marker-end="url(#s4par)"/>
+  <text x="300" y="98" font-size="9.5" fill="#7aa2f7" text-anchor="middle">÷ 11.22</text>
+  <text x="300" y="124" font-size="9" fill="#a0a0aa" text-anchor="middle">归一·和=1</text>
+
+  <rect x="330" y="78" width="110" height="58" rx="8" fill="rgba(217,119,87,.08)" stroke="rgba(217,119,87,.55)"/>
+  <text x="385" y="99" font-size="10" fill="#d97757" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">p=[.659,</text>
+  <text x="385" y="114" font-size="10" fill="#d97757" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">.242,.099]</text>
+  <text x="385" y="129" font-size="9" fill="#a0a0aa" text-anchor="middle">概率答卷</text>
+
+  <rect x="20" y="156" width="420" height="48" rx="8" fill="#17171d" stroke="rgba(158,206,106,.45)"/>
+  <text x="230" y="175" font-size="10.5" fill="#9ece6a" text-anchor="middle">平移不变：集体 +18 → 概率一位不变（e¹⁸ 约掉）</text>
+  <text x="230" y="193" font-size="10.5" fill="#9ece6a" text-anchor="middle">只看相对差距，绝对大小无所谓 · 代码先减 max 防 exp 溢出</text>
+
+  <text x="470" y="66" font-size="13" font-weight="600" fill="#e9e9ec">② 交叉熵：−ln(押对那格)</text>
+  <rect x="470" y="78" width="390" height="126" rx="8" fill="#17171d" stroke="rgba(224,108,117,.45)"/>
+  <path d="M490,190 C540,120 560,105 620,102 C700,98 780,99 840,100" fill="none" stroke="#e06c75" stroke-width="1.8"/>
+  <line x1="490" y1="190" x2="840" y2="190" stroke="#3a3a44" stroke-width="1"/>
+  <line x1="490" y1="102" x2="840" y2="102" stroke="#3a3a44" stroke-width="1" stroke-dasharray="3 4"/>
+  <text x="840" y="96" font-size="9.5" fill="#a0a0aa" text-anchor="end">loss=0（全对）</text>
+  <circle cx="530" cy="146" r="3.5" fill="#e06c75"/>
+  <text x="530" y="136" font-size="9" fill="#a0a0aa" text-anchor="middle">p=0.5 → 0.69</text>
+  <circle cx="800" cy="103" r="3.5" fill="#e06c75"/>
+  <text x="800" y="133" font-size="9" fill="#a0a0aa" text-anchor="middle">p=0.9 → 0.11</text>
+  <circle cx="502" cy="183" r="3.5" fill="#e06c75"/>
+  <text x="515" y="172" font-size="9" fill="#a0a0aa">p=0.01 → 4.6</text>
+  <text x="530" y="205" font-size="9" fill="#a0a0aa" text-anchor="middle">押对概率 →</text>
+  <text x="640" y="92" font-size="10" fill="#e06c75" text-anchor="middle">答案只当指针：one-hot 选格子，其余不进场；对「自信地错」罚得陡</text>
+
+  <text x="20" y="238" font-size="13" font-weight="600" fill="#e9e9ec">③ p − y = 预测减真值（配对抵消后的裸梯度）</text>
+  <rect x="20" y="250" width="270" height="78" rx="8" fill="rgba(122,162,247,.08)" stroke="rgba(122,162,247,.5)"/>
+  <text x="155" y="272" font-size="11" fill="#7aa2f7" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">p=[.659,.242,.099]</text>
+  <text x="155" y="290" font-size="11" fill="#7aa2f7" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">y=[  0,   0,    1]</text>
+  <text x="155" y="312" font-size="11.5" fill="#e9e9ec" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">grad=[.659,.242,−.901]</text>
+
+  <rect x="310" y="250" width="260" height="78" rx="8" fill="#17171d" stroke="rgba(158,206,106,.45)"/>
+  <text x="440" y="272" font-size="10.5" fill="#9ece6a" text-anchor="middle">答对越满 → 梯度越近 0（不用学）</text>
+  <text x="440" y="290" font-size="10.5" fill="#9ece6a" text-anchor="middle">押 0.9 押错 → +0.9 往下按</text>
+  <text x="440" y="308" font-size="10.5" fill="#9ece6a" text-anchor="middle">该押 1 只押 .05 → −.95 猛加</text>
+
+  <rect x="590" y="250" width="270" height="78" rx="8" fill="#17171d" stroke="rgba(158,206,106,.45)"/>
+  <text x="725" y="272" font-size="10.5" fill="#9ece6a" text-anchor="middle">数值梯度对表：3 行全 ✓</text>
+  <text x="725" y="290" font-size="10.5" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">z 当旋钮 · LR=1.0</text>
+  <text x="725" y="308" font-size="10.5" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">100 步 9.9%→99.3% · loss 2.32→.0013</text>
+
+  <text x="20" y="356" font-size="13" font-weight="600" fill="#e9e9ec">④ 分工与去向</text>
+  <rect x="20" y="368" width="390" height="44" rx="8" fill="#17171d" stroke="rgba(122,162,247,.4)"/>
+  <text x="215" y="386" font-size="10.5" fill="#7aa2f7" text-anchor="middle">梯度符号=方向 · 大小=坡度 · 步长再乘 LR</text>
+  <text x="215" y="403" font-size="10.5" fill="#7aa2f7" text-anchor="middle">loss 只报海拔，不进场导航</text>
+  <rect x="430" y="368" width="430" height="44" rx="8" fill="#17171d" stroke="rgba(217,119,87,.55)"/>
+  <text x="645" y="395" font-size="11.5" fill="#d97757" text-anchor="middle">→ 回主线 02：p − y 过链式法则传回嵌入层，无生词</text>
+</svg>
+          </div>
+        </div>
+      </details>
       <div class="ch-foot"><span class="foot-chip ver">交付：看得懂 02_neural_bigram.py 的每一行</span></div>
 
     </article>
