@@ -124,7 +124,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
         <li><b>P0.1</b> bigram 复读机(纯标准库)✅</li>
       </ul>
       <details class="ch-recap" id="b01-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 P0.1 全景(数数建表 × 查表抽签)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 P0.1 全景(数数建表 × 查表抽签)</summary>
         <div class="ch-lab-body">
           <p class="s1-recap">P0.1 整课只干一件事:<b>用纯数数造出第一个会「说话」的模型</b>。bigram 的世界观:下一个字符只由当前这一个字符决定。训练 = 数数:把语料按相邻对配对 <code>zip(text, text[1:])</code>,<code>counts[prev][nxt] += 1</code> 记账,每行除以自己的总数归一化,得到 67 张概率表——真实语料里 <code>t</code> 后面接 <code>h</code> 的概率 41.4%、接空格 30.7%。</p>
           <p class="s1-recap">生成 = 查表抽签:从换行符开场,查 <code>probs[cur]</code>,<code>random.choices</code> 按概率抽下一个字符,追加并把 cur 换成它,循环 600 次,吐出满嘴莎翁味儿的胡话。</p>
@@ -210,7 +210,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 mini-gpt</span><span class="foot-chip">🔍 考点 · temperature=0 时它为什么变复读机?</span></div>
           <details class="ch-lab" id="bigram-lab">
-        <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · bigram 工作原理 + 互动抽签台<span class="ch-lab-hint">默认收起 · 点击展开</span></summary>
+        <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · bigram 工作原理 + 互动抽签台</summary>
         <div class="ch-lab-body">
   <div class="bg-flow">
     <div class="bg-lane">① 训练 · 数数建表(在语料上跑一遍)</div>
@@ -336,7 +336,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       </ul>
 
       <details class="ch-recap" id="s1-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 NN1 全景(下坡运动 × 训练循环)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 NN1 全景(下坡运动 × 训练循环)</summary>
         <div class="ch-lab-body">
           <p class="s1-recap">NN1 整课只干一件事:<b>教机器自己学会一个函数</b>。模型是带旋钮的式子 <code>ŷ = w·x + b</code>(旋钮 w、b 就是「参数」);loss 用均方误差把「错得多离谱」压成一个数字——类比 CI 的红色失败数。</p>
           <p class="s1-recap">数值梯度 <code>[loss(w+H) − loss(w−H)] / 2H</code>(H=0.00001)就是拿尺子量坡:<b>符号指方向</b>(往哪边拧 loss 会降)、<b>大小给陡度</b>(坡有多陡);训练则是循环执行 <code>w −= LR·grad</code> 顺势下坡——两百步后机器自摸出造数据的隐藏规律,学到 <code>1.998x + 0.979</code>(真相 <code>y = 2x + 1</code>,残差恰好等于噪声,理论不可再降)。</p>
@@ -425,7 +425,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
         <li><b>NN2</b> 神经元 = 加权求和 + 激活;多层与非线性的必要性(XOR 之役)🔥 四幕剧已讲至第二幕 · 暂停消化</li>
       </ul>
       <details class="ch-recap" id="s2-recap">
-        <summary><span class="ch-lab-arrow">▶</span>📚 NN2 暂停期书单 · 深入浅出补给站<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
+        <summary><span class="ch-lab-arrow">▶</span>📚 NN2 暂停期书单 · 深入浅出补给站</summary>
         <div class="ch-lab-body">
           <p class="s1-recap">暂停不是躺平。按序号食用:<b>① 动画打底 → ② 亲手玩 → ③ 深挖「直边为什么切不开」</b>——这三步足够回来消化 NN2。</p>
           <p class="s1-recap">④ 鱼书与课程同步精读,⑤ 当第二遍讲法,⑥ 攒到 NN3 之后,⑦ 全程当字典,⑧ 回主线前的预告片。每条都标了与本课的呼应点。</p>
@@ -482,7 +482,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       </ul>
 
       <details class="ch-recap" id="b1b-01-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 3B1 全景(网络结构 × 神经元传动)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 3B1 全景(网络结构 × 神经元传动)</summary>
         <div class="ch-lab-body">
           <p class="s1-recap">3B1 搭出「认数字」的网络结构:<b>784 → 16 → 16 → 10,全连接</b>。输入层 784 = 28×28 个像素,激活值 = 灰度(0 黑 1 白)——「激活值」就是 NN1 里函数输出值的学名;两个隐藏层各 16,输出层 10,各替一个数字报置信度。</p>
           <p class="s1-recap">层的分工是想象力所在:像素 → 短边 → 部件(顶部的圈、右下的竖线)→ 数字,<b>每层把上一层拼成更大块的图案</b>——NN2「深度 = 把简单弯折叠成复杂边界」的图像版。</p>
@@ -580,7 +580,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       </ul>
 
       <details class="ch-recap" id="b1b-02-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 3B2 全景(loss 套娃 × 下山循环)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 3B2 全景(loss 套娃 × 下山循环)</summary>
         <div class="ch-lab-body">
           <p class="s1-recap">3B2 让 13,002 个旋钮从随机数长成本事——<b>靠的还是 NN1 那套下坡循环</b>。开局全部随机,网络很糟(NN1 从 w=0 起步是特例,坏开局的代价 NN2 死区已领教);糟要可量化,于是给网络套一层 loss。</p>
           <p class="s1-recap"><b>套娃是本集的视角翻转</b>:网络吃 784 个像素、吐 10 个打分,旋钮藏在体内;loss 再把这 13,002 个旋钮<b>当成自己的输入</b>,对全训练集考一遍,吐出 1 个数,越大越差(考题是固定背景,不是变量)。</p>
@@ -661,7 +661,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       </ul>
 
       <details class="ch-recap" id="b1b-03-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 3B3 全景(单张考卷的三根杠杆 × 心愿逆流)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 3B3 全景(单张考卷的三根杠杆 × 心愿逆流)</summary>
         <div class="ch-lab-body">
           <p class="s1-recap">接住 3B2 的悬案:∇C 怎么算才不贵?3B3 的答案是<b>反向传播</b>,先换视角:<b>别问「旋钮怎么拧」,先问「这张考卷想怎么拧」</b>——反传算的是单个训练样本想怎样修改权重和偏置,方向(调大/调小)和力度(动多猛)一起给。「梯度向量每一项的大小,是 loss 对每个参数有多敏感」——这就是偏导的本体,NN1 的数值量坡 <code>(loss(w+H)−loss(w−H))/2H</code> 量的正是它。</p>
           <p class="s1-recap">落到具体一张考卷:输出层代表「2」的神经元只亮到 0.2,想调高它,公式 <code>0.2 = σ(Σw·a + b)</code> 里只有三根杠杆:<b>① 调大偏置 b</b>——无条件加分,但对每张考卷都生效;<b>② 调大权重 w</b>——顺着亮着的像素加才有效,激活为负的连线上反而帮倒忙(同一个旋钮,不同考卷的心愿会打架);<b>③ 改上一层的激活值 a</b>。</p>
@@ -740,7 +740,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       </ul>
 
       <details class="ch-recap" id="b1b-04-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 3B4 全景(最小网络链 × 链式法则对号入座)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 3B4 全景(最小网络链 × 链式法则对号入座)</summary>
         <div class="ch-lab-body">
           <p class="s1-recap">3B4 把直觉钉成公式。开局先做减法:<b>每层只留一个神经元</b>,三层小链 a⁽⁰⁾ → a⁽¹⁾ → a⁽²⁾ → a⁽³⁾,旋钮只剩 6 个——loss 直接写成 6 个旋钮的函数,变量减到最少,机制才看得清(NN1 两个旋钮起步的同款思路)。目标一脉相承:<b>loss 对每个旋钮多敏感,才知道往哪拧、拧多猛</b>。</p>
           <p class="s1-recap">敏感度只能<b>沿链乘回去</b>,这就是<b>链式法则</b>:<code>∂C/∂w⁽ˡ⁾ⱼₖ = a⁽ˡ⁻¹⁾ₖ · σ′(z⁽ˡ⁾ⱼ) · ∂C/∂a⁽ˡ⁾ⱼ</code>——前层激活 × sigmoid 的坡度 × 心愿,三个因子各管一段。「心愿」∂C/∂a⁽ˡ⁾ 不用重算:<b>它是更后一层心愿的加权和</b>,顺着递归滚回输出层,那里有万能起搏器 <code>∂C/∂a⁽ᴸ⁾ = 2(a⁽ᴸ⁾ − y)</code>。</p>
@@ -815,7 +815,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       </details>
 
       <details class="ch-recap" id="b1b-arc-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 3B1–3B4 连读全景 · 几段话 + 一张图(四集一条线 × 一个循环记全剧)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 3B1–3B4 连读全景(四集一条线 × 一个循环记全剧)</summary>
         <div class="ch-lab-body">
           <p class="s1-recap">四集连看是一条问题链,每集答一问、答完抛下一问:<b>3B1 答「网长什么样」</b>——784→16→16→10 全连接,13,002 个旋钮就位待学,层间一个公式传动。悬念抛给 <b>3B2:这堆旋钮值哪来?</b>——先外套 loss 量好坏,再沿负梯度下坡 <code>[w,b] ← [w,b] − η·∇C</code>。</p>
           <p class="s1-recap">3B2 又抛出更贵的一问:<b>∇C 这 13,002 个偏导怎么算?</b><b>3B3 给直觉</b>——反传算的是单个样本的心愿清单,能直接拧的只有 w 和 b 两根杠杆,第三根(前层激活)拧不动,心愿逆流得名「反向」;样本太多就打乱分批,SGD 登场。<b>3B4 钉成公式</b>——最小网络上链式法则沿链乘回,心愿层层加权滚回输出层起搏器;多神经元 = 路径求和,矩阵版前向存激活、后向复用,一趟算清,比数值量坡便宜百倍。</p>
