@@ -556,7 +556,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
           <p class="s1-recap">落到 NN2 的 2-2-1 网络上手推：<b>读出层三旋钮 = 各自乘的东西 × δ</b>（δ = 2(out−y)·out(1−out)，链尾过了 sigmoid 的责任）——权重乘 h′ 取 h′，偏置乘常数 1 取 1；<b>穿 ReLU 进隐层</b>：δ1 = w20·δ·(h1&gt;0?1:0)，隐层六旋钮再按「各自乘的东西 × δ1」领锅。九个梯度一段一段全是这两条规矩的机械执行。死区的精确版顺手拿到：两隐层全灭时 dw20=dw21o=0 但 db2o≠0——<b>偏置旁路还活着，责任只是过不去 ReLU</b>。</p>
           <p class="s1-recap">互证收官：三组参数 × 9 旋钮、手推对数值梯度 27 行对表，远离刀刃的 25 行精确到小数点后 6 位吻合；唯一不一致的 2 行全在同一处——h1 恰好 = 0，正卡 ReLU 折角，<b>导数不存在的点，两边各选一边</b>（数值版只量到右侧坡 0.125，PyTorch 惯例同手推版选 &gt;0）。最后用反向梯度训练 XOR：第一跑撞回死区（loss 卡 0.175，换种子才活）——梯度下降不挑梯度来源，坑也是老坑；seed=10 跑通，loss 0.000025 四题全对。挂向 NN4：softmax + 交叉熵，学完回主线 02。</p>
           <div class="s1-fig">
-<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="NN3 知识点全景：左边是数值梯度与反向传播的前向次数账单对比，中间是链式法则示例链条与岔路，右边是 2-2-1 网络反向责任流，底部是 ReLU 折角与死区两个陷阱">
+<svg viewBox="0 0 880 730" width="100%" role="img" aria-label="NN3 知识点全景：左边是数值梯度与反向传播的前向次数账单对比，中间是链式法则示例链条与岔路，右边是 2-2-1 网络反向责任流，底部是 2-2-1 网络结构图（九旋钮、前向记账与反向责任回传）及 ReLU 折角、死区两个陷阱">
   <defs>
     <marker id="s3par" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
     <marker id="s3parR" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e06c75"/></marker>
@@ -622,9 +622,52 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
   <text x="680" y="382" font-size="11" fill="#a0a0aa" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">首跑撞回死区（loss 卡 0.175）→ 换种子才活</text>
   <text x="680" y="398" font-size="11" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">seed=10：8000 步 loss 0.000025 · 四题全对</text>
 
-  <line x1="680" y1="412" x2="680" y2="434" stroke="#d97757" stroke-width="2" marker-end="url(#s3parO)"/>
-  <rect x="500" y="438" width="360" height="40" rx="10" fill="#17171d" stroke="rgba(217,119,87,.55)"/>
-  <text x="680" y="463" font-size="11.5" fill="#d97757" text-anchor="middle">→ NN4：softmax + 交叉熵，学完回主线 02</text>
+  <text x="860" y="480" font-size="13" font-weight="600" fill="#e9e9ec" text-anchor="end">④ 网络全景：2-2-1 · 九旋钮 · 责任流</text>
+
+  <circle cx="90" cy="530" r="17" fill="rgba(122,162,247,.12)" stroke="#7aa2f7"/>
+  <text x="90" y="535" font-size="12" fill="#e9e9ec" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">x1</text>
+  <circle cx="90" cy="595" r="17" fill="rgba(122,162,247,.12)" stroke="#7aa2f7"/>
+  <text x="90" y="600" font-size="12" fill="#e9e9ec" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">x2</text>
+  <text x="90" y="640" font-size="10" fill="#a0a0aa" text-anchor="middle">输入(0/1)</text>
+
+  <line x1="107" y1="525" x2="180" y2="505" stroke="#7aa2f7" stroke-width="1.5" marker-end="url(#s3par)"/>
+  <line x1="107" y1="588" x2="180" y2="522" stroke="#7aa2f7" stroke-width="1.5" marker-end="url(#s3par)"/>
+  <line x1="107" y1="537" x2="180" y2="580" stroke="#7aa2f7" stroke-width="1.5" marker-end="url(#s3par)"/>
+  <line x1="107" y1="610" x2="180" y2="602" stroke="#7aa2f7" stroke-width="1.5" marker-end="url(#s3par)"/>
+  <text x="115" y="516" font-size="10" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">w11</text>
+  <text x="160" y="552" font-size="10" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">w21</text>
+  <text x="115" y="550" font-size="10" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">w12</text>
+  <text x="112" y="626" font-size="10" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">w22</text>
+
+  <rect x="183" y="490" width="175" height="52" rx="10" fill="rgba(158,206,106,.08)" stroke="rgba(158,206,106,.55)"/>
+  <text x="270" y="511" font-size="10.5" fill="#e9e9ec" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">h1 = w11·x1+w21·x2+b1</text>
+  <text x="270" y="530" font-size="10.5" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">ReLU → h1'</text>
+
+  <rect x="183" y="565" width="175" height="52" rx="10" fill="rgba(158,206,106,.08)" stroke="rgba(158,206,106,.55)"/>
+  <text x="270" y="586" font-size="10.5" fill="#e9e9ec" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">h2 = w12·x1+w22·x2+b2</text>
+  <text x="270" y="605" font-size="10.5" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">ReLU → h2'</text>
+
+  <line x1="358" y1="514" x2="445" y2="537" stroke="#7aa2f7" stroke-width="1.5" marker-end="url(#s3par)"/>
+  <line x1="358" y1="588" x2="445" y2="555" stroke="#7aa2f7" stroke-width="1.5" marker-end="url(#s3par)"/>
+  <text x="392" y="512" font-size="10" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">W2[0]</text>
+  <text x="392" y="590" font-size="10" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">W2[1]</text>
+
+  <rect x="448" y="515" width="195" height="72" rx="10" fill="rgba(217,119,87,.08)" stroke="rgba(217,119,87,.55)"/>
+  <text x="545" y="537" font-size="10.5" fill="#e9e9ec" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">out = W2[0]·h1'</text>
+  <text x="545" y="554" font-size="10.5" fill="#e9e9ec" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">+ W2[1]·h2' + b_out</text>
+  <text x="545" y="574" font-size="10.5" fill="#d97757" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">sigmoid → (0,1)</text>
+
+  <line x1="643" y1="551" x2="690" y2="551" stroke="#e06c75" stroke-width="1.6" marker-end="url(#s3parR)"/>
+  <text x="722" y="556" font-size="12" fill="#e06c75" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">loss</text>
+  <text x="722" y="572" font-size="9.5" fill="#a0a0aa" text-anchor="middle">(out−y)²</text>
+
+  <path d="M710,585 C640,645 250,650 130,622" fill="none" stroke="#e06c75" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#s3parR)"/>
+  <text x="420" y="662" font-size="10.5" fill="#e06c75" text-anchor="middle">反向：责任回传 = 上游责任 × 本地导数（权重 = 它乘的东西 · ReLU = h&gt;0?1:0 · 偏置 = 1）</text>
+
+  <text x="455" y="496" font-size="10.5" fill="#7aa2f7" text-anchor="middle">→ 前向：算值并记账</text>
+
+  <rect x="500" y="678" width="360" height="40" rx="10" fill="#17171d" stroke="rgba(217,119,87,.55)"/>
+  <text x="680" y="703" font-size="11.5" fill="#d97757" text-anchor="middle">→ NN4：softmax + 交叉熵，学完回主线 02</text>
 </svg>
           </div>
         </div>
