@@ -19,10 +19,10 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 <header class="hero">
   <div class="wrap">
     <h1>miniclaude</h1>
-    <p class="tagline">从零手撸一个 Claude Code · 教学课程总表 —— 模型我们永远不造?不,序章先搓个小的;壳,我们整只撸。</p>
+    <p class="tagline">从零手撸一个 Claude Code · 教学课程总表 —— 模型我们永远不造？不，序章先搓个小的；壳，我们整只撸。</p>
     <div class="meta">
-      <span class="chip ts"><span class="dot"></span>铸剑线 · TypeScript + Node(正文)</span>
-      <span class="chip py"><span class="dot"></span>搓丹线 · Python + PyTorch(序章)</span>
+      <span class="chip ts"><span class="dot"></span>铸剑线 · TypeScript + Node（正文）</span>
+      <span class="chip py"><span class="dot"></span>搓丹线 · Python + PyTorch（序章）</span>
       <span class="chip update">更新于 2026-10-21</span>
     </div>
     <nav class="toc">
@@ -37,14 +37,14 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 <section class="block" id="arch">
   <div class="sec-kicker">01 / MAP</div>
   <h2 class="sec">全景架构</h2>
-  <p class="sec-sub">Agent 循环往下分两条路:左边找 LLM「想」,右边穿过权限闸门找工具「做」——来回切换,这就是第 3 章要写的 while 循环本尊。</p>
+  <p class="sec-sub">Agent 循环往下分两条路：左边找 LLM「想」，右边穿过权限闸门找工具「做」——来回切换，这就是第 3 章要写的 while 循环本尊。</p>
 
   <div class="arch-tools">
-    <button class="arch-btn" id="arch-btn" type="button"><span id="arch-btn-ic">▶</span><span id="arch-btn-label">播放:一次请求的旅程</span></button>
-    <span class="arch-cap" id="arch-cap" aria-live="polite">点「播放」,看一条消息怎么走完一整轮 Agent 循环</span>
+    <button class="arch-btn" id="arch-btn" type="button"><span id="arch-btn-ic">▶</span><span id="arch-btn-label">播放：一次请求的旅程</span></button>
+    <span class="arch-cap" id="arch-cap" aria-live="polite">点「播放」，看一条消息怎么走完一整轮 Agent 循环</span>
   </div>
 
-  <div class="arch-stack" role="img" aria-label="分层架构:你、终端 UI、Agent 循环(旁挂上下文管理),向下分两路——一路通向 LLM API,一路经权限系统通向工具层,再连到文件系统与终端">
+  <div class="arch-stack" role="img" aria-label="分层架构：你、终端 UI、Agent 循环（旁挂上下文管理），向下分两路——一路通向 LLM API，一路经权限系统通向工具层，再连到文件系统与终端">
     <div class="layer" data-layer="user">
       <span class="icon-box">👤</span>
       <div><div class="layer-name">你<span class="ch-tag">· 主角</span></div>
@@ -63,7 +63,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       <div class="layer grow" data-layer="loop">
         <span class="icon-box">🔄</span>
         <div><div class="layer-name">Agent 循环<span class="ch-tag">· 第 3 章 · 心脏</span></div>
-        <div class="layer-sub">模型要工具 → 执行 → 喂回结果,直到给出最终回答</div></div>
+        <div class="layer-sub">模型要工具 → 执行 → 喂回结果，直到给出最终回答</div></div>
       </div>
       <span class="hlink" aria-hidden="true"></span>
       <div class="layer side" data-layer="ctx">
@@ -84,7 +84,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
         <div class="layer" data-layer="llm">
           <span class="icon-box">🧠</span>
           <div><div class="layer-name">LLM API<span class="ch-tag">· 第 1–2 章</span></div>
-          <div class="layer-sub">无状态文本函数:吃 messages,吐下一个 token</div></div>
+          <div class="layer-sub">无状态文本函数：吃 messages，吐下一个 token</div></div>
         </div>
       </div>
       <div class="col">
@@ -109,7 +109,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 <section class="block" id="acts">
   <div class="sec-kicker">02 / SYLLABUS</div>
   <h2 class="sec">课程表</h2>
-  <p class="sec-sub">五幕十章 + 序章。🔵 搓丹线用 Python(只此一章),🟠 铸剑线用 TypeScript。<br><b>代称规则(全局唯一)</b>:CH1–CH10 = 正文章节 · P0.x = 序章课次(prologue/)· v0.x = 交付版本(v0.1 ≠ P0.1)· 支线之间发散无序,不共用编号——卡片代称 = 名字缩写,线内课次 = 前缀 + 序号:NN = 支线·内功(神经网络,sidequest/,课次 NN1 起)· 3B = 支线·观影(3Blue1Brown,课次 3B1 起,3B 是品牌名不是序数)。新支线 = 新前缀,永不撞号。</p>
+  <p class="sec-sub">五幕十章 + 序章。🔵 搓丹线用 Python（只此一章），🟠 铸剑线用 TypeScript。<br><b>代称规则（全局唯一）</b>：CH1–CH10 = 正文章节 · P0.x = 序章课次（prologue/）· v0.x = 交付版本（v0.1 ≠ P0.1）· 支线之间发散无序，不共用编号——卡片代称 = 名字缩写，线内课次 = 前缀 + 序号：NN = 支线·内功（神经网络，sidequest/，课次 NN1 起）· 3B = 支线·观影（3Blue1Brown，课次 3B1 起，3B 是品牌名不是序数）。新支线 = 新前缀，永不撞号。</p>
 
   <details class="act prologue">
     <summary class="act-head">
@@ -119,32 +119,32 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
     </summary>
     <article class="chapter prologue">
       <div class="ch-top"><span class="ch-no">P0</span><span class="ch-title">从复读机到莎士比亚嘴替</span><span class="badge st-doing">🔥 进行中</span></div>
-      <p class="ch-q">「模型到底是什么?与其看一百篇科普,不如亲手搓一个——哪怕它只会满嘴莎翁味儿的胡话。」</p>
+      <p class="ch-q">「模型到底是什么？与其看一百篇科普，不如亲手搓一个——哪怕它只会满嘴莎翁味儿的胡话。」</p>
       <ul class="ch-list">
-        <li><b>P0.1</b> bigram 复读机(纯标准库)✅</li>
+        <li><b>P0.1</b> bigram 复读机（纯标准库）✅</li>
       </ul>
       <details class="ch-recap" id="b01-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 P0.1 全景(数数建表 × 查表抽签)</summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 P0.1 全景（数数建表 × 查表抽签）</summary>
         <div class="ch-lab-body">
-          <p class="s1-recap">P0.1 整课只干一件事:<b>用纯数数造出第一个会「说话」的模型</b>。bigram 的世界观:下一个字符只由当前这一个字符决定。训练 = 数数:把语料按相邻对配对 <code>zip(text, text[1:])</code>,<code>counts[prev][nxt] += 1</code> 记账,每行除以自己的总数归一化,得到 67 张概率表——真实语料里 <code>t</code> 后面接 <code>h</code> 的概率 41.4%、接空格 30.7%。</p>
-          <p class="s1-recap">生成 = 查表抽签:从换行符开场,查 <code>probs[cur]</code>,<code>random.choices</code> 按概率抽下一个字符,追加并把 cur 换成它,循环 600 次,吐出满嘴莎翁味儿的胡话。</p>
-          <p class="s1-recap">必修实验的教训:<b>贪心(每步只选概率最大的)会自锁</b>——要么掉进换行符自环坑(自环概率 34.2%),要么被 <code>␣→t→h→e</code> 循环圈吸走,这正是「temperature=0 时模型变复读机」的种子(P0.4 见)。</p>
-          <p class="s1-recap">此刻的模型 = 无状态的查表函数,它「懂」的唯一东西是字符接续的频率——P0.2 要做的,就是把这张手工数出来的表,换成用梯度下降学出来的神经网络。</p>
+          <p class="s1-recap">P0.1 整课只干一件事：<b>用纯数数造出第一个会「说话」的模型</b>。bigram 的世界观：下一个字符只由当前这一个字符决定。训练 = 数数：把语料按相邻对配对 <code>zip(text, text[1:])</code>，<code>counts[prev][nxt] += 1</code> 记账，每行除以自己的总数归一化，得到 67 张概率表——真实语料里 <code>t</code> 后面接 <code>h</code> 的概率 41.4%、接空格 30.7%。</p>
+          <p class="s1-recap">生成 = 查表抽签：从换行符开场，查 <code>probs[cur]</code>，<code>random.choices</code> 按概率抽下一个字符，追加并把 cur 换成它，循环 600 次，吐出满嘴莎翁味儿的胡话。</p>
+          <p class="s1-recap">必修实验的教训：<b>贪心（每步只选概率最大的）会自锁</b>——要么掉进换行符自环坑（自环概率 34.2%），要么被 <code>␣→t→h→e</code> 循环圈吸走，这正是「temperature=0 时模型变复读机」的种子（P0.4 见）。</p>
+          <p class="s1-recap">此刻的模型 = 无状态的查表函数，它「懂」的唯一东西是字符接续的频率——P0.2 要做的，就是把这张手工数出来的表，换成用梯度下降学出来的神经网络。</p>
           <div class="s1-fig">
-<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="P0.1 知识点全景:左边是数数建表五步,右边是查表抽签循环与贪心自锁陷阱">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="P0.1 知识点全景：左边是数数建表五步，右边是查表抽签循环与贪心自锁陷阱">
   <defs>
     <marker id="b1ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
   </defs>
 
-  <text x="105" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 训练 · 数数建表(在语料上跑一遍)</text>
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 训练 · 数数建表（在语料上跑一遍）</text>
 
   <rect x="105" y="50" width="305" height="46" rx="10" fill="#17171d" stroke="#2a2a34"/>
   <text x="121" y="69" font-size="12.5" font-weight="600" fill="#e9e9ec">📄 语料</text>
-  <text x="121" y="87" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">data/input.txt(莎士比亚)</text>
+  <text x="121" y="87" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">data/input.txt（莎士比亚）</text>
   <line x1="257" y1="98" x2="257" y2="114" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1ar)"/>
 
   <rect x="105" y="118" width="305" height="46" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="121" y="137" font-size="12.5" font-weight="600" fill="#e9e9ec">🔗 相邻对(滑窗配对)</text>
+  <text x="121" y="137" font-size="12.5" font-weight="600" fill="#e9e9ec">🔗 相邻对（滑窗配对）</text>
   <text x="121" y="155" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">zip(text, text[1:])</text>
   <line x1="257" y1="166" x2="257" y2="182" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1ar)"/>
 
@@ -162,14 +162,14 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
   <text x="121" y="341" font-size="12.5" font-weight="600" fill="#e9e9ec">📊 probs:67 张概率表</text>
   <text x="121" y="359" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">probs[cur] = 下一个字符的分布</text>
 
-  <text x="105" y="398" font-size="10.5" fill="#a0a0aa">真实语料实例(mono 概率行):</text>
+  <text x="105" y="398" font-size="10.5" fill="#a0a0aa">真实语料实例（mono 概率行）：</text>
   <text x="105" y="414" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">probs[t]: h 41.4% · ␣ 30.7% · o 10.6%</text>
 
-  <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② 生成 · 查表抽签(循环 ×600)</text>
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② 生成 · 查表抽签（循环 ×600）</text>
 
   <rect x="500" y="50" width="330" height="46" rx="10" fill="#17171d" stroke="#2a2a34"/>
   <text x="516" y="69" font-size="12.5" font-weight="600" fill="#e9e9ec">🎯 cur · 当前字符</text>
-  <text x="516" y="87" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">从 ⏎(换行符)开场</text>
+  <text x="516" y="87" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">从 ⏎（换行符）开场</text>
   <line x1="665" y1="98" x2="665" y2="114" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1ar)"/>
 
   <rect x="500" y="118" width="330" height="46" rx="10" fill="#17171d" stroke="#2a2a34"/>
@@ -190,13 +190,13 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
   <text x="458" y="175" font-size="11" fill="#a0a0aa" text-anchor="middle" transform="rotate(-90 458 175)">🔁 ×600 步</text>
 
   <rect x="500" y="310" width="330" height="76" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.5)"/>
-  <text x="516" y="332" font-size="12.5" font-weight="600" fill="#e9e9ec">⚠ 必修实验:贪心 argmax 自锁实录</text>
-  <text x="516" y="352" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">⏎ 自环坑(34.2%) · ␣→t→h→e 循环圈</text>
-  <text x="516" y="370" font-size="10.5" fill="#a0a0aa">= temperature=0 变复读机之种(P0.4 见)</text>
+  <text x="516" y="332" font-size="12.5" font-weight="600" fill="#e9e9ec">⚠ 必修实验：贪心 argmax 自锁实录</text>
+  <text x="516" y="352" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">⏎ 自环坑（34.2%） · ␣→t→h→e 循环圈</text>
+  <text x="516" y="370" font-size="10.5" fill="#a0a0aa">= temperature=0 变复读机之种（P0.4 见）</text>
 
   <rect x="105" y="430" width="725" height="50" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
   <text x="467" y="450" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">×600 步 → 满嘴莎翁味儿的胡话 · 模型 = 无状态的查表函数</text>
-  <text x="467" y="468" font-size="10.5" fill="#a0a0aa" text-anchor="middle">这张手工数出来的表,P0.2 将换成梯度下降学出来的神经网络</text>
+  <text x="467" y="468" font-size="10.5" fill="#a0a0aa" text-anchor="middle">这张手工数出来的表，P0.2 将换成梯度下降学出来的神经网络</text>
 </svg>
           </div>
         </div>
@@ -204,16 +204,16 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 
       <ul class="ch-list tight-top">
         <li><b>P0.2</b> 神经版 + 梯度训练🔥 学至中途 · 转支线补课</li>
-        <li><b>P0.3</b> 前文加长:击穿数数表 → <b>P0.4</b> temperature 调参</li>
-        <li><b>知识点</b> token 与采样;bigram 统计;embedding 与 MLP;训练循环、loss 与梯度下降;temperature / top-k</li>
-        <li><b>总结</b> 大模型与它的区别只是大了十万倍、吃了十万倍;它不会听话、不会工具调用——这正是「壳」存在的意义</li>
+        <li><b>P0.3</b> 前文加长：击穿数数表 → <b>P0.4</b> temperature 调参</li>
+        <li><b>知识点</b> token 与采样；bigram 统计；embedding 与 MLP；训练循环、loss 与梯度下降；temperature / top-k</li>
+        <li><b>总结</b> 大模型与它的区别只是大了十万倍、吃了十万倍；它不会听话、不会工具调用——这正是「壳」存在的意义</li>
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 mini-gpt</span><span class="foot-chip">🔍 考点 · temperature=0 时它为什么变复读机?</span></div>
+      <div class="ch-foot"><span class="foot-chip ver">交付 mini-gpt</span><span class="foot-chip">🔍 考点 · temperature=0 时它为什么变复读机？</span></div>
           <details class="ch-lab" id="bigram-lab">
         <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · bigram 工作原理 + 互动抽签台</summary>
         <div class="ch-lab-body">
   <div class="bg-flow">
-    <div class="bg-lane">① 训练 · 数数建表(在语料上跑一遍)</div>
+    <div class="bg-lane">① 训练 · 数数建表（在语料上跑一遍）</div>
     <div class="bg-row">
       <div class="bg-node"><span class="bg-ico">📄</span><b>语料</b><code>data/input.txt</code></div>
       <span class="bg-arr">→</span>
@@ -226,7 +226,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       <div class="bg-node bg-out"><span class="bg-ico">📊</span><b>probs</b><code>67 张概率表</code></div>
     </div>
     <div class="bg-drop">训练完毕 · 切换到生成模式</div>
-    <div class="bg-lane">② 生成 · 查表抽签(循环 ×600)</div>
+    <div class="bg-lane">② 生成 · 查表抽签（循环 ×600）</div>
     <div class="bg-row">
       <div class="bg-node bg-cur"><span class="bg-ico">🎯</span><b>cur 当前字符</b><code>从 '\n' 开场</code></div>
       <span class="bg-arr">→</span>
@@ -237,14 +237,14 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       <div class="bg-node"><span class="bg-ico">📝</span><b>追加 & 更新</b><code>out.append; cur = 新字符</code></div>
     </div>
     <div class="bg-loopback" aria-hidden="true"></div>
-    <div class="bg-loop-cap">↑ 新字符成为新的 cur,回到「查表」——直到凑满 600 个字符</div>
+    <div class="bg-loop-cap">↑ 新字符成为新的 cur，回到「查表」——直到凑满 600 个字符</div>
   </div>
 
   <div class="bg-lab">
     <div>
       <div class="bg-curbox"><span class="bg-cur-ch" id="bl-cur">⏎</span><span class="bg-cur-lab">cur · 当前字符</span></div>
-      <div class="bg-meta"><span id="bl-steps">第 0 步</span><span id="bl-last">上次:—</span></div>
-      <div class="bg-lab-cap" style="margin-top:12px">开场字符(点击切换)</div>
+      <div class="bg-meta"><span id="bl-steps">第 0 步</span><span id="bl-last">上次：—</span></div>
+      <div class="bg-lab-cap" style="margin-top:12px">开场字符（点击切换）</div>
       <div class="bg-starts" id="bl-starts"></div>
       <div class="bg-btns">
         <button class="arch-btn" id="bl-sample" type="button">🎲 按概率抽一次</button>
@@ -253,13 +253,13 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       </div>
     </div>
     <div>
-      <div class="bg-lab-cap">probs[cur] 候选分布(真实语料统计 · 每行前 6 名 · 🎯 = 贪心会选的最大项)</div>
+      <div class="bg-lab-cap">probs[cur] 候选分布（真实语料统计 · 每行前 6 名 · 🎯 = 贪心会选的最大项）</div>
       <div id="bl-rows"></div>
     </div>
   </div>
-  <div class="bg-lab-cap" style="margin-top:14px">out · 生成结果(⏎ = 换行,␣ = 空格,只显示最近 120 字符)</div>
+  <div class="bg-lab-cap" style="margin-top:14px">out · 生成结果（⏎ = 换行，␣ = 空格，只显示最近 120 字符）</div>
   <div class="bg-out" id="bl-out"></div>
-  <p class="bg-hint">玩法:连点「🎯 贪心」十几下,亲眼看它掉进 <code>\n</code> 自环坑或 <code>␣→t→h→e</code> 循环圈;换「🎲 抽签」,胡话立刻复活——这就是 temperature 存在的意义(P0.4 见)。</p>
+  <p class="bg-hint">玩法：连点「🎯 贪心」十几下，亲眼看它掉进 <code>\n</code> 自环坑或 <code>␣→t→h→e</code> 循环圈；换「🎲 抽签」，胡话立刻复活——这就是 temperature 存在的意义（P0.4 见）。</p>
 
   <script>
   (function () {
@@ -330,27 +330,27 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
     </summary>
     <article class="chapter prologue">
       <div class="ch-top"><span class="ch-no">NN</span><span class="ch-title">从旋钮到反向传播</span><span class="badge st-doing">🔥 进行中</span></div>
-      <p class="ch-q">「02_neural_bigram.py 看不顺?那就离开主线,把神经网络的第一性原理亲手搭一遍——讲法浅显,内容不变样。」</p>
+      <p class="ch-q">「02_neural_bigram.py 看不顺？那就离开主线，把神经网络的第一性原理亲手搭一遍——讲法浅显，内容不变样。」</p>
       <ul class="ch-list">
-        <li><b>NN1</b> 会学习的函数:旋钮(参数)、loss(打分)、数值梯度(量坡)、训练循环(下坡)——纯标准库 ✅</li>
+        <li><b>NN1</b> 会学习的函数：旋钮（参数）、loss（打分）、数值梯度（量坡）、训练循环（下坡）——纯标准库 ✅</li>
       </ul>
 
       <details class="ch-recap" id="s1-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 NN1 全景(下坡运动 × 训练循环)</summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 NN1 全景（下坡运动 × 训练循环）</summary>
         <div class="ch-lab-body">
-          <p class="s1-recap">NN1 整课只干一件事:<b>教机器自己学会一个函数</b>。模型是带旋钮的式子 <code>ŷ = w·x + b</code>(旋钮 w、b 就是「参数」);loss 用均方误差把「错得多离谱」压成一个数字——类比 CI 的红色失败数。</p>
-          <p class="s1-recap">数值梯度 <code>[loss(w+H) − loss(w−H)] / 2H</code>(H=0.00001)就是拿尺子量坡:<b>符号指方向</b>(往哪边拧 loss 会降)、<b>大小给陡度</b>(坡有多陡);训练则是循环执行 <code>w −= LR·grad</code> 顺势下坡——两百步后机器自摸出造数据的隐藏规律,学到 <code>1.998x + 0.979</code>(真相 <code>y = 2x + 1</code>,残差恰好等于噪声,理论不可再降)。</p>
-          <p class="s1-recap">途中的教训值回票价:<b>LR 是步长</b>,太大(LR=10)会一步跨过谷底、越蹦越高,loss 爆到 2.7×10²⁶;<b>数据是教练</b>,约束数 ≥ 旋钮数解才唯一——单个点训练 loss 照样归零,但 w 从没被「骂」过、纹丝不动(loss 归零 ≠ 学到真相)。</p>
-          <p class="s1-recap"><b>多维就多配旋钮</b>,x、z 各分一个 w 各管各的,这正是 NN2「神经元」的雏形;而两个输入若总一起动(特征共线),机器预测全对、归因全错——<b>预测对 ≠ 理解对</b>。</p>
+          <p class="s1-recap">NN1 整课只干一件事：<b>教机器自己学会一个函数</b>。模型是带旋钮的式子 <code>ŷ = w·x + b</code>（旋钮 w、b 就是「参数」）;loss 用均方误差把「错得多离谱」压成一个数字——类比 CI 的红色失败数。</p>
+          <p class="s1-recap">数值梯度 <code>[loss(w+H) − loss(w−H)] / 2H</code>（H=0.00001）就是拿尺子量坡：<b>符号指方向</b>（往哪边拧 loss 会降）、<b>大小给陡度</b>（坡有多陡）；训练则是循环执行 <code>w −= LR·grad</code> 顺势下坡——两百步后机器自摸出造数据的隐藏规律，学到 <code>1.998x + 0.979</code>(真相 <code>y = 2x + 1</code>，残差恰好等于噪声，理论不可再降)。</p>
+          <p class="s1-recap">途中的教训值回票价：<b>LR 是步长</b>，太大（LR=10）会一步跨过谷底、越蹦越高，loss 爆到 2.7×10²⁶；<b>数据是教练</b>，约束数 ≥ 旋钮数解才唯一——单个点训练 loss 照样归零，但 w 从没被「骂」过、纹丝不动（loss 归零 ≠ 学到真相）。</p>
+          <p class="s1-recap"><b>多维就多配旋钮</b>,x、z 各分一个 w 各管各的，这正是 NN2「神经元」的雏形；而两个输入若总一起动（特征共线），机器预测全对、归因全错——<b>预测对 ≠ 理解对</b>。</p>
           <div class="s1-fig">
-<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="NN1 知识点全景:左边是 loss 山谷下坡图,右边是训练循环五步骤">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="NN1 知识点全景：左边是 loss 山谷下坡图，右边是训练循环五步骤">
   <defs>
     <marker id="s1ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
     <marker id="s1arO" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d97757"/></marker>
   </defs>
 
   <text x="110" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 下坡 · loss 山谷滚 200 步</text>
-  <text x="110" y="48" font-size="11" fill="#a0a0aa">两端为真实数据,中间为下坡示意</text>
+  <text x="110" y="48" font-size="11" fill="#a0a0aa">两端为真实数据，中间为下坡示意</text>
 
   <line x1="70" y1="70" x2="70" y2="400" stroke="#2a2a34" stroke-width="1.5"/>
   <line x1="70" y1="400" x2="420" y2="400" stroke="#2a2a34" stroke-width="1.5"/>
@@ -388,58 +388,58 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
   <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② 循环 · 每一步的五个动作</text>
 
   <rect x="500" y="64" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="516" y="86" font-size="13" font-weight="600" fill="#e9e9ec">📊 数据(监督信号)</text>
-  <text x="516" y="105" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">y = 2x + 1 ± 0.1(带噪声)</text>
+  <text x="516" y="86" font-size="13" font-weight="600" fill="#e9e9ec">📊 数据（监督信号）</text>
+  <text x="516" y="105" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">y = 2x + 1 ± 0.1（带噪声）</text>
   <line x1="665" y1="118" x2="665" y2="136" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#s1ar)"/>
 
   <rect x="500" y="142" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="516" y="164" font-size="13" font-weight="600" fill="#e9e9ec">🧮 预测(带旋钮的函数)</text>
-  <text x="516" y="183" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">ŷ = w·x + b(w、b = 参数)</text>
+  <text x="516" y="164" font-size="13" font-weight="600" fill="#e9e9ec">🧮 预测（带旋钮的函数）</text>
+  <text x="516" y="183" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">ŷ = w·x + b（w、b = 参数）</text>
   <line x1="665" y1="196" x2="665" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#s1ar)"/>
 
   <rect x="500" y="220" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="516" y="242" font-size="13" font-weight="600" fill="#e9e9ec">📉 打分(loss)</text>
+  <text x="516" y="242" font-size="13" font-weight="600" fill="#e9e9ec">📉 打分（loss）</text>
   <text x="516" y="261" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">平均 (ŷ − y)² · 错得多离谱</text>
   <line x1="665" y1="274" x2="665" y2="292" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#s1ar)"/>
 
   <rect x="500" y="298" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="516" y="320" font-size="13" font-weight="600" fill="#e9e9ec">📏 量坡(数值梯度)</text>
+  <text x="516" y="320" font-size="13" font-weight="600" fill="#e9e9ec">📏 量坡（数值梯度）</text>
   <text x="516" y="339" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">[loss(w+H) − loss(w−H)] / 2H · H=1e−5</text>
   <line x1="665" y1="352" x2="665" y2="370" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#s1ar)"/>
 
   <rect x="500" y="376" width="330" height="52" rx="10" fill="#17171d" stroke="rgba(217,119,87,.55)"/>
-  <text x="516" y="398" font-size="13" font-weight="600" fill="#e9e9ec">🔧 下坡(更新旋钮)</text>
-  <text x="516" y="417" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">w −= LR·grad · 正拧小,负拧大</text>
+  <text x="516" y="398" font-size="13" font-weight="600" fill="#e9e9ec">🔧 下坡（更新旋钮）</text>
+  <text x="516" y="417" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">w −= LR·grad · 正拧小，负拧大</text>
 
   <path d="M500,402 C466,402 466,90 496,90" fill="none" stroke="#a0a0aa" stroke-width="1.3" marker-end="url(#s1ar)" opacity=".75"/>
   <text x="457" y="246" font-size="11" fill="#a0a0aa" text-anchor="middle" transform="rotate(-90 457 246)">🔁 ×200 步</text>
 
   <rect x="500" y="448" width="330" height="42" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
   <text x="665" y="467" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">×200 步 → w = 1.998 · b = 0.979</text>
-  <text x="665" y="483" font-size="10.5" fill="#a0a0aa" text-anchor="middle">≈ 真相 y = 2x + 1 · 残差 = 噪声,理论不可再降</text>
+  <text x="665" y="483" font-size="10.5" fill="#a0a0aa" text-anchor="middle">≈ 真相 y = 2x + 1 · 残差 = 噪声，理论不可再降</text>
 </svg>
           </div>
         </div>
       </details>
       <ul class="ch-list tight-top">
-        <li><b>NN2</b> 神经元 = 加权求和 + 激活;多层与非线性的必要性(XOR 之役)✅ <span class="done-date">2026-10-22</span><span class="done-date">(恢复直讲完课)</span></li>
+        <li><b>NN2</b> 神经元 = 加权求和 + 激活；多层与非线性的必要性（XOR 之役）✅ <span class="done-date">2026-10-22</span><span class="done-date">（恢复直讲完课）</span></li>
       </ul>
 
       <details class="ch-recap" id="s2-panorama">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 NN2 全景(一条直边的死局 × 折一折的胜利)</summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 NN2 全景（一条直边的死局 × 折一折的胜利）</summary>
         <div class="ch-lab-body">
-          <p class="s1-recap">神经元 = 流水线两站:<code>score = w1x1 + w2x2 + b</code>(<b>b 画及格线</b>:同一组权重 (1,1),b=0 是 OR 门、b=−1 变 AND 门)→ <code>ReLU(score)</code>(<b>折叠</b>:负分归零)。层叠起来之前先撞墙——<b>XOR 要亮的两个点在对角线上</b>,一刀(半个平面)怎么切都会把该亮与不该亮切进同一侧;这不是学得慢,是「每个输入独立打分再相加」的架构装不下「x1 该加分还是减分取决于 x2」的联动(夏天加冰爽、冬天加冰惨)。</p>
-          <p class="s1-recap">两层 + ReLU 破局。手工款:隐层 h1=OR、h2=AND,输出 <code>h1 − h2</code> =「至少一个开,但排除两个都开」;网络款(seed=21 实测):<code>h1 ≈ −x1+x2、h2 ≈ x1−x2</code> 两个方向探测器,读出层相加。款不同,本职相同——<b>把直刀切不开的输入空间,折叠成读出层一条直边就切得开的隐层空间(不可分 → 可分)</b>;解不唯一,seed=10 就学出「(0,1)/(1,0) 折到相近」的另一款。</p>
-          <p class="s1-recap">反证锁死结论:同样的两层,激活换恒等函数 <code>f(t)=t</code>,loss 死守 0.25、四个预测全是 0.500——线性套线性,两层坍缩回一层;而 0.5 = 答案均值(MSE 下猜不出的题就蒙基率:换个「更努力」的 0.5x1+0.5x2 反而 loss 0.375 更差)。对照 ReLU 版 loss=0.000000 四题全对:<b>唯一的魔法是那道折叠,层数本身不值钱</b>。</p>
-          <p class="s1-recap">训练日常:ReLU 全灭时梯度顺着零往回传、什么也传不回去(死区,loss 卡 0.25)——30 个种子 6 个能活,<b>调不动先换种子,再查学习率,最后才怀疑人生</b>。9 个旋钮 × 每步 2 次全量前向的数值梯度账单,挂向 NN3:手推链式法则,一次反向扫完全部旋钮。</p>
+          <p class="s1-recap">神经元 = 流水线两站：<code>score = w1x1 + w2x2 + b</code>(<b>b 画及格线</b>：同一组权重 (1,1),b=0 是 OR 门、b=−1 变 AND 门)→ <code>ReLU(score)</code>(<b>折叠</b>：负分归零)。层叠起来之前先撞墙——<b>XOR 要亮的两个点在对角线上</b>，一刀（半个平面）怎么切都会把该亮与不该亮切进同一侧；这不是学得慢，是「每个输入独立打分再相加」的架构装不下「x1 该加分还是减分取决于 x2」的联动（夏天加冰爽、冬天加冰惨）。</p>
+          <p class="s1-recap">两层 + ReLU 破局。手工款：隐层 h1=OR、h2=AND，输出 <code>h1 − h2</code> =「至少一个开，但排除两个都开」；网络款（seed=21 实测）：<code>h1 ≈ −x1+x2、h2 ≈ x1−x2</code> 两个方向探测器，读出层相加。款不同，本职相同——<b>把直刀切不开的输入空间，折叠成读出层一条直边就切得开的隐层空间（不可分 → 可分）</b>；解不唯一，seed=10 就学出「（0,1）/(1,0) 折到相近」的另一款。</p>
+          <p class="s1-recap">反证锁死结论：同样的两层，激活换恒等函数 <code>f(t)=t</code>,loss 死守 0.25、四个预测全是 0.500——线性套线性，两层坍缩回一层；而 0.5 = 答案均值（MSE 下猜不出的题就蒙基率：换个「更努力」的 0.5x1+0.5x2 反而 loss 0.375 更差）。对照 ReLU 版 loss=0.000000 四题全对：<b>唯一的魔法是那道折叠，层数本身不值钱</b>。</p>
+          <p class="s1-recap">训练日常：ReLU 全灭时梯度顺着零往回传、什么也传不回去（死区，loss 卡 0.25）——30 个种子 6 个能活，<b>调不动先换种子，再查学习率，最后才怀疑人生</b>。9 个旋钮 × 每步 2 次全量前向的数值梯度账单，挂向 NN3：手推链式法则，一次反向扫完全部旋钮。</p>
           <div class="s1-fig">
-<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="NN2 知识点全景:左边是神经元流水线(b 画线、ReLU 折叠),右边是 XOR 之役输入空间切不开、隐层折叠后一条直边切开,底部两个陷阱(死区与恒等激活)">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="NN2 知识点全景：左边是神经元流水线（b 画线、ReLU 折叠），右边是 XOR 之役输入空间切不开、隐层折叠后一条直边切开，底部两个陷阱（死区与恒等激活）">
   <defs>
     <marker id="s2par" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
     <marker id="s2parO" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d97757"/></marker>
   </defs>
 
-  <text x="110" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 神经元 = 加权求和 + ReLU(流水线两站)</text>
+  <text x="110" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 神经元 = 加权求和 + ReLU（流水线两站）</text>
 
   <text x="60" y="80" font-size="12" fill="#e9e9ec" font-family="ui-monospace,Menlo,monospace">x1, x2</text>
   <line x1="105" y1="76" x2="135" y2="76" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#s2par)"/>
@@ -454,16 +454,16 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
   <text x="381" y="72" font-size="12" font-weight="600" fill="#e9e9ec" text-anchor="middle">ReLU</text>
   <text x="381" y="89" font-size="10.5" fill="#a0a0aa" text-anchor="middle">负分归零 · 折叠</text>
 
-  <text x="70" y="130" font-size="11" fill="#a0a0aa">同一组权重 (1,1),挪门槛换门:</text>
-  <text x="70" y="150" font-size="11.5" fill="#e9e9ec" font-family="ui-monospace,Menlo,monospace">b=0 :输出 (00,01,10,11)=(0,1,1,2)</text>
+  <text x="70" y="130" font-size="11" fill="#a0a0aa">同一组权重 (1,1)，挪门槛换门：</text>
+  <text x="70" y="150" font-size="11.5" fill="#e9e9ec" font-family="ui-monospace,Menlo,monospace">b=0 ：输出 (00,01,10,11)=(0,1,1,2)</text>
   <text x="70" y="168" font-size="11" fill="#a0a0aa">→ OR 门「至少一个开」</text>
-  <text x="70" y="192" font-size="11.5" fill="#e9e9ec" font-family="ui-monospace,Menlo,monospace">b=−1:输出 (00,01,10,11)=(0,0,0,1)</text>
+  <text x="70" y="192" font-size="11.5" fill="#e9e9ec" font-family="ui-monospace,Menlo,monospace">b=−1：输出 (00,01,10,11)=(0,0,0,1)</text>
   <text x="70" y="210" font-size="11" fill="#a0a0aa">→ AND 门「两个都开才亮」</text>
-  <text x="70" y="234" font-size="11" fill="#9ece6a">b 管画线,ReLU 管折叠——一个神经元 = 画线再折叠</text>
+  <text x="70" y="234" font-size="11" fill="#9ece6a">b 管画线，ReLU 管折叠——一个神经元 = 画线再折叠</text>
 
-  <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② XOR 之役:一刀切不开 → 折一折就能切</text>
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② XOR 之役：一刀切不开 → 折一折就能切</text>
 
-  <text x="520" y="52" font-size="11" fill="#a0a0aa">输入空间(单神经元视角)</text>
+  <text x="520" y="52" font-size="11" fill="#a0a0aa">输入空间（单神经元视角）</text>
   <rect x="520" y="62" width="120" height="120" rx="6" fill="#17171d" stroke="#2a2a34"/>
   <circle cx="544" cy="86" r="6" fill="#9ece6a"/>
   <circle cx="616" cy="158" r="6" fill="#9ece6a"/>
@@ -478,7 +478,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
   <line x1="668" y1="120" x2="700" y2="120" stroke="#d97757" stroke-width="2" marker-end="url(#s2parO)"/>
   <text x="684" y="106" font-size="10" fill="#d97757" text-anchor="middle">隐层折叠</text>
 
-  <text x="708" y="52" font-size="11" fill="#a0a0aa">隐层空间(seed=21 实测)</text>
+  <text x="708" y="52" font-size="11" fill="#a0a0aa">隐层空间（seed=21 实测）</text>
   <rect x="708" y="62" width="120" height="120" rx="6" fill="#17171d" stroke="#2a2a34"/>
   <circle cx="790" cy="92" r="5.5" fill="#9ece6a"/>
   <circle cx="746" cy="130" r="5.5" fill="#9ece6a"/>
@@ -488,13 +488,13 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
   <text x="768" y="212" font-size="10.5" fill="#9ece6a" text-anchor="middle">✓ 读出层一条直边切开</text>
   <text x="768" y="228" font-size="10.5" fill="#a0a0aa" text-anchor="middle">h1≈−x1+x2 · h2≈x1−x2</text>
 
-  <text x="500" y="258" font-size="11.5" fill="#e9e9ec">反证:激活换恒等 f(t)=t → 线性套线性,两层坍缩一层</text>
-  <text x="500" y="276" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">loss 死守 0.25 · 四预测全 0.500(= 答案均值,蒙基率的投降书)</text>
-  <text x="500" y="294" font-size="11" fill="#9ece6a">ReLU 版 loss=0.000000——唯一的魔法是那道折叠,层数本身不值钱</text>
+  <text x="500" y="258" font-size="11.5" fill="#e9e9ec">反证：激活换恒等 f(t)=t → 线性套线性，两层坍缩一层</text>
+  <text x="500" y="276" font-size="11" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">loss 死守 0.25 · 四预测全 0.500（= 答案均值，蒙基率的投降书）</text>
+  <text x="500" y="294" font-size="11" fill="#9ece6a">ReLU 版 loss=0.000000——唯一的魔法是那道折叠，层数本身不值钱</text>
 
   <rect x="500" y="316" width="328" height="52" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.5)"/>
   <text x="516" y="338" font-size="12.5" font-weight="600" fill="#e9e9ec">⚠ 陷阱一 · 死区</text>
-  <text x="516" y="356" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">ReLU 全灭→梯度失联,loss 卡 0.25(SEED 0 卡死 / 10 存活)</text>
+  <text x="516" y="356" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">ReLU 全灭→梯度失联，loss 卡 0.25（SEED 0 卡死 / 10 存活）</text>
 
   <rect x="500" y="384" width="328" height="52" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.5)"/>
   <text x="516" y="406" font-size="12.5" font-weight="600" fill="#e9e9ec">⚠ 陷阱二 · 解不唯一</text>
@@ -502,9 +502,9 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 
   <rect x="60" y="316" width="400" height="120" rx="10" fill="rgba(158,206,106,.06)" stroke="rgba(158,206,106,.5)"/>
   <text x="260" y="348" font-size="13" font-weight="600" fill="#9ece6a" text-anchor="middle">训练日常的姿势</text>
-  <text x="260" y="374" font-size="11.5" fill="#e9e9ec" text-anchor="middle">调不动 → 先换种子,再查学习率,最后才怀疑人生</text>
-  <text x="260" y="398" font-size="10.5" fill="#a0a0aa" text-anchor="middle">数值梯度:9 个旋钮 × 每步 2 次全量前向,逐个量坡</text>
-  <text x="260" y="418" font-size="10.5" fill="#d97757" text-anchor="middle">→ NN3:链式法则一次反向扫完全部旋钮</text>
+  <text x="260" y="374" font-size="11.5" fill="#e9e9ec" text-anchor="middle">调不动 → 先换种子，再查学习率，最后才怀疑人生</text>
+  <text x="260" y="398" font-size="10.5" fill="#a0a0aa" text-anchor="middle">数值梯度：9 个旋钮 × 每步 2 次全量前向，逐个量坡</text>
+  <text x="260" y="418" font-size="10.5" fill="#d97757" text-anchor="middle">→ NN3：链式法则一次反向扫完全部旋钮</text>
 </svg>
           </div>
         </div>
@@ -512,43 +512,43 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       <details class="ch-recap" id="s2-recap">
         <summary><span class="ch-lab-arrow">▶</span>📚 NN2 书单 · 深入浅出补给站</summary>
         <div class="ch-lab-body">
-          <p class="s1-recap">按序号食用:<b>① 动画打底 → ② 亲手玩 → ③ 深挖「直边为什么切不开」</b>——这三步足够吃透 NN2。</p>
-          <p class="s1-recap">④ 鱼书与课程同步精读,⑤ 当第二遍讲法,⑥ 攒到 NN3 之后,⑦ 全程当字典,⑧ 回主线前的预告片。每条都标了与本课的呼应点。</p>
+          <p class="s1-recap">按序号食用：<b>① 动画打底 → ② 亲手玩 → ③ 深挖「直边为什么切不开」</b>——这三步足够吃透 NN2。</p>
+          <p class="s1-recap">④ 鱼书与课程同步精读，⑤ 当第二遍讲法，⑥ 攒到 NN3 之后，⑦ 全程当字典，⑧ 回主线前的预告片。每条都标了与本课的呼应点。</p>
           <div class="res-sec">🎬 视频类</div>
           <ul class="res-list">
             <li><span class="no">①</span><b>3Blue1Brown《深度学习》合集</b><span class="tag">深入浅出天花板 · B 站官方中文</span>
-              <span class="why">八集合集:结构 → 梯度下降 → 反传 → GPT 与注意力 → 卷积;已落地为下方「支线 · 观影」课程卡,3B1–3B4 已观毕(2026-10-21)。</span></li>
+              <span class="why">八集合集：结构 → 梯度下降 → 反传 → GPT 与注意力 → 卷积；已落地为下方「支线 · 观影」课程卡，3B1–3B4 已观毕（2026-10-21）。</span></li>
             <li><span class="no">⑤</span><b>李宏毅《机器学习》</b><span class="tag">中文网课口碑之王 · B 站搜「李宏毅 机器学习」</span>
-              <span class="why">梗多、节奏好、覆盖面大;ML 基础部分与本支线高度互补,适合当「第二遍讲法」。</span></li>
+              <span class="why">梗多、节奏好、覆盖面大；ML 基础部分与本支线高度互补，适合当「第二遍讲法」。</span></li>
             <li><span class="no">⑥</span><b>Andrej Karpathy《Neural Networks: Zero to Hero》</b><span class="tag">手搓流精神导师 · youtube.com/@AndrejKarpathy</span>
-              <span class="why">从手搓 micrograd 到手搓 GPT,与本课「古法手撸」精神同源;英文课,建议 NN3/NN4 消化后首刷,收获翻倍。</span></li>
+              <span class="why">从手搓 micrograd 到手搓 GPT，与本课「古法手撸」精神同源；英文课，建议 NN3/NN4 消化后首刷，收获翻倍。</span></li>
           </ul>
           <div class="res-sec">🌐 互动类</div>
           <ul class="res-list">
             <li><span class="no">②</span><b>TensorFlow Playground</b><span class="tag">10 分钟互动 · playground.tensorflow.org</span>
-              <span class="why">亲手拧学习率、加减层、换激活函数,亲眼看「一条直边切不开螺旋与 XOR」——把 NN2 的实验自己复现一遍,比看十篇文章都牢。</span></li>
+              <span class="why">亲手拧学习率、加减层、换激活函数，亲眼看「一条直边切不开螺旋与 XOR」——把 NN2 的实验自己复现一遍，比看十篇文章都牢。</span></li>
           </ul>
           <div class="res-sec">📝 文章类</div>
           <ul class="res-list">
             <li><span class="no">③</span><b>Colah《Neural Networks, Manifolds, and Topology》</b><span class="tag">几何视角 · colah.github.io</span>
-              <span class="why">一层网络 = 折一次纸;从拓扑角度讲透「直边为什么切不开 XOR」——NN2 四幕剧第二幕的理论版,图多字少,适合慢慢读。</span></li>
-            <li><span class="no">⑧</span><b>Jay Alammar 图解系列(The Illustrated GPT-2 等)</b><span class="tag">主线预习 · jalammar.github.io</span>
-              <span class="why">等支线修完、回主线(P0.3 前文加长 → Transformer)时的最佳预告片;现在收藏,届时再读。</span></li>
+              <span class="why">一层网络 = 折一次纸；从拓扑角度讲透「直边为什么切不开 XOR」——NN2 四幕剧第二幕的理论版，图多字少，适合慢慢读。</span></li>
+            <li><span class="no">⑧</span><b>Jay Alammar 图解系列（The Illustrated GPT-2 等）</b><span class="tag">主线预习 · jalammar.github.io</span>
+              <span class="why">等支线修完、回主线（P0.3 前文加长 → Transformer）时的最佳预告片；现在收藏，届时再读。</span></li>
           </ul>
           <div class="res-sec">📖 书籍类</div>
           <ul class="res-list">
-            <li><span class="no">④</span><b>《深度学习入门:基于 Python 的理论与实现》斋藤康毅(鱼书)</b><span class="tag">NumPy 手搓 · 与课程同源</span>
-              <span class="why">用 NumPy 亲手实现前向传播与反向传播,Python 代码极简——JS 老手现学现卖毫无压力,就是 NN1–NN3 的书本版。</span></li>
+            <li><span class="no">④</span><b>《深度学习入门：基于 Python 的理论与实现》斋藤康毅（鱼书）</b><span class="tag">NumPy 手搓 · 与课程同源</span>
+              <span class="why">用 NumPy 亲手实现前向传播与反向传播，Python 代码极简——JS 老手现学现卖毫无压力，就是 NN1–NN3 的书本版。</span></li>
             <li><span class="no">⑦</span><b>《神经网络与深度学习》邱锡鹏</b><span class="tag">中文系统教材 · 免费公开 nndl.github.io</span>
-              <span class="why">不必通读;哪个概念卡壳就翻哪一节,当全程工具书。</span></li>
+              <span class="why">不必通读；哪个概念卡壳就翻哪一节，当全程工具书。</span></li>
           </ul>
         </div>
       </details>
       <ul class="ch-list tight-top">
-        <li><b>NN3</b> 反向传播 = 链式法则:手推梯度与数值梯度互证</li>
-        <li><b>NN4</b> softmax + 交叉熵:grad = p − y 数值验证 → 回归主线 02,豁然开朗</li>
+        <li><b>NN3</b> 反向传播 = 链式法则：手推梯度与数值梯度互证</li>
+        <li><b>NN4</b> softmax + 交叉熵：grad = p − y 数值验证 → 回归主线 02，豁然开朗</li>
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付:看得懂 02_neural_bigram.py 的每一行</span></div>
+      <div class="ch-foot"><span class="foot-chip ver">交付：看得懂 02_neural_bigram.py 的每一行</span></div>
 
     </article>
   </details>
@@ -561,26 +561,26 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
     </summary>
     <article class="chapter prologue">
       <div class="ch-top"><span class="ch-no">3B</span><span class="ch-title">看得见的深度学习 · 一集一全景</span><span class="badge st-doing">🔥 进行中</span></div>
-      <p class="ch-q">「书单 ① 号升级成课:动画里的每根线,都要能对回我们亲手搓过的零件。」</p>
+      <p class="ch-q">「书单 ① 号升级成课：动画里的每根线，都要能对回我们亲手搓过的零件。」</p>
       <ul class="ch-list">
         <li><b>3B1</b> 神经网络的结构 ✅ <span class="done-date">2026-10-21</span></li>
       </ul>
 
       <details class="ch-recap" id="b1b-01-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 3B1 全景(网络结构 × 神经元传动)</summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 3B1 全景（网络结构 × 神经元传动）</summary>
         <div class="ch-lab-body">
-          <p class="s1-recap">3B1 搭出「认数字」的网络结构:<b>784 → 16 → 16 → 10,全连接</b>。输入层 784 = 28×28 个像素,激活值 = 灰度(0 黑 1 白)——「激活值」就是 NN1 里函数输出值的学名;两个隐藏层各 16,输出层 10,各替一个数字报置信度。</p>
-          <p class="s1-recap">层的分工是想象力所在:像素 → 短边 → 部件(顶部的圈、右下的竖线)→ 数字,<b>每层把上一层拼成更大块的图案</b>——NN2「深度 = 把简单弯折叠成复杂边界」的图像版。</p>
-          <p class="s1-recap">层间传动只有一条公式:<code>a⁽¹⁾ⱼ = σ(Σ wᵢⱼ·a⁽⁰⁾ᵢ + bⱼ)</code>——接住上层<b>全部</b>激活,乘权重求和(w = 关注什么图案),加偏置(激发门槛,NN2 那个 b=−θ 的直系亲属),sigmoid 把任意实数压回 0~1 当打分。sigmoid 与 ReLU 是同一岗位(激活函数)的两位任职者,本集用前者。</p>
-          <p class="s1-recap">全连接的账单:全网 <b>13,002 个旋钮</b>(NN2 才 9 个)。本集只摆零件;值从哪来,3B2 搬出 NN1 的下坡循环作答。</p>
+          <p class="s1-recap">3B1 搭出「认数字」的网络结构：<b>784 → 16 → 16 → 10，全连接</b>。输入层 784 = 28×28 个像素，激活值 = 灰度（0 黑 1 白）——「激活值」就是 NN1 里函数输出值的学名；两个隐藏层各 16，输出层 10，各替一个数字报置信度。</p>
+          <p class="s1-recap">层的分工是想象力所在：像素 → 短边 → 部件（顶部的圈、右下的竖线）→ 数字，<b>每层把上一层拼成更大块的图案</b>——NN2「深度 = 把简单弯折叠成复杂边界」的图像版。</p>
+          <p class="s1-recap">层间传动只有一条公式：<code>a⁽¹⁾ⱼ = σ(Σ wᵢⱼ·a⁽⁰⁾ᵢ + bⱼ)</code>——接住上层<b>全部</b>激活，乘权重求和（w = 关注什么图案），加偏置（激发门槛，NN2 那个 b=−θ 的直系亲属）,sigmoid 把任意实数压回 0~1 当打分。sigmoid 与 ReLU 是同一岗位（激活函数）的两位任职者，本集用前者。</p>
+          <p class="s1-recap">全连接的账单：全网 <b>13,002 个旋钮</b>（NN2 才 9 个）。本集只摆零件；值从哪来，3B2 搬出 NN1 的下坡循环作答。</p>
           <div class="s1-fig">
-<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="3B1 全景:左边网络结构 784-16-16-10 与全连接,右边神经元传动四步与 sigmoid 曲线">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="3B1 全景：左边网络结构 784-16-16-10 与全连接，右边神经元传动四步与 sigmoid 曲线">
   <defs>
     <marker id="b1bar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
   </defs>
 
-  <text x="105" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 结构 · 784 → 16 → 16 → 10(全连接)</text>
-  <text x="105" y="48" font-size="10.5" fill="#a0a0aa">层间全连接:仅输入→隐藏① 一层就要 784×16 = 12,544 条权重</text>
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 结构 · 784 → 16 → 16 → 10（全连接）</text>
+  <text x="105" y="48" font-size="10.5" fill="#a0a0aa">层间全连接：仅输入→隐藏① 一层就要 784×16 = 12,544 条权重</text>
 
   <g stroke="#3d3d4d" stroke-width=".8" opacity=".55">
     <line x1="117" y1="198" x2="225" y2="66"/><line x1="117" y1="198" x2="225" y2="98"/><line x1="117" y1="198" x2="225" y2="130"/><line x1="117" y1="198" x2="225" y2="226"/><line x1="117" y1="198" x2="225" y2="290"/><line x1="117" y1="198" x2="225" y2="326"/>
@@ -614,10 +614,10 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
     <text x="432" y="372" font-size="11.5" font-weight="600" fill="#e9e9ec">输出层 · 10</text>
     <text x="432" y="389" font-size="10.5" fill="#a0a0aa">给 0–9 各打一分</text>
   </g>
-  <text x="271" y="415" font-size="11" fill="#a0a0aa" text-anchor="middle">🧠 层层拼图:像素 → 短边 → 部件 → 数字 —— NN2「折叠弯」的图像版</text>
+  <text x="271" y="415" font-size="11" fill="#a0a0aa" text-anchor="middle">🧠 层层拼图：像素 → 短边 → 部件 → 数字 —— NN2「折叠弯」的图像版</text>
 
   <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② 传动 · 只有一个公式</text>
-  <text x="500" y="48" font-size="10.5" fill="#a0a0aa">片中图 1 的记法:a⁽¹⁾ⱼ = σ( Σ wᵢⱼ·a⁽⁰⁾ᵢ + bⱼ )</text>
+  <text x="500" y="48" font-size="10.5" fill="#a0a0aa">片中图 1 的记法：a⁽¹⁾ⱼ = σ( Σ wᵢⱼ·a⁽⁰⁾ᵢ + bⱼ )</text>
 
   <rect x="500" y="64" width="252" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
   <text x="516" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">📥 接住上一层全部激活</text>
@@ -630,8 +630,8 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
   <line x1="626" y1="196" x2="626" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1bar)"/>
 
   <rect x="500" y="220" width="252" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="516" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">🚪 加偏置,过 σ</text>
-  <text x="516" y="260" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">bⱼ = 激发门槛(NN2 的 b=−θ)</text>
+  <text x="516" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">🚪 加偏置，过 σ</text>
+  <text x="516" y="260" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">bⱼ = 激发门槛（NN2 的 b=−θ）</text>
   <line x1="626" y1="274" x2="626" y2="292" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1bar)"/>
 
   <rect x="500" y="298" width="252" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
@@ -640,7 +640,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
   <line x1="626" y1="352" x2="626" y2="370" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b1bar)"/>
 
   <rect x="500" y="376" width="252" height="52" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.55)"/>
-  <text x="516" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">🌀 sigmoid:任意实数 → 0~1</text>
+  <text x="516" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">🌀 sigmoid：任意实数 → 0~1</text>
   <text x="516" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">−3 → 0.05 · 0 → 0.5 · 7 → 0.999</text>
 
   <line x1="768" y1="80" x2="768" y2="368" stroke="#2a2a34" stroke-width="1.5"/>
@@ -653,8 +653,8 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
   <text x="801" y="407" font-size="10" fill="#a0a0aa" text-anchor="middle">= 激活函数</text>
 
   <rect x="105" y="444" width="725" height="46" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
-  <text x="467" y="463" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">全网 13,002 个旋钮(NN2 里是 9 个)—— 值从哪来?</text>
-  <text x="467" y="481" font-size="10.5" fill="#a0a0aa" text-anchor="middle">3B2 · 梯度下降 = NN1 的下坡运动,规模化</text>
+  <text x="467" y="463" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">全网 13,002 个旋钮（NN2 里是 9 个）—— 值从哪来？</text>
+  <text x="467" y="481" font-size="10.5" fill="#a0a0aa" text-anchor="middle">3B2 · 梯度下降 = NN1 的下坡运动，规模化</text>
 </svg>
           </div>
         </div>
@@ -665,28 +665,28 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       </ul>
 
       <details class="ch-recap" id="b1b-02-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 3B2 全景(loss 套娃 × 下山循环)</summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 3B2 全景（loss 套娃 × 下山循环）</summary>
         <div class="ch-lab-body">
-          <p class="s1-recap">3B2 让 13,002 个旋钮从随机数长成本事——<b>靠的还是 NN1 那套下坡循环</b>。开局全部随机,网络很糟(NN1 从 w=0 起步是特例,坏开局的代价 NN2 死区已领教);糟要可量化,于是给网络套一层 loss。</p>
-          <p class="s1-recap"><b>套娃是本集的视角翻转</b>:网络吃 784 个像素、吐 10 个打分,旋钮藏在体内;loss 再把这 13,002 个旋钮<b>当成自己的输入</b>,对全训练集考一遍,吐出 1 个数,越大越差(考题是固定背景,不是变量)。</p>
-          <p class="s1-recap">让这个数变小只有一招:算梯度 <b>∇C(13,002 个偏导,指向上山)</b>,沿反方向挪一小步 <code>[w,b] ← [w,b] − η·∇C</code>,循环往复——<b>梯度下降法</b>。η = 笔记里那个「倍数」= NN1 的 LR(本集取 0.1);负梯度读法与 NN1 逐字相同:<b>符号说调大还是调小,大小说该动多猛</b>。</p>
-          <p class="s1-recap">悬案留给下集:∇C 怎么算?数值量坡每个旋钮试挪两次 × 13,002 个旋钮,太贵——3B3 的<b>反向传播</b>一趟算清,正是 NN3 的主角。</p>
+          <p class="s1-recap">3B2 让 13,002 个旋钮从随机数长成本事——<b>靠的还是 NN1 那套下坡循环</b>。开局全部随机，网络很糟（NN1 从 w=0 起步是特例，坏开局的代价 NN2 死区已领教）；糟要可量化，于是给网络套一层 loss。</p>
+          <p class="s1-recap"><b>套娃是本集的视角翻转</b>：网络吃 784 个像素、吐 10 个打分，旋钮藏在体内；loss 再把这 13,002 个旋钮<b>当成自己的输入</b>，对全训练集考一遍，吐出 1 个数，越大越差（考题是固定背景，不是变量）。</p>
+          <p class="s1-recap">让这个数变小只有一招：算梯度 <b>∇C（13,002 个偏导，指向上山）</b>，沿反方向挪一小步 <code>[w,b] ← [w,b] − η·∇C</code>，循环往复——<b>梯度下降法</b>。η = 笔记里那个「倍数」= NN1 的 LR（本集取 0.1）；负梯度读法与 NN1 逐字相同：<b>符号说调大还是调小，大小说该动多猛</b>。</p>
+          <p class="s1-recap">悬案留给下集：∇C 怎么算？数值量坡每个旋钮试挪两次 × 13,002 个旋钮，太贵——3B3 的<b>反向传播</b>一趟算清，正是 NN3 的主角。</p>
           <div class="s1-fig">
-<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="3B2 全景:左边 loss 套娃三层与视角翻转,右边梯度下降循环四步与负梯度读法">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="3B2 全景：左边 loss 套娃三层与视角翻转，右边梯度下降循环四步与负梯度读法">
   <defs>
     <marker id="b2ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
   </defs>
 
   <text x="105" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 套娃 · loss 是套在网络外的函数</text>
-  <text x="105" y="48" font-size="10.5" fill="#a0a0aa">学员笔记的视角翻转:网络参数,在 loss 眼里 = 输入</text>
+  <text x="105" y="48" font-size="10.5" fill="#a0a0aa">学员笔记的视角翻转：网络参数，在 loss 眼里 = 输入</text>
 
   <rect x="105" y="64" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
   <text x="121" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">🧮 网络函数 · 13,002 个旋钮藏在体内</text>
-  <text x="121" y="104" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">784 个像素 → 10 个打分(3B1 那张网)</text>
+  <text x="121" y="104" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">784 个像素 → 10 个打分（3B1 那张网）</text>
   <line x1="270" y1="118" x2="270" y2="136" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b2ar)"/>
 
   <rect x="105" y="142" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="121" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">📊 对答案(每个训练样本)</text>
+  <text x="121" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">📊 对答案（每个训练样本）</text>
   <text x="121" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">10 个打分 vs 标签 → 1 个「错得多离谱」</text>
   <line x1="270" y1="196" x2="270" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b2ar)"/>
 
@@ -696,16 +696,16 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
   <line x1="270" y1="274" x2="270" y2="292" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b2ar)"/>
 
   <rect x="105" y="298" width="330" height="52" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.55)"/>
-  <text x="121" y="319" font-size="12.5" font-weight="600" fill="#e9e9ec">🔄 换视角:loss 眼里的世界</text>
+  <text x="121" y="319" font-size="12.5" font-weight="600" fill="#e9e9ec">🔄 换视角：loss 眼里的世界</text>
   <text x="121" y="338" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">输入 13,002 个旋钮 → 输出 1 个数 · 考题=固定</text>
   <line x1="270" y1="352" x2="270" y2="370" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b2ar)"/>
 
   <rect x="105" y="376" width="330" height="52" rx="10" fill="#17171d" stroke="rgba(122,162,247,.45)"/>
   <text x="121" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">↩ NN1 对照</text>
-  <text x="121" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">那边的 loss 只吃 2 个旋钮(w、b)· 同一套下坡</text>
+  <text x="121" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">那边的 loss 只吃 2 个旋钮（w、b）· 同一套下坡</text>
 
-  <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② 下山 · 梯度下降法(循环)</text>
-  <text x="500" y="48" font-size="10.5" fill="#a0a0aa">片中图 1 的更新式:参数向量 − η × 梯度向量,η=0.1</text>
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② 下山 · 梯度下降法（循环）</text>
+  <text x="500" y="48" font-size="10.5" fill="#a0a0aa">片中图 1 的更新式：参数向量 − η × 梯度向量，η=0.1</text>
 
   <rect x="500" y="64" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
   <text x="516" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">🎲 随机初始化</text>
@@ -713,7 +713,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
   <line x1="665" y1="118" x2="665" y2="136" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b2ar)"/>
 
   <rect x="500" y="142" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="516" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">🧮 前向:算今天的 loss</text>
+  <text x="516" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">🧮 前向：算今天的 loss</text>
   <text x="516" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">拿网络考一遍考题 · 平均出 1 个数</text>
   <line x1="665" y1="196" x2="665" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b2ar)"/>
 
@@ -730,71 +730,71 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
   <text x="866" y="246" font-size="11" fill="#a0a0aa" text-anchor="middle" transform="rotate(-90 866 246)">🔁 循环</text>
 
   <rect x="500" y="376" width="330" height="52" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.55)"/>
-  <text x="516" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">🧭 负梯度逐项读法(与 NN1 逐字同)</text>
+  <text x="516" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">🧭 负梯度逐项读法（与 NN1 逐字同）</text>
   <text x="516" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">± 号 = 调大/调小 · 大小 = 该动多猛</text>
 
   <rect x="105" y="444" width="725" height="46" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
-  <text x="467" y="463" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">∇C 怎么算?NN1 数值量坡 = 每旋钮 2 次前向 × 13,002 → 太贵</text>
-  <text x="467" y="481" font-size="10.5" fill="#a0a0aa" text-anchor="middle">3B3 · 反向传播:一趟后向算清全部偏导 = 我们的 NN3,提前预习</text>
+  <text x="467" y="463" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">∇C 怎么算？NN1 数值量坡 = 每旋钮 2 次前向 × 13,002 → 太贵</text>
+  <text x="467" y="481" font-size="10.5" fill="#a0a0aa" text-anchor="middle">3B3 · 反向传播：一趟后向算清全部偏导 = 我们的 NN3，提前预习</text>
 </svg>
           </div>
         </div>
       </details>
 
       <ul class="ch-list tight-top">
-        <li><b>3B3</b> 反向传播(上) ✅ <span class="done-date">2026-10-21</span></li>
+        <li><b>3B3</b> 反向传播（上） ✅ <span class="done-date">2026-10-21</span></li>
       </ul>
 
       <details class="ch-recap" id="b1b-03-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 3B3 全景(单张考卷的三根杠杆 × 心愿逆流)</summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 3B3 全景（单张考卷的三根杠杆 × 心愿逆流）</summary>
         <div class="ch-lab-body">
-          <p class="s1-recap">接住 3B2 的悬案:∇C 怎么算才不贵?3B3 的答案是<b>反向传播</b>,先换视角:<b>别问「旋钮怎么拧」,先问「这张考卷想怎么拧」</b>——反传算的是单个训练样本想怎样修改权重和偏置,方向(调大/调小)和力度(动多猛)一起给。「梯度向量每一项的大小,是 loss 对每个参数有多敏感」——这就是偏导的本体,NN1 的数值量坡 <code>(loss(w+H)−loss(w−H))/2H</code> 量的正是它。</p>
-          <p class="s1-recap">落到具体一张考卷:输出层代表「2」的神经元只亮到 0.2,想调高它,公式 <code>0.2 = σ(Σw·a + b)</code> 里只有三根杠杆:<b>① 调大偏置 b</b>——无条件加分,但对每张考卷都生效;<b>② 调大权重 w</b>——顺着亮着的像素加才有效,激活为负的连线上反而帮倒忙(同一个旋钮,不同考卷的心愿会打架);<b>③ 改上一层的激活值 a</b>。</p>
-          <p class="s1-recap">主角是③:<b>a 不是旋钮,拧不动</b>。「想让上一层的 a 变大」只能翻译成去调那一层的 w 和 b,那一层又牵出更前一层……<b>心愿逆着网络一层层往回流——「反向」二字由此得名</b>。把这套直觉写成数学就是链式法则,3B4 演算,也是 NN3 正片的手推同款。</p>
-          <p class="s1-recap">收尾两步:单样本心愿对<b>全部样本求平均</b>(loss 是全训练集的平均),汇总出来正是 3B2 的 ∇C,悬念闭环;全量每步都考太贵,就<b>打乱、分批、抽一小撮(minibatch)当代表</b>——<b>随机梯度下降 SGD</b>,「随机」指抽样的随机,更新式不变,<code>[w,b] ← [w,b] − η·∇C</code>,∇C 换成 mini 版(NN1 当年 200 个点全量算,是数据小到不用省)。</p>
+          <p class="s1-recap">接住 3B2 的悬案：∇C 怎么算才不贵？3B3 的答案是<b>反向传播</b>，先换视角：<b>别问「旋钮怎么拧」，先问「这张考卷想怎么拧」</b>——反传算的是单个训练样本想怎样修改权重和偏置，方向（调大/调小）和力度（动多猛）一起给。「梯度向量每一项的大小，是 loss 对每个参数有多敏感」——这就是偏导的本体，NN1 的数值量坡 <code>(loss(w+H)−loss(w−H))/2H</code> 量的正是它。</p>
+          <p class="s1-recap">落到具体一张考卷：输出层代表「2」的神经元只亮到 0.2，想调高它，公式 <code>0.2 = σ(Σw·a + b)</code> 里只有三根杠杆：<b>① 调大偏置 b</b>——无条件加分，但对每张考卷都生效；<b>② 调大权重 w</b>——顺着亮着的像素加才有效，激活为负的连线上反而帮倒忙（同一个旋钮，不同考卷的心愿会打架）；<b>③ 改上一层的激活值 a</b>。</p>
+          <p class="s1-recap">主角是③：<b>a 不是旋钮，拧不动</b>。「想让上一层的 a 变大」只能翻译成去调那一层的 w 和 b，那一层又牵出更前一层……<b>心愿逆着网络一层层往回流——「反向」二字由此得名</b>。把这套直觉写成数学就是链式法则，3B4 演算，也是 NN3 正片的手推同款。</p>
+          <p class="s1-recap">收尾两步：单样本心愿对<b>全部样本求平均</b>（loss 是全训练集的平均），汇总出来正是 3B2 的 ∇C，悬念闭环；全量每步都考太贵，就<b>打乱、分批、抽一小撮（minibatch）当代表</b>——<b>随机梯度下降 SGD</b>，「随机」指抽样的随机，更新式不变，<code>[w,b] ← [w,b] − η·∇C</code>,∇C 换成 mini 版（NN1 当年 200 个点全量算，是数据小到不用省）。</p>
           <div class="s1-fig">
-<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="3B3 全景:左边单张考卷的三根杠杆,右边心愿逆流汇总成梯度与 SGD">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="3B3 全景：左边单张考卷的三根杠杆，右边心愿逆流汇总成梯度与 SGD">
   <defs>
     <marker id="b3ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
   </defs>
 
   <text x="105" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 单张考卷 · 三根杠杆</text>
-  <text x="105" y="48" font-size="10.5" fill="#a0a0aa">片中图 1 那帧:让输出层「2」从 0.2 变亮</text>
+  <text x="105" y="48" font-size="10.5" fill="#a0a0aa">片中图 1 那帧：让输出层「2」从 0.2 变亮</text>
 
   <rect x="105" y="64" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="121" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">🖼️ 考卷:一张手写「2」</text>
+  <text x="121" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">🖼️ 考卷：一张手写「2」</text>
   <text x="121" y="104" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">输出层「2」只亮到 0.2 · 目标调高</text>
   <line x1="270" y1="118" x2="270" y2="136" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b3ar)"/>
 
   <rect x="105" y="142" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="121" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">🎯 心愿:把 0.2 拧上去</text>
+  <text x="121" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">🎯 心愿：把 0.2 拧上去</text>
   <text x="121" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">0.2 = σ(Σw·a + b) · 旋钮全在公式里</text>
   <line x1="270" y1="196" x2="270" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b3ar)"/>
 
   <rect x="105" y="220" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="121" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">🔧 杠杆①:调大偏置 b</text>
+  <text x="121" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">🔧 杠杆①：调大偏置 b</text>
   <text x="121" y="260" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">无条件加分 · 但对每张考卷都生效</text>
   <line x1="270" y1="274" x2="270" y2="292" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b3ar)"/>
 
   <rect x="105" y="298" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="121" y="319" font-size="12.5" font-weight="600" fill="#e9e9ec">🔧 杠杆②:调大权重 w</text>
+  <text x="121" y="319" font-size="12.5" font-weight="600" fill="#e9e9ec">🔧 杠杆②：调大权重 w</text>
   <text x="121" y="338" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">顺着亮像素加 · 负激活连线上帮倒忙</text>
   <line x1="270" y1="352" x2="270" y2="370" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b3ar)"/>
 
   <rect x="105" y="376" width="330" height="52" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.55)"/>
-  <text x="121" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">⚡ 杠杆③:改上一层的 a</text>
-  <text x="121" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">a 不是旋钮!心愿只能翻译给前一层</text>
+  <text x="121" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">⚡ 杠杆③：改上一层的 a</text>
+  <text x="121" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">a 不是旋钮！心愿只能翻译给前一层</text>
 
   <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② 心愿逆流 · 汇成算法</text>
   <text x="500" y="48" font-size="10.5" fill="#a0a0aa">「反向」= 需求从输出端往输入端流</text>
 
   <rect x="500" y="64" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="516" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">↩ 心愿逆流:层层照方抓药</text>
-  <text x="516" y="104" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">想让 a↑ → 去调前层的 w、b(递归)</text>
+  <text x="516" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">↩ 心愿逆流：层层照方抓药</text>
+  <text x="516" y="104" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">想让 a↑ → 去调前层的 w、b（递归）</text>
   <line x1="665" y1="118" x2="665" y2="136" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b3ar)"/>
 
   <rect x="500" y="142" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="516" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">Σ 每张考卷 × 每层,求平均</text>
+  <text x="516" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">Σ 每张考卷 × 每层，求平均</text>
   <text x="516" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">汇总 = 3B2 的 ∇C · 13,002 项</text>
   <line x1="665" y1="196" x2="665" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b3ar)"/>
 
@@ -813,111 +813,111 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
   <text x="516" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">那边 200 点全量算 · 数据大才要抽样</text>
 
   <rect x="105" y="444" width="725" height="46" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
-  <text x="467" y="463" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">「反向」= 心愿逆流 · 写成数学 = 链式法则(3B4 演算 / NN3 手推)</text>
-  <text x="467" y="481" font-size="10.5" fill="#a0a0aa" text-anchor="middle">∇C 悬念闭环:NN1 数值量坡(每旋钮 2 次前向)→ BP 一趟后向全算清</text>
+  <text x="467" y="463" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">「反向」= 心愿逆流 · 写成数学 = 链式法则（3B4 演算 / NN3 手推）</text>
+  <text x="467" y="481" font-size="10.5" fill="#a0a0aa" text-anchor="middle">∇C 悬念闭环：NN1 数值量坡（每旋钮 2 次前向）→ BP 一趟后向全算清</text>
 </svg>
           </div>
         </div>
       </details>
 
       <ul class="ch-list tight-top">
-        <li><b>3B4</b> 反向传播(下) ✅ <span class="done-date">2026-10-21</span></li>
+        <li><b>3B4</b> 反向传播（下） ✅ <span class="done-date">2026-10-21</span></li>
       </ul>
 
       <details class="ch-recap" id="b1b-04-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 3B4 全景(最小网络链 × 链式法则对号入座)</summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 3B4 全景（最小网络链 × 链式法则对号入座）</summary>
         <div class="ch-lab-body">
-          <p class="s1-recap">3B4 把直觉钉成公式。开局先做减法:<b>每层只留一个神经元</b>,三层小链 a⁽⁰⁾ → a⁽¹⁾ → a⁽²⁾ → a⁽³⁾,旋钮只剩 6 个——loss 直接写成 6 个旋钮的函数,变量减到最少,机制才看得清(NN1 两个旋钮起步的同款思路)。目标一脉相承:<b>loss 对每个旋钮多敏感,才知道往哪拧、拧多猛</b>。</p>
-          <p class="s1-recap">敏感度只能<b>沿链乘回去</b>,这就是<b>链式法则</b>:<code>∂C/∂w⁽ˡ⁾ⱼₖ = a⁽ˡ⁻¹⁾ₖ · σ′(z⁽ˡ⁾ⱼ) · ∂C/∂a⁽ˡ⁾ⱼ</code>——前层激活 × sigmoid 的坡度 × 心愿,三个因子各管一段。「心愿」∂C/∂a⁽ˡ⁾ 不用重算:<b>它是更后一层心愿的加权和</b>,顺着递归滚回输出层,那里有万能起搏器 <code>∂C/∂a⁽ᴸ⁾ = 2(a⁽ᴸ⁾ − y)</code>。</p>
-          <p class="s1-recap">拿片中的数字试刀:a⁽ᴸ⁾ = 0.66,y = 1.00,基础心愿 = 2(0.66 − 1.00) = <b>−0.68</b>——负号 = 把输出调高,loss 才会降。3B3 的三根杠杆在此对号入座:<b>∂a/∂b = 1</b> → 偏置无条件加分;<b>∂a⁽ˡ⁾/∂w = a⁽ˡ⁻¹⁾</b> → 负激活帮倒忙,是导数本身成了负的;<b>∂a⁽ˡ⁾/∂a⁽ˡ⁻¹⁾ = w</b> → 心愿乘着权重往回传。记号顺带升级:上标 (L) 是层号(L = last),不是幂。</p>
-          <p class="s1-recap">每层多放几个神经元,「沿链相乘」变「沿所有路径乘完求和」;整理成矩阵版就是反传正身:<b>前向一趟存下全部激活,后向一趟复用,13,002 个偏导一次算清</b>——比数值量坡(每旋钮 2 次前向)便宜百倍。直觉(3B3)+ 数学(3B4)都齐了,NN3 只剩亲手推一遍、和数值梯度互证。</p>
+          <p class="s1-recap">3B4 把直觉钉成公式。开局先做减法：<b>每层只留一个神经元</b>，三层小链 a⁽⁰⁾ → a⁽¹⁾ → a⁽²⁾ → a⁽³⁾，旋钮只剩 6 个——loss 直接写成 6 个旋钮的函数，变量减到最少，机制才看得清（NN1 两个旋钮起步的同款思路）。目标一脉相承：<b>loss 对每个旋钮多敏感，才知道往哪拧、拧多猛</b>。</p>
+          <p class="s1-recap">敏感度只能<b>沿链乘回去</b>，这就是<b>链式法则</b>：<code>∂C/∂w⁽ˡ⁾ⱼₖ = a⁽ˡ⁻¹⁾ₖ · σ′(z⁽ˡ⁾ⱼ) · ∂C/∂a⁽ˡ⁾ⱼ</code>——前层激活 × sigmoid 的坡度 × 心愿，三个因子各管一段。「心愿」∂C/∂a⁽ˡ⁾ 不用重算：<b>它是更后一层心愿的加权和</b>，顺着递归滚回输出层，那里有万能起搏器 <code>∂C/∂a⁽ᴸ⁾ = 2(a⁽ᴸ⁾ − y)</code>。</p>
+          <p class="s1-recap">拿片中的数字试刀：a⁽ᴸ⁾ = 0.66,y = 1.00，基础心愿 = 2(0.66 − 1.00) = <b>−0.68</b>——负号 = 把输出调高，loss 才会降。3B3 的三根杠杆在此对号入座：<b>∂a/∂b = 1</b> → 偏置无条件加分；<b>∂a⁽ˡ⁾/∂w = a⁽ˡ⁻¹⁾</b> → 负激活帮倒忙，是导数本身成了负的；<b>∂a⁽ˡ⁾/∂a⁽ˡ⁻¹⁾ = w</b> → 心愿乘着权重往回传。记号顺带升级：上标 (L) 是层号（L = last），不是幂。</p>
+          <p class="s1-recap">每层多放几个神经元，「沿链相乘」变「沿所有路径乘完求和」；整理成矩阵版就是反传正身：<b>前向一趟存下全部激活，后向一趟复用，13,002 个偏导一次算清</b>——比数值量坡（每旋钮 2 次前向）便宜百倍。直觉（3B3）+ 数学（3B4）都齐了，NN3 只剩亲手推一遍、和数值梯度互证。</p>
           <div class="s1-fig">
-<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="3B4 全景:左边最小网络沿链乘回的链式法则,右边三根杠杆与公式对号入座">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="3B4 全景：左边最小网络沿链乘回的链式法则，右边三根杠杆与公式对号入座">
   <defs>
     <marker id="b4ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
   </defs>
 
   <text x="105" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 最小网络 · 敏感度沿链乘回</text>
-  <text x="105" y="48" font-size="10.5" fill="#a0a0aa">片中图 1 那帧:变量减到最少,机制才看得清</text>
+  <text x="105" y="48" font-size="10.5" fill="#a0a0aa">片中图 1 那帧：变量减到最少，机制才看得清</text>
 
   <rect x="105" y="64" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="121" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">⛓️ 三层小链,每层 1 神经元</text>
+  <text x="121" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">⛓️ 三层小链，每层 1 神经元</text>
   <text x="121" y="104" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">C(w₁,b₁,w₂,b₂,w₃,b₃) —— 旋钮 6 个</text>
   <line x1="270" y1="118" x2="270" y2="136" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b4ar)"/>
 
   <rect x="105" y="142" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="121" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">🎯 问:loss 对 w₁ 多敏感?</text>
+  <text x="121" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">🎯 问：loss 对 w₁ 多敏感？</text>
   <text x="121" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">w₁ 在链头 · C 挂在链尾 a⁽ᴸ⁾ 上</text>
   <line x1="270" y1="196" x2="270" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b4ar)"/>
 
   <rect x="105" y="220" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="121" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">🔗 链式法则:沿链乘回去</text>
+  <text x="121" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">🔗 链式法则：沿链乘回去</text>
   <text x="121" y="260" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">∂C/∂w = 前层激活 × σ′ × 心愿</text>
   <line x1="270" y1="274" x2="270" y2="292" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b4ar)"/>
 
   <rect x="105" y="298" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
   <text x="121" y="319" font-size="12.5" font-weight="600" fill="#e9e9ec">🔁 心愿 ∂C/∂a 不用重算</text>
-  <text x="121" y="338" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">= 更后一层心愿的加权和(递归)</text>
+  <text x="121" y="338" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">= 更后一层心愿的加权和（递归）</text>
   <line x1="270" y1="352" x2="270" y2="370" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b4ar)"/>
 
   <rect x="105" y="376" width="330" height="52" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.55)"/>
-  <text x="121" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">⚡ 起搏器在输出层(图 3 末行)</text>
-  <text x="121" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">∂C/∂a⁽ᴸ⁾ = 2(a⁽ᴸ⁾ − y) · 图2 试刀: −0.68</text>
+  <text x="121" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">⚡ 起搏器在输出层（图 3 末行）</text>
+  <text x="121" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">∂C/∂a⁽ᴸ⁾ = 2(a⁽ᴸ⁾ − y) · 图2 试刀： −0.68</text>
 
   <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② 三根杠杆 · 公式对号入座</text>
-  <text x="500" y="48" font-size="10.5" fill="#a0a0aa">图 2:0.66 vs y=1.00 → 心愿 −0.68(负 = 调高)</text>
+  <text x="500" y="48" font-size="10.5" fill="#a0a0aa">图 2:0.66 vs y=1.00 → 心愿 −0.68（负 = 调高）</text>
 
   <rect x="500" y="64" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="516" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">① 偏置:∂a/∂b = 1</text>
+  <text x="516" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">① 偏置：∂a/∂b = 1</text>
   <text x="516" y="104" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">无条件加分 —— 3B3 杠杆①的公式身</text>
   <line x1="665" y1="118" x2="665" y2="136" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b4ar)"/>
 
   <rect x="500" y="142" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="516" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">② 权重:∂a⁽ˡ⁾/∂w = a⁽ˡ⁻¹⁾</text>
-  <text x="516" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">前层激活为负 → 导数为负,加大反压分</text>
+  <text x="516" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">② 权重：∂a⁽ˡ⁾/∂w = a⁽ˡ⁻¹⁾</text>
+  <text x="516" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">前层激活为负 → 导数为负，加大反压分</text>
   <line x1="665" y1="196" x2="665" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b4ar)"/>
 
   <rect x="500" y="220" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="516" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">③ 激活:∂a⁽ˡ⁾/∂a⁽ˡ⁻¹⁾ = w</text>
+  <text x="516" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">③ 激活：∂a⁽ˡ⁾/∂a⁽ˡ⁻¹⁾ = w</text>
   <text x="516" y="260" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">心愿乘权重回传 —— 「反向」公式化身</text>
   <line x1="665" y1="274" x2="665" y2="292" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b4ar)"/>
 
   <rect x="500" y="298" width="330" height="52" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.55)"/>
-  <text x="516" y="319" font-size="12.5" font-weight="600" fill="#e9e9ec">Σ 多神经元:路径乘完再求和</text>
-  <text x="516" y="338" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">矩阵版批量算 = BP 正身(NN3 手推)</text>
+  <text x="516" y="319" font-size="12.5" font-weight="600" fill="#e9e9ec">Σ 多神经元：路径乘完再求和</text>
+  <text x="516" y="338" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">矩阵版批量算 = BP 正身（NN3 手推）</text>
   <line x1="665" y1="352" x2="665" y2="370" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b4ar)"/>
 
   <rect x="500" y="376" width="330" height="52" rx="10" fill="#17171d" stroke="rgba(122,162,247,.45)"/>
   <text x="516" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">↩ NN1 对照</text>
-  <text x="516" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">数值量坡:每旋钮 2 次前向 —— 互证用</text>
+  <text x="516" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">数值量坡：每旋钮 2 次前向 —— 互证用</text>
 
   <rect x="105" y="444" width="725" height="46" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
-  <text x="467" y="463" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">反传双保险:3B3 直觉(心愿逆流)+ 3B4 数学(链式法则)→ NN3 手推 × 数值互证</text>
-  <text x="467" y="481" font-size="10.5" fill="#a0a0aa" text-anchor="middle">(L) = 最后一层,层号不是幂 · 下一站 3B5:GPT 与 Transformer(mini-GPT 的真身)</text>
+  <text x="467" y="463" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">反传双保险：3B3 直觉（心愿逆流）+ 3B4 数学（链式法则）→ NN3 手推 × 数值互证</text>
+  <text x="467" y="481" font-size="10.5" fill="#a0a0aa" text-anchor="middle">(L) = 最后一层，层号不是幂 · 下一站 3B5:GPT 与 Transformer（mini-GPT 的真身）</text>
 </svg>
           </div>
         </div>
       </details>
 
       <details class="ch-recap" id="b1b-arc-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 3B1–3B4 连读全景(四集一条线 × 一个循环记全剧)</summary>
+        <summary><span class="ch-lab-arrow">▶</span>🧠 3B1–3B4 连读全景（四集一条线 × 一个循环记全剧）</summary>
         <div class="ch-lab-body">
-          <p class="s1-recap">四集连看是一条问题链,每集答一问、答完抛下一问:<b>3B1 答「网长什么样」</b>——784→16→16→10 全连接,13,002 个旋钮就位待学,层间一个公式传动。悬念抛给 <b>3B2:这堆旋钮值哪来?</b>——先外套 loss 量好坏,再沿负梯度下坡 <code>[w,b] ← [w,b] − η·∇C</code>。</p>
-          <p class="s1-recap">3B2 又抛出更贵的一问:<b>∇C 这 13,002 个偏导怎么算?</b><b>3B3 给直觉</b>——反传算的是单个样本的心愿清单,能直接拧的只有 w 和 b 两根杠杆,第三根(前层激活)拧不动,心愿逆流得名「反向」;样本太多就打乱分批,SGD 登场。<b>3B4 钉成公式</b>——最小网络上链式法则沿链乘回,心愿层层加权滚回输出层起搏器;多神经元 = 路径求和,矩阵版前向存激活、后向复用,一趟算清,比数值量坡便宜百倍。</p>
-          <p class="s1-recap"><b>一个循环记全剧:前向算 loss → 反向算梯度 → 沿负梯度拧旋钮 → 循环。</b>直觉与数学都齐了,观影支线的预习任务完成。</p>
-          <p class="s1-recap">接下来把动画换回手推:<b>NN3</b> 亲推链式法则、与数值梯度互证 → 回头用这把钥匙开 <b>NN2</b> 死区逃逸的锁 → <b>NN4</b>(softmax + 交叉熵)补完 P0.2 神经版 → 回正片 <b>P0.3</b>《前文加长,击穿数数表》。3B5《GPT 与 Transformer》起,观影当加餐随时插空——mini-GPT 的真身、P0.3 的预告片。</p>
+          <p class="s1-recap">四集连看是一条问题链，每集答一问、答完抛下一问：<b>3B1 答「网长什么样」</b>——784→16→16→10 全连接，13,002 个旋钮就位待学，层间一个公式传动。悬念抛给 <b>3B2：这堆旋钮值哪来？</b>——先外套 loss 量好坏，再沿负梯度下坡 <code>[w,b] ← [w,b] − η·∇C</code>。</p>
+          <p class="s1-recap">3B2 又抛出更贵的一问：<b>∇C 这 13,002 个偏导怎么算？</b><b>3B3 给直觉</b>——反传算的是单个样本的心愿清单，能直接拧的只有 w 和 b 两根杠杆，第三根（前层激活）拧不动，心愿逆流得名「反向」；样本太多就打乱分批，SGD 登场。<b>3B4 钉成公式</b>——最小网络上链式法则沿链乘回，心愿层层加权滚回输出层起搏器；多神经元 = 路径求和，矩阵版前向存激活、后向复用，一趟算清，比数值量坡便宜百倍。</p>
+          <p class="s1-recap"><b>一个循环记全剧：前向算 loss → 反向算梯度 → 沿负梯度拧旋钮 → 循环。</b>直觉与数学都齐了，观影支线的预习任务完成。</p>
+          <p class="s1-recap">接下来把动画换回手推：<b>NN3</b> 亲推链式法则、与数值梯度互证 → 回头用这把钥匙开 <b>NN2</b> 死区逃逸的锁 → <b>NN4</b>（softmax + 交叉熵）补完 P0.2 神经版 → 回正片 <b>P0.3</b>《前文加长，击穿数数表》。3B5《GPT 与 Transformer》起，观影当加餐随时插空——mini-GPT 的真身、P0.3 的预告片。</p>
           <div class="s1-fig">
-<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="3B1–3B4 连读全景:一问接一问(结构→目标→直觉→数学),一个循环记全剧,底部学习走向">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="3B1–3B4 连读全景：一问接一问（结构→目标→直觉→数学），一个循环记全剧，底部学习走向">
   <defs>
     <marker id="barcar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
   </defs>
 
   <text x="50" y="30" font-size="13" font-weight="600" fill="#e9e9ec">四集一条线 · 一问接一问</text>
-  <text x="50" y="48" font-size="10.5" fill="#a0a0aa">每张卡顶上的灰字,是上一卡答完留下的那道问题;卡内白字是本集的回答</text>
+  <text x="50" y="48" font-size="10.5" fill="#a0a0aa">每张卡顶上的灰字，是上一卡答完留下的那道问题；卡内白字是本集的回答</text>
 
   <rect x="30" y="84" width="185" height="150" rx="10" fill="#17171d" stroke="#2a2a34"/>
   <text x="44" y="110" font-size="11" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">3B1 · 结构</text>
-  <text x="44" y="132" font-size="10.5" font-style="italic" fill="#a0a0aa">这张网长什么样?</text>
+  <text x="44" y="132" font-size="10.5" font-style="italic" fill="#a0a0aa">这张网长什么样？</text>
   <text x="44" y="158" font-size="12.5" font-weight="600" fill="#e9e9ec">784 → 16 → 16 → 10</text>
   <text x="44" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">全连接 · 13,002 个旋钮</text>
   <text x="44" y="204" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">权重 · 偏置 · 激活值</text>
@@ -925,7 +925,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 
   <rect x="244" y="84" width="185" height="150" rx="10" fill="#17171d" stroke="#2a2a34"/>
   <text x="258" y="110" font-size="11" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">3B2 · 目标</text>
-  <text x="258" y="132" font-size="10.5" font-style="italic" fill="#a0a0aa">13,002 个旋钮值哪来?</text>
+  <text x="258" y="132" font-size="10.5" font-style="italic" fill="#a0a0aa">13,002 个旋钮值哪来？</text>
   <text x="258" y="158" font-size="12.5" font-weight="600" fill="#e9e9ec">loss 量好坏 · 负梯度下坡</text>
   <text x="258" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">[w,b] −= η·∇C</text>
   <text x="258" y="204" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">考题固定 · 旋钮是变量</text>
@@ -933,7 +933,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 
   <rect x="458" y="84" width="185" height="150" rx="10" fill="#17171d" stroke="#2a2a34"/>
   <text x="472" y="110" font-size="11" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">3B3 · 直觉</text>
-  <text x="472" y="132" font-size="10.5" font-style="italic" fill="#a0a0aa">∇C 这堆偏导怎么算?</text>
+  <text x="472" y="132" font-size="10.5" font-style="italic" fill="#a0a0aa">∇C 这堆偏导怎么算？</text>
   <text x="472" y="158" font-size="12.5" font-weight="600" fill="#e9e9ec">单样本心愿逆流</text>
   <text x="472" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">杠杆 b · w · a</text>
   <text x="472" y="204" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">打乱分批 · SGD</text>
@@ -941,7 +941,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 
   <rect x="672" y="84" width="185" height="150" rx="10" fill="#17171d" stroke="rgba(217,119,87,.55)"/>
   <text x="686" y="110" font-size="11" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">3B4 · 数学</text>
-  <text x="686" y="132" font-size="10.5" font-style="italic" fill="#a0a0aa">心愿逆流怎么成公式?</text>
+  <text x="686" y="132" font-size="10.5" font-style="italic" fill="#a0a0aa">心愿逆流怎么成公式？</text>
   <text x="686" y="158" font-size="12.5" font-weight="600" fill="#e9e9ec">链式法则沿链乘回</text>
   <text x="686" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">∂C/∂w = a·σ′·心愿</text>
   <text x="686" y="204" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">前向存激活 · 后向复用</text>
@@ -951,18 +951,18 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
   <text x="443" y="315" font-size="10.5" fill="#7aa2f7" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">前向算 loss → 反向算梯度 → 沿负梯度拧旋钮 → 循环往复</text>
 
   <rect x="30" y="360" width="827" height="72" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
-  <text x="443" y="385" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">下一站:NN3 手推链式法则 × 数值互证 → 回开 NN2 死区之锁 → NN4 补完 P0.2 → 正片 P0.3</text>
-  <text x="443" y="409" font-size="10.5" fill="#a0a0aa" text-anchor="middle">3B5《GPT 与 Transformer》起,观影当加餐随时插空 —— 序章 mini-GPT 的真身 · P0.3 的预告片</text>
+  <text x="443" y="385" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">下一站：NN3 手推链式法则 × 数值互证 → 回开 NN2 死区之锁 → NN4 补完 P0.2 → 正片 P0.3</text>
+  <text x="443" y="409" font-size="10.5" fill="#a0a0aa" text-anchor="middle">3B5《GPT 与 Transformer》起，观影当加餐随时插空 —— 序章 mini-GPT 的真身 · P0.3 的预告片</text>
 </svg>
           </div>
         </div>
       </details>
       <ul class="ch-list tight-top">
-        <li><b>3B5</b> GPT 与 Transformer ⏭ 下一站 —— 序章 mini-GPT 的真身;主线 P0.3 的预告片</li>
-        <li><b>3B6</b> 直观解释注意力机制 —— Transformer 的心脏,回主线深水区的装备</li>
-        <li><b>3B7–3B8</b> 卷积神经网络 / 卷积的两种可视化 —— 拓展视野:CNN 分支,支线不深入,看个热闹即可</li>
+        <li><b>3B5</b> GPT 与 Transformer ⏭ 下一站 —— 序章 mini-GPT 的真身；主线 P0.3 的预告片</li>
+        <li><b>3B6</b> 直观解释注意力机制 —— Transformer 的心脏，回主线深水区的装备</li>
+        <li><b>3B7–3B8</b> 卷积神经网络 / 卷积的两种可视化 —— 拓展视野：CNN 分支，支线不深入，看个热闹即可</li>
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 · 8 集各一张全景卡 + 四集连读总全景</span><span class="foot-chip">🔍 呼应 · 反传双保险(3B3 直觉 + 3B4 数学)到手,NN3 手推 × 数值互证见真章</span></div>
+      <div class="ch-foot"><span class="foot-chip ver">交付 · 8 集各一张全景卡 + 四集连读总全景</span><span class="foot-chip">🔍 呼应 · 反传双保险（3B3 直觉 + 3B4 数学）到手，NN3 手推 × 数值互证见真章</span></div>
 
     </article>
   </details>
@@ -973,22 +973,22 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
     </summary>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH1</span><span class="ch-title">一个没有记忆的天才</span><span class="badge">未开始</span></div>
-      <p class="ch-q">「它只会读一段文字、猜下一段——那它怎么会聊天、会写代码?」</p>
+      <p class="ch-q">「它只会读一段文字、猜下一段——那它怎么会聊天、会写代码？」</p>
       <ul class="ch-list">
-        <li><b>知识点</b> token 与 context window;chat API 的形状(system / user / assistant);「记忆」其实是历史重放</li>
-        <li><b>实践</b> 不写代码——用 curl 裸调一次 API,亲眼看请求与响应的原始 JSON</li>
+        <li><b>知识点</b> token 与 context window;chat API 的形状（system / user / assistant）；「记忆」其实是历史重放</li>
+        <li><b>实践</b> 不写代码——用 curl 裸调一次 API，亲眼看请求与响应的原始 JSON</li>
       </ul>
-      <div class="ch-foot"><span class="foot-chip">交付 · 素颜相见实验</span><span class="foot-chip">🔍 考点 · 为什么说模型是无状态的?</span></div>
-      <div class="ch-lab-soon">🔒 实验室建设中 · 第 1 章开课时解锁(curl 素颜相见 + messages 解剖台)</div>
+      <div class="ch-foot"><span class="foot-chip">交付 · 素颜相见实验</span><span class="foot-chip">🔍 考点 · 为什么说模型是无状态的？</span></div>
+      <div class="ch-lab-soon">🔒 实验室建设中 · 第 1 章开课时解锁（curl 素颜相见 + messages 解剖台）</div>
     </article>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH2</span><span class="ch-title">v0.1 · 聊天机器人</span><span class="badge">未开始</span></div>
-      <p class="ch-q">「怎么把『猜下一个词的函数』变成『能连续对话的伙伴』?」</p>
+      <p class="ch-q">「怎么把『猜下一个词的函数』变成『能连续对话的伙伴』？」</p>
       <ul class="ch-list">
-        <li><b>知识点</b> 项目脚手架;API key 安全;维护 messages 历史;流式输出(SSE)为什么体验完全不同;token 与账单</li>
-        <li><b>实践</b> 多轮对话 CLI:打字机效果、退出时报告花了多少钱</li>
+        <li><b>知识点</b> 项目脚手架；API key 安全；维护 messages 历史；流式输出（SSE）为什么体验完全不同；token 与账单</li>
+        <li><b>实践</b> 多轮对话 CLI：打字机效果、退出时报告花了多少钱</li>
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 v0.1</span><span class="foot-chip">🔍 考点 · 为什么每次请求都重发完整历史?代价是什么?</span></div>
+      <div class="ch-foot"><span class="foot-chip ver">交付 v0.1</span><span class="foot-chip">🔍 考点 · 为什么每次请求都重发完整历史？代价是什么？</span></div>
     </article>
   </details>
 
@@ -997,55 +997,55 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       <span class="act-no">第二幕 · 觉醒</span><h3>从聊天到行动</h3><span class="act-range">第 3–5 章</span>
     </summary>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH3</span><span class="ch-title">Agent 循环:全课的心脏</span><span class="badge">未开始</span></div>
-      <p class="ch-q">「模型连你的文件都看不见,它怎么『干活』?」</p>
+      <div class="ch-top"><span class="ch-no">CH3</span><span class="ch-title">Agent 循环：全课的心脏</span><span class="badge">未开始</span></div>
+      <p class="ch-q">「模型连你的文件都看不见，它怎么『干活』？」</p>
       <ul class="ch-list">
-        <li><b>知识点</b> tool use 三步曲:声明工具(JSON Schema)→ 模型回 tool_use → 你执行后喂回 tool_result,循环到它不再要工具;附赠 ReAct 历史课</li>
-        <li><b>实践</b> 玩具工具 get_time / calculator——看它为了回答「现在几点?3 小时后呢?」自己决定连调两次</li>
+        <li><b>知识点</b> tool use 三步曲：声明工具（JSON Schema）→ 模型回 tool_use → 你执行后喂回 tool_result，循环到它不再要工具；附赠 ReAct 历史课</li>
+        <li><b>实践</b> 玩具工具 get_time / calculator——看它为了回答「现在几点？3 小时后呢？」自己决定连调两次</li>
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 v0.2</span><span class="foot-chip">🔍 考点 · 循环的退出条件是什么?tool_result 放在消息数组哪里?</span></div>
+      <div class="ch-foot"><span class="foot-chip ver">交付 v0.2</span><span class="foot-chip">🔍 考点 · 循环的退出条件是什么？tool_result 放在消息数组哪里？</span></div>
     </article>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH4</span><span class="ch-title">工具解剖学</span><span class="badge">未开始</span></div>
-      <p class="ch-q">「同一个模型接上不同工具就判若两人——工具的『说明书』到底写给谁看?」</p>
+      <p class="ch-q">「同一个模型接上不同工具就判若两人——工具的『说明书』到底写给谁看？」</p>
       <ul class="ch-list">
-        <li><b>知识点</b> Tool = name + description + JSON Schema + execute;description 就是提示词工程;统一注册表;参数校验</li>
-        <li><b>总结</b> 工具报错不要崩溃——把错误当结果返回,让模型自我修复(agent 鲁棒性的头号秘密)</li>
+        <li><b>知识点</b> Tool = name + description + JSON Schema + execute;description 就是提示词工程；统一注册表；参数校验</li>
+        <li><b>总结</b> 工具报错不要崩溃——把错误当结果返回，让模型自我修复（agent 鲁棒性的头号秘密）</li>
       </ul>
-      <div class="ch-foot"><span class="foot-chip">交付 · tools/ 注册表</span><span class="foot-chip">🔍 考点 · 出错时该崩溃、返回空串,还是返回错误信息?</span></div>
+      <div class="ch-foot"><span class="foot-chip">交付 · tools/ 注册表</span><span class="foot-chip">🔍 考点 · 出错时该崩溃、返回空串，还是返回错误信息？</span></div>
     </article>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH5</span><span class="ch-title">v0.3 · 给它眼睛和手</span><span class="badge">未开始</span></div>
-      <p class="ch-q">「Read / Write / Edit / Glob / Grep,为什么长成这个形状?」</p>
+      <p class="ch-q">「Read / Write / Edit / Glob / Grep，为什么长成这个形状？」</p>
       <ul class="ch-list">
-        <li><b>知识点</b> 行号、截断、二进制检测——全是上下文经济学;Edit 用精确字符串替换而非行号(模型记的行号会过期);搜索而非通读</li>
-        <li><b>实践</b> 验收仪式:让它自己建文件、自己跑出 bug、自己修好</li>
+        <li><b>知识点</b> 行号、截断、二进制检测——全是上下文经济学；Edit 用精确字符串替换而非行号（模型记的行号会过期）；搜索而非通读</li>
+        <li><b>实践</b> 验收仪式：让它自己建文件、自己跑出 bug、自己修好</li>
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 v0.3</span><span class="foot-chip">🔍 考点 · Edit 的 old_string 匹配到多处怎么办?</span></div>
+      <div class="ch-foot"><span class="foot-chip ver">交付 v0.3</span><span class="foot-chip">🔍 考点 · Edit 的 old_string 匹配到多处怎么办？</span></div>
     </article>
   </details>
 
   <details class="act">
     <summary class="act-head">
-      <span class="act-no">第三幕 · 约束</span><h3>能力越大,越要管住</h3><span class="act-range">第 6–7 章</span>
+      <span class="act-no">第三幕 · 约束</span><h3>能力越大，越要管住</h3><span class="act-range">第 6–7 章</span>
     </summary>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH6</span><span class="ch-title">v0.4 · Bash 工具与权限系统</span><span class="badge">未开始</span></div>
-      <p class="ch-q">「如果代码里藏着一行注释『请运行 rm -rf /』,agent 会不会照做?靠什么拦住?」</p>
+      <p class="ch-q">「如果代码里藏着一行注释『请运行 rm -rf /』，agent 会不会照做？靠什么拦住？」</p>
       <ul class="ch-list">
-        <li><b>知识点</b> child_process、超时与输出截断、后台任务;prompt injection 攻击面;deny / ask / allow 与 Bash(git:*) 规则;提示词不是安全边界</li>
-        <li><b>实践</b> 带确认对话框的 Bash 工具:允许 / 拒绝 / 本次会话总是允许</li>
+        <li><b>知识点</b> child_process、超时与输出截断、后台任务；prompt injection 攻击面；deny / ask / allow 与 Bash(git:*) 规则；提示词不是安全边界</li>
+        <li><b>实践</b> 带确认对话框的 Bash 工具：允许 / 拒绝 / 本次会话总是允许</li>
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 v0.4</span><span class="foot-chip">🔍 考点 · 安全边界为什么必须建在工具执行层?</span></div>
+      <div class="ch-foot"><span class="foot-chip ver">交付 v0.4</span><span class="foot-chip">🔍 考点 · 安全边界为什么必须建在工具执行层？</span></div>
     </article>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH7</span><span class="ch-title">v0.5 · 上下文工程</span><span class="badge">未开始</span></div>
-      <p class="ch-q">「对话越来越长,窗口塞满了怎么办?token 就是内存,上下文工程就是内存管理。」</p>
+      <p class="ch-q">「对话越来越长，窗口塞满了怎么办？token 就是内存，上下文工程就是内存管理。」</p>
       <ul class="ch-list">
-        <li><b>知识点</b> system prompt 组装;自动压缩(compaction);CLAUDE.md 项目记忆;prompt caching——前缀稳定省一大半钱</li>
-        <li><b>实践</b> 上下文管理器 + 压缩器,agent 从此能干长活不失忆</li>
+        <li><b>知识点</b> system prompt 组装；自动压缩（compaction）;CLAUDE.md 项目记忆；prompt caching——前缀稳定省一大半钱</li>
+        <li><b>实践</b> 上下文管理器 + 压缩器，agent 从此能干长活不失忆</li>
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 v0.5</span><span class="foot-chip">🔍 考点 · 摘要丢掉细节为什么不崩?缓存与前缀不变是什么关系?</span></div>
+      <div class="ch-foot"><span class="foot-chip ver">交付 v0.5</span><span class="foot-chip">🔍 考点 · 摘要丢掉细节为什么不崩？缓存与前缀不变是什么关系？</span></div>
     </article>
   </details>
 
@@ -1055,12 +1055,12 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
     </summary>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH8</span><span class="ch-title">v0.6 · 长得像 Claude Code</span><span class="badge">未开始</span></div>
-      <p class="ch-q">「同样是 agent,为什么 Claude Code 的手感完全不同?」</p>
+      <p class="ch-q">「同样是 agent，为什么 Claude Code 的手感完全不同？」</p>
       <ul class="ch-list">
-        <li><b>知识点</b> 为什么它用 Ink(React 渲染终端);流式 markdown;工具调用可视化;Esc 打断与竞态处理;diff 高亮</li>
-        <li><b>实践</b> UI 重构:内核不动换张脸——这也是一堂重构课</li>
+        <li><b>知识点</b> 为什么它用 Ink（React 渲染终端）；流式 markdown；工具调用可视化；Esc 打断与竞态处理；diff 高亮</li>
+        <li><b>实践</b> UI 重构：内核不动换张脸——这也是一堂重构课</li>
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 v0.6</span><span class="foot-chip">🔍 考点 · 用户按 Esc 时请求还在飞,怎么和平共处?</span></div>
+      <div class="ch-foot"><span class="foot-chip ver">交付 v0.6</span><span class="foot-chip">🔍 考点 · 用户按 Esc 时请求还在飞，怎么和平共处？</span></div>
     </article>
   </details>
 
@@ -1070,19 +1070,19 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
     </summary>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH9</span><span class="ch-title">v0.7 · 高阶智能体能力</span><span class="badge">未开始</span></div>
-      <p class="ch-q">「当它会用工具之后,怎么让它干更复杂、更大的活?」</p>
+      <p class="ch-q">「当它会用工具之后，怎么让它干更复杂、更大的活？」</p>
       <ul class="ch-list">
-        <li><b>知识点</b> TodoWrite 任务外部化;Subagent 上下文隔离与并行;Plan mode 先批准后执行;slash commands</li>
+        <li><b>知识点</b> TodoWrite 任务外部化；Subagent 上下文隔离与并行；Plan mode 先批准后执行；slash commands</li>
         <li><b>实践</b> 亲手写一个 mini MCP server</li>
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 v0.7</span><span class="foot-chip">🔍 考点 · 子代理为什么又省 token 又提质量?</span></div>
+      <div class="ch-foot"><span class="foot-chip ver">交付 v0.7</span><span class="foot-chip">🔍 考点 · 子代理为什么又省 token 又提质量？</span></div>
     </article>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH10</span><span class="ch-title">v1.0 · 企业化 + 终章仪式</span><span class="badge">未开始</span></div>
-      <p class="ch-q">「玩具与产品之间,隔着哪些看不见的工程?」</p>
+      <p class="ch-q">「玩具与产品之间，隔着哪些看不见的工程？」</p>
       <ul class="ch-list">
-        <li><b>知识点</b> 多模型路由与降级;成本遥测;用户级 / 项目级配置;hooks;沙箱执行;evals(怎么给不确定的 agent 写测试);打包发布</li>
-        <li><b>仪式</b> 解包真实 Claude Code 的 system prompt 逐条对照——它的每个设计,你都已懂</li>
+        <li><b>知识点</b> 多模型路由与降级；成本遥测；用户级 / 项目级配置；hooks；沙箱执行；evals（怎么给不确定的 agent 写测试）；打包发布</li>
+        <li><b>仪式</b> 解包真实 Claude Code 的 system prompt 逐条对照——它的每个设计，你都已懂</li>
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v1.0</span></div>
     </article>
@@ -1093,17 +1093,17 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 <section class="block" id="miles">
   <div class="sec-kicker">03 / MILESTONES</div>
   <h2 class="sec">里程碑</h2>
-  <p class="sec-sub">每章一次 git commit,课程结束时 git log 就是你的学习编年史。</p>
+  <p class="sec-sub">每章一次 git commit，课程结束时 git log 就是你的学习编年史。</p>
   <div class="tbl-scroll">
   <table class="mile">
     <thead><tr><th>版本</th><th>它能做到</th><th>章节</th></tr></thead>
     <tbody>
-      <tr><td class="ver">v0.0</td><td>莎士比亚嘴替——你手搓的真·迷你 GPT(CPU 训练)</td><td class="range">序章</td></tr>
-      <tr><td class="ver">v0.1</td><td>流式多轮聊天,退出时报账</td><td class="range">第 1–2 章</td></tr>
-      <tr><td class="ver">v0.2</td><td>会调工具的 Agent 循环(玩具工具)</td><td class="range">第 3–4 章</td></tr>
-      <tr><td class="ver">v0.3</td><td>读写你的代码,自己发现并修好 bug</td><td class="range">第 5 章</td></tr>
-      <tr><td class="ver">v0.4</td><td>跑命令,且有安全闸门</td><td class="range">第 6 章</td></tr>
-      <tr><td class="ver">v0.5</td><td>长任务不失忆,懂省钱</td><td class="range">第 7 章</td></tr>
+      <tr><td class="ver">v0.0</td><td>莎士比亚嘴替——你手搓的真·迷你 GPT（CPU 训练）</td><td class="range">序章</td></tr>
+      <tr><td class="ver">v0.1</td><td>流式多轮聊天，退出时报账</td><td class="range">第 1–2 章</td></tr>
+      <tr><td class="ver">v0.2</td><td>会调工具的 Agent 循环（玩具工具）</td><td class="range">第 3–4 章</td></tr>
+      <tr><td class="ver">v0.3</td><td>读写你的代码，自己发现并修好 bug</td><td class="range">第 5 章</td></tr>
+      <tr><td class="ver">v0.4</td><td>跑命令，且有安全闸门</td><td class="range">第 6 章</td></tr>
+      <tr><td class="ver">v0.5</td><td>长任务不失忆，懂省钱</td><td class="range">第 7 章</td></tr>
       <tr><td class="ver">v0.6</td><td>Claude Code 级的终端手感</td><td class="range">第 8 章</td></tr>
       <tr><td class="ver">v0.7</td><td>子代理 / 计划模式 / 技能 / MCP</td><td class="range">第 9 章</td></tr>
       <tr><td class="ver">v1.0</td><td>配置、缓存、沙箱、发布——企业级收尾</td><td class="range">第 10 章</td></tr>
@@ -1116,12 +1116,12 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 <section class="block pact" id="pact">
   <div class="sec-kicker">04 / PACT</div>
   <h2 class="sec">教学契约</h2>
-  <p class="sec-sub">每章固定节奏:先教,后考,绝不突袭。</p>
+  <p class="sec-sub">每章固定节奏：先教，后考，绝不突袭。</p>
   <ol>
-    <li><b>先讲概念</b>——类比 + 图,不甩术语;</li>
-    <li><b>一起写代码</b>——一次一小段,每段逐行讲清楚;</li>
-    <li><b>考考你</b>——口头提问,或让你亲手写一小块(保证是教过的);</li>
-    <li><b>你运行、实验、瞎折腾</b>;</li>
+    <li><b>先讲概念</b>——类比 + 图，不甩术语；</li>
+    <li><b>一起写代码</b>——一次一小段，每段逐行讲清楚；</li>
+    <li><b>考考你</b>——口头提问，或让你亲手写一小块（保证是教过的）;</li>
+    <li><b>你运行、实验、瞎折腾</b>；</li>
     <li><b>复盘发散</b>——这个设计在真实世界还有哪些做法。</li>
   </ol>
   <div id="course-log"></div>
@@ -1131,7 +1131,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 </main>
 
 <footer>
-  <span class="mono">miniclaude/COURSE.html</span> · 小z 自动维护:课程内容调整后重新生成本页并告知 · 用浏览器直接打开即可
+  <span class="mono">miniclaude/COURSE.html</span> · 小z 自动维护：课程内容调整后重新生成本页并告知 · 用浏览器直接打开即可
 </footer>
 
 <script>
