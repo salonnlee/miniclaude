@@ -758,6 +758,80 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
           </div>
         </div>
       </details>
+      <details class="ch-recap" id="nn-all-panorama">
+        <summary>🧠 内功支线连读大全景（NN1–NN4：带走了什么 · 后面在哪用）</summary>
+        <div class="recap-body">
+          <p class="s1-recap">四站其实是一条问题链：函数怎么学会？——NN1 答「loss 量错、梯度指坡、LR 定步长，循环下坡」，同时留下万能查账工具（数值梯度）。单个神经元为什么不够？——NN2 答「加权和 + 激活是全部零件，单层切不开 XOR，叠一层把空间折叠后就一刀开」，顺带踩了死区和种子坑。梯度算太贵怎么办？——NN3 答「前向记账、反向查账，链式法则两规矩（一路连乘、岔口相加）一次算齐全部旋钮」，手推梯度靠数值梯度对表验明。输出怎么变概率、罚多重？——NN4 答「softmax 归一、−ln 只看押对那格，配对抵消后梯度裸成 p − y」。</p>
+          <p class="s1-recap">拼回主线 02_neural_bigram.py，每一行都有出处：嵌入查表 = NN2 的加权和（权重就是嵌入向量），matmul 出 logits = NN1 的「网络是带旋钮的函数」，softmax + −ln = NN4 的输出与损失，<code>probs − y</code> = NN4 的裸梯度，backward = NN3 的反向查账，SGD 更新 = NN1 的下坡循环。P0.3 的 mini-GPT 还是同一套，只多注意力。训不动时：先查 loss 卡不卡（NN2 死区）、换种子、拿数值梯度对表（NN3）——三招全从这条支线来。</p>
+          <div class="svg-wrap">
+<svg viewBox="0 0 880 620" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="nnap" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7aa2f7"/></marker>
+    <marker id="nnapO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#d97757"/></marker>
+  </defs>
+
+  <text x="440" y="30" font-size="14" font-weight="600" fill="#e9e9ec" text-anchor="middle">四站一条问题链 · 四包行李 · 一张去向单</text>
+  <text x="100" y="52" font-size="11" fill="#a0a0aa">带走的东西（知识点 / 结论 / 工具）</text>
+  <text x="725" y="52" font-size="11" fill="#a0a0aa" text-anchor="middle">后面在哪用</text>
+
+  <rect x="20" y="62" width="80" height="100" rx="8" fill="rgba(122,162,247,.12)" stroke="#7aa2f7"/>
+  <text x="60" y="102" font-size="13" font-weight="600" fill="#7aa2f7" text-anchor="middle">NN1</text>
+  <text x="60" y="122" font-size="9.5" fill="#a0a0aa" text-anchor="middle">会学习的函数</text>
+  <rect x="110" y="62" width="440" height="100" rx="8" fill="#17171d" stroke="rgba(122,162,247,.35)"/>
+  <text x="122" y="82" font-size="10.5" fill="#e9e9ec">网络 = 带旋钮的函数；loss 量错 · 梯度指坡 · LR 定步长</text>
+  <text x="122" y="99" font-size="10.5" fill="#e9e9ec">循环下坡就能学（0.5 = 蒙基率的投降书）</text>
+  <text x="122" y="116" font-size="10.5" fill="#9ece6a">工具：数值梯度 —— 任何梯度都拿它对表查账</text>
+  <text x="122" y="133" font-size="10.5" fill="#9ece6a">工具：train loop 骨架（forward → loss → 更新）</text>
+  <rect x="560" y="62" width="300" height="100" rx="8" fill="#17171d" stroke="rgba(217,119,87,.4)"/>
+  <text x="710" y="92" font-size="10.5" fill="#d97757" text-anchor="middle">02 的训练循环 = 这套循环原样搬过去</text>
+  <text x="710" y="112" font-size="10.5" fill="#d97757" text-anchor="middle">之后一切「训练」都是它的变体</text>
+
+  <rect x="20" y="172" width="80" height="100" rx="8" fill="rgba(158,206,106,.12)" stroke="#9ece6a"/>
+  <text x="60" y="212" font-size="13" font-weight="600" fill="#9ece6a" text-anchor="middle">NN2</text>
+  <text x="60" y="232" font-size="9.5" fill="#a0a0aa" text-anchor="middle">神经元与 XOR</text>
+  <rect x="110" y="172" width="440" height="100" rx="8" fill="#17171d" stroke="rgba(158,206,106,.35)"/>
+  <text x="122" y="192" font-size="10.5" fill="#e9e9ec">神经元 = 加权和 + 激活，全部零件就这两样</text>
+  <text x="122" y="209" font-size="10.5" fill="#e9e9ec">单层切不开 XOR → 叠一层折叠空间，一条直边开</text>
+  <text x="122" y="226" font-size="10.5" fill="#9ece6a">结论：死区存在（loss 卡住先换种子）；解不唯一</text>
+  <text x="122" y="243" font-size="10.5" fill="#9ece6a">结论：深度 = 把不可分折叠成可分</text>
+  <rect x="560" y="172" width="300" height="100" rx="8" fill="#17171d" stroke="rgba(217,119,87,.4)"/>
+  <text x="710" y="202" font-size="10.5" fill="#d97757" text-anchor="middle">02 的嵌入层 = 一张可学的权重表</text>
+  <text x="710" y="222" font-size="10.5" fill="#d97757" text-anchor="middle">训不动的第一反应：换种子、查死区</text>
+
+  <rect x="20" y="282" width="80" height="100" rx="8" fill="rgba(224,108,117,.12)" stroke="#e06c75"/>
+  <text x="60" y="322" font-size="13" font-weight="600" fill="#e06c75" text-anchor="middle">NN3</text>
+  <text x="60" y="342" font-size="9.5" fill="#a0a0aa" text-anchor="middle">反向传播</text>
+  <rect x="110" y="282" width="440" height="100" rx="8" fill="#17171d" stroke="rgba(224,108,117,.35)"/>
+  <text x="122" y="302" font-size="10.5" fill="#e9e9ec">链式法则两规矩：一路连乘 · 岔口相加</text>
+  <text x="122" y="319" font-size="10.5" fill="#e9e9ec">本地导数用本节点自己的输入 · 一次前向记账、一次反向查账</text>
+  <text x="122" y="336" font-size="10.5" fill="#9ece6a">结论：旋钮再多也只跑 1 前 1 后（13,002 个对 26,004 次前向）</text>
+  <text x="122" y="353" font-size="10.5" fill="#9ece6a">陷阱：ReLU 折角导数不存在，两边各选一边</text>
+  <rect x="560" y="282" width="300" height="100" rx="8" fill="#17171d" stroke="rgba(217,119,87,.4)"/>
+  <text x="710" y="312" font-size="10.5" fill="#d97757" text-anchor="middle">loss.backward() 的真身</text>
+  <text x="710" y="332" font-size="10.5" fill="#d97757" text-anchor="middle">手推 × 数值互证 = 终身 debug 神器</text>
+
+  <rect x="20" y="392" width="80" height="100" rx="8" fill="rgba(217,119,87,.12)" stroke="#d97757"/>
+  <text x="60" y="432" font-size="13" font-weight="600" fill="#d97757" text-anchor="middle">NN4</text>
+  <text x="60" y="452" font-size="9.5" fill="#a0a0aa" text-anchor="middle">softmax+交叉熵</text>
+  <rect x="110" y="392" width="440" height="100" rx="8" fill="#17171d" stroke="rgba(217,119,87,.35)"/>
+  <text x="122" y="412" font-size="10.5" fill="#e9e9ec">softmax：分数 → 概率，和恒为 1 · 只看相对差距（平移不变）</text>
+  <text x="122" y="429" font-size="10.5" fill="#e9e9ec">交叉熵 −ln(押对那格)：对「自信地错」罚得陡</text>
+  <text x="122" y="446" font-size="10.5" fill="#9ece6a">结论：配对抵消，梯度裸成 p − y（预测减真值）</text>
+  <text x="122" y="463" font-size="10.5" fill="#9ece6a">陷阱：exp 溢出 → 先减 max（平移不变形的合法运用）</text>
+  <rect x="560" y="392" width="300" height="100" rx="8" fill="#17171d" stroke="rgba(217,119,87,.4)"/>
+  <text x="710" y="412" font-size="10.5" fill="#d97757" text-anchor="middle">02 的输出层 + 损失就是这两件</text>
+  <text x="710" y="432" font-size="10.5" fill="#d97757" text-anchor="middle">生成 = 从 p 里抽下一字符（P0.4 再加 temperature）</text>
+
+  <line x1="60" y1="495" x2="60" y2="508" stroke="#a0a0aa" stroke-width="1.4" marker-end="url(#nnap)"/>
+  <rect x="20" y="512" width="840" height="88" rx="10" fill="#17171d" stroke="rgba(122,162,247,.5)"/>
+  <text x="440" y="534" font-size="12" font-weight="600" fill="#7aa2f7" text-anchor="middle">四包行李拼回主线 02_neural_bigram.py —— 每一行都有出处</text>
+  <text x="440" y="556" font-size="10.5" fill="#e9e9ec" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">嵌入查表(NN2 加权和) → matmul 出 logits(NN1 函数) → softmax(NN4)</text>
+  <text x="440" y="574" font-size="10.5" fill="#e9e9ec" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">→ −ln(NN4) → probs−y(NN4) → backward(NN3 查账) → SGD 更新(NN1 下坡)</text>
+  <text x="440" y="593" font-size="10.5" fill="#d97757" text-anchor="middle">P0.3 mini-GPT 同一套，只多注意力 · 训不动三招：换种子(NN2) · 对表(NN3) · 看 p 押谁(NN4)</text>
+</svg>
+          </div>
+        </div>
+      </details>
       <div class="ch-foot"><span class="foot-chip ver">交付：看得懂 02_neural_bigram.py 的每一行</span></div>
 
     </article>
