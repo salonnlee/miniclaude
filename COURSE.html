@@ -432,7 +432,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
           <div class="res-sec">🎬 视频类</div>
           <ul class="res-list">
             <li><span class="no">①</span><b>3Blue1Brown《深度学习》合集</b><span class="tag">深入浅出天花板 · B 站官方中文</span>
-              <span class="why">八集合集:结构 → 梯度下降 → 反传 → GPT 与注意力 → 卷积;已落地为下方「支线 · 观影」课程卡,3B1–3B3 已观毕(2026-10-21)。</span></li>
+              <span class="why">八集合集:结构 → 梯度下降 → 反传 → GPT 与注意力 → 卷积;已落地为下方「支线 · 观影」课程卡,3B1–3B4 已观毕(2026-10-21)。</span></li>
             <li><span class="no">⑤</span><b>李宏毅《机器学习》</b><span class="tag">中文网课口碑之王 · B 站搜「李宏毅 机器学习」</span>
               <span class="why">梗多、节奏好、覆盖面大;ML 基础部分与本支线高度互补,适合当「第二遍讲法」。</span></li>
             <li><span class="no">⑥</span><b>Andrej Karpathy《Neural Networks: Zero to Hero》</b><span class="tag">手搓流精神导师 · youtube.com/@AndrejKarpathy</span>
@@ -736,12 +736,90 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       </details>
 
       <ul class="ch-list tight-top">
-        <li><b>3B4</b> 反向传播(下)⏭ 下一站 —— 把心愿逆流写成链式法则:NN3 正片的手推同款</li>
-        <li><b>3B5</b> GPT 与 Transformer —— 序章 mini-GPT 的真身;主线 P0.3 的预告片</li>
+        <li><b>3B4</b> 反向传播(下) ✅ 观毕 2026-10-21 · 学员笔记沉淀为下附全景卡</li>
+      </ul>
+
+      <details class="ch-recap" id="b1b-04-recap">
+        <summary><span class="ch-lab-arrow">▶</span>🧠 3B4 全景 · 几段话 + 一张图(最小网络链 × 链式法则对号入座)<span class="ch-lab-hint">复盘卡 · 点击展开</span></summary>
+        <div class="ch-lab-body">
+          <p class="s1-recap">3B3 给了直觉,3B4 把直觉钉死成公式。开场就很有方法论:<b>每层只留一个神经元</b>,三层小链 a⁽⁰⁾ → a⁽¹⁾ → a⁽²⁾ → a⁽³⁾,旋钮只剩 6 个——你图 1 顶上那行 <code>C(w₁, b₁, w₂, b₂, w₃, b₃)</code>:loss 直接写成 6 个旋钮的函数,变量减到最少,机制才看得清(NN1 两个旋钮起步的同款思路)。目标一脉相承:<b>loss 对每个旋钮多敏感(= 偏导 = 梯度的每一项),才知道往哪拧、拧多猛</b>。</p>
+          <p class="s1-recap">难点在「不直接相连」:C 挂在链尾的 a⁽ᴸ⁾ 上,w₁ 藏在链头——敏感度只能<b>沿链乘回去</b>,这就是<b>链式法则</b>。你图 3 的核心式:<code>∂C/∂w⁽ˡ⁾ⱼₖ = a⁽ˡ⁻¹⁾ₖ · σ′(z⁽ˡ⁾ⱼ) · ∂C/∂a⁽ˡ⁾ⱼ</code>——三个因子各管一段:前层激活 × sigmoid 的坡度 × 心愿。而「心愿」∂C/∂a⁽ˡ⁾ 不用重算:<b>它自己又是更后一层心愿的加权和</b>(Σ w⁽ˡ⁺¹⁾ · σ′ · ∂C/∂a⁽ˡ⁺¹⁾,图 3 大黄框的递归)——顺着递归一路滚回输出层,那里有个万能起搏器:<code>∂C/∂a⁽ᴸ⁾ = 2(a⁽ᴸ⁾ − y)</code>。</p>
+          <p class="s1-recap">拿你图 2 的数字试刀:a⁽ᴸ⁾ = 0.66,y = 1.00,基础心愿 = 2(0.66 − 1.00) = <b>−0.68</b>——负号的意思正是「把输出调高,loss 才会降」,与 3B2 负梯度读法(符号说方向)无缝衔接。再把 3B3 的三根杠杆对号入座,两集焊死:<b>∂a/∂b = 1</b> → 杠杆①偏置无条件加分;<b>∂a⁽ˡ⁾/∂w = a⁽ˡ⁻¹⁾</b>(前层激活,核心式第一个因子)→ 杠杆②为什么负激活帮倒忙——导数本身成了负的;<b>∂a⁽ˡ⁾/∂a⁽ˡ⁻¹⁾ = w</b> → 杠杆③心愿乘着权重往回传。记号一并升级:上标 (L) = 最后一层(L = last),是<b>层号不是幂</b>。</p>
+          <p class="s1-recap">每层多放几个神经元,「沿链相乘」就变「沿所有路径乘完再求和」(图 3 的 Σ);把递归整理成整齐的批量算法(矩阵版),就是反向传播正身——前向一趟存下全部激活值,后向一趟复用它们,13,002 个偏导一次算清,这就是它比 NN1 数值量坡(每旋钮 2 次前向)便宜百倍的原因。至此反传双保险集齐:<b>3B3 给直觉,3B4 给数学;NN3 正片只剩把这套式子亲手推一遍、和数值梯度互证</b>——观影支线的预习任务,完成。</p>
+          <div class="s1-fig">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="3B4 全景:左边最小网络沿链乘回的链式法则,右边三根杠杆与公式对号入座">
+  <defs>
+    <marker id="b4ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
+  </defs>
+
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 最小网络 · 敏感度沿链乘回</text>
+  <text x="105" y="48" font-size="10.5" fill="#a0a0aa">你图 1 那帧:变量减到最少,机制才看得清</text>
+
+  <rect x="105" y="64" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="121" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">⛓️ 三层小链,每层 1 神经元</text>
+  <text x="121" y="104" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">C(w₁,b₁,w₂,b₂,w₃,b₃) —— 旋钮 6 个</text>
+  <line x1="270" y1="118" x2="270" y2="136" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b4ar)"/>
+
+  <rect x="105" y="142" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="121" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">🎯 问:loss 对 w₁ 多敏感?</text>
+  <text x="121" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">w₁ 在链头 · C 挂在链尾 a⁽ᴸ⁾ 上</text>
+  <line x1="270" y1="196" x2="270" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b4ar)"/>
+
+  <rect x="105" y="220" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="121" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">🔗 链式法则:沿链乘回去</text>
+  <text x="121" y="260" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">∂C/∂w = 前层激活 × σ′ × 心愿</text>
+  <line x1="270" y1="274" x2="270" y2="292" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b4ar)"/>
+
+  <rect x="105" y="298" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="121" y="319" font-size="12.5" font-weight="600" fill="#e9e9ec">🔁 心愿 ∂C/∂a 不用重算</text>
+  <text x="121" y="338" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">= 更后一层心愿的加权和(递归)</text>
+  <line x1="270" y1="352" x2="270" y2="370" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b4ar)"/>
+
+  <rect x="105" y="376" width="330" height="52" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.55)"/>
+  <text x="121" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">⚡ 起搏器在输出层(图 3 末行)</text>
+  <text x="121" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">∂C/∂a⁽ᴸ⁾ = 2(a⁽ᴸ⁾ − y) · 图2 试刀: −0.68</text>
+
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② 三根杠杆 · 公式对号入座</text>
+  <text x="500" y="48" font-size="10.5" fill="#a0a0aa">图 2:0.66 vs y=1.00 → 心愿 −0.68(负 = 调高)</text>
+
+  <rect x="500" y="64" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">① 偏置:∂a/∂b = 1</text>
+  <text x="516" y="104" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">无条件加分 —— 3B3 杠杆①的公式身</text>
+  <line x1="665" y1="118" x2="665" y2="136" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b4ar)"/>
+
+  <rect x="500" y="142" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">② 权重:∂a⁽ˡ⁾/∂w = a⁽ˡ⁻¹⁾</text>
+  <text x="516" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">前层激活为负 → 导数为负,加大反压分</text>
+  <line x1="665" y1="196" x2="665" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b4ar)"/>
+
+  <rect x="500" y="220" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">③ 激活:∂a⁽ˡ⁾/∂a⁽ˡ⁻¹⁾ = w</text>
+  <text x="516" y="260" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">心愿乘权重回传 —— 「反向」公式化身</text>
+  <line x1="665" y1="274" x2="665" y2="292" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b4ar)"/>
+
+  <rect x="500" y="298" width="330" height="52" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.55)"/>
+  <text x="516" y="319" font-size="12.5" font-weight="600" fill="#e9e9ec">Σ 多神经元:路径乘完再求和</text>
+  <text x="516" y="338" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">矩阵版批量算 = BP 正身(NN3 手推)</text>
+  <line x1="665" y1="352" x2="665" y2="370" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b4ar)"/>
+
+  <rect x="500" y="376" width="330" height="52" rx="10" fill="#17171d" stroke="rgba(122,162,247,.45)"/>
+  <text x="516" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">↩ NN1 对照</text>
+  <text x="516" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">数值量坡:每旋钮 2 次前向 —— 互证用</text>
+
+  <rect x="105" y="444" width="725" height="46" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
+  <text x="467" y="463" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">反传双保险:3B3 直觉(心愿逆流)+ 3B4 数学(链式法则)→ NN3 手推 × 数值互证</text>
+  <text x="467" y="481" font-size="10.5" fill="#a0a0aa" text-anchor="middle">(L) = 最后一层,层号不是幂 · 下一站 3B5:GPT 与 Transformer(mini-GPT 的真身)</text>
+</svg>
+          </div>
+        </div>
+      </details>
+
+      <ul class="ch-list tight-top">
+        <li><b>3B5</b> GPT 与 Transformer ⏭ 下一站 —— 序章 mini-GPT 的真身;主线 P0.3 的预告片</li>
         <li><b>3B6</b> 直观解释注意力机制 —— Transformer 的心脏,回主线深水区的装备</li>
         <li><b>3B7–3B8</b> 卷积神经网络 / 卷积的两种可视化 —— 拓展视野:CNN 分支,支线不深入,看个热闹即可</li>
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 · 8 集各一张全景卡</span><span class="foot-chip">🔍 呼应 · 心愿逆流的数学 = 链式法则:3B4 演算,NN3 手推</span></div>
+      <div class="ch-foot"><span class="foot-chip ver">交付 · 8 集各一张全景卡</span><span class="foot-chip">🔍 呼应 · 反传双保险(3B3 直觉 + 3B4 数学)到手,NN3 手推 × 数值互证见真章</span></div>
 
     </article>
   </details>
