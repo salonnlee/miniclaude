@@ -144,9 +144,9 @@
 
   /* ---------- chapter lab drawer(章节实验室抽屉)---------- */
   .ch-lab{margin-top:16px;border-top:1px dashed var(--border);padding-top:14px}
-  .ch-lab summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:var(--accent-2);user-select:none}
+  .ch-lab summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;font-weight:500;font-size:13px;color:var(--accent-2);user-select:none}
   .ch-lab summary::-webkit-details-marker{display:none}
-  .ch-lab summary .ch-lab-arrow{display:inline-block;transition:transform .2s;font-size:18px;color:var(--accent);font-weight:700}
+  .ch-lab summary .ch-lab-arrow{display:inline-block;transition:transform .2s;font-size:14px;color:var(--accent);font-weight:700}
   .ch-lab summary:hover .ch-lab-arrow{color:var(--text)}
   .ch-lab[open] summary .ch-lab-arrow{transform:rotate(90deg)}
   .ch-lab summary .ch-lab-hint{margin-left:auto;font-weight:400;font-size:12px;color:var(--muted)}
@@ -200,9 +200,9 @@
 
   /* ---------- chapter recap card(紧贴章节行的复盘卡)---------- */
   .ch-recap{margin:10px 0 2px;padding:0}
-  .ch-recap summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;font-weight:600;font-size:14.5px;color:var(--accent-2);user-select:none}
+  .ch-recap summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;font-weight:500;font-size:13px;color:var(--accent-2);user-select:none}
   .ch-recap summary::-webkit-details-marker{display:none}
-  .ch-recap summary .ch-lab-arrow{display:inline-block;transition:transform .2s;font-size:16px;color:var(--accent);font-weight:700}
+  .ch-recap summary .ch-lab-arrow{display:inline-block;transition:transform .2s;font-size:14px;color:var(--accent);font-weight:700}
   .ch-recap summary:hover .ch-lab-arrow{color:var(--text)}
   .ch-recap[open] summary .ch-lab-arrow{transform:rotate(90deg)}
   .ch-recap summary .ch-lab-hint{margin-left:auto;font-weight:400;font-size:12px;color:var(--muted)}
