@@ -123,7 +123,7 @@
   .act.prologue .act-no,.act.side .act-no{color:var(--accent-2)}
   .act-head h3{margin:0;font-size:21px}
   .act-range{color:var(--muted);font-size:13.5px}
-  .chapter{border:2px solid #d6d6df;border-radius:14px;background:rgba(37,99,235,.03);
+  .chapter{border:2px solid #d6d6df;border-radius:14px;background:#fff;
     padding:18px 20px;margin-bottom:14px}
   .chapter.prologue,.chapter.side{border-color:rgba(37,99,235,.55)}
   .ch-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
