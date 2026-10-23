@@ -19,7 +19,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 <header class="hero">
   <div class="wrap">
     <h1>miniclaude</h1>
-    <p class="tagline">从零手撸一个 Claude Code · 教学课程总表 —— 模型不造大的，搓个迷你版验原理；壳，整只亲手撸。</p>
+    <p class="tagline">从零手撸一个 Claude Code · 教学课程总表 —— 模型是大脑，不会自己动手；带它读文件、跑命令的那个程序，这门课从零完整写出。大脑也亲手驯个迷你版，把原理搞懂。</p>
     <div class="meta">
       <span class="chip ts"><span class="dot"></span>铸剑线 · TypeScript + Node（正文）</span>
       <span class="chip py"><span class="dot"></span>搓丹线 · Python + PyTorch（序章）</span>
@@ -37,7 +37,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 <section class="block" id="arch">
   <div class="sec-kicker">01 / MAP</div>
   <h2 class="sec">全景架构</h2>
-  <p class="sec-sub">Agent 循环往下分两条路：左边找 LLM「想」，右边穿过权限闸门找工具「做」——来回切换，这条 while 循环就是整只壳的心脏。</p>
+  <p class="sec-sub">这张图就是那个程序的骨架：Agent 循环居中调度——左边把问题交给模型去想，右边过权限闸门让工具去做；想完的交给做，做完的喂回想，一轮一轮，转到活干完。</p>
 
   <div class="arch-tools">
     <button class="arch-btn" id="arch-btn" type="button"><span id="arch-btn-ic">▶</span><span id="arch-btn-label">播放：一次请求的旅程</span></button>
