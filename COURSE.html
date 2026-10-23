@@ -381,7 +381,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       return a;
     }
     function renderTop(i) {
-      var top = sorted(i).slice(0, 6), mi = top[0][0], html = '', k;
+      var top = sorted(i).filter(function (x) { return x[1] > 0; }).slice(0, 6), mi = top[0][0], html = '', k;
       for (k = 0; k < top.length; k++) {
         var j = top[k][0], p = top[k][1] / 100;
         html += '<div class="brow' + (j === mi ? ' ismax' : '') + '" data-j="' + j + '" title="点它 = 接管下一个字"><code>' + fmt(j) + '</code>' +
@@ -389,9 +389,12 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
           '<span>' + p.toFixed(1) + '%</span>' +
           '<b class="bmax">' + (j === mi ? '🎯' : '') + '</b></div>';
       }
-      var rest = sorted(i).slice(6), nz = 0, sum = 0;
+      var rest = sorted(i).slice(6), nz = 0, sum = 0, nn = 0;
       for (k = 0; k < rest.length; k++) if (rest[k][1] > 0) { nz++; sum += rest[k][1]; }
-      html += '<button type="button" class="bg-tail">其余 ' + nz + ' 个候选合计 ' + (sum / 100).toFixed(1) + '% —— 点此切「完整 67 柱」看全表 →</button>';
+      for (k = 0; k < top.length; k++) if (top[k][1] > 0) nn++;
+      html += nz === 0
+        ? '<button type="button" class="bg-tail">这已是全表——语料里这个字符的后续只有 ' + nn + ' 种，没有「其余」；点此仍可切「完整 67 柱」看 0 柱长什么样 →</button>'
+        : '<button type="button" class="bg-tail">其余 ' + nz + ' 个候选合计 ' + (sum / 100).toFixed(1) + '% —— 点此切「完整 67 柱」看全表 →</button>';
       elRows.innerHTML = html;
     }
     function renderSpec(i) {
