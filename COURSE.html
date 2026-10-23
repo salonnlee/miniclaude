@@ -1470,85 +1470,6 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
         </div>
       </details>
 
-      <ul class="ch-list tight-top">
-        <li><b>3B5</b> GPT 与 Transformer ✅ <span class="done-date">2026-10-23</span></li>
-      </ul>
-
-      <details class="ch-recap" id="b1b-05-recap">
-        <summary><span class="ch-lab-arrow">▶</span>🧠 3B5 全景（接龙考卷 × 一根向量的旅程）</summary>
-        <div class="ch-lab-body">
-          <p class="s1-recap">3B5 换考卷：不认数字，改玩<b>接龙</b>——读进一串文字，给词表里每个词条打「下一个是它」的分，打完挑一个接到队尾，接着再打。文字进网前两道工序：<b>切 token</b>（词表不是谁列的：语料统计反复出现的相邻片段一路合并，合并到人为上限就冻结——GPT-3 定格 50,257 条，此后遇到生字只能拆成已有词条拼，不能现场造词）＋<b>查嵌入表 W_E</b>（每个词条一列，12,288 个数；行数＝网络第一层的宽度，是设计定的超参数，统计只管收词，不管这维）。</p>
-          <p class="s1-recap">查完表立刻<b>加位置编码</b>——同为查表，第几位就查第几行，整支向量逐数字相加，「猫追狗」「狗追猫」从此分得清。<b>上下文长度（2,048）的机制根源就在这：位置表印了几行，推理最多读几个词。</b>随后流过 96 块积木（GPT-3），每块两个半层：<b>注意力</b>（窗口内向量互相看、互相抄信息，上下文由此注入；GPT 用的单向版只许看前文）＋<b>MLP</b>（3B1 那种全连接，对每根向量单独加工）。</p>
-          <p class="s1-recap">出网只取最后一位的向量，<b>乘解嵌入矩阵 W_U</b>——又一张学出来的参数表，常直接用 W_E 转置共享；得 50,257 个原始分，每词条一分，分＝向量与该词条那列的点积，对得上眼分就高。softmax 压成概率（NN4 转换器的放大版），温度调平陡，贪心或采样挑一个字，接回队尾循环。<b>「只用最后一根不亏」是本集最妙的账</b>：它每过一层注意力都被灌进更多前文，出网时已是读完全文的总结陈词——训练时更是每个位置各自预测自己的下一字，2,048 个预测一次前向并行算完。</p>
-          <p class="s1-recap"><b>答案白送</b>是 GPT 的餐桌礼仪：考题就是「原文的下一个字」，没人需要标注。loss 汇总全部预测的错，下坡循环一帧未改——∇C 照算、反传照跑（3B3/3B4 双保险直接上岗），旋钮从 13,002 个换成 1,750 亿个，生意还是那门生意。对回主线：P0.1 的 67×67 数数表＝一张冻结的迷你接龙表，P0.3 要搓的正是把查表换成这套会学的积木——3B5 就是 P0.3 的预告片。下一站 3B6：注意力从半层戏份升正主。</p>
-          <div class="s1-fig">
-<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="3B5 全景：左边接龙全程流水线（切 token→查表加位置→96 块积木→W_U 打分→softmax 挑字接队尾），右边伴读五问逐一对号">
-  <defs>
-    <marker id="b5ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
-  </defs>
-
-  <text x="105" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 接龙全程 · 一根向量的旅程</text>
-  <text x="105" y="48" font-size="10.5" fill="#a0a0aa">词进去、分出来、挑一个接上 —— GPT 的全部（GPT-3 数字）</text>
-
-  <rect x="105" y="64" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="121" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">🔪 切 token · 词表冻结</text>
-  <text x="121" y="104" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">语料统计合并(BPE)+上限 50,257 · 生字只能拼</text>
-  <line x1="270" y1="118" x2="270" y2="136" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b5ar)"/>
-
-  <rect x="105" y="142" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="121" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">🗂️ 查嵌入表 W_E ＋ 加位置编码</text>
-  <text x="121" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">词条→12,288 个数(设计宽度) · 位置逐数相加</text>
-  <line x1="270" y1="196" x2="270" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b5ar)"/>
-
-  <rect x="105" y="220" width="330" height="52" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.55)"/>
-  <text x="121" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">🧱 96 块积木 · 注意力＋MLP</text>
-  <text x="121" y="260" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">注意力=向后看抄上下文 · MLP=3B1 单向量加工</text>
-  <line x1="270" y1="274" x2="270" y2="292" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b5ar)"/>
-
-  <rect x="105" y="298" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="121" y="319" font-size="12.5" font-weight="600" fill="#e9e9ec">🎯 最后向量 × W_U → 50,257 分</text>
-  <text x="121" y="338" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">点积打分 · softmax 压概率 · 温度调平陡</text>
-  <line x1="270" y1="352" x2="270" y2="370" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b5ar)"/>
-
-  <rect x="105" y="376" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="121" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">🎲 挑一个字接队尾 · 循环</text>
-  <text x="121" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">贪心=自锁坑(P0.1 同款) · 采样=按概率抽签</text>
-
-  <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② 伴读五问 · 逐一对号</text>
-  <text x="500" y="48" font-size="10.5" fill="#a0a0aa">词表哪来 / 维度谁定 / 哪层是哪层 / 定长为何 / 最后向量亏不亏</text>
-
-  <rect x="500" y="64" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="516" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">问：词表根据什么预设？</text>
-  <text x="516" y="104" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">统计(哪段勤哪段上)+上限(人为) · 训前冻结</text>
-  <line x1="665" y1="118" x2="665" y2="136" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b5ar)"/>
-
-  <rect x="500" y="142" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="516" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">问：嵌入 / 注意力各算几层？</text>
-  <text x="516" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">嵌入=第 0 层只查表 · 注意力+MLP=积木一层</text>
-  <line x1="665" y1="196" x2="665" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b5ar)"/>
-
-  <rect x="500" y="220" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="516" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">问：上下文为何定长？</text>
-  <text x="516" y="260" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">位置表只印 2,048 行 · 训练成本定的，不是算力</text>
-  <line x1="665" y1="274" x2="665" y2="292" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b5ar)"/>
-
-  <rect x="500" y="298" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
-  <text x="516" y="319" font-size="12.5" font-weight="600" fill="#e9e9ec">问：只用最后一根向量亏不亏？</text>
-  <text x="516" y="338" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">注意力层层灌前文 · 出网=全文总结陈词</text>
-  <line x1="665" y1="352" x2="665" y2="370" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b5ar)"/>
-
-  <rect x="500" y="376" width="330" height="52" rx="10" fill="#17171d" stroke="rgba(122,162,247,.45)"/>
-  <text x="516" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">训练彩蛋：每个位置都出分</text>
-  <text x="516" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">2,048 个预测并行 · 答案=原文下一字，白送</text>
-
-  <rect x="105" y="444" width="725" height="46" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
-  <text x="467" y="463" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">接龙 = 3B1 打分网的循环使用 · 下坡循环一帧未改(3B3/3B4 直接上岗)</text>
-  <text x="467" y="481" font-size="10.5" fill="#a0a0aa" text-anchor="middle">GPT-3:12,288 维 × 96 块 × 50,257 词条 ≈ 1,750 亿旋钮 · 下一站 3B6:注意力拆开细讲</text>
-</svg>
-          </div>
-        </div>
-      </details>
-
       <details class="ch-recap" id="b1b-arc-recap">
         <summary><span class="ch-lab-arrow">▶</span>🧠 3B1–3B4 连读全景（四集一条线 × 一个循环记全剧）</summary>
         <div class="ch-lab-body">
@@ -1814,6 +1735,85 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
   </script>
         </div>
       </details>
+      <ul class="ch-list tight-top">
+        <li><b>3B5</b> GPT 与 Transformer ✅ <span class="done-date">2026-10-23</span></li>
+      </ul>
+
+      <details class="ch-recap" id="b1b-05-recap">
+        <summary><span class="ch-lab-arrow">▶</span>🧠 3B5 全景（接龙考卷 × 一根向量的旅程）</summary>
+        <div class="ch-lab-body">
+          <p class="s1-recap">3B5 换考卷：不认数字，改玩<b>接龙</b>——读进一串文字，给词表里每个词条打「下一个是它」的分，打完挑一个接到队尾，接着再打。文字进网前两道工序：<b>切 token</b>（词表不是谁列的：语料统计反复出现的相邻片段一路合并，合并到人为上限就冻结——GPT-3 定格 50,257 条，此后遇到生字只能拆成已有词条拼，不能现场造词）＋<b>查嵌入表 W_E</b>（每个词条一列，12,288 个数；行数＝网络第一层的宽度，是设计定的超参数，统计只管收词，不管这维）。</p>
+          <p class="s1-recap">查完表立刻<b>加位置编码</b>——同为查表，第几位就查第几行，整支向量逐数字相加，「猫追狗」「狗追猫」从此分得清。<b>上下文长度（2,048）的机制根源就在这：位置表印了几行，推理最多读几个词。</b>随后流过 96 块积木（GPT-3），每块两个半层：<b>注意力</b>（窗口内向量互相看、互相抄信息，上下文由此注入；GPT 用的单向版只许看前文）＋<b>MLP</b>（3B1 那种全连接，对每根向量单独加工）。</p>
+          <p class="s1-recap">出网只取最后一位的向量，<b>乘解嵌入矩阵 W_U</b>——又一张学出来的参数表，常直接用 W_E 转置共享；得 50,257 个原始分，每词条一分，分＝向量与该词条那列的点积，对得上眼分就高。softmax 压成概率（NN4 转换器的放大版），温度调平陡，贪心或采样挑一个字，接回队尾循环。<b>「只用最后一根不亏」是本集最妙的账</b>：它每过一层注意力都被灌进更多前文，出网时已是读完全文的总结陈词——训练时更是每个位置各自预测自己的下一字，2,048 个预测一次前向并行算完。</p>
+          <p class="s1-recap"><b>答案白送</b>是 GPT 的餐桌礼仪：考题就是「原文的下一个字」，没人需要标注。loss 汇总全部预测的错，下坡循环一帧未改——∇C 照算、反传照跑（3B3/3B4 双保险直接上岗），旋钮从 13,002 个换成 1,750 亿个，生意还是那门生意。对回主线：P0.1 的 67×67 数数表＝一张冻结的迷你接龙表，P0.3 要搓的正是把查表换成这套会学的积木——3B5 就是 P0.3 的预告片。下一站 3B6：注意力从半层戏份升正主。</p>
+          <div class="s1-fig">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="3B5 全景：左边接龙全程流水线（切 token→查表加位置→96 块积木→W_U 打分→softmax 挑字接队尾），右边伴读五问逐一对号">
+  <defs>
+    <marker id="b5ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a0a0aa"/></marker>
+  </defs>
+
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#e9e9ec">① 接龙全程 · 一根向量的旅程</text>
+  <text x="105" y="48" font-size="10.5" fill="#a0a0aa">词进去、分出来、挑一个接上 —— GPT 的全部（GPT-3 数字）</text>
+
+  <rect x="105" y="64" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="121" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">🔪 切 token · 词表冻结</text>
+  <text x="121" y="104" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">语料统计合并(BPE)+上限 50,257 · 生字只能拼</text>
+  <line x1="270" y1="118" x2="270" y2="136" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b5ar)"/>
+
+  <rect x="105" y="142" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="121" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">🗂️ 查嵌入表 W_E ＋ 加位置编码</text>
+  <text x="121" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">词条→12,288 个数(设计宽度) · 位置逐数相加</text>
+  <line x1="270" y1="196" x2="270" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b5ar)"/>
+
+  <rect x="105" y="220" width="330" height="52" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.55)"/>
+  <text x="121" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">🧱 96 块积木 · 注意力＋MLP</text>
+  <text x="121" y="260" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">注意力=向后看抄上下文 · MLP=3B1 单向量加工</text>
+  <line x1="270" y1="274" x2="270" y2="292" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b5ar)"/>
+
+  <rect x="105" y="298" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="121" y="319" font-size="12.5" font-weight="600" fill="#e9e9ec">🎯 最后向量 × W_U → 50,257 分</text>
+  <text x="121" y="338" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">点积打分 · softmax 压概率 · 温度调平陡</text>
+  <line x1="270" y1="352" x2="270" y2="370" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b5ar)"/>
+
+  <rect x="105" y="376" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="121" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">🎲 挑一个字接队尾 · 循环</text>
+  <text x="121" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">贪心=自锁坑(P0.1 同款) · 采样=按概率抽签</text>
+
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#e9e9ec">② 伴读五问 · 逐一对号</text>
+  <text x="500" y="48" font-size="10.5" fill="#a0a0aa">词表哪来 / 维度谁定 / 哪层是哪层 / 定长为何 / 最后向量亏不亏</text>
+
+  <rect x="500" y="64" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="85" font-size="12.5" font-weight="600" fill="#e9e9ec">问：词表根据什么预设？</text>
+  <text x="516" y="104" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">统计(哪段勤哪段上)+上限(人为) · 训前冻结</text>
+  <line x1="665" y1="118" x2="665" y2="136" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b5ar)"/>
+
+  <rect x="500" y="142" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="163" font-size="12.5" font-weight="600" fill="#e9e9ec">问：嵌入 / 注意力各算几层？</text>
+  <text x="516" y="182" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">嵌入=第 0 层只查表 · 注意力+MLP=积木一层</text>
+  <line x1="665" y1="196" x2="665" y2="214" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b5ar)"/>
+
+  <rect x="500" y="220" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="241" font-size="12.5" font-weight="600" fill="#e9e9ec">问：上下文为何定长？</text>
+  <text x="516" y="260" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">位置表只印 2,048 行 · 训练成本定的，不是算力</text>
+  <line x1="665" y1="274" x2="665" y2="292" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b5ar)"/>
+
+  <rect x="500" y="298" width="330" height="52" rx="10" fill="#17171d" stroke="#2a2a34"/>
+  <text x="516" y="319" font-size="12.5" font-weight="600" fill="#e9e9ec">问：只用最后一根向量亏不亏？</text>
+  <text x="516" y="338" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">注意力层层灌前文 · 出网=全文总结陈词</text>
+  <line x1="665" y1="352" x2="665" y2="370" stroke="#a0a0aa" stroke-width="1.5" marker-end="url(#b5ar)"/>
+
+  <rect x="500" y="376" width="330" height="52" rx="10" fill="#17171d" stroke="rgba(122,162,247,.45)"/>
+  <text x="516" y="397" font-size="12.5" font-weight="600" fill="#e9e9ec">训练彩蛋：每个位置都出分</text>
+  <text x="516" y="416" font-size="10.5" fill="#7aa2f7" font-family="ui-monospace,Menlo,monospace">2,048 个预测并行 · 答案=原文下一字，白送</text>
+
+  <rect x="105" y="444" width="725" height="46" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
+  <text x="467" y="463" font-size="12" fill="#9ece6a" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">接龙 = 3B1 打分网的循环使用 · 下坡循环一帧未改(3B3/3B4 直接上岗)</text>
+  <text x="467" y="481" font-size="10.5" fill="#a0a0aa" text-anchor="middle">GPT-3:12,288 维 × 96 块 × 50,257 词条 ≈ 1,750 亿旋钮 · 下一站 3B6:注意力拆开细讲</text>
+</svg>
+          </div>
+        </div>
+      </details>
+
       <ul class="ch-list tight-top">
         <li><b>3B6</b> 直观解释注意力机制 ⏭ 下一站 —— Transformer 的心脏，回主线深水区的装备</li>
         <li><b>3B7–3B8</b> 卷积神经网络 / 卷积的两种可视化 —— 拓展视野：CNN 分支，支线不深入，看个热闹即可</li>
