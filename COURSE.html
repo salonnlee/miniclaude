@@ -19,11 +19,11 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 <header class="hero">
   <div class="wrap">
     <h1>miniclaude</h1>
-    <p class="tagline">从零手撸一个 Claude Code · 教学课程总表 —— 模型我们永远不造？不，序章先搓个小的；壳，我们整只撸。</p>
+    <p class="tagline">从零手撸一个 Claude Code · 教学课程总表 —— 模型不造大的，搓个迷你版验原理；壳，整只亲手撸。</p>
     <div class="meta">
       <span class="chip ts"><span class="dot"></span>铸剑线 · TypeScript + Node（正文）</span>
       <span class="chip py"><span class="dot"></span>搓丹线 · Python + PyTorch（序章）</span>
-      <span class="chip update">更新于 2026-10-21</span>
+      <span class="chip update">更新于 2026-10-23</span>
     </div>
     <nav class="toc">
       <a href="#arch">全景架构</a><a href="#acts">课程表</a><a href="#miles">里程碑</a><a href="#pact">教学契约</a>
@@ -37,7 +37,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 <section class="block" id="arch">
   <div class="sec-kicker">01 / MAP</div>
   <h2 class="sec">全景架构</h2>
-  <p class="sec-sub">Agent 循环往下分两条路：左边找 LLM「想」，右边穿过权限闸门找工具「做」——来回切换，这就是第 3 章要写的 while 循环本尊。</p>
+  <p class="sec-sub">Agent 循环往下分两条路：左边找 LLM「想」，右边穿过权限闸门找工具「做」——来回切换，这条 while 循环就是整只壳的心脏。</p>
 
   <div class="arch-tools">
     <button class="arch-btn" id="arch-btn" type="button"><span id="arch-btn-ic">▶</span><span id="arch-btn-label">播放：一次请求的旅程</span></button>
@@ -114,11 +114,10 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
     <li><code>CH1–CH10</code> = 正文章节</li>
     <li><code>P0.x</code> = 序章课次（prologue/）</li>
     <li><code>v0.x</code> = 交付版本（v0.1 ≠ P0.1）</li>
-    <li>支线之间发散无序，不共用编号——卡片代称 = 名字缩写，线内课次 = 前缀 + 序号</li>
     <li><code>NN</code> = 支线·内功（神经网络，sidequest/，课次 NN1 起）</li>
     <li><code>3B</code> = 支线·观影（3Blue1Brown，课次 3B1 起；3B 是品牌名，不是序数）</li>
-    <li>新支线 = 新前缀，永不撞号</li>
   </ul>
+  <p class="rules-note">支线之间发散无序，不共用编号——卡片代称 = 名字缩写，线内课次 = 前缀 + 序号；新支线 = 新前缀，永不撞号。</p>
 
   <details class="act prologue" open>
     <summary class="act-head">
@@ -214,7 +213,8 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 
       <ul class="ch-list tight-top">
         <li><b>P0.2</b> 神经版 + 梯度训练🔥 学至中途 <span class="done-date">2026-10-22（内功补课 NN1–NN4 全清，即将回归）</span></li>
-        <li><b>P0.3</b> 前文加长：击穿数数表 → <b>P0.4</b> temperature 调参</li>
+        <li><b>P0.3</b> 前文加长：击穿数数表</li>
+        <li><b>P0.4</b> temperature 调参</li>
         <li><b>知识点</b> token 与采样；bigram 统计；embedding 与 MLP；训练循环、loss 与梯度下降；temperature / top-k</li>
         <li><b>总结</b> 大模型与它的区别只是大了十万倍、吃了十万倍；它不会听话、不会工具调用——这正是「壳」存在的意义</li>
       </ul>
@@ -981,12 +981,12 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
     <summary class="act-head">
       <span class="act-no">支线 · 观影</span>
       <h3>3Blue1Brown《深度学习》八集</h3>
-      <span class="act-range">B 站官方中文 · 书单 ① 号的落地进度</span>
+      <span class="act-range">B 站官方中文 · 3Blue1Brown《深度学习》八集合集</span>
       <span class="badge st-doing">🔥 进行中</span>
     </summary>
     <article class="chapter side">
       <div class="ch-top"><span class="ch-no">3B</span><span class="ch-title">看得见的深度学习 · 一集一全景</span><span class="badge st-doing">🔥 进行中</span></div>
-      <p class="ch-q">「书单 ① 号升级成课：动画里的每根线，都要能对回我们亲手搓过的零件。」</p>
+      <p class="ch-q">「3Blue1Brown《深度学习》升级成课：动画里的每根线，都要能对回我们亲手搓过的零件。」</p>
       <ul class="ch-list">
         <li><b>3B1</b> 神经网络的结构 ✅ <span class="done-date">2026-10-21</span></li>
       </ul>
