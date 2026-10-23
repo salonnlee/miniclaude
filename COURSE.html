@@ -352,7 +352,8 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       </div>
       <div class="bg-lab-cap">probs[cur] 候选分布（真实语料统计 · 🎯 = 贪心会选的最大项）</div>
       <div id="bl-rows"></div>
-      <div id="bl-spec" hidden></div>
+      <div class="bg-read" id="bl-read" hidden>悬停任意柱查看概率</div>
+      <div id="bl-spec" class="bg-spec" hidden></div>
     </div>
   </div>
   <div class="bg-lab-cap" style="margin-top:14px">out · 生成结果（⏎ = 换行，␣ = 空格，只显示最近 120 字符）</div>
@@ -371,7 +372,8 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
     function $(id) { return document.getElementById(id); }
     var elCur = $('bl-cur'), elSteps = $('bl-steps'), elLast = $('bl-last'),
         elRows = $('bl-rows'), elSpec = $('bl-spec'), elOut = $('bl-out'), elStarts = $('bl-starts'),
-        elAuto = $('bl-auto'), elSpeed = $('bl-speed'), elTabTop = $('bl-tab-top'), elTabAll = $('bl-tab-all');
+        elAuto = $('bl-auto'), elSpeed = $('bl-speed'), elTabTop = $('bl-tab-top'), elTabAll = $('bl-tab-all'),
+        elRead = $('bl-read');
     function fmt(i) { var c = BV[i]; return c === '\n' ? '⏎' : (c === ' ' ? '␣' : c); }
     function sorted(i) {
       var a = PF[i].map(function (p, j) { return [j, p]; });
@@ -431,12 +433,19 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
     });
     elTabTop.onclick = function () {
       elTabTop.classList.add('is-on'); elTabAll.classList.remove('is-on');
-      elRows.hidden = false; elSpec.hidden = true;
+      elRows.hidden = false; elSpec.hidden = true; elRead.hidden = true;
     };
     elTabAll.onclick = function () {
       elTabAll.classList.add('is-on'); elTabTop.classList.remove('is-on');
-      elSpec.hidden = false; elRows.hidden = true;
+      elSpec.hidden = false; elRows.hidden = true; elRead.hidden = false;
     };
+    elSpec.addEventListener('mouseover', function (e) {
+      var col = e.target.closest('.bg-col');
+      if (col) {
+        var j = +col.getAttribute('data-j');
+        elRead.innerHTML = fmt(cur) + ' → <b>' + fmt(j) + '</b> · ' + (PF[cur][j] / 100).toFixed(1) + '%';
+      }
+    });
     elSpec.addEventListener('click', function (e) {
       var col = e.target.closest('.bg-col');
       if (col) stepTo(+col.getAttribute('data-j')); // 点击接管:下一字由你指定
