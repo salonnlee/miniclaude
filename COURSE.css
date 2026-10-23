@@ -233,6 +233,21 @@
   .tf-h:first-of-type{margin-top:16px}
   .tf-note{margin:4px 0 26px;padding-left:18px;font-size:12.5px;color:var(--muted)}
 
+  /* T 专区·数字档案框:数字的来源与性质收进框,小字浅色与正文分层;左边条颜色=性质,与图四图例同色 */
+  .tf-num{margin:14px 0 16px;padding:10px 14px 6px;border:1px solid var(--border);border-left:3px solid;border-radius:10px;background:var(--panel-2)}
+  .tf-num-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin-bottom:6px}
+  .tf-num-head .n{font-family:var(--mono);font-size:16px;font-weight:700}
+  .tf-num-head .lab{font-size:12px;color:var(--text)}
+  .tf-num-head .nat{margin-left:auto;font-family:var(--mono);font-size:10.5px;padding:1px 9px;border-radius:99px;border:1px solid}
+  .tf-num p{margin:0 0 8px;font-size:12.5px;line-height:1.8;color:var(--muted)}
+  .tf-num p:last-child{margin-bottom:4px}
+  .tf-num.nat-human{border-left-color:#d97757}
+  .tf-num.nat-human .n,.tf-num.nat-human .nat{color:#d97757}
+  .tf-num.nat-human .nat{border-color:rgba(217,119,87,.45)}
+  .tf-num.nat-fixed{border-left-color:#7aa2f7}
+  .tf-num.nat-fixed .n,.tf-num.nat-fixed .nat{color:#7aa2f7}
+  .tf-num.nat-fixed .nat{border-color:rgba(122,162,247,.45)}
+
   /* ---------- chapter recap card(紧贴章节行的复盘卡)---------- */
   .ch-recap{margin:10px 0 2px;padding:0}
   .ch-recap summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;font-weight:500;font-size:13px;color:var(--accent-2);user-select:none}
