@@ -26,7 +26,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
       <span class="chip update">更新于 2026-10-23</span>
     </div>
     <nav class="toc">
-      <a href="#arch">全景架构</a><a href="#acts">课程表</a><a href="#miles">里程碑</a><a href="#pact">教学契约</a><a href="#tf">Transformer 拼图</a>
+      <a href="#arch">全景架构</a><a href="#acts">课程表</a><a href="#tf">Transformer 拼图</a><a href="#miles">里程碑</a><a href="#pact">教学契约</a>
     </nav>
   </div>
 </header>
@@ -1946,48 +1946,9 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
   </details>
 </section>
 
-<!-- ================= 里程碑 ================= -->
-<section class="block" id="miles">
-  <div class="sec-kicker">03 / MILESTONES</div>
-  <h2 class="sec">里程碑</h2>
-  <p class="sec-sub">每章一次 git commit，课程结束时 git log 就是你的学习编年史。</p>
-  <div class="tbl-scroll">
-  <table class="mile">
-    <thead><tr><th>版本</th><th>它能做到</th><th>章节</th></tr></thead>
-    <tbody>
-      <tr><td class="ver">v0.0</td><td>莎士比亚嘴替——你手搓的真·迷你 GPT（CPU 训练）</td><td class="range">序章</td></tr>
-      <tr><td class="ver">v0.1</td><td>流式多轮聊天，退出时报账</td><td class="range">第 1–2 章</td></tr>
-      <tr><td class="ver">v0.2</td><td>会调工具的 Agent 循环（玩具工具）</td><td class="range">第 3–4 章</td></tr>
-      <tr><td class="ver">v0.3</td><td>读写你的代码，自己发现并修好 bug</td><td class="range">第 5 章</td></tr>
-      <tr><td class="ver">v0.4</td><td>跑命令，且有安全闸门</td><td class="range">第 6 章</td></tr>
-      <tr><td class="ver">v0.5</td><td>长任务不失忆，懂省钱</td><td class="range">第 7 章</td></tr>
-      <tr><td class="ver">v0.6</td><td>Claude Code 级的终端手感</td><td class="range">第 8 章</td></tr>
-      <tr><td class="ver">v0.7</td><td>子代理 / 计划模式 / 技能 / MCP</td><td class="range">第 9 章</td></tr>
-      <tr><td class="ver">v1.0</td><td>配置、缓存、沙箱、发布——企业级收尾</td><td class="range">第 10 章</td></tr>
-    </tbody>
-  </table>
-  </div>
-</section>
-
-<!-- ================= 教学契约 ================= -->
-<section class="block pact" id="pact">
-  <div class="sec-kicker">04 / PACT</div>
-  <h2 class="sec">教学契约</h2>
-  <p class="sec-sub">每章固定节奏：先教，后考，绝不突袭。</p>
-  <ol>
-    <li><b>先讲概念</b>——类比 + 图，不甩术语；</li>
-    <li><b>一起写代码</b>——一次一小段，每段逐行讲清楚；</li>
-    <li><b>考考你</b>——口头提问，或让你亲手写一小块（保证是教过的）;</li>
-    <li><b>你运行、实验、瞎折腾</b>；</li>
-    <li><b>复盘发散</b>——这个设计在真实世界还有哪些做法。</li>
-  </ol>
-  <div id="course-log"></div>
-  <script src="COURSE-LOG.js"></script>
-</section>
-
 <!-- ================= Transformer 拼图 ================= -->
 <section class="block" id="tf">
-  <div class="sec-kicker">05 / TRANSFORMER</div>
+  <div class="sec-kicker">03 / TRANSFORMER</div>
   <h2 class="sec">把 Transformer 画出来</h2>
   <p class="sec-sub sub-rules">课程表把 Transformer 拆在四面八方——观影看直觉、内功练算法、序章手搓迷你版。这个专区反着来：以 GPT-3 为标本，把一台完整的 Transformer 钉在一块拼图板上，知识点从模糊到具体、一块一块拼进来。拼完之日，模型侧再无黑箱——这才算真的学懂、真的会手搓 Claude Code。代称：<code>T</code> = 拼图课次（本专区，T1 起）。</p>
   <ul class="ch-list">
@@ -2306,6 +2267,45 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
   </details>
 </section>
 
+<!-- ================= 里程碑 ================= -->
+<section class="block" id="miles">
+  <div class="sec-kicker">04 / MILESTONES</div>
+  <h2 class="sec">里程碑</h2>
+  <p class="sec-sub">每章一次 git commit，课程结束时 git log 就是你的学习编年史。</p>
+  <div class="tbl-scroll">
+  <table class="mile">
+    <thead><tr><th>版本</th><th>它能做到</th><th>章节</th></tr></thead>
+    <tbody>
+      <tr><td class="ver">v0.0</td><td>莎士比亚嘴替——你手搓的真·迷你 GPT（CPU 训练）</td><td class="range">序章</td></tr>
+      <tr><td class="ver">v0.1</td><td>流式多轮聊天，退出时报账</td><td class="range">第 1–2 章</td></tr>
+      <tr><td class="ver">v0.2</td><td>会调工具的 Agent 循环（玩具工具）</td><td class="range">第 3–4 章</td></tr>
+      <tr><td class="ver">v0.3</td><td>读写你的代码，自己发现并修好 bug</td><td class="range">第 5 章</td></tr>
+      <tr><td class="ver">v0.4</td><td>跑命令，且有安全闸门</td><td class="range">第 6 章</td></tr>
+      <tr><td class="ver">v0.5</td><td>长任务不失忆，懂省钱</td><td class="range">第 7 章</td></tr>
+      <tr><td class="ver">v0.6</td><td>Claude Code 级的终端手感</td><td class="range">第 8 章</td></tr>
+      <tr><td class="ver">v0.7</td><td>子代理 / 计划模式 / 技能 / MCP</td><td class="range">第 9 章</td></tr>
+      <tr><td class="ver">v1.0</td><td>配置、缓存、沙箱、发布——企业级收尾</td><td class="range">第 10 章</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ================= 教学契约 ================= -->
+<section class="block pact" id="pact">
+  <div class="sec-kicker">05 / PACT</div>
+  <h2 class="sec">教学契约</h2>
+  <p class="sec-sub">每章固定节奏：先教，后考，绝不突袭。</p>
+  <ol>
+    <li><b>先讲概念</b>——类比 + 图，不甩术语；</li>
+    <li><b>一起写代码</b>——一次一小段，每段逐行讲清楚；</li>
+    <li><b>考考你</b>——口头提问，或让你亲手写一小块（保证是教过的）;</li>
+    <li><b>你运行、实验、瞎折腾</b>；</li>
+    <li><b>复盘发散</b>——这个设计在真实世界还有哪些做法。</li>
+  </ol>
+  <div id="course-log"></div>
+  <script src="COURSE-LOG.js"></script>
+</section>
+
 </main>
 
 <footer>
@@ -2363,7 +2363,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
 /* 锚点滚动联动:URL 的 #锚点 随滚动实时同步(replaceState,不写历史记录),
    刷新即可回到当前区块;滚回顶部自动清掉锚点。 */
 (function () {
-  var secs = ['arch', 'acts', 'miles', 'pact', 'tf']
+  var secs = ['arch', 'acts', 'tf', 'miles', 'pact']
     .map(function (id) { return document.getElementById(id); })
     .filter(Boolean);
   var ticking = false;
