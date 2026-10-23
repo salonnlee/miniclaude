@@ -193,14 +193,19 @@
   .bg-tab.is-on{border-color:var(--accent-2);color:var(--accent-2)}
   .bg-read{font-family:var(--mono);font-size:13px;color:var(--text);margin-bottom:6px;min-height:20px}
   .bg-read b{color:var(--green)}
-  .bg-spec{display:flex;align-items:flex-end;gap:3px;height:220px;border:1px solid var(--border);border-radius:10px;background:var(--panel);padding:12px 10px 30px;overflow-x:auto}
-  .bg-col{flex:1;min-width:20px;max-width:28px;position:relative;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;height:100%}
-  .bg-col i{display:block;background:var(--accent-2);opacity:.72;border-radius:3px 3px 0 0;min-height:2px}
+  .bg-spec{display:grid;grid-template-columns:repeat(auto-fill,minmax(24px,1fr));gap:4px 3px;border:1px solid var(--border);border-radius:10px;background:var(--panel);padding:12px 10px}
+  .bg-col{position:relative;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:96px;min-width:0}
+  .bg-col i{display:block;width:74%;background:var(--accent-2);opacity:.72;border-radius:3px 3px 0 0;min-height:2px}
   .bg-col:hover i{opacity:1;background:var(--text)}
   .bg-col.is-max i{background:var(--green);opacity:1}
-  .bg-col em{position:absolute;top:100%;left:50%;transform:translateX(-50%);font-style:normal;font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+  .bg-col.is-pick i{background:var(--accent);opacity:1}
+  .bg-col em{margin-top:3px;font-style:normal;font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
   .bg-col.is-max em{color:var(--green)}
-  .bg-tail{font-size:12px;color:var(--muted);font-family:var(--mono);margin:8px 0 0}
+  .bg-col.is-pick em{color:var(--accent)}
+  .bg-tail{display:block;width:100%;text-align:center;font-size:12px;color:var(--muted);font-family:var(--mono);margin:8px 0 0;background:none;border:0;padding:0;cursor:pointer}
+  .bg-tail:hover{color:var(--accent-2)}
+  #bl-rows .brow{cursor:pointer}
+  #bl-rows .brow:hover code{color:var(--accent-2)}
   .bg-btn-ghost{background:var(--panel-2);color:var(--text);border:1px solid var(--border)}
   .bg-lab-cap{font-size:12px;color:var(--muted);margin-bottom:6px}
   .brow{display:grid;grid-template-columns:36px 1fr 52px 22px;align-items:center;gap:8px;margin:6px 0}

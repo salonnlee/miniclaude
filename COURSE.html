@@ -137,7 +137,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
         <div class="ch-lab-body">
           <p class="s1-recap">P0.1 整课只干一件事：<b>用纯数数造出第一个会「说话」的模型</b>。bigram 的世界观：下一个字符只由当前这一个字符决定。训练 = 数数：把语料按相邻对配对 <code>zip(text, text[1:])</code>，<code>counts[prev][nxt] += 1</code> 记账，每行除以自己的总数归一化，得到 67 张概率表——真实语料里 <code>t</code> 后面接 <code>h</code> 的概率 33.5%、接空格 24.8%。</p>
           <p class="s1-recap">生成 = 查表抽签：从换行符开场，查 <code>probs[cur]</code>，<code>random.choices</code> 按概率抽下一个字符，追加并把 cur 换成它，循环 600 次，吐出满嘴莎翁味儿的胡话。</p>
-          <p class="s1-recap">必修实验的教训：<b>贪心（每步只选概率最大的）会自锁</b>——要么掉进换行符自环坑（自环概率 34.2%），要么被 <code>␣→t→h→e</code> 循环圈吸走，这正是「temperature=0 时模型变复读机」的种子（P0.4 见）。</p>
+          <p class="s1-recap">必修实验的教训：<b>贪心（每步只选概率最大的）会自锁</b>——要么掉进换行符自环坑（自环概率 18.6%，仍是 ⏎ 行的第一名），要么被 <code>␣→t→h→e</code> 循环圈吸走，这正是「temperature=0 时模型变复读机」的种子（P0.4 见）。</p>
           <p class="s1-recap">此刻的模型 = 无状态的查表函数，它「懂」的唯一东西是字符接续的频率——P0.2 要做的，就是把这张手工数出来的表，换成用梯度下降学出来的神经网络。</p>
           <div class="s1-fig">
 <svg viewBox="0 0 880 500" width="100%" role="img" aria-label="P0.1 知识点全景：左边是数数建表五步，右边是查表抽签循环与贪心自锁陷阱">
@@ -200,7 +200,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 
   <rect x="500" y="310" width="330" height="76" rx="10" fill="rgba(217,119,87,.07)" stroke="rgba(217,119,87,.5)"/>
   <text x="516" y="332" font-size="12.5" font-weight="600" fill="#e9e9ec">⚠ 必修实验：贪心 argmax 自锁实录</text>
-  <text x="516" y="352" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">⏎ 自环坑（34.2%） · ␣→t→h→e 循环圈</text>
+  <text x="516" y="352" font-size="10.5" fill="#a0a0aa" font-family="ui-monospace,Menlo,monospace">⏎ 自环坑（18.6%） · ␣→t→h→e 循环圈</text>
   <text x="516" y="370" font-size="10.5" fill="#a0a0aa">= temperature=0 变复读机之种（P0.4 见）</text>
 
   <rect x="105" y="430" width="725" height="50" rx="10" fill="rgba(158,206,106,.07)" stroke="rgba(158,206,106,.55)"/>
@@ -358,7 +358,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
   </div>
   <div class="bg-lab-cap" style="margin-top:14px">out · 生成结果（⏎ = 换行，␣ = 空格，只显示最近 120 字符）</div>
   <div class="bg-out" id="bl-out"></div>
-  <p class="bg-hint">玩法：① ▶ 自动蹦字，看概率表跟着每个字实时变脸；② 在「完整 67 柱」里点任意一根柱，亲手接管下一个字（跟模型抢方向盘）；③ 连点「🎯 贪心」十几下，亲眼看它掉进 <code>\n</code> 自环坑或 <code>␣→t→h→e</code> 循环圈——这就是 temperature 存在的意义（P0.4 见）。</p>
+  <p class="bg-hint">玩法：① ▶ 自动蹦字，看概率表跟着每个字实时变脸（橙色柱 = 刚抽中的字）；② 点任意候选接管下一个字——前 6 名的行、完整 67 柱里任意一根柱，都能点（跟模型抢方向盘）；③ 连点「🎯 贪心」十几下，亲眼看它掉进 <code>\n</code> 自环坑或 <code>␣→t→h→e</code> 循环圈——这就是 temperature 存在的意义（P0.4 见）。</p>
 
   <script>
   (function () {
@@ -384,23 +384,23 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       var top = sorted(i).slice(0, 6), mi = top[0][0], html = '', k;
       for (k = 0; k < top.length; k++) {
         var j = top[k][0], p = top[k][1] / 100;
-        html += '<div class="brow' + (j === mi ? ' ismax' : '') + '"><code>' + fmt(j) + '</code>' +
+        html += '<div class="brow' + (j === mi ? ' ismax' : '') + '" data-j="' + j + '" title="点它 = 接管下一个字"><code>' + fmt(j) + '</code>' +
           '<div class="bbar"><i style="width:' + Math.max(p * 100, 0.5).toFixed(1) + '%"></i></div>' +
           '<span>' + p.toFixed(1) + '%</span>' +
           '<b class="bmax">' + (j === mi ? '🎯' : '') + '</b></div>';
       }
       var rest = sorted(i).slice(6), nz = 0, sum = 0;
       for (k = 0; k < rest.length; k++) if (rest[k][1] > 0) { nz++; sum += rest[k][1]; }
-      html += '<p class="bg-tail">其余 ' + nz + ' 个候选合计 ' + (sum / 100).toFixed(1) + '% —— 切「完整 67 柱」看全表</p>';
+      html += '<button type="button" class="bg-tail">其余 ' + nz + ' 个候选合计 ' + (sum / 100).toFixed(1) + '% —— 点此切「完整 67 柱」看全表 →</button>';
       elRows.innerHTML = html;
     }
     function renderSpec(i) {
       var mi = sorted(i)[0][0], html = '', j;
       for (j = 0; j < V; j++) {
         var p = PF[i][j] / 100;
-        html += '<div class="bg-col' + (j === mi ? ' is-max' : '') + '" data-j="' + j + '" title="' +
-          fmt(j) + ' ' + p.toFixed(1) + '%"' + (p === 0 ? ' style="opacity:.35"' : '') + '>' +
-          '<i style="height:' + Math.max(p, 0.8).toFixed(1) + '%"></i><em>' + fmt(j) + '</em></div>';
+        html += '<div class="bg-col' + (j === mi ? ' is-max' : '') + (j === last ? ' is-pick' : '') +
+          '" data-j="' + j + '" title="' + fmt(j) + ' ' + p.toFixed(1) + '% · 点它 = 接管"' + (p === 0 ? ' style="opacity:.35"' : '') + '>' +
+          '<i style="height:' + Math.max(p * 0.76, 2).toFixed(1) + 'px"></i><em>' + fmt(j) + '</em></div>';
       }
       elSpec.innerHTML = html;
     }
@@ -449,6 +449,11 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
     elSpec.addEventListener('click', function (e) {
       var col = e.target.closest('.bg-col');
       if (col) stepTo(+col.getAttribute('data-j')); // 点击接管:下一字由你指定
+    });
+    elRows.addEventListener('click', function (e) {
+      var row = e.target.closest('.brow');
+      if (row) { stepTo(+row.getAttribute('data-j')); return; } // 前 6 名的行同样可接管
+      if (e.target.closest('.bg-tail')) elTabAll.onclick();    // 尾行 = 切全表入口
     });
     elAuto.onclick = function () {
       if (timer) { stopAuto(); return; }
