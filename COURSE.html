@@ -109,19 +109,29 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 <section class="block" id="acts">
   <div class="sec-kicker">02 / SYLLABUS</div>
   <h2 class="sec">课程表</h2>
-  <p class="sec-sub">五幕十章 + 序章。🔵 搓丹线用 Python（只此一章），🟠 铸剑线用 TypeScript。<br><b>代称规则（全局唯一）</b>：CH1–CH10 = 正文章节 · P0.x = 序章课次（prologue/）· v0.x = 交付版本（v0.1 ≠ P0.1）· 支线之间发散无序，不共用编号——卡片代称 = 名字缩写，线内课次 = 前缀 + 序号：NN = 支线·内功（神经网络，sidequest/，课次 NN1 起）· 3B = 支线·观影（3Blue1Brown，课次 3B1 起，3B 是品牌名不是序数）。新支线 = 新前缀，永不撞号。</p>
+  <p class="sec-sub sub-rules">五幕十章 + 序章。🔵 搓丹线用 Python（只此一章），🟠 铸剑线用 TypeScript。<b>代称规则（全局唯一）</b>：</p>
+  <ul class="rules-list">
+    <li><code>CH1–CH10</code> = 正文章节</li>
+    <li><code>P0.x</code> = 序章课次（prologue/）</li>
+    <li><code>v0.x</code> = 交付版本（v0.1 ≠ P0.1）</li>
+    <li>支线之间发散无序，不共用编号——卡片代称 = 名字缩写，线内课次 = 前缀 + 序号</li>
+    <li><code>NN</code> = 支线·内功（神经网络，sidequest/，课次 NN1 起）</li>
+    <li><code>3B</code> = 支线·观影（3Blue1Brown，课次 3B1 起；3B 是品牌名，不是序数）</li>
+    <li>新支线 = 新前缀，永不撞号</li>
+  </ul>
 
-  <details class="act prologue">
+  <details class="act prologue" open>
     <summary class="act-head">
       <span class="act-no">序章 · 搓丹</span>
       <h3>手搓一个真·迷你 GPT</h3>
       <span class="act-range">Python + PyTorch · 无 GPU,CPU 搓小炉</span>
+      <span class="badge st-doing">🔥 进行中</span>
     </summary>
     <article class="chapter prologue">
       <div class="ch-top"><span class="ch-no">P0</span><span class="ch-title">从复读机到莎士比亚嘴替</span><span class="badge st-doing">🔥 进行中</span></div>
       <p class="ch-q">「模型到底是什么？与其看一百篇科普，不如亲手搓一个——哪怕它只会满嘴莎翁味儿的胡话。」</p>
       <ul class="ch-list">
-        <li><b>P0.1</b> bigram 复读机（纯标准库）✅</li>
+        <li><b>P0.1</b> bigram 复读机（纯标准库）✅ <span class="done-date">2026-10-19</span></li>
       </ul>
       <details class="ch-recap" id="b01-recap">
         <summary><span class="ch-lab-arrow">▶</span>🧠 P0.1 全景（数数建表 × 查表抽签）</summary>
@@ -203,7 +213,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
       </details>
 
       <ul class="ch-list tight-top">
-        <li><b>P0.2</b> 神经版 + 梯度训练🔥 学至中途 · 内功补课完毕（NN1–NN4 全清），即将回归</li>
+        <li><b>P0.2</b> 神经版 + 梯度训练🔥 学至中途 <span class="done-date">2026-10-22（内功补课 NN1–NN4 全清，即将回归）</span></li>
         <li><b>P0.3</b> 前文加长：击穿数数表 → <b>P0.4</b> temperature 调参</li>
         <li><b>知识点</b> token 与采样；bigram 统计；embedding 与 MLP；训练循环、loss 与梯度下降；temperature / top-k</li>
         <li><b>总结</b> 大模型与它的区别只是大了十万倍、吃了十万倍；它不会听话、不会工具调用——这正是「壳」存在的意义</li>
@@ -322,23 +332,24 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 </article>
   </details>
 
-  <details class="act prologue" open>
+  <details class="act side">
     <summary class="act-head">
       <span class="act-no">支线 · 内功</span>
       <h3>神经网络补课</h3>
       <span class="act-range">sidequest/ · 应学员需求插班</span>
+      <span class="badge st-done">✅ 完课 · 2026-10-22</span>
     </summary>
-    <article class="chapter prologue">
+    <article class="chapter side">
       <div class="ch-top"><span class="ch-no">NN</span><span class="ch-title">从旋钮到反向传播</span><span class="badge st-done">✅ 完课 · 2026-10-22</span></div>
       <p class="ch-q">「02_neural_bigram.py 看不顺？那就离开主线，把神经网络的第一性原理亲手搭一遍——讲法浅显，内容不变样。」</p>
       <ul class="ch-list">
-        <li><b>NN1</b> 会学习的函数：旋钮（参数）、loss（打分）、数值梯度（量坡）、训练循环（下坡）——纯标准库 ✅</li>
+        <li><b>NN1</b> 会学习的函数：旋钮（参数）、loss（打分）、数值梯度（量坡）、训练循环（下坡）——纯标准库 ✅ <span class="done-date">2026-10-20</span></li>
       </ul>
 
       <details class="ch-recap" id="s1-recap">
         <summary><span class="ch-lab-arrow">▶</span>🧠 NN1 全景（下坡运动 × 训练循环）</summary>
         <div class="ch-lab-body">
-          <p class="s1-recap">NN1 整课只干一件事：<b>教机器自己学会一个函数</b>。模型是带旋钮的式子 <code>ŷ = w·x + b</code>（旋钮 w、b 就是「参数」）;loss 用均方误差把「错得多离谱」压成一个数字——类比 CI 的红色失败数。</p>
+          <p class="s1-recap">NN1 整课解决一个问题：<b>教机器自己学会一个函数</b>。模型是带旋钮的式子 <code>ŷ = w·x + b</code>（旋钮 w、b 就是「参数」）;loss 用均方误差把「错得多离谱」压成一个数字——类比 CI 的红色失败数。</p>
           <p class="s1-recap">数值梯度 <code>[loss(w+H) − loss(w−H)] / 2H</code>（H=0.00001）就是拿尺子量坡：<b>符号指方向</b>（往哪边拧 loss 会降）、<b>大小给陡度</b>（坡有多陡）；训练则是循环执行 <code>w −= LR·grad</code> 顺势下坡——两百步后机器自摸出造数据的隐藏规律，学到 <code>1.998x + 0.979</code>(真相 <code>y = 2x + 1</code>，残差恰好等于噪声，理论不可再降)。</p>
           <p class="s1-recap">途中的教训值回票价：<b>LR 是步长</b>，太大（LR=10）会一步跨过谷底、越蹦越高，loss 爆到 2.7×10²⁶；<b>数据是教练</b>，约束数 ≥ 旋钮数解才唯一——单个点训练 loss 照样归零，但 w 从没被「骂」过、纹丝不动（loss 归零 ≠ 学到真相）。</p>
           <p class="s1-recap"><b>多维就多配旋钮</b>,x、z 各分一个 w 各管各的，这正是 NN2「神经元」的雏形；而两个输入若总一起动（特征共线），机器预测全对、归因全错——<b>预测对 ≠ 理解对</b>。</p>
@@ -422,7 +433,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
         </div>
       </details>
       <ul class="ch-list tight-top">
-        <li><b>NN2</b> 神经元 = 加权求和 + 激活；多层与非线性的必要性（XOR 之役）✅ <span class="done-date">2026-10-22</span><span class="done-date">（恢复直讲完课）</span></li>
+        <li><b>NN2</b> 神经元 = 加权求和 + 激活；多层与非线性的必要性（XOR 之役）✅ <span class="done-date">2026-10-22（恢复直讲完课）</span></li>
       </ul>
 
       <details class="ch-recap" id="s2-panorama">
@@ -545,7 +556,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
         </div>
       </details>
       <ul class="ch-list tight-top">
-        <li><b>NN3</b> 反向传播 = 链式法则：手推梯度与数值梯度互证 ✅ <span class="done-date">2026-10-22</span><span class="done-date">（一次开课通关）</span></li>
+        <li><b>NN3</b> 反向传播 = 链式法则：手推梯度与数值梯度互证 ✅ <span class="done-date">2026-10-22（一次开课通关）</span></li>
       </ul>
 
       <details class="ch-recap" id="s3-panorama">
@@ -673,7 +684,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
         </div>
       </details>
       <ul class="ch-list tight-top">
-        <li><b>NN4</b> softmax + 交叉熵：grad = p − y 数值验证 → 回归主线 02，豁然开朗 ✅ <span class="done-date">2026-10-22</span><span class="done-date">（一次开课通关）</span></li>
+        <li><b>NN4</b> softmax + 交叉熵：grad = p − y 数值验证 → 回归主线 02，豁然开朗 ✅ <span class="done-date">2026-10-22（一次开课通关）</span></li>
       </ul>
       <details class="ch-recap" id="s4-panorama">
         <summary>🧠 NN4 全景（softmax × 交叉熵 × p − y）</summary>
@@ -966,13 +977,14 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
     </article>
   </details>
 
-  <details class="act prologue" open>
+  <details class="act side" open>
     <summary class="act-head">
       <span class="act-no">支线 · 观影</span>
       <h3>3Blue1Brown《深度学习》八集</h3>
       <span class="act-range">B 站官方中文 · 书单 ① 号的落地进度</span>
+      <span class="badge st-doing">🔥 进行中</span>
     </summary>
-    <article class="chapter prologue">
+    <article class="chapter side">
       <div class="ch-top"><span class="ch-no">3B</span><span class="ch-title">看得见的深度学习 · 一集一全景</span><span class="badge st-doing">🔥 进行中</span></div>
       <p class="ch-q">「书单 ① 号升级成课：动画里的每根线，都要能对回我们亲手搓过的零件。」</p>
       <ul class="ch-list">
@@ -1582,14 +1594,14 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
         <li><b>3B6</b> 直观解释注意力机制 —— Transformer 的心脏，回主线深水区的装备</li>
         <li><b>3B7–3B8</b> 卷积神经网络 / 卷积的两种可视化 —— 拓展视野：CNN 分支，支线不深入，看个热闹即可</li>
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 · 8 集各一张全景卡 + 四集连读总全景</span><span class="foot-chip">🔍 呼应 · 反传双保险（3B3 直觉 + 3B4 数学）到手，NN3 手推 × 数值互证见真章</span></div>
+      <div class="ch-foot"><span class="foot-chip ver">交付 · 8 集各一张全景卡 + 四集连读总全景</span><span class="foot-chip">🔍 呼应 · 心愿逆流（3B3）接上链式法则（3B4），NN3 手推时见真章</span></div>
 
     </article>
   </details>
 
   <details class="act">
     <summary class="act-head">
-      <span class="act-no">第一幕 · 启蒙</span><h3>模型到底是什么</h3><span class="act-range">第 1–2 章</span>
+      <span class="act-no">第一幕 · 启蒙</span><h3>模型到底是什么</h3><span class="act-range">第 1–2 章</span><span class="badge">未开始</span>
     </summary>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH1</span><span class="ch-title">一个没有记忆的天才</span><span class="badge">未开始</span></div>
@@ -1614,7 +1626,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 
   <details class="act">
     <summary class="act-head">
-      <span class="act-no">第二幕 · 觉醒</span><h3>从聊天到行动</h3><span class="act-range">第 3–5 章</span>
+      <span class="act-no">第二幕 · 觉醒</span><h3>从聊天到行动</h3><span class="act-range">第 3–5 章</span><span class="badge">未开始</span>
     </summary>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH3</span><span class="ch-title">Agent 循环：全课的心脏</span><span class="badge">未开始</span></div>
@@ -1647,7 +1659,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 
   <details class="act">
     <summary class="act-head">
-      <span class="act-no">第三幕 · 约束</span><h3>能力越大，越要管住</h3><span class="act-range">第 6–7 章</span>
+      <span class="act-no">第三幕 · 约束</span><h3>能力越大，越要管住</h3><span class="act-range">第 6–7 章</span><span class="badge">未开始</span>
     </summary>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH6</span><span class="ch-title">v0.4 · Bash 工具与权限系统</span><span class="badge">未开始</span></div>
@@ -1671,7 +1683,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 
   <details class="act">
     <summary class="act-head">
-      <span class="act-no">第四幕 · 形体</span><h3>像 Claude Code 的样子</h3><span class="act-range">第 8 章</span>
+      <span class="act-no">第四幕 · 形体</span><h3>像 Claude Code 的样子</h3><span class="act-range">第 8 章</span><span class="badge">未开始</span>
     </summary>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH8</span><span class="ch-title">v0.6 · 长得像 Claude Code</span><span class="badge">未开始</span></div>
@@ -1686,7 +1698,7 @@ if (/^#(arch|acts|miles|pact)$/.test(location.hash)) {
 
   <details class="act">
     <summary class="act-head">
-      <span class="act-no">第五幕 · 进化</span><h3>真正的企业级</h3><span class="act-range">第 9–10 章</span>
+      <span class="act-no">第五幕 · 进化</span><h3>真正的企业级</h3><span class="act-range">第 9–10 章</span><span class="badge">未开始</span>
     </summary>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH9</span><span class="ch-title">v0.7 · 高阶智能体能力</span><span class="badge">未开始</span></div>
