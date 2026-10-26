@@ -30,4 +30,5 @@
 ## 命名与文件(既有宪法,沿用)
 
 - CH1–CH10 = 正文章节 · P0.x = 序章 · v0.x = 交付版本 · 支线 = 前缀 + 序号(NN = 支线·内功,3B = 支线·观影)。
-- 课程表多文件同根、全部相对路径引用:COURSE.html(纯结构,章节状态唯一事实源)+ COURSE.css + COURSE-page.js(页级行为:架构图播放器 + 锚点联动)+ COURSE-LOG.js(更新记录)+ labs/(实验室资产:labs.css、shared.js、lab-*.js)。整库挪目录或部署到任意子路径不断链;新增实验室 = labs/ 加一对样式/脚本文件 + COURSE.html 页尾加一行引用,不再往 HTML 里内嵌 <style>/<script>。
+- 课程表多文件同根、全部相对路径引用:COURSE.html(结构骨架 + 全景卡/长文等富内容)+ COURSE.css + COURSE-page.js(页级行为:架构图播放器 + 锚点联动)+ COURSE-LOG.js(更新记录)+ labs/(实验室资产:labs.css、shared.js、lab-*.js)+ data/lessons.js(课次数据)+ COURSE-render.js(课次渲染器)。整库挪目录或部署到任意子路径不断链。
+- **课次状态唯一事实源 = data/lessons.js**:课次行、幕头/章头徽章、幕折叠态、页头「更新于」全部由它推导,这些位置不手改 COURSE.html。完课 = 条目加 done: 'YYYY-MM-DD';加课次/加待学条目 = 往对应组末尾加一条(渲染器按「第 i 组 → 页面第 i 个同名空容器」对位);全景卡与实验室仍在 COURSE.html 里以 details 原位维护。新增实验室 = labs/ 加一对样式/脚本文件 + COURSE.html 页尾加一行引用,不再往 HTML 里内嵌 <style>/<script>。

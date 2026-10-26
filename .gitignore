@@ -9,8 +9,9 @@ secrets/
 credentials*.json
 *apikey*.json
 
-# ===== 语料与训练数据(可重新下载,不入库)=====
-data/
+# ===== 语料与训练数据(可重新下载,不入库;课次数据 data/lessons.js 要入库)=====
+data/*
+!data/lessons.js
 
 # ===== Python(序章 · 搓丹线)=====
 __pycache__/

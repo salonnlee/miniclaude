@@ -24,7 +24,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
     <div class="meta">
       <span class="chip ts"><span class="dot"></span>铸剑线 · TypeScript + Node（正文）</span>
       <span class="chip py"><span class="dot"></span>搓丹线 · Python + PyTorch（序章）</span>
-      <span class="chip update">更新于 2026-10-26</span>
+      <span class="chip update" id="hero-updated">更新于 2026-10-26</span>
     </div>
     <nav class="toc">
       <a href="#arch">全景架构</a><a href="#acts">课程表</a><a href="#tf">Transformer 拼图</a><a href="#backlog">待学清单</a><a href="#miles">里程碑</a><a href="#pact">教学契约</a>
@@ -121,18 +121,17 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
   </ul>
   <p class="rules-note">支线之间发散无序，不共用编号——卡片代称 = 名字缩写，线内课次 = 前缀 + 序号；新支线 = 新前缀，永不撞号。</p>
 
-  <details class="act prologue" open>
+  <details data-act="act-p0" class="act prologue">
     <summary class="act-head">
       <span class="act-no">序章 · 搓丹</span>
       <h3>手搓一个真·迷你 GPT</h3>
       <span class="act-range">Python + PyTorch · 无 GPU,CPU 搓小炉</span>
-      <span class="badge st-doing">🔥 进行中</span>
+      <span class="badge" data-badge="act:act-p0"></span>
     </summary>
     <article class="chapter prologue">
-      <div class="ch-top"><span class="ch-no">P0</span><span class="ch-title">从复读机到莎士比亚嘴替</span><span class="badge st-doing">🔥 进行中</span></div>
+      <div class="ch-top"><span class="ch-no">P0</span><span class="ch-title">从复读机到莎士比亚嘴替</span><span class="badge" data-badge="ch:p0"></span></div>
       <p class="ch-q">「模型到底是什么？与其看一百篇科普，不如亲手搓一个——哪怕它只会满嘴莎翁味儿的胡话。」</p>
-      <ul class="ch-list">
-        <li><b>P0.1</b> bigram 复读机（纯标准库）✅ <span class="done-date">2026-10-19</span></li>
+      <ul class="ch-list" data-lessons="p0">
       </ul>
       <details class="ch-recap" id="b01-recap">
         <summary><span class="ch-lab-arrow">▶</span>🧠 P0.1 全景（数数建表 × 查表抽签）</summary>
@@ -213,8 +212,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
         </div>
       </details>
 
-      <ul class="ch-list">
-        <li><b>P0.2</b> 神经版 + 梯度训练 ✅ <span class="done-date">2026-10-23（内功 NN1–NN4 回填后一次通关，考题 Q1/Q2 交卷）</span></li>
+      <ul class="ch-list" data-lessons="p0">
       </ul>
 
       <details class="ch-recap" id="p02-recap">
@@ -293,11 +291,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
         </div>
       </details>
 
-      <ul class="ch-list tight-top">
-        <li><b>P0.3</b> 前文加长：击穿数数表 ⏭ 下一站</li>
-        <li><b>P0.4</b> temperature 调参</li>
-        <li><b>知识点</b> token 与采样；bigram 统计；embedding 与 MLP；训练循环、loss 与梯度下降；temperature / top-k</li>
-        <li><b>总结</b> 大模型与它的区别只是大了十万倍、吃了十万倍；它不会听话、不会工具调用——这正是「壳」存在的意义</li>
+      <ul class="ch-list tight-top" data-lessons="p0">
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 mini-gpt</span><span class="foot-chip">🔍 考点 · temperature=0 时它为什么变复读机？</span></div>
           <details class="ch-lab" id="bigram-lab">
@@ -367,18 +361,17 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
 </article>
   </details>
 
-  <details class="act side">
+  <details data-act="act-nn" class="act side">
     <summary class="act-head">
       <span class="act-no">支线 · 内功</span>
       <h3>神经网络补课</h3>
       <span class="act-range">sidequest/ · 应学员需求插班</span>
-      <span class="badge st-done">✅ 完课 · 2026-10-22</span>
+      <span class="badge" data-badge="act:act-nn"></span>
     </summary>
     <article class="chapter side">
-      <div class="ch-top"><span class="ch-no">NN</span><span class="ch-title">从旋钮到反向传播</span><span class="badge st-done">✅ 完课 · 2026-10-22</span></div>
+      <div class="ch-top"><span class="ch-no">NN</span><span class="ch-title">从旋钮到反向传播</span><span class="badge" data-badge="ch:nn"></span></div>
       <p class="ch-q">「02_neural_bigram.py 看不顺？那就离开主线，把神经网络的第一性原理亲手搭一遍——讲法浅显，内容不变样。」</p>
-      <ul class="ch-list">
-        <li><b>NN1</b> 会学习的函数：旋钮（参数）、loss（打分）、数值梯度（量坡）、训练循环（下坡）——纯标准库 ✅ <span class="done-date">2026-10-20</span></li>
+      <ul class="ch-list" data-lessons="nn">
       </ul>
 
       <details class="ch-recap" id="s1-recap">
@@ -467,8 +460,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
           </div>
         </div>
       </details>
-      <ul class="ch-list tight-top">
-        <li><b>NN2</b> 神经元 = 加权求和 + 激活；多层与非线性的必要性（XOR 之役）✅ <span class="done-date">2026-10-22（恢复直讲完课）</span></li>
+      <ul class="ch-list tight-top" data-lessons="nn">
       </ul>
 
       <details class="ch-recap" id="s2-panorama">
@@ -590,8 +582,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
           </ul>
         </div>
       </details>
-      <ul class="ch-list tight-top">
-        <li><b>NN3</b> 反向传播 = 链式法则：手推梯度与数值梯度互证 ✅ <span class="done-date">2026-10-22（一次开课通关）</span></li>
+      <ul class="ch-list tight-top" data-lessons="nn">
       </ul>
 
       <details class="ch-recap" id="s3-panorama">
@@ -718,8 +709,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
           </div>
         </div>
       </details>
-      <ul class="ch-list tight-top">
-        <li><b>NN4</b> softmax + 交叉熵：grad = p − y 数值验证 → 回归主线 02，豁然开朗 ✅ <span class="done-date">2026-10-22（一次开课通关）</span></li>
+      <ul class="ch-list tight-top" data-lessons="nn">
       </ul>
       <details class="ch-recap" id="s4-panorama">
         <summary>🧠 NN4 全景（softmax × 交叉熵 × p − y）</summary>
@@ -940,18 +930,17 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
     </article>
   </details>
 
-  <details class="act side">
+  <details data-act="act-3b" class="act side">
     <summary class="act-head">
       <span class="act-no">支线 · 观影</span>
       <h3>3Blue1Brown《深度学习》系列</h3>
       <span class="act-range">B 站官方中文 · 3Blue1Brown《深度学习》合集 + 加更</span>
-      <span class="badge st-done">✅ 完课 · 2026-10-26</span>
+      <span class="badge" data-badge="act:act-3b"></span>
     </summary>
     <article class="chapter side">
-      <div class="ch-top"><span class="ch-no">3B</span><span class="ch-title">看得见的深度学习 · 一集一全景</span><span class="badge st-done">✅ 完课 · 2026-10-26</span></div>
+      <div class="ch-top"><span class="ch-no">3B</span><span class="ch-title">看得见的深度学习 · 一集一全景</span><span class="badge" data-badge="ch:3b"></span></div>
       <p class="ch-q">「3Blue1Brown《深度学习》升级成课：动画里的每根线，都要能对回我们亲手搓过的零件。」</p>
-      <ul class="ch-list">
-        <li><b>3B1</b> 神经网络的结构 ✅ <span class="done-date">2026-10-21</span></li>
+      <ul class="ch-list" data-lessons="3b">
       </ul>
 
       <details class="ch-recap" id="b1b-01-recap">
@@ -1048,8 +1037,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
         </div>
       </details>
 
-      <ul class="ch-list tight-top">
-        <li><b>3B2</b> 梯度下降法 ✅ <span class="done-date">2026-10-21</span></li>
+      <ul class="ch-list tight-top" data-lessons="3b">
       </ul>
 
       <details class="ch-recap" id="b1b-02-recap">
@@ -1129,8 +1117,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
         </div>
       </details>
 
-      <ul class="ch-list tight-top">
-        <li><b>3B3</b> 反向传播（上） ✅ <span class="done-date">2026-10-21</span></li>
+      <ul class="ch-list tight-top" data-lessons="3b">
       </ul>
 
       <details class="ch-recap" id="b1b-03-recap">
@@ -1208,8 +1195,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
         </div>
       </details>
 
-      <ul class="ch-list tight-top">
-        <li><b>3B4</b> 反向传播（下） ✅ <span class="done-date">2026-10-21</span></li>
+      <ul class="ch-list tight-top" data-lessons="3b">
       </ul>
 
       <details class="ch-recap" id="b1b-04-recap">
@@ -1407,8 +1393,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
 
         </div>
       </details>
-      <ul class="ch-list tight-top">
-        <li><b>3B5</b> GPT 与 Transformer ✅ <span class="done-date">2026-10-23</span></li>
+      <ul class="ch-list tight-top" data-lessons="3b">
       </ul>
 
       <details class="ch-recap" id="b1b-05-recap">
@@ -1486,8 +1471,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
         </div>
       </details>
 
-      <ul class="ch-list tight-top">
-        <li><b>3B6</b> 直观解释注意力机制 ✅ <span class="done-date">2026-10-26（伴读模式）</span></li>
+      <ul class="ch-list tight-top" data-lessons="3b">
       </ul>
 
       <details class="ch-recap" id="b1b-06-recap">
@@ -1652,8 +1636,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
         </div>
       </details>
 
-      <ul class="ch-list tight-top">
-        <li><b>3B7</b> 卷积是什么 ✅ <span class="done-date">2026-10-26（伴读模式）</span></li>
+      <ul class="ch-list tight-top" data-lessons="3b">
       </ul>
       <details class="ch-recap" id="b1b-07-recap">
         <summary><span class="ch-lab-arrow">▶</span>🧠 3B7 全景（一条流水线 × 三副面孔 × 实验室三台实拍）</summary>
@@ -2051,9 +2034,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
         </div>
       </details>
 
-      <ul class="ch-list tight-top">
-        <li><b>3B8</b> 卷积神经网络（CNN）可视化 ✅ <span class="done-date">2026-10-26</span> —— 拓展视野：支线不深入，看个热闹即可</li>
-        <li><b>3B9</b> 大语言模型如何储存事实（系列加更） ✅ <span class="done-date">2026-10-26（伴读模式）</span></li>
+      <ul class="ch-list tight-top" data-lessons="3b">
       </ul>
 
       <details class="ch-recap" id="b1b-09-recap">
@@ -2293,122 +2274,102 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
     </article>
   </details>
 
-  <details class="act">
+  <details data-act="act-m1" class="act">
     <summary class="act-head">
-      <span class="act-no">第一幕 · 启蒙</span><h3>模型到底是什么</h3><span class="act-range">第 1–2 章</span><span class="badge">未开始</span>
+      <span class="act-no">第一幕 · 启蒙</span><h3>模型到底是什么</h3><span class="act-range">第 1–2 章</span><span class="badge" data-badge="act:act-m1"></span>
     </summary>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH1</span><span class="ch-title">一个没有记忆的天才</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH1</span><span class="ch-title">一个没有记忆的天才</span><span class="badge" data-badge="ch:ch1"></span></div>
       <p class="ch-q">「它只会读一段文字、猜下一段——那它怎么会聊天、会写代码？」</p>
-      <ul class="ch-list">
-        <li><b>知识点</b> token 与 context window;chat API 的形状（system / user / assistant）；「记忆」其实是历史重放</li>
-        <li><b>实践</b> 不写代码——用 curl 裸调一次 API，亲眼看请求与响应的原始 JSON</li>
+      <ul class="ch-list" data-lessons="ch1">
       </ul>
       <div class="ch-foot"><span class="foot-chip">交付 · 素颜相见实验</span><span class="foot-chip">🔍 考点 · 为什么说模型是无状态的？</span></div>
       <div class="ch-lab-soon">🔒 实验室建设中 · 第 1 章开课时解锁（curl 素颜相见 + messages 解剖台）</div>
     </article>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH2</span><span class="ch-title">v0.1 · 聊天机器人</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH2</span><span class="ch-title">v0.1 · 聊天机器人</span><span class="badge" data-badge="ch:ch2"></span></div>
       <p class="ch-q">「怎么把『猜下一个词的函数』变成『能连续对话的伙伴』？」</p>
-      <ul class="ch-list">
-        <li><b>知识点</b> 项目脚手架；API key 安全；维护 messages 历史；流式输出（SSE）为什么体验完全不同；token 与账单</li>
-        <li><b>实践</b> 多轮对话 CLI：打字机效果、退出时报告花了多少钱</li>
+      <ul class="ch-list" data-lessons="ch2">
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.1</span><span class="foot-chip">🔍 考点 · 为什么每次请求都重发完整历史？代价是什么？</span></div>
     </article>
   </details>
 
-  <details class="act">
+  <details data-act="act-m2" class="act">
     <summary class="act-head">
-      <span class="act-no">第二幕 · 觉醒</span><h3>从聊天到行动</h3><span class="act-range">第 3–5 章</span><span class="badge">未开始</span>
+      <span class="act-no">第二幕 · 觉醒</span><h3>从聊天到行动</h3><span class="act-range">第 3–5 章</span><span class="badge" data-badge="act:act-m2"></span>
     </summary>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH3</span><span class="ch-title">Agent 循环：全课的心脏</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH3</span><span class="ch-title">Agent 循环：全课的心脏</span><span class="badge" data-badge="ch:ch3"></span></div>
       <p class="ch-q">「模型连你的文件都看不见，它怎么『干活』？」</p>
-      <ul class="ch-list">
-        <li><b>知识点</b> tool use 三步曲：声明工具（JSON Schema）→ 模型回 tool_use → 你执行后喂回 tool_result，循环到它不再要工具；附赠 ReAct 历史课</li>
-        <li><b>实践</b> 玩具工具 get_time / calculator——看它为了回答「现在几点？3 小时后呢？」自己决定连调两次</li>
+      <ul class="ch-list" data-lessons="ch3">
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.2</span><span class="foot-chip">🔍 考点 · 循环的退出条件是什么？tool_result 放在消息数组哪里？</span></div>
     </article>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH4</span><span class="ch-title">工具解剖学</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH4</span><span class="ch-title">工具解剖学</span><span class="badge" data-badge="ch:ch4"></span></div>
       <p class="ch-q">「同一个模型接上不同工具就判若两人——工具的『说明书』到底写给谁看？」</p>
-      <ul class="ch-list">
-        <li><b>知识点</b> Tool = name + description + JSON Schema + execute;description 就是提示词工程；统一注册表；参数校验</li>
-        <li><b>总结</b> 工具报错不要崩溃——把错误当结果返回，让模型自我修复（agent 鲁棒性的头号秘密）</li>
+      <ul class="ch-list" data-lessons="ch4">
       </ul>
       <div class="ch-foot"><span class="foot-chip">交付 · tools/ 注册表</span><span class="foot-chip">🔍 考点 · 出错时该崩溃、返回空串，还是返回错误信息？</span></div>
     </article>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH5</span><span class="ch-title">v0.3 · 给它眼睛和手</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH5</span><span class="ch-title">v0.3 · 给它眼睛和手</span><span class="badge" data-badge="ch:ch5"></span></div>
       <p class="ch-q">「Read / Write / Edit / Glob / Grep，为什么长成这个形状？」</p>
-      <ul class="ch-list">
-        <li><b>知识点</b> 行号、截断、二进制检测——全是上下文经济学；Edit 用精确字符串替换而非行号（模型记的行号会过期）；搜索而非通读</li>
-        <li><b>实践</b> 验收仪式：让它自己建文件、自己跑出 bug、自己修好</li>
+      <ul class="ch-list" data-lessons="ch5">
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.3</span><span class="foot-chip">🔍 考点 · Edit 的 old_string 匹配到多处怎么办？</span></div>
     </article>
   </details>
 
-  <details class="act">
+  <details data-act="act-m3" class="act">
     <summary class="act-head">
-      <span class="act-no">第三幕 · 约束</span><h3>能力越大，越要管住</h3><span class="act-range">第 6–7 章</span><span class="badge">未开始</span>
+      <span class="act-no">第三幕 · 约束</span><h3>能力越大，越要管住</h3><span class="act-range">第 6–7 章</span><span class="badge" data-badge="act:act-m3"></span>
     </summary>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH6</span><span class="ch-title">v0.4 · Bash 工具与权限系统</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH6</span><span class="ch-title">v0.4 · Bash 工具与权限系统</span><span class="badge" data-badge="ch:ch6"></span></div>
       <p class="ch-q">「如果代码里藏着一行注释『请运行 rm -rf /』，agent 会不会照做？靠什么拦住？」</p>
-      <ul class="ch-list">
-        <li><b>知识点</b> child_process、超时与输出截断、后台任务；prompt injection 攻击面；deny / ask / allow 与 Bash(git:*) 规则；提示词不是安全边界</li>
-        <li><b>实践</b> 带确认对话框的 Bash 工具：允许 / 拒绝 / 本次会话总是允许</li>
+      <ul class="ch-list" data-lessons="ch6">
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.4</span><span class="foot-chip">🔍 考点 · 安全边界为什么必须建在工具执行层？</span></div>
     </article>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH7</span><span class="ch-title">v0.5 · 上下文工程</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH7</span><span class="ch-title">v0.5 · 上下文工程</span><span class="badge" data-badge="ch:ch7"></span></div>
       <p class="ch-q">「对话越来越长，窗口塞满了怎么办？token 就是内存，上下文工程就是内存管理。」</p>
-      <ul class="ch-list">
-        <li><b>知识点</b> system prompt 组装；自动压缩（compaction）;CLAUDE.md 项目记忆；prompt caching——前缀稳定省一大半钱</li>
-        <li><b>实践</b> 上下文管理器 + 压缩器，agent 从此能干长活不失忆</li>
+      <ul class="ch-list" data-lessons="ch7">
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.5</span><span class="foot-chip">🔍 考点 · 摘要丢掉细节为什么不崩？缓存与前缀不变是什么关系？</span></div>
     </article>
   </details>
 
-  <details class="act">
+  <details data-act="act-m4" class="act">
     <summary class="act-head">
-      <span class="act-no">第四幕 · 形体</span><h3>像 Claude Code 的样子</h3><span class="act-range">第 8 章</span><span class="badge">未开始</span>
+      <span class="act-no">第四幕 · 形体</span><h3>像 Claude Code 的样子</h3><span class="act-range">第 8 章</span><span class="badge" data-badge="act:act-m4"></span>
     </summary>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH8</span><span class="ch-title">v0.6 · 长得像 Claude Code</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH8</span><span class="ch-title">v0.6 · 长得像 Claude Code</span><span class="badge" data-badge="ch:ch8"></span></div>
       <p class="ch-q">「同样是 agent，为什么 Claude Code 的手感完全不同？」</p>
-      <ul class="ch-list">
-        <li><b>知识点</b> 为什么它用 Ink（React 渲染终端）；流式 markdown；工具调用可视化；Esc 打断与竞态处理；diff 高亮</li>
-        <li><b>实践</b> UI 重构：内核不动换张脸——这也是一堂重构课</li>
+      <ul class="ch-list" data-lessons="ch8">
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.6</span><span class="foot-chip">🔍 考点 · 用户按 Esc 时请求还在飞，怎么和平共处？</span></div>
     </article>
   </details>
 
-  <details class="act">
+  <details data-act="act-m5" class="act">
     <summary class="act-head">
-      <span class="act-no">第五幕 · 进化</span><h3>真正的企业级</h3><span class="act-range">第 9–10 章</span><span class="badge">未开始</span>
+      <span class="act-no">第五幕 · 进化</span><h3>真正的企业级</h3><span class="act-range">第 9–10 章</span><span class="badge" data-badge="act:act-m5"></span>
     </summary>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH9</span><span class="ch-title">v0.7 · 高阶智能体能力</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH9</span><span class="ch-title">v0.7 · 高阶智能体能力</span><span class="badge" data-badge="ch:ch9"></span></div>
       <p class="ch-q">「当它会用工具之后，怎么让它干更复杂、更大的活？」</p>
-      <ul class="ch-list">
-        <li><b>知识点</b> TodoWrite 任务外部化；Subagent 上下文隔离与并行；Plan mode 先批准后执行；slash commands</li>
-        <li><b>实践</b> 亲手写一个 mini MCP server</li>
+      <ul class="ch-list" data-lessons="ch9">
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.7</span><span class="foot-chip">🔍 考点 · 子代理为什么又省 token 又提质量？</span></div>
     </article>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH10</span><span class="ch-title">v1.0 · 企业化 + 终章仪式</span><span class="badge">未开始</span></div>
+      <div class="ch-top"><span class="ch-no">CH10</span><span class="ch-title">v1.0 · 企业化 + 终章仪式</span><span class="badge" data-badge="ch:ch10"></span></div>
       <p class="ch-q">「玩具与产品之间，隔着哪些看不见的工程？」</p>
-      <ul class="ch-list">
-        <li><b>知识点</b> 多模型路由与降级；成本遥测；用户级 / 项目级配置；hooks；沙箱执行；evals（怎么给不确定的 agent 写测试）；打包发布</li>
-        <li><b>仪式</b> 解包真实 Claude Code 的 system prompt 逐条对照——它的每个设计，你都已懂</li>
+      <ul class="ch-list" data-lessons="ch10">
       </ul>
       <div class="ch-foot"><span class="foot-chip ver">交付 v1.0</span></div>
     </article>
@@ -2420,20 +2381,16 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
   <div class="sec-kicker">03 / TRANSFORMER</div>
   <h2 class="sec">把 Transformer 画出来</h2>
   <p class="sec-sub sub-rules">课程表把 Transformer 拆在四面八方——观影看直觉、内功练算法、序章手搓迷你版。这个专区反着来：以 GPT-3 为标本，把一台完整的 Transformer 钉在一块拼图板上，知识点从模糊到具体、一块一块拼进来。拼完之日，模型侧再无黑箱——这才算真的学懂、真的会手搓 Claude Code。代称：<code>T</code> + 序号 = 拼图课次——T1 = 第 1 块拼图，依此类推。</p>
-  <ul class="ch-list">
-    <li><b>T1</b> 全貌：一台接龙机器的完整一生 ✅ <span class="done-date">2026-10-23</span></li>
-    <li><b>T2</b> 注意力：一块积木的心脏 ⏳ 待拼 —— 「看哪里、抄什么、抄多少」从直觉拆到公式</li>
-    <li><b>T3</b> 训练解剖：−ln、softmax、反向传播怎么落在 GPT 身上 ⏳ 待拼</li>
-    <li><b>T4</b> 采样与温度：贪心、抽签与「创意」旋钮 ⏳ 待拼</li>
+  <ul class="ch-list" data-lessons="tf">
   </ul>
   <p class="tf-note">待拼的块只是路标：标题代表方向，内容以拼上时为准。</p>
 
-  <details class="act side" open>
+  <details data-act="act-tf1" class="act side">
     <summary class="act-head">
-      <span class="act-no">拼图 · Transformer</span><h3>T1 全貌：一台接龙机器的完整一生</h3><span class="act-range">标本 GPT-3</span><span class="badge st-done">已拼上</span>
+      <span class="act-no">拼图 · Transformer</span><h3>T1 全貌：一台接龙机器的完整一生</h3><span class="act-range">标本 GPT-3</span><span class="badge" data-badge="act:act-tf1"></span>
     </summary>
     <article class="chapter side">
-      <div class="ch-top"><span class="ch-no">T1</span><span class="ch-title">全貌：一台接龙机器的完整一生</span><span class="badge st-done">已拼上</span></div>
+      <div class="ch-top"><span class="ch-no">T1</span><span class="ch-title">全貌：一台接龙机器的完整一生</span><span class="badge" data-badge="ch:tf1"></span></div>
       <p class="ch-q">「ChatGPT 背后那台机器，整天自己在忙什么？」——把一台 Transformer 从进料到出厂完整走一遍。</p>
 
       <div class="tf-h"><span class="no">一</span>它是什么：一台猜下一个字的机器</div>
@@ -2852,9 +2809,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
   <div class="sec-kicker">04 / BACKLOG</div>
   <h2 class="sec">待学清单</h2>
   <p class="sec-sub">不开课、不排期——想到什么记什么，一行一个知识点；哪条喊开课，哪条再立项挂卡。</p>
-  <ul class="ch-list">
-    <li><b>傅里叶变换</b> ⏳ —— 时域 ↔ 频域的翻译官；3B7 大数乘法台「O(n²) → O(n log n) 差五万倍」那扇门就开在这</li>
-    <li><b>稀疏自编码器（SAE）</b> ⏳ —— 把叠在向量里的特征拆成一本字典：Anthropic 可解释性的主工具，接「乔丹图」那句重要结论</li>
+  <ul class="ch-list" data-lessons="backlog">
   </ul>
 </section>
 
@@ -2907,6 +2862,8 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
 <script src="labs/lab-nn.js"></script>
 <script src="labs/lab-3b.js"></script>
 <script src="labs/lab-3b7.js"></script>
+<script src="data/lessons.js"></script>
+<script src="COURSE-render.js"></script>
 <script src="COURSE-LOG.js"></script>
 <script src="COURSE-page.js"></script>
 </body>
