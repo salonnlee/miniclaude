@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500">
+  <defs>
+    <marker id="p2ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+  </defs>
+
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#262626">① 换引擎 · 前向传播（查表 → 会学的函数）</text>
+
+  <rect x="105" y="50" width="330" height="46" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="69" font-size="12.5" font-weight="600" fill="#262626">🎲 W · 随机分数表（待学）</text>
+  <text x="121" y="87" font-size="10.5" fill="#667382" font-family="ui-monospace,Menlo,monospace">randn(67,67) × 0.01 —— 一无所知开局</text>
+  <line x1="270" y1="98" x2="270" y2="114" stroke="#667382" stroke-width="1.5" marker-end="url(#p2ar)"/>
+
+  <rect x="105" y="118" width="330" height="46" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="137" font-size="12.5" font-weight="600" fill="#262626">📖 取行 · one-hot × W = W[cur]</text>
+  <text x="121" y="155" font-size="10.5" fill="#667382" font-family="ui-monospace,Menlo,monospace">1 选行、0 删行 —— 查表本来就是线性层</text>
+  <line x1="270" y1="166" x2="270" y2="182" stroke="#667382" stroke-width="1.5" marker-end="url(#p2ar)"/>
+
+  <rect x="105" y="186" width="330" height="46" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="205" font-size="12.5" font-weight="600" fill="#262626">🔥 softmax · 分数 → 概率</text>
+  <text x="121" y="223" font-size="10.5" fill="#667382" font-family="ui-monospace,Menlo,monospace">先减 max 防溢出，每行和 = 1</text>
+  <line x1="270" y1="234" x2="270" y2="250" stroke="#667382" stroke-width="1.5" marker-end="url(#p2ar)"/>
+
+  <rect x="105" y="254" width="330" height="46" rx="10" fill="#f8f9fc" stroke="rgba(194,65,12,.55)"/>
+  <text x="121" y="273" font-size="12.5" font-weight="600" fill="#262626">📊 probs[cur] · 67 个概率</text>
+  <text x="121" y="291" font-size="10.5" fill="#667382" font-family="ui-monospace,Menlo,monospace">与 0.1 的表同接口 —— 采样循环原封不动</text>
+
+  <rect x="105" y="316" width="330" height="70" rx="10" fill="rgba(37,99,235,.07)" stroke="rgba(37,99,235,.45)"/>
+  <text x="121" y="337" font-size="12.5" font-weight="600" fill="#262626">🚩 起跑线 · loss = ln 67 = 4.2047</text>
+  <text x="121" y="356" font-size="10.5" fill="#667382">W≈0 → softmax 吐均匀分布（猜谁都一样）</text>
+  <text x="121" y="372" font-size="10.5" fill="#667382">实测 step 0 loss 4.1774，对上</text>
+
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#262626">② 训练 · 两行反向传播（循环 ×20000）</text>
+
+  <rect x="500" y="50" width="330" height="46" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="69" font-size="12.5" font-weight="600" fill="#262626">📦 抽小批 · 512 个相邻对</text>
+  <text x="516" y="87" font-size="10.5" fill="#667382" font-family="ui-monospace,Menlo,monospace">cur, nxt = ids[i], ids[i+1]</text>
+  <line x1="665" y1="98" x2="665" y2="114" stroke="#667382" stroke-width="1.5" marker-end="url(#p2ar)"/>
+
+  <rect x="500" y="118" width="330" height="46" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="137" font-size="12.5" font-weight="600" fill="#262626">➡ 前向 · probs = softmax(W[cur])</text>
+  <text x="516" y="155" font-size="10.5" fill="#667382" font-family="ui-monospace,Menlo,monospace">loss = −log p(正确字符) 的平均</text>
+  <line x1="665" y1="166" x2="665" y2="182" stroke="#667382" stroke-width="1.5" marker-end="url(#p2ar)"/>
+
+  <rect x="500" y="186" width="330" height="46" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="205" font-size="12.5" font-weight="600" fill="#262626">↩ 反传第 1 行 · grad = probs − onehot</text>
+  <text x="516" y="223" font-size="10.5" fill="#667382" font-family="ui-monospace,Menlo,monospace">正确列 −1，其余不动（NN4 的 p − y）</text>
+  <line x1="665" y1="234" x2="665" y2="250" stroke="#667382" stroke-width="1.5" marker-end="url(#p2ar)"/>
+
+  <rect x="500" y="254" width="330" height="46" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="273" font-size="12.5" font-weight="600" fill="#262626">↩ 反传第 2 行 · 散射回各行</text>
+  <text x="516" y="291" font-size="10.5" fill="#667382" font-family="ui-monospace,Menlo,monospace">np.add.at(W, cur, −lr·g/512)</text>
+
+  <path d="M500,277 C466,277 466,73 496,73" fill="none" stroke="#667382" stroke-width="1.3" marker-end="url(#p2ar)" opacity=".75"/>
+  <text x="458" y="175" font-size="11" fill="#667382" text-anchor="middle" transform="rotate(-90 458 175)">🔁 lr 1.0 → 0.25</text>
+
+  <rect x="500" y="316" width="330" height="70" rx="10" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.5)"/>
+  <text x="516" y="337" font-size="12.5" font-weight="600" fill="#262626">⚠ 考题 Q2 实测 · lr=5.0 没炸</text>
+  <text x="516" y="356" font-size="10.5" fill="#667382">每行独立小凸问题、链长 1、梯度有界</text>
+  <text x="516" y="372" font-size="10.5" fill="#667382">深网再试就是翻车现场（P0.3 见）</text>
+
+  <rect x="105" y="430" width="725" height="50" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="467" y="450" font-size="12" fill="#2fb344" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">ln67 = 4.20 → 20000 步 2.50 ⇄ 数数版最优 2.47 —— 会师</text>
+  <text x="467" y="468" font-size="10.5" fill="#667382" text-anchor="middle">会师不是升级：买到可训练性，能力仍是 bigram；参数爆炸的解法在输入侧（P0.3 embedding）</text>
+</svg>

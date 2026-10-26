@@ -73,6 +73,20 @@
     return last;
   }
 
+  // —— 填内容卡(全景卡/书单/T1 长文):data/cards.js → 空占位
+  //     必须先于徽章替换:T1 正文里带着 ch:tf1 的徽章锚点,注入后才轮得到徽章逻辑找它 ——
+  var C = window.CARDS || {};
+  Array.prototype.forEach.call(document.querySelectorAll('details.ch-recap[data-card]'), function (d) {
+    var c = C[d.getAttribute('data-card')];
+    if (!c) return;
+    d.innerHTML = '<summary><span class="ch-lab-arrow">▶</span>' + c.title +
+      '</summary><div class="ch-lab-body">' + c.body + '</div>';
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-card-body]'), function (el) {
+    var c = C[el.getAttribute('data-card-body')];
+    if (c) el.innerHTML = c.body;
+  });
+
   // —— 章头徽章:<span data-badge="ch:key"></span> ——
   Object.keys(L.chBadges || {}).forEach(function (k) {
     Array.prototype.forEach.call(document.querySelectorAll('[data-badge="ch:' + k + '"]'), function (el) {

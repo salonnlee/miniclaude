@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 530">
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#262626">GPT-3 数字地图 · 每个数从哪来、谁定的</text>
+
+  <rect x="105" y="47" width="11" height="11" rx="3" fill="#f76707"/>
+  <text x="123" y="57" font-size="10.5" fill="#667382">人为定 · 设计者拍板</text>
+  <rect x="262" y="47" width="11" height="11" rx="3" fill="#066fd1"/>
+  <text x="280" y="57" font-size="10.5" fill="#667382">相乘而来 · 被前面的选择钉死</text>
+  <rect x="492" y="47" width="11" height="11" rx="3" fill="#2fb344"/>
+  <text x="510" y="57" font-size="10.5" fill="#667382">客观基数 · 不由人</text>
+
+  <rect x="105" y="78" width="170" height="112" rx="10" fill="rgba(21,128,61,.06)" stroke="rgba(21,128,61,.5)"/>
+  <text x="121" y="108" font-size="17" font-weight="700" fill="#2fb344" font-family="ui-monospace,Menlo,monospace">256</text>
+  <text x="121" y="130" font-size="11.5" font-weight="600" fill="#262626">词条底表 · 字节</text>
+  <text x="121" y="150" font-size="9.5" fill="#667382">一个字节 256 种取值</text>
+  <text x="121" y="165" font-size="9.5" fill="#667382">客观基数，一个不多一个不少</text>
+
+  <rect x="289" y="78" width="170" height="112" rx="10" fill="rgba(194,65,12,.06)" stroke="rgba(194,65,12,.5)"/>
+  <text x="305" y="108" font-size="17" font-weight="700" fill="#f76707" font-family="ui-monospace,Menlo,monospace">50,000</text>
+  <text x="305" y="130" font-size="11.5" font-weight="600" fill="#262626">合并次数</text>
+  <text x="305" y="150" font-size="9.5" fill="#667382">GPT-2 分词器设定</text>
+  <text x="305" y="165" font-size="9.5" fill="#667382">词表造多大，人为拍板</text>
+
+  <rect x="473" y="78" width="170" height="112" rx="10" fill="rgba(37,99,235,.06)" stroke="rgba(37,99,235,.5)"/>
+  <text x="489" y="108" font-size="17" font-weight="700" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">50,257</text>
+  <text x="489" y="130" font-size="11.5" font-weight="600" fill="#262626">词表大小</text>
+  <text x="489" y="150" font-size="9.5" fill="#667382">256 + 50,000 + 1，相加而来</text>
+  <text x="489" y="165" font-size="9.5" fill="#667382">出口宽度被它钉死</text>
+
+  <rect x="657" y="78" width="170" height="112" rx="10" fill="rgba(194,65,12,.06)" stroke="rgba(194,65,12,.5)"/>
+  <text x="673" y="108" font-size="17" font-weight="700" fill="#f76707" font-family="ui-monospace,Menlo,monospace">12,288</text>
+  <text x="673" y="130" font-size="11.5" font-weight="600" fill="#262626">向量宽度 d_model</text>
+  <text x="673" y="150" font-size="9.5" fill="#667382">论文 Table 2.1</text>
+  <text x="673" y="165" font-size="9.5" fill="#667382">宽度旋钮 · 算力权衡</text>
+
+  <rect x="105" y="202" width="170" height="112" rx="10" fill="rgba(194,65,12,.06)" stroke="rgba(194,65,12,.5)"/>
+  <text x="121" y="232" font-size="17" font-weight="700" fill="#f76707" font-family="ui-monospace,Menlo,monospace">96</text>
+  <text x="121" y="254" font-size="11.5" font-weight="600" fill="#262626">积木层数</text>
+  <text x="121" y="274" font-size="9.5" fill="#667382">Table 2.1 · n_layers</text>
+  <text x="121" y="289" font-size="9.5" fill="#667382">深度旋钮</text>
+
+  <rect x="289" y="202" width="170" height="112" rx="10" fill="rgba(194,65,12,.06)" stroke="rgba(194,65,12,.5)"/>
+  <text x="305" y="232" font-size="17" font-weight="700" fill="#f76707" font-family="ui-monospace,Menlo,monospace">96</text>
+  <text x="305" y="254" font-size="11.5" font-weight="600" fill="#262626">注意力头数</text>
+  <text x="305" y="274" font-size="9.5" fill="#667382">Table 2.1 · n_heads</text>
+  <text x="305" y="289" font-size="9.5" fill="#667382">96 路并行，各看各的</text>
+
+  <rect x="473" y="202" width="170" height="112" rx="10" fill="rgba(37,99,235,.06)" stroke="rgba(37,99,235,.5)"/>
+  <text x="489" y="232" font-size="17" font-weight="700" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">128</text>
+  <text x="489" y="254" font-size="11.5" font-weight="600" fill="#262626">每头维度</text>
+  <text x="489" y="274" font-size="9.5" fill="#667382">12,288 ÷ 96，相除而来</text>
+  <text x="489" y="289" font-size="9.5" fill="#667382">宽度 ÷ 头数</text>
+
+  <rect x="657" y="202" width="170" height="112" rx="10" fill="rgba(194,65,12,.06)" stroke="rgba(194,65,12,.5)"/>
+  <text x="673" y="232" font-size="17" font-weight="700" fill="#f76707" font-family="ui-monospace,Menlo,monospace">2,048</text>
+  <text x="673" y="254" font-size="11.5" font-weight="600" fill="#262626">上下文长度</text>
+  <text x="673" y="274" font-size="9.5" fill="#667382">Table 2.1 · n_ctx</text>
+  <text x="673" y="289" font-size="9.5" fill="#667382">受注意力平方开销约束</text>
+
+  <rect x="105" y="326" width="170" height="112" rx="10" fill="rgba(37,99,235,.06)" stroke="rgba(37,99,235,.5)"/>
+  <text x="121" y="356" font-size="17" font-weight="700" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">49,152</text>
+  <text x="121" y="378" font-size="11.5" font-weight="600" fill="#262626">前馈层宽度</text>
+  <text x="121" y="398" font-size="9.5" fill="#667382">4 × 12,288</text>
+  <text x="121" y="413" font-size="9.5" fill="#667382">业界惯例比例</text>
+
+  <rect x="289" y="326" width="170" height="112" rx="10" fill="rgba(37,99,235,.06)" stroke="rgba(37,99,235,.5)"/>
+  <text x="305" y="356" font-size="17" font-weight="700" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">≈1,750 亿</text>
+  <text x="305" y="378" font-size="11.5" font-weight="600" fill="#262626">总参数</text>
+  <text x="305" y="398" font-size="9.5" fill="#667382">96 层 × 12 × 12,288² + 嵌入表</text>
+  <text x="305" y="413" font-size="9.5" fill="#667382">宽深一拍板，乘法钉死</text>
+
+  <rect x="473" y="326" width="170" height="112" rx="10" fill="rgba(194,65,12,.06)" stroke="rgba(194,65,12,.5)"/>
+  <text x="489" y="356" font-size="17" font-weight="700" fill="#f76707" font-family="ui-monospace,Menlo,monospace">≈3,000 亿</text>
+  <text x="489" y="378" font-size="11.5" font-weight="600" fill="#262626">训练 token 量</text>
+  <text x="489" y="398" font-size="9.5" fill="#667382">论文 §2.2</text>
+  <text x="489" y="413" font-size="9.5" fill="#667382">5,000 亿池中加权采样</text>
+
+  <rect x="657" y="326" width="170" height="112" rx="10" fill="rgba(37,99,235,.06)" stroke="rgba(37,99,235,.5)"/>
+  <text x="673" y="356" font-size="17" font-weight="700" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">3.14×10²³</text>
+  <text x="673" y="378" font-size="11.5" font-weight="600" fill="#262626">总算力 FLOPs</text>
+  <text x="673" y="398" font-size="9.5" fill="#667382">论文实测</text>
+  <text x="673" y="413" font-size="9.5" fill="#667382">全部选择跑完的账单</text>
+
+  <rect x="105" y="462" width="722" height="46" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="466" y="481" font-size="12" fill="#2fb344" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">人为拍板的（橙）只有几个 · 相乘钉死的（蓝）占大头</text>
+  <text x="466" y="499" font-size="10.5" fill="#667382" text-anchor="middle">设计一台模型 = 拍几个数，然后接受它们的全部乘积</text>
+</svg>

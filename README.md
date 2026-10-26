@@ -37,16 +37,20 @@ curl -fsSL -o data/input.txt https://cs.stanford.edu/people/karpathy/char-rnn/sh
 ## 📁 项目结构
 
 ```
-├── COURSE.html               课程总中枢:课程表(含可展开的实验室抽屉)/ 全景架构图 /
-│                             里程碑 / 教学契约(结构骨架 + 全景卡等富内容;课次行由
-│                             data/lessons.js 渲染,全部同根、相对路径引用,整库挪目录或
-│                             部署到任意子路径都不断链)
+├── COURSE.html               课程总中枢·纯结构骨架(690 行):幕/章节容器 + 实验室骨架 +
+│                             全景架构图 / 里程碑 / 教学契约;课次由 data/lessons.js、卡内
+│                             容由 data/cards.js 渲染注入,全部同根、相对路径引用,整库挪
+│                             目录或部署到任意子路径都不断链
 ├── COURSE.css                课程页全局样式(Tabler 设计语言:浅灰蓝底 + 白卡 + tint 徽章,
 │                             主线蓝/搓丹与支线橙;含 P0.1 抽签台 .bg-*)
 ├── COURSE-page.js            页级行为:全景架构图播放器 + 锚点滚动联动
 ├── data/lessons.js           课次数据·唯一事实源:课次行、徽章、折叠态、「更新于」
 │                             全由它推导——完课/加课次只改这里
-├── COURSE-render.js          课次渲染器:把 data/lessons.js 填进 COURSE.html 空容器
+├── data/cards.js             卡片内容数据:全景卡/书单/T1 长文的 title+body,
+│                             COURSE-render.js 注入空占位(改卡文字只改这里)
+├── svg/                      卡图独立文件(30 张,一卡一图或卡id-figN)——img 引用,
+│                             可单独点开预览
+├── COURSE-render.js          渲染器:课次 + 卡片,填进 COURSE.html 空容器
 ├── COURSE-LOG.js             更新记录(数据 + 渲染器):最新日期在顶,当天往下追加,
 │                             天数 / 条数 / 最新一天默认展开全部自动计算
 ├── labs/                     实验室资产(样式与脚本,新增实验室 = 这里加一对文件)

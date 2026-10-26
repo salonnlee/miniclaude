@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500">
+  <defs>
+    <marker id="b3ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+  </defs>
+
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#262626">① 单张考卷 · 三根杠杆</text>
+  <text x="105" y="48" font-size="10.5" fill="#667382">片中图 1 那帧：让输出层「2」从 0.2 变亮</text>
+
+  <rect x="105" y="64" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="85" font-size="12.5" font-weight="600" fill="#262626">🖼️ 考卷：一张手写「2」</text>
+  <text x="121" y="104" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">输出层「2」只亮到 0.2 · 目标调高</text>
+  <line x1="270" y1="118" x2="270" y2="136" stroke="#667382" stroke-width="1.5" marker-end="url(#b3ar)"/>
+
+  <rect x="105" y="142" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="163" font-size="12.5" font-weight="600" fill="#262626">🎯 心愿：把 0.2 拧上去</text>
+  <text x="121" y="182" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">0.2 = σ(Σw·a + b) · 旋钮全在公式里</text>
+  <line x1="270" y1="196" x2="270" y2="214" stroke="#667382" stroke-width="1.5" marker-end="url(#b3ar)"/>
+
+  <rect x="105" y="220" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="241" font-size="12.5" font-weight="600" fill="#262626">🔧 杠杆①：调大偏置 b</text>
+  <text x="121" y="260" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">无条件加分 · 但对每张考卷都生效</text>
+  <line x1="270" y1="274" x2="270" y2="292" stroke="#667382" stroke-width="1.5" marker-end="url(#b3ar)"/>
+
+  <rect x="105" y="298" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="319" font-size="12.5" font-weight="600" fill="#262626">🔧 杠杆②：调大权重 w</text>
+  <text x="121" y="338" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">顺着亮像素加 · 负激活连线上帮倒忙</text>
+  <line x1="270" y1="352" x2="270" y2="370" stroke="#667382" stroke-width="1.5" marker-end="url(#b3ar)"/>
+
+  <rect x="105" y="376" width="330" height="52" rx="10" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.55)"/>
+  <text x="121" y="397" font-size="12.5" font-weight="600" fill="#262626">⚡ 杠杆③：改上一层的 a</text>
+  <text x="121" y="416" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">a 不是旋钮！心愿只能翻译给前一层</text>
+
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#262626">② 心愿逆流 · 汇成算法</text>
+  <text x="500" y="48" font-size="10.5" fill="#667382">「反向」= 需求从输出端往输入端流</text>
+
+  <rect x="500" y="64" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="85" font-size="12.5" font-weight="600" fill="#262626">↩ 心愿逆流：层层照方抓药</text>
+  <text x="516" y="104" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">想让 a↑ → 去调前层的 w、b（递归）</text>
+  <line x1="665" y1="118" x2="665" y2="136" stroke="#667382" stroke-width="1.5" marker-end="url(#b3ar)"/>
+
+  <rect x="500" y="142" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="163" font-size="12.5" font-weight="600" fill="#262626">Σ 每张考卷 × 每层，求平均</text>
+  <text x="516" y="182" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">汇总 = 3B2 的 ∇C · 13,002 项</text>
+  <line x1="665" y1="196" x2="665" y2="214" stroke="#667382" stroke-width="1.5" marker-end="url(#b3ar)"/>
+
+  <rect x="500" y="220" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="241" font-size="12.5" font-weight="600" fill="#262626">💸 全量太贵 → 打乱分批</text>
+  <text x="516" y="260" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">抽一小撮代表全班 = minibatch</text>
+  <line x1="665" y1="274" x2="665" y2="292" stroke="#667382" stroke-width="1.5" marker-end="url(#b3ar)"/>
+
+  <rect x="500" y="298" width="330" height="52" rx="10" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.55)"/>
+  <text x="516" y="319" font-size="12.5" font-weight="600" fill="#262626">🎲 SGD 随机梯度下降</text>
+  <text x="516" y="338" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">mini 坡 ≈ 全体坡 · 更新式不变</text>
+  <line x1="665" y1="352" x2="665" y2="370" stroke="#667382" stroke-width="1.5" marker-end="url(#b3ar)"/>
+
+  <rect x="500" y="376" width="330" height="52" rx="10" fill="#f8f9fc" stroke="rgba(37,99,235,.45)"/>
+  <text x="516" y="397" font-size="12.5" font-weight="600" fill="#262626">↩ NN1 对照</text>
+  <text x="516" y="416" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">那边 200 点全量算 · 数据大才要抽样</text>
+
+  <rect x="105" y="444" width="725" height="46" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="467" y="463" font-size="12" fill="#2fb344" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">「反向」= 心愿逆流 · 写成数学 = 链式法则（3B4 演算 / NN3 手推）</text>
+  <text x="467" y="481" font-size="10.5" fill="#667382" text-anchor="middle">∇C 悬念闭环：NN1 数值量坡（每旋钮 2 次前向）→ BP 一趟后向全算清</text>
+</svg>

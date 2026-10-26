@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 432">
+  <text x="16" y="26" font-size="13" font-weight="700" fill="#262626">图四 · 为什么装得下：近正交方向指数级多</text>
+  <text x="16" y="46" font-size="10.5" fill="#667382">JL 引理证「装得下」，叠加就是「真这么挤」——12,288 维塞得下远超 12,288 个概念方向</text>
+  <rect x="16" y="62" width="414" height="248" rx="10" fill="rgba(37,99,235,.06)" stroke="rgba(37,99,235,.5)"/>
+  <text x="32" y="88" font-size="12" font-weight="600" fill="#262626">约翰逊–林登斯特劳斯引理（1984）</text>
+  <text x="32" y="112" font-size="10.5" fill="#4b5158">n 个点，原维度随便多高</text>
+  <text x="32" y="130" font-size="10.5" fill="#4b5158">随机投影进低维，两两距离保真到 (1±ε)</text>
+  <text x="32" y="158" font-size="13" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">k = O(ε⁻² · log n)</text>
+  <text x="32" y="182" font-size="10.5" fill="#4b5158">数字例：n = 10⁶ 个点、ε = 10%</text>
+  <text x="32" y="200" font-size="11" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">→ k ≈ 11,000 维装下</text>
+  <text x="32" y="228" font-size="10" fill="#667382">log n：n² 个点对都不许出事的并界税——点的个数几乎白送</text>
+  <text x="32" y="244" font-size="10" fill="#667382">（一百万个点，log₂ 才约 20）</text>
+  <text x="32" y="266" font-size="10" fill="#667382">ε⁻²：精度平方级付费——集中现象的统一定价</text>
+  <text x="32" y="282" font-size="10" fill="#667382">误差 10% 收到 1%，维度付一百倍</text>
+  <text x="32" y="302" font-size="10.5" fill="#0553a3">推论：k 维空间容纳指数级多的近正交方向</text>
+  <rect x="450" y="62" width="414" height="248" rx="10" fill="rgba(194,65,12,.06)" stroke="rgba(194,65,12,.5)"/>
+  <text x="466" y="88" font-size="12" font-weight="600" fill="#262626">叠加（superposition）：真这么挤</text>
+  <circle cx="580" cy="184" r="72" fill="none" stroke="#e6e7e9" stroke-dasharray="5 4"/>
+<line x1="580" y1="184" x2="620" y2="137" stroke="#f76707" stroke-width="2"/>
+  <circle cx="620" cy="137" r="3" fill="#f76707"/>
+  <text x="634" y="123" font-size="9.5" fill="#f76707" text-anchor="middle">特征A</text>
+  <line x1="580" y1="184" x2="559" y2="126" stroke="#f76707" stroke-width="2"/>
+  <circle cx="559" cy="126" r="3" fill="#f76707"/>
+  <text x="551" y="108" font-size="9.5" fill="#f76707" text-anchor="middle">特征B</text>
+  <line x1="580" y1="184" x2="519" y2="173" stroke="#f76707" stroke-width="2"/>
+  <circle cx="519" cy="173" r="3" fill="#f76707"/>
+  <text x="497" y="172" font-size="9.5" fill="#f76707" text-anchor="middle">特征C</text>
+  <line x1="580" y1="184" x2="529" y2="220" stroke="#f76707" stroke-width="2"/>
+  <circle cx="529" cy="220" r="3" fill="#f76707"/>
+  <text x="511" y="235" font-size="9.5" fill="#f76707" text-anchor="middle">特征D</text>
+  <line x1="580" y1="184" x2="575" y2="246" stroke="#f76707" stroke-width="2"/>
+  <circle cx="575" cy="246" r="3" fill="#f76707"/>
+  <text x="573" y="271" font-size="9.5" fill="#f76707" text-anchor="middle">特征E</text>
+  <line x1="580" y1="184" x2="627" y2="224" stroke="#f76707" stroke-width="2"/>
+  <circle cx="627" cy="224" r="3" fill="#f76707"/>
+  <text x="644" y="241" font-size="9.5" fill="#f76707" text-anchor="middle">特征F</text>
+  <text x="676" y="120" font-size="10.5" fill="#4b5158">要表达的概念远多于</text>
+  <text x="676" y="138" font-size="10.5" fill="#4b5158">12,288 个维度</text>
+  <text x="676" y="162" font-size="10.5" fill="#4b5158">特征排成近正交方向，</text>
+  <text x="676" y="180" font-size="10.5" fill="#4b5158">多个特征共用同一批</text>
+  <text x="676" y="198" font-size="10.5" fill="#4b5158">神经元</text>
+  <text x="676" y="222" font-size="10" fill="#667382">近正交 = 内积 ≈ 0</text>
+  <text x="676" y="240" font-size="10" fill="#667382">= 同时亮也互不干扰</text>
+  <text x="466" y="294" font-size="10" fill="#667382">神经元多义（猫/粤语歌词/HTTP 同格都亮）的根源：特征是方向，不是格子</text>
+  <rect x="16" y="322" width="848" height="44" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="440" y="340" font-size="11.5" fill="#2fb344" text-anchor="middle">稀疏是叠加的通行证：特征只在少数语境亮，同时亮的机会少、撞车就少</text>
+  <text x="440" y="358" font-size="10.5" fill="#667382" text-anchor="middle">「金门大桥」一万段话里出现不了几次——这也是「稀疏」自编码器名字里那个「稀疏」的来源</text>
+  <rect x="16" y="376" width="848" height="44" rx="10" fill="#e7f1fb" stroke="#9cc3ec"/>
+  <text x="440" y="394" font-size="11.5" fill="#0553a3" text-anchor="middle">别认错人：给「扩参数必然带来性能提升」底气的是 Scaling Laws（Kaplan 2020 / Chinchilla 2022，经验幂律）</text>
+  <text x="440" y="412" font-size="10.5" fill="#667382" text-anchor="middle">JL 管几何（高维比直觉宽敞，有证明），Scaling 管账单（多大算力换多少聪明，经验外推）——两码事</text>
+</svg>

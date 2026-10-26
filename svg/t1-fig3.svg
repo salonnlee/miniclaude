@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500">
+  <defs>
+    <marker id="tfblkar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+  </defs>
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#262626">一块积木内部 · 两道工序各干各的</text>
+  <text x="105" y="48" font-size="10.5" fill="#667382">以「它」那一行为例——行数与宽度全程不变，变的只是每行装的理解</text>
+
+  <rect x="307" y="64" width="320" height="44" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="323" y="84" font-size="12.5" font-weight="600" fill="#262626">📥 进积木 · N×12,288</text>
+  <text x="323" y="102" font-size="10.5" fill="#667382">每行 = 一个位置 + 一份当前的理解</text>
+  <line x1="467" y1="108" x2="467" y2="122" stroke="#667382" stroke-width="1.5" marker-end="url(#tfblkar)"/>
+
+  <rect x="105" y="126" width="725" height="104" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="148" font-size="12.5" font-weight="600" fill="#262626">👀 第一道 · 注意力——行与行之间打听</text>
+  <text x="121" y="170" font-size="10" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">① 对暗号：每行发「查询」，跟前文各行的「钥匙」比，越合拍份额越大</text>
+  <text x="121" y="188" font-size="10" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">② 加权抄录：按份额把前文各行混成一份抄录——「它」的抄录里「狗」占大头</text>
+  <text x="121" y="206" font-size="10" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">③ 添回原行：抄来的「添」进自己这行——不替换，裸词义垫底</text>
+  <text x="121" y="222" font-size="10.5" fill="#667382">96 头并行（每头 128 维）：有的头盯指代、有的头盯搭配，各抄各的角度，最后拼回一根</text>
+  <line x1="467" y1="230" x2="467" y2="248" stroke="#667382" stroke-width="1.5" marker-end="url(#tfblkar)"/>
+
+  <rect x="105" y="252" width="725" height="92" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="276" font-size="12.5" font-weight="600" fill="#262626">🔬 第二道 · 前馈层——自己这一行往深里消化</text>
+  <text x="121" y="298" font-size="10" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">12,288 → 49,152 → 12,288（4 倍惯例，人为沿用）</text>
+  <text x="121" y="316" font-size="10" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">49,152 个特征位逐格过一道开关，术语叫 GELU：信号够强就放行 · 不够就压向零</text>
+  <text x="121" y="334" font-size="10.5" fill="#667382">N 行各过各的、互不串门——过的都是同一套权重</text>
+  <line x1="467" y1="344" x2="467" y2="370" stroke="#667382" stroke-width="1.5" marker-end="url(#tfblkar)"/>
+
+  <rect x="307" y="374" width="320" height="44" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="323" y="394" font-size="12.5" font-weight="600" fill="#262626">📤 出积木 · 还是 N×12,288</text>
+  <text x="323" y="412" font-size="10.5" fill="#667382">形状没动 · 交给下一块从头再来</text>
+
+  <rect x="105" y="436" width="725" height="46" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="467" y="455" font-size="12" fill="#2fb344" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">一块积木 ≈ 18.1 亿参数 · 96 块 ≈ 1,740 亿——总账在第五节</text>
+  <text x="467" y="473" font-size="10.5" fill="#667382" text-anchor="middle">横道管行与行，纵道管一行之内——两道干完，形状纹丝不动</text>
+</svg>

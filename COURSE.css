@@ -233,7 +233,9 @@
   .s1-recap b{color:var(--text)}
   .s1-recap code{font-family:var(--mono);font-size:12.5px;color:var(--text);background:var(--panel-2);padding:1px 6px;border-radius:4px}
   .s1-fig{overflow-x:auto}
-  .s1-fig svg{display:block;min-width:640px;height:auto}
+  /* 卡内配图:内容在 svg/ 独立文件,img 引入(见 data/cards.js 维护规矩) */
+  img.fig{display:block;width:100%;height:auto}
+  .s1-fig img.fig{min-width:640px}
   .ch-recap table.tab{width:100%;border-collapse:collapse;font-size:12.5px;margin:2px 0 14px}
   .ch-recap table.tab th{text-align:left;color:var(--muted);font-weight:600;font-size:11.5px;padding:6px 10px;border-bottom:1px solid var(--border)}
   .ch-recap table.tab td{padding:8px 10px;border-bottom:1px solid #eef0f3;line-height:1.7;color:#4b5158;vertical-align:top}

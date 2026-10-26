@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420">
+  <defs>
+    <marker id="m6c" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+  </defs>
+
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#262626">④ 单头 vs 多头 · 同一笔预算，两种花法</text>
+  <text x="105" y="48" font-size="10.5" fill="#667382">96 × 128 = 12,288 —— 多头没多花一个旋钮，是把整表竖切成 96 条</text>
+
+  <rect x="105" y="64" width="330" height="240" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="88" font-size="12.5" font-weight="600" fill="#262626">单头（假想）· 一根粗管子</text>
+  <text x="121" y="108" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">q/k 全是 12,288 维 · 一次打分 · 一组权重</text>
+  <rect x="121" y="124" width="298" height="44" rx="8" fill="#ffffff" stroke="#e6e7e9"/>
+  <text x="137" y="143" font-size="11.5" font-weight="600" fill="#262626">问 A：谁在追？ → 该看「猫」</text>
+  <text x="137" y="160" font-size="9.5" fill="#667382">一种关注法</text>
+  <rect x="121" y="178" width="298" height="44" rx="8" fill="#ffffff" stroke="#e6e7e9"/>
+  <text x="137" y="197" font-size="11.5" font-weight="600" fill="#262626">问 B：前一个词？ → 该看邻位</text>
+  <text x="137" y="214" font-size="9.5" fill="#667382">另一种关注法</text>
+  <text x="121" y="252" font-size="10.5" fill="#f76707" font-family="ui-monospace,Menlo,monospace">两个诉求挤一次打分 → q 折中 → 灰糊 ✗</text>
+  <text x="121" y="272" font-size="9.5" fill="#667382">一组权重只装得下一种关注法</text>
+
+  <rect x="500" y="64" width="330" height="240" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="88" font-size="12.5" font-weight="600" fill="#262626">多头（实际）· 96 根细管子</text>
+  <text x="516" y="108" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">每头自己的小 QKV · 独立打分→softmax→抄货</text>
+  <rect x="516" y="124" width="298" height="36" rx="8" fill="#ffffff" stroke="#e6e7e9"/>
+  <text x="532" y="147" font-size="11.5" font-weight="600" fill="#262626">头 3 问主语 → 抄「猫」</text>
+  <rect x="516" y="166" width="298" height="36" rx="8" fill="#ffffff" stroke="#e6e7e9"/>
+  <text x="532" y="189" font-size="11.5" font-weight="600" fill="#262626">头 7 盯邻位 → 抄上一个词</text>
+  <rect x="516" y="208" width="298" height="36" rx="8" fill="#ffffff" stroke="#e6e7e9"/>
+  <text x="532" y="231" font-size="11.5" font-weight="600" fill="#262626">头 12 找没闭合的引号 → 抄「“」</text>
+  <text x="516" y="266" font-size="10.5" fill="#2fb344" font-family="ui-monospace,Menlo,monospace">96 头抄完 → concat → W_O 揉成一份 ✓</text>
+  <text x="516" y="286" font-size="9.5" fill="#667382">每个位置 96 张独立权重表 · 头间汇合点只有 W_O</text>
+
+  <rect x="105" y="318" width="725" height="34" rx="10" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.55)"/>
+  <text x="467" y="340" font-size="11.5" fill="#f76707" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">一根粗管子吸成糊 · 96 根细管子各吸各的，汇成一杯分层鸡尾酒</text>
+
+  <rect x="105" y="362" width="725" height="40" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="467" y="387" font-size="12" fill="#2fb344" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">P0.3 形状预告：每头 (12,288, 128) × 96 头 → concat → W_O</text>
+</svg>

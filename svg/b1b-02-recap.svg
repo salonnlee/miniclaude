@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500">
+  <defs>
+    <marker id="b2ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+  </defs>
+
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#262626">① 套娃 · loss 是套在网络外的函数</text>
+  <text x="105" y="48" font-size="10.5" fill="#667382">学员笔记的视角翻转：网络参数，在 loss 眼里 = 输入</text>
+
+  <rect x="105" y="64" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="85" font-size="12.5" font-weight="600" fill="#262626">🧮 网络函数 · 13,002 个旋钮藏在体内</text>
+  <text x="121" y="104" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">784 个像素 → 10 个打分（3B1 那张网）</text>
+  <line x1="270" y1="118" x2="270" y2="136" stroke="#667382" stroke-width="1.5" marker-end="url(#b2ar)"/>
+
+  <rect x="105" y="142" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="163" font-size="12.5" font-weight="600" fill="#262626">📊 对答案（每个训练样本）</text>
+  <text x="121" y="182" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">10 个打分 vs 标签 → 1 个「错得多离谱」</text>
+  <line x1="270" y1="196" x2="270" y2="214" stroke="#667382" stroke-width="1.5" marker-end="url(#b2ar)"/>
+
+  <rect x="105" y="220" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="241" font-size="12.5" font-weight="600" fill="#262626">📉 loss = 全训练集平均</text>
+  <text x="121" y="260" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">越大越差 · 越小越像真会做</text>
+  <line x1="270" y1="274" x2="270" y2="292" stroke="#667382" stroke-width="1.5" marker-end="url(#b2ar)"/>
+
+  <rect x="105" y="298" width="330" height="52" rx="10" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.55)"/>
+  <text x="121" y="319" font-size="12.5" font-weight="600" fill="#262626">🔄 换视角：loss 眼里的世界</text>
+  <text x="121" y="338" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">输入 13,002 个旋钮 → 输出 1 个数 · 考题=固定</text>
+  <line x1="270" y1="352" x2="270" y2="370" stroke="#667382" stroke-width="1.5" marker-end="url(#b2ar)"/>
+
+  <rect x="105" y="376" width="330" height="52" rx="10" fill="#f8f9fc" stroke="rgba(37,99,235,.45)"/>
+  <text x="121" y="397" font-size="12.5" font-weight="600" fill="#262626">↩ NN1 对照</text>
+  <text x="121" y="416" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">那边的 loss 只吃 2 个旋钮（w、b）· 同一套下坡</text>
+
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#262626">② 下山 · 梯度下降法（循环）</text>
+  <text x="500" y="48" font-size="10.5" fill="#667382">片中图 1 的更新式：参数向量 − η × 梯度向量，η=0.1</text>
+
+  <rect x="500" y="64" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="85" font-size="12.5" font-weight="600" fill="#262626">🎲 随机初始化</text>
+  <text x="516" y="104" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">13,002 个旋钮全随机 → 开局很糟</text>
+  <line x1="665" y1="118" x2="665" y2="136" stroke="#667382" stroke-width="1.5" marker-end="url(#b2ar)"/>
+
+  <rect x="500" y="142" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="163" font-size="12.5" font-weight="600" fill="#262626">🧮 前向：算今天的 loss</text>
+  <text x="516" y="182" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">拿网络考一遍考题 · 平均出 1 个数</text>
+  <line x1="665" y1="196" x2="665" y2="214" stroke="#667382" stroke-width="1.5" marker-end="url(#b2ar)"/>
+
+  <rect x="500" y="220" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="241" font-size="12.5" font-weight="600" fill="#262626">📏 梯度 ∇C · 指向上山</text>
+  <text x="516" y="260" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">13,002 个偏导 ∂C/∂w · ∂C/∂b</text>
+  <line x1="665" y1="274" x2="665" y2="292" stroke="#667382" stroke-width="1.5" marker-end="url(#b2ar)"/>
+
+  <rect x="500" y="298" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="319" font-size="12.5" font-weight="600" fill="#262626">🔧 反方向挪一小步</text>
+  <text x="516" y="338" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">[w,b] ← [w,b] − η·∇C · η = NN1 的 LR</text>
+
+  <path d="M830,324 C862,324 862,168 836,168" fill="none" stroke="#667382" stroke-width="1.3" marker-end="url(#b2ar)" opacity=".75"/>
+  <text x="866" y="246" font-size="11" fill="#667382" text-anchor="middle" transform="rotate(-90 866 246)">🔁 循环</text>
+
+  <rect x="500" y="376" width="330" height="52" rx="10" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.55)"/>
+  <text x="516" y="397" font-size="12.5" font-weight="600" fill="#262626">🧭 负梯度逐项读法（与 NN1 逐字同）</text>
+  <text x="516" y="416" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">± 号 = 调大/调小 · 大小 = 该动多猛</text>
+
+  <rect x="105" y="444" width="725" height="46" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="467" y="463" font-size="12" fill="#2fb344" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">∇C 怎么算？NN1 数值量坡 = 每旋钮 2 次前向 × 13,002 → 太贵</text>
+  <text x="467" y="481" font-size="10.5" fill="#667382" text-anchor="middle">3B3 · 反向传播：一趟后向算清全部偏导 = 我们的 NN3，提前预习</text>
+</svg>

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500">
+  <defs>
+    <marker id="s2par" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+    <marker id="s2parO" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f76707"/></marker>
+  </defs>
+
+  <text x="110" y="30" font-size="13" font-weight="600" fill="#262626">① 神经元 = 加权求和 + ReLU（流水线两站）</text>
+
+  <text x="60" y="80" font-size="12" fill="#262626" font-family="ui-monospace,Menlo,monospace">x1, x2</text>
+  <line x1="105" y1="76" x2="135" y2="76" stroke="#667382" stroke-width="1.5" marker-end="url(#s2par)"/>
+
+  <rect x="140" y="52" width="150" height="48" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="215" y="72" font-size="12" font-weight="600" fill="#262626" text-anchor="middle">Σ w·x + b</text>
+  <text x="215" y="89" font-size="10.5" fill="#667382" text-anchor="middle">b 画及格线</text>
+  <line x1="290" y1="76" x2="320" y2="76" stroke="#667382" stroke-width="1.5" marker-end="url(#s2par)"/>
+  <text x="305" y="66" font-size="10.5" fill="#667382" text-anchor="middle">score</text>
+
+  <rect x="322" y="52" width="118" height="48" rx="10" fill="rgba(194,65,12,.08)" stroke="rgba(194,65,12,.55)"/>
+  <text x="381" y="72" font-size="12" font-weight="600" fill="#262626" text-anchor="middle">ReLU</text>
+  <text x="381" y="89" font-size="10.5" fill="#667382" text-anchor="middle">负分归零 · 折叠</text>
+
+  <text x="70" y="130" font-size="11" fill="#667382">同一组权重 (1,1)，挪门槛换门：</text>
+  <text x="70" y="150" font-size="11.5" fill="#262626" font-family="ui-monospace,Menlo,monospace">b=0 ：输出 (00,01,10,11)=(0,1,1,2)</text>
+  <text x="70" y="168" font-size="11" fill="#667382">→ OR 门「至少一个开」</text>
+  <text x="70" y="192" font-size="11.5" fill="#262626" font-family="ui-monospace,Menlo,monospace">b=−1：输出 (00,01,10,11)=(0,0,0,1)</text>
+  <text x="70" y="210" font-size="11" fill="#667382">→ AND 门「两个都开才亮」</text>
+  <text x="70" y="234" font-size="11" fill="#2fb344">b 管画线，ReLU 管折叠——一个神经元 = 画线再折叠</text>
+
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#262626">② XOR 之役：一刀切不开 → 折一折就能切</text>
+
+  <text x="520" y="52" font-size="11" fill="#667382">输入空间（单神经元视角）</text>
+  <rect x="520" y="62" width="120" height="120" rx="6" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <circle cx="544" cy="86" r="6" fill="#2fb344"/>
+  <circle cx="616" cy="158" r="6" fill="#2fb344"/>
+  <circle cx="616" cy="86" r="6" fill="none" stroke="#667382" stroke-width="1.6"/>
+  <circle cx="544" cy="158" r="6" fill="none" stroke="#667382" stroke-width="1.6"/>
+  <text x="533" y="74" font-size="10" fill="#2fb344">(0,1)</text>
+  <text x="608" y="176" font-size="10" fill="#2fb344">(1,0)</text>
+  <line x1="528" y1="182" x2="632" y2="62" stroke="#667382" stroke-width="1.4" stroke-dasharray="4 4"/>
+  <text x="580" y="212" font-size="10.5" fill="#f76707" text-anchor="middle">✗ 任意一刀必切错</text>
+  <text x="580" y="228" font-size="10.5" fill="#667382" text-anchor="middle">亮点在对角线</text>
+
+  <line x1="668" y1="120" x2="700" y2="120" stroke="#f76707" stroke-width="2" marker-end="url(#s2parO)"/>
+  <text x="684" y="106" font-size="10" fill="#f76707" text-anchor="middle">隐层折叠</text>
+
+  <text x="708" y="52" font-size="11" fill="#667382">隐层空间（seed=21 实测）</text>
+  <rect x="708" y="62" width="120" height="120" rx="6" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <circle cx="790" cy="92" r="5.5" fill="#2fb344"/>
+  <circle cx="746" cy="130" r="5.5" fill="#2fb344"/>
+  <circle cx="722" cy="168" r="4.5" fill="none" stroke="#667382" stroke-width="1.5"/>
+  <circle cx="734" cy="174" r="4.5" fill="none" stroke="#667382" stroke-width="1.5"/>
+  <line x1="716" y1="150" x2="816" y2="96" stroke="#2fb344" stroke-width="1.8"/>
+  <text x="768" y="212" font-size="10.5" fill="#2fb344" text-anchor="middle">✓ 读出层一条直边切开</text>
+  <text x="768" y="228" font-size="10.5" fill="#667382" text-anchor="middle">h1≈−x1+x2 · h2≈x1−x2</text>
+
+  <text x="500" y="258" font-size="11.5" fill="#262626">反证：激活换恒等 f(t)=t → 线性套线性，两层坍缩一层</text>
+  <text x="500" y="276" font-size="11" fill="#667382" font-family="ui-monospace,Menlo,monospace">loss 死守 0.25 · 四预测全 0.500（= 答案均值，蒙基率的投降书）</text>
+  <text x="500" y="294" font-size="11" fill="#2fb344">ReLU 版 loss=0.000000——唯一的魔法是那道折叠，层数本身不值钱</text>
+
+  <rect x="500" y="316" width="328" height="52" rx="10" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.5)"/>
+  <text x="516" y="338" font-size="12.5" font-weight="600" fill="#262626">⚠ 陷阱一 · 死区</text>
+  <text x="516" y="356" font-size="10.5" fill="#667382" font-family="ui-monospace,Menlo,monospace">ReLU 全灭→梯度失联，loss 卡 0.25（SEED 0 卡死 / 10 存活）</text>
+
+  <rect x="500" y="384" width="328" height="52" rx="10" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.5)"/>
+  <text x="516" y="406" font-size="12.5" font-weight="600" fill="#262626">⚠ 陷阱二 · 解不唯一</text>
+  <text x="516" y="424" font-size="10.5" fill="#667382" font-family="ui-monospace,Menlo,monospace">seed21 双探测器 / seed10 折到相近——不变的是不可分→可分</text>
+
+  <rect x="60" y="316" width="400" height="120" rx="10" fill="rgba(21,128,61,.06)" stroke="rgba(21,128,61,.5)"/>
+  <text x="260" y="348" font-size="13" font-weight="600" fill="#2fb344" text-anchor="middle">训练日常的姿势</text>
+  <text x="260" y="374" font-size="11.5" fill="#262626" text-anchor="middle">调不动 → 先换种子，再查学习率，最后才怀疑人生</text>
+  <text x="260" y="398" font-size="10.5" fill="#667382" text-anchor="middle">数值梯度：9 个旋钮 × 每步 2 次全量前向，逐个量坡</text>
+  <text x="260" y="418" font-size="10.5" fill="#f76707" text-anchor="middle">→ NN3：链式法则一次反向扫完全部旋钮</text>
+</svg>

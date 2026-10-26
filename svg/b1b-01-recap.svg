@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500">
+  <defs>
+    <marker id="b1bar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+  </defs>
+
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#262626">① 结构 · 784 → 16 → 16 → 10（全连接）</text>
+  <text x="105" y="48" font-size="10.5" fill="#667382">层间全连接：仅输入→隐藏① 一层就要 784×16 = 12,544 条权重</text>
+
+  <g stroke="#dfe3e9" stroke-width=".8" opacity=".55">
+    <line x1="117" y1="198" x2="225" y2="66"/><line x1="117" y1="198" x2="225" y2="98"/><line x1="117" y1="198" x2="225" y2="130"/><line x1="117" y1="198" x2="225" y2="226"/><line x1="117" y1="198" x2="225" y2="290"/><line x1="117" y1="198" x2="225" y2="326"/>
+    <line x1="239" y1="162" x2="327" y2="66"/><line x1="239" y1="162" x2="327" y2="130"/><line x1="239" y1="162" x2="327" y2="194"/><line x1="239" y1="162" x2="327" y2="258"/><line x1="239" y1="162" x2="327" y2="322"/><line x1="239" y1="162" x2="327" y2="354"/>
+    <line x1="341" y1="194" x2="425" y2="66"/><line x1="341" y1="194" x2="425" y2="98"/><line x1="341" y1="194" x2="425" y2="162"/><line x1="341" y1="194" x2="425" y2="226"/><line x1="341" y1="194" x2="425" y2="290"/><line x1="341" y1="194" x2="425" y2="354"/>
+  </g>
+  <g stroke="#f76707" stroke-width="1.4" opacity=".95">
+    <line x1="110" y1="230" x2="232" y2="130"/><line x1="232" y1="130" x2="334" y2="194"/><line x1="334" y1="194" x2="432" y2="162"/>
+  </g>
+
+  <g fill="#f8f9fc" stroke="#a3adb8" stroke-width="1.2">
+    <circle cx="110" cy="70" r="7"/><circle cx="110" cy="102" r="7"/><circle cx="110" cy="134" r="7"/><circle cx="110" cy="166" r="7"/><circle cx="110" cy="198" r="7"/><circle cx="110" cy="230" r="7"/><circle cx="110" cy="262" r="7"/><circle cx="110" cy="294" r="7"/><circle cx="110" cy="326" r="7"/>
+    <circle cx="232" cy="66" r="7"/><circle cx="232" cy="98" r="7"/><circle cx="232" cy="130" r="7"/><circle cx="232" cy="162" r="7"/><circle cx="232" cy="194" r="7"/><circle cx="232" cy="226" r="7"/><circle cx="232" cy="258" r="7"/><circle cx="232" cy="290" r="7"/><circle cx="232" cy="322" r="7"/><circle cx="232" cy="354" r="7"/>
+    <circle cx="334" cy="66" r="7"/><circle cx="334" cy="98" r="7"/><circle cx="334" cy="130" r="7"/><circle cx="334" cy="162" r="7"/><circle cx="334" cy="194" r="7"/><circle cx="334" cy="226" r="7"/><circle cx="334" cy="258" r="7"/><circle cx="334" cy="290" r="7"/><circle cx="334" cy="322" r="7"/><circle cx="334" cy="354" r="7"/>
+    <circle cx="432" cy="66" r="7"/><circle cx="432" cy="98" r="7"/><circle cx="432" cy="130" r="7"/><circle cx="432" cy="162" r="7"/><circle cx="432" cy="194" r="7"/><circle cx="432" cy="226" r="7"/><circle cx="432" cy="258" r="7"/><circle cx="432" cy="290" r="7"/><circle cx="432" cy="322" r="7"/><circle cx="432" cy="354" r="7"/>
+  </g>
+  <circle cx="110" cy="230" r="7" fill="#f8f9fc" stroke="#f76707" stroke-width="1.6"/>
+  <circle cx="232" cy="130" r="6.5" fill="#f76707"/>
+  <circle cx="334" cy="194" r="6.5" fill="#f76707"/>
+  <circle cx="432" cy="162" r="6.5" fill="#f76707"/>
+  <text x="432" y="150" font-size="10.5" fill="#f76707" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">9</text>
+  <text x="110" y="352" font-size="13" fill="#667382" text-anchor="middle">⋮</text>
+
+  <g text-anchor="middle">
+    <text x="110" y="372" font-size="11.5" font-weight="600" fill="#262626">输入层 · 784</text>
+    <text x="110" y="389" font-size="10.5" fill="#667382">像素灰度 0~1</text>
+    <text x="232" y="372" font-size="11.5" font-weight="600" fill="#262626">隐藏层① · 16</text>
+    <text x="232" y="389" font-size="10.5" fill="#667382">短边检测员</text>
+    <text x="334" y="372" font-size="11.5" font-weight="600" fill="#262626">隐藏层② · 16</text>
+    <text x="334" y="389" font-size="10.5" fill="#667382">部件装配员</text>
+    <text x="432" y="372" font-size="11.5" font-weight="600" fill="#262626">输出层 · 10</text>
+    <text x="432" y="389" font-size="10.5" fill="#667382">给 0–9 各打一分</text>
+  </g>
+  <text x="271" y="415" font-size="11" fill="#667382" text-anchor="middle">🧠 层层拼图：像素 → 短边 → 部件 → 数字 —— NN2「折叠弯」的图像版</text>
+
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#262626">② 传动 · 只有一个公式</text>
+  <text x="500" y="48" font-size="10.5" fill="#667382">片中图 1 的记法：a⁽¹⁾ⱼ = σ( Σ wᵢⱼ·a⁽⁰⁾ᵢ + bⱼ )</text>
+
+  <rect x="500" y="64" width="252" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="85" font-size="12.5" font-weight="600" fill="#262626">📥 接住上一层全部激活</text>
+  <text x="516" y="104" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">a₀, a₁, …, a₇₈₃ · 全连接</text>
+  <line x1="626" y1="118" x2="626" y2="136" stroke="#667382" stroke-width="1.5" marker-end="url(#b1bar)"/>
+
+  <rect x="500" y="142" width="252" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="163" font-size="12.5" font-weight="600" fill="#262626">⚖ 加权求和</text>
+  <text x="516" y="182" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">Σ wᵢⱼ·aᵢ · w = 关注什么图案</text>
+  <line x1="626" y1="196" x2="626" y2="214" stroke="#667382" stroke-width="1.5" marker-end="url(#b1bar)"/>
+
+  <rect x="500" y="220" width="252" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="241" font-size="12.5" font-weight="600" fill="#262626">🚪 加偏置，过 σ</text>
+  <text x="516" y="260" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">bⱼ = 激发门槛（NN2 的 b=−θ）</text>
+  <line x1="626" y1="274" x2="626" y2="292" stroke="#667382" stroke-width="1.5" marker-end="url(#b1bar)"/>
+
+  <rect x="500" y="298" width="252" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="319" font-size="12.5" font-weight="600" fill="#262626">📤 本层激活 aⱼ</text>
+  <text x="516" y="338" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">0 ≤ aⱼ ≤ 1 · 喂给下一层</text>
+  <line x1="626" y1="352" x2="626" y2="370" stroke="#667382" stroke-width="1.5" marker-end="url(#b1bar)"/>
+
+  <rect x="500" y="376" width="252" height="52" rx="10" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.55)"/>
+  <text x="516" y="397" font-size="12.5" font-weight="600" fill="#262626">🌀 sigmoid：任意实数 → 0~1</text>
+  <text x="516" y="416" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">−3 → 0.05 · 0 → 0.5 · 7 → 0.999</text>
+
+  <line x1="768" y1="80" x2="768" y2="368" stroke="#e6e7e9" stroke-width="1.5"/>
+  <line x1="768" y1="368" x2="838" y2="368" stroke="#e6e7e9" stroke-width="1.5" marker-end="url(#b1bar)"/>
+  <path d="M772,362 C794,360 798,88 818,88 C824,88 830,88 834,88" fill="none" stroke="#066fd1" stroke-width="2"/>
+  <text x="762" y="92" font-size="10.5" fill="#667382" text-anchor="end">1</text>
+  <text x="762" y="364" font-size="10.5" fill="#667382" text-anchor="end">0</text>
+  <text x="812" y="226" font-size="12" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">σ</text>
+  <text x="801" y="392" font-size="10" fill="#667382" text-anchor="middle">与 ReLU 同岗</text>
+  <text x="801" y="407" font-size="10" fill="#667382" text-anchor="middle">= 激活函数</text>
+
+  <rect x="105" y="444" width="725" height="46" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="467" y="463" font-size="12" fill="#2fb344" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">全网 13,002 个旋钮（NN2 里是 9 个）—— 值从哪来？</text>
+  <text x="467" y="481" font-size="10.5" fill="#667382" text-anchor="middle">3B2 · 梯度下降 = NN1 的下坡运动，规模化</text>
+</svg>

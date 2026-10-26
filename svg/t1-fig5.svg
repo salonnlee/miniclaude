@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 460">
+  <defs>
+    <marker id="tf3ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+  </defs>
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#262626">一步训练 · 无人出题，答案白送</text>
+  <text x="105" y="48" font-size="10.5" fill="#667382">同一段语料既是题面又是答案——罚完分，全部旋钮同时挪</text>
+
+  <rect x="105" y="64" width="330" height="72" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="86" font-size="12.5" font-weight="600" fill="#262626">📚 语料池 · 约 5,000 亿 token</text>
+  <text x="121" y="105" font-size="10" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">网页 ~4,100 亿 · 书 ~670 亿 · 维基 30 亿</text>
+  <text x="121" y="123" font-size="10.5" fill="#667382">按质量加权采样（维基刷约 3 遍）——人为定</text>
+  <line x1="435" y1="100" x2="498" y2="100" stroke="#667382" stroke-width="1.5" marker-end="url(#tf3ar)"/>
+
+  <rect x="500" y="64" width="330" height="72" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="86" font-size="12.5" font-weight="600" fill="#262626">✂️ 随机切一段</text>
+  <text x="516" y="105" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">「今天天气真好」</text>
+  <text x="516" y="123" font-size="10.5" fill="#667382">整段喂进网络</text>
+  <line x1="665" y1="136" x2="665" y2="150" stroke="#667382" stroke-width="1.5" marker-end="url(#tf3ar)"/>
+
+  <rect x="500" y="152" width="330" height="72" rx="10" fill="rgba(37,99,235,.06)" stroke="rgba(37,99,235,.4)"/>
+  <text x="516" y="172" font-size="12" font-weight="600" fill="#262626">📋 一段 6 字 = 并行 5 道题（只许看前文）</text>
+  <text x="516" y="190" font-size="9.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">见「今」→天✓ 见「今天」→天✓ 见「今天天」→气✓</text>
+  <text x="516" y="205" font-size="9.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">见「今天天气」→真✓ 见「今天天气真」→好✓</text>
+  <text x="516" y="221" font-size="10.5" fill="#667382">答案 = 原文下一字，白送</text>
+  <line x1="500" y1="188" x2="437" y2="188" stroke="#667382" stroke-width="1.5" marker-end="url(#tf3ar)"/>
+
+  <rect x="105" y="152" width="330" height="72" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="172" font-size="12" font-weight="600" fill="#262626">⚖️ 罚分 −ln(押中率) · 平均 = loss</text>
+  <text x="121" y="190" font-size="10" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">押 0.9 → 罚 0.105 · 押 0.01 → 罚 4.6</text>
+  <text x="121" y="206" font-size="10.5" fill="#667382">越离谱按倍数罚——数学函数，无人可调</text>
+  <text x="121" y="221" font-size="10.5" fill="#667382">各题罚分取平均 → 这一段的 loss</text>
+  <line x1="270" y1="224" x2="270" y2="238" stroke="#667382" stroke-width="1.5" marker-end="url(#tf3ar)"/>
+
+  <rect x="105" y="240" width="330" height="72" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="262" font-size="12.5" font-weight="600" fill="#262626">🔄 反向传播一趟</text>
+  <text x="121" y="281" font-size="10.5" fill="#667382">算出 1,750 亿张「往哪边挪、挪多猛」的指示牌</text>
+  <text x="121" y="299" font-size="10.5" fill="#667382">——这个指示牌就叫梯度</text>
+  <line x1="435" y1="276" x2="498" y2="276" stroke="#667382" stroke-width="1.5" marker-end="url(#tf3ar)"/>
+
+  <rect x="500" y="240" width="330" height="72" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="262" font-size="12.5" font-weight="600" fill="#262626">⬇️ 每个参数挪一小步</text>
+  <text x="516" y="281" font-size="10.5" fill="#667382">朝让 loss 变小的方向 · 同时挪</text>
+  <text x="516" y="299" font-size="10.5" fill="#667382">切下一段，从头再来</text>
+
+  <rect x="105" y="380" width="725" height="46" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="467" y="399" font-size="12" fill="#2fb344" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">1,750 亿个参数，被每一段罚分同时推着挪</text>
+  <text x="467" y="417" font-size="10.5" fill="#667382" text-anchor="middle">循环上万段，猜字从抛硬币磨到八九不离十——训练期之外，一步梯度都不算</text>
+</svg>

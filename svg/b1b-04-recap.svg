@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500">
+  <defs>
+    <marker id="b4ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+  </defs>
+
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#262626">① 最小网络 · 敏感度沿链乘回</text>
+  <text x="105" y="48" font-size="10.5" fill="#667382">片中图 1 那帧：变量减到最少，机制才看得清</text>
+
+  <rect x="105" y="64" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="85" font-size="12.5" font-weight="600" fill="#262626">⛓️ 三层小链，每层 1 神经元</text>
+  <text x="121" y="104" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">C(w₁,b₁,w₂,b₂,w₃,b₃) —— 旋钮 6 个</text>
+  <line x1="270" y1="118" x2="270" y2="136" stroke="#667382" stroke-width="1.5" marker-end="url(#b4ar)"/>
+
+  <rect x="105" y="142" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="163" font-size="12.5" font-weight="600" fill="#262626">🎯 问：loss 对 w₁ 多敏感？</text>
+  <text x="121" y="182" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">w₁ 在链头 · C 挂在链尾 a⁽ᴸ⁾ 上</text>
+  <line x1="270" y1="196" x2="270" y2="214" stroke="#667382" stroke-width="1.5" marker-end="url(#b4ar)"/>
+
+  <rect x="105" y="220" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="241" font-size="12.5" font-weight="600" fill="#262626">🔗 链式法则：沿链乘回去</text>
+  <text x="121" y="260" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">∂C/∂w = 前层激活 × σ′ × 心愿</text>
+  <line x1="270" y1="274" x2="270" y2="292" stroke="#667382" stroke-width="1.5" marker-end="url(#b4ar)"/>
+
+  <rect x="105" y="298" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="319" font-size="12.5" font-weight="600" fill="#262626">🔁 心愿 ∂C/∂a 不用重算</text>
+  <text x="121" y="338" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">= 更后一层心愿的加权和（递归）</text>
+  <line x1="270" y1="352" x2="270" y2="370" stroke="#667382" stroke-width="1.5" marker-end="url(#b4ar)"/>
+
+  <rect x="105" y="376" width="330" height="52" rx="10" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.55)"/>
+  <text x="121" y="397" font-size="12.5" font-weight="600" fill="#262626">⚡ 起搏器在输出层（图 3 末行）</text>
+  <text x="121" y="416" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">∂C/∂a⁽ᴸ⁾ = 2(a⁽ᴸ⁾ − y) · 图2 试刀： −0.68</text>
+
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#262626">② 三根杠杆 · 公式对号入座</text>
+  <text x="500" y="48" font-size="10.5" fill="#667382">图 2:0.66 vs y=1.00 → 心愿 −0.68（负 = 调高）</text>
+
+  <rect x="500" y="64" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="85" font-size="12.5" font-weight="600" fill="#262626">① 偏置：∂a/∂b = 1</text>
+  <text x="516" y="104" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">无条件加分 —— 3B3 杠杆①的公式身</text>
+  <line x1="665" y1="118" x2="665" y2="136" stroke="#667382" stroke-width="1.5" marker-end="url(#b4ar)"/>
+
+  <rect x="500" y="142" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="163" font-size="12.5" font-weight="600" fill="#262626">② 权重：∂a⁽ˡ⁾/∂w = a⁽ˡ⁻¹⁾</text>
+  <text x="516" y="182" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">前层激活为负 → 导数为负，加大反压分</text>
+  <line x1="665" y1="196" x2="665" y2="214" stroke="#667382" stroke-width="1.5" marker-end="url(#b4ar)"/>
+
+  <rect x="500" y="220" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="241" font-size="12.5" font-weight="600" fill="#262626">③ 激活：∂a⁽ˡ⁾/∂a⁽ˡ⁻¹⁾ = w</text>
+  <text x="516" y="260" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">心愿乘权重回传 —— 「反向」公式化身</text>
+  <line x1="665" y1="274" x2="665" y2="292" stroke="#667382" stroke-width="1.5" marker-end="url(#b4ar)"/>
+
+  <rect x="500" y="298" width="330" height="52" rx="10" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.55)"/>
+  <text x="516" y="319" font-size="12.5" font-weight="600" fill="#262626">Σ 多神经元：路径乘完再求和</text>
+  <text x="516" y="338" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">矩阵版批量算 = BP 正身（NN3 手推）</text>
+  <line x1="665" y1="352" x2="665" y2="370" stroke="#667382" stroke-width="1.5" marker-end="url(#b4ar)"/>
+
+  <rect x="500" y="376" width="330" height="52" rx="10" fill="#f8f9fc" stroke="rgba(37,99,235,.45)"/>
+  <text x="516" y="397" font-size="12.5" font-weight="600" fill="#262626">↩ NN1 对照</text>
+  <text x="516" y="416" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">数值量坡：每旋钮 2 次前向 —— 互证用</text>
+
+  <rect x="105" y="444" width="725" height="46" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="467" y="463" font-size="12" fill="#2fb344" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">反传双保险：3B3 直觉（心愿逆流）+ 3B4 数学（链式法则）→ NN3 手推 × 数值互证</text>
+  <text x="467" y="481" font-size="10.5" fill="#667382" text-anchor="middle">(L) = 最后一层，层号不是幂 · 3B5 已接棒：GPT 与 Transformer —— 序章 mini-GPT 的真身</text>
+</svg>

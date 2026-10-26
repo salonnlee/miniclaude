@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 358">
+  <text x="16" y="26" font-size="13" font-weight="700" fill="#262626">图五 · 稀疏自编码器（SAE）：把叠着的特征拆成一本单项式字典</text>
+  <text x="16" y="46" font-size="10.5" fill="#667382">搭在网络外面的翻译机，不动原网络一个权重</text>
+  <rect x="16" y="62" width="186" height="88" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="30" y="84" font-size="11.5" font-weight="600" fill="#262626">① 截激活向量</text>
+  <text x="30" y="104" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">12,288 维，多义混装</text>
+  <text x="30" y="122" font-size="10" fill="#667382">神经元多义、特征叠着</text>
+  <line x1="202" y1="106" x2="222" y2="106" stroke="#667382" stroke-width="1.5"/>
+  <rect x="226" y="62" width="250" height="88" rx="10" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.55)"/>
+  <text x="240" y="84" font-size="11.5" font-weight="600" fill="#262626">② 升维成更宽的字典</text>
+  <text x="240" y="104" font-size="10.5" fill="#f76707" font-family="ui-monospace,Menlo,monospace">几万～上百万项（学出来的）</text>
+  <text x="240" y="122" font-size="10" fill="#667382">＋ L1 稀疏约束：只许点少数几项</text>
+  <line x1="476" y1="106" x2="496" y2="106" stroke="#667382" stroke-width="1.5"/>
+  <rect x="500" y="62" width="180" height="88" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="514" y="84" font-size="11.5" font-weight="600" fill="#262626">③ 重建对账</text>
+  <text x="514" y="104" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">点亮项加权加回去</text>
+  <text x="514" y="122" font-size="10" fill="#667382">≈ 原向量 = 对上了</text>
+  <text x="700" y="88" font-size="10.5" fill="#4b5158">对上账 = 点亮的这几项</text>
+  <text x="700" y="106" font-size="10.5" fill="#4b5158">就是这根向量的</text>
+  <text x="700" y="124" font-size="10.5" fill="#4b5158">成分清单</text>
+  <text x="16" y="176" font-size="10.5" fill="#667382">字典项（单项式，示意）——橙色 = 本轮点亮，其余全零：</text>
+  <rect x="16" y="186" width="58" height="26" rx="13" fill="rgba(194,65,12,.12)" stroke="rgba(194,65,12,.6)"/>
+  <text x="45" y="203" font-size="10.5" fill="#f76707" text-anchor="middle">金门大桥 ✓</text>
+  <rect x="82" y="186" width="68" height="26" rx="13" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="116" y="203" font-size="10.5" fill="#4b5158" text-anchor="middle">阿姆斯特丹</text>
+  <rect x="158" y="186" width="58" height="26" rx="13" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="187" y="203" font-size="10.5" fill="#4b5158" text-anchor="middle">代码错误</text>
+  <rect x="224" y="186" width="89" height="26" rx="13" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="268" y="203" font-size="10.5" fill="#4b5158" text-anchor="middle">密苏里州被提起</text>
+  <rect x="321" y="186" width="58" height="26" rx="13" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="350" y="203" font-size="10.5" fill="#4b5158" text-anchor="middle">篮球战术</text>
+  <rect x="387" y="186" width="37" height="26" rx="13" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="405" y="203" font-size="10.5" fill="#4b5158" text-anchor="middle">……</text>
+  <rect x="16" y="238" width="848" height="44" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="440" y="256" font-size="11.5" fill="#2fb344" text-anchor="middle">金门大桥特征（Anthropic，Claude 3 Sonnet，2024）：把它人为调高，模型看什么都往金门大桥上扯</text>
+  <text x="440" y="274" font-size="10.5" fill="#667382" text-anchor="middle">2023 年先在单层小模型跑通（Towards Monosemanticity），2024 年扩到上千万特征——特征真的可以单独拧</text>
+  <rect x="16" y="292" width="848" height="56" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="440" y="312" font-size="11" fill="#4b5158" text-anchor="middle">caveat 一：字典是「重建够好＋够稀疏」的一个解，不是保证存在的真相——同一层可以有多本都能用的字典</text>
+  <text x="440" y="332" font-size="11" fill="#4b5158" text-anchor="middle">caveat 二：只覆盖向量的一部分信息——翻译人类能读的那部分，不是全息解密</text>
+</svg>

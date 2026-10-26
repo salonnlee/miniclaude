@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500">
+  <defs>
+    <marker id="m6a" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+  </defs>
+
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#262626">① 三个角色 · B 站搜索天天在演示</text>
+  <text x="105" y="48" font-size="10.5" fill="#667382">找到它靠标题(key)，带走的是内容(value) —— 挂牌与交货是两件事</text>
+
+  <rect x="105" y="64" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="85" font-size="12.5" font-weight="600" fill="#262626">🔍 Query｜我要找什么</text>
+  <text x="121" y="104" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">q = x·W_Q · 「追」的 q 装着「谁在追」</text>
+  <line x1="270" y1="118" x2="270" y2="136" stroke="#667382" stroke-width="1.5" marker-end="url(#m6a)"/>
+
+  <rect x="105" y="142" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="163" font-size="12.5" font-weight="600" fill="#262626">🏷️ Key｜我怎么被找到</text>
+  <text x="121" y="182" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">k = x·W_K · 「猫」挂出「名词·动物·可当主语」</text>
+  <line x1="270" y1="196" x2="270" y2="214" stroke="#667382" stroke-width="1.5" marker-end="url(#m6a)"/>
+
+  <rect x="105" y="220" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="241" font-size="12.5" font-weight="600" fill="#262626">📦 Value｜被注意时交什么</text>
+  <text x="121" y="260" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">v = x·W_V · 「猫」可交「我是主语」给后文用</text>
+  <line x1="270" y1="274" x2="270" y2="292" stroke="#667382" stroke-width="1.5" marker-end="url(#m6a)"/>
+
+  <rect x="105" y="298" width="330" height="52" rx="10" fill="rgba(37,99,235,.06)" stroke="rgba(37,99,235,.45)"/>
+  <text x="121" y="319" font-size="12.5" font-weight="600" fill="#262626">三张矩阵都是学出来的旋钮</text>
+  <text x="121" y="338" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">训练各自塑造 · 挂牌学挂牌，交货学交货</text>
+
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#262626">② 五步机关 · 「猫 追 球」(单向，只看前文)</text>
+  <text x="500" y="48" font-size="10.5" fill="#667382">算到「追」这一位</text>
+
+  <rect x="500" y="64" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="85" font-size="12.5" font-weight="600" fill="#262626">变身 · 全序列 × 三张表</text>
+  <text x="516" y="104" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">X·W_K 一乘，全部 key 同时出炉</text>
+  <line x1="665" y1="118" x2="665" y2="130" stroke="#667382" stroke-width="1.5" marker-end="url(#m6a)"/>
+
+  <rect x="500" y="130" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="151" font-size="12.5" font-weight="600" fill="#262626">打分 · q 逐个去点 k</text>
+  <text x="516" y="170" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">猫 8.0 · 追 2.0 —— 越对得上分越高</text>
+  <line x1="665" y1="184" x2="665" y2="196" stroke="#667382" stroke-width="1.5" marker-end="url(#m6a)"/>
+
+  <rect x="500" y="196" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="217" font-size="12.5" font-weight="600" fill="#262626">压分 · ÷√d（d=128）</text>
+  <text x="516" y="236" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">维数高点积爆大，不压 softmax 只看第一</text>
+  <line x1="665" y1="250" x2="665" y2="262" stroke="#667382" stroke-width="1.5" marker-end="url(#m6a)"/>
+
+  <rect x="500" y="262" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="283" font-size="12.5" font-weight="600" fill="#262626">归一 · softmax</text>
+  <text x="516" y="302" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">0.9975 / 0.0025（和为 1）</text>
+  <line x1="665" y1="316" x2="665" y2="328" stroke="#667382" stroke-width="1.5" marker-end="url(#m6a)"/>
+
+  <rect x="500" y="328" width="330" height="52" rx="10" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.55)"/>
+  <text x="516" y="349" font-size="12.5" font-weight="600" fill="#262626">抄货 · 按权重加 v</text>
+  <text x="516" y="368" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">新表示 ≈ 0.9975·v猫 + 0.0025·v追</text>
+
+  <rect x="105" y="444" width="725" height="46" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="467" y="463" font-size="12" fill="#2fb344" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">Attention(Q,K,V) = softmax(Q·Kᵀ/√d)·V —— QKᵀ 算齐全部匹配分，softmax 归一，右乘 V 抄货</text>
+  <text x="467" y="481" font-size="10.5" fill="#667382" text-anchor="middle">P0.1 硬查表：行号取一行，只命中一个 · 注意力软查表：全行比相似度，加权混 —— 前文由此进得来</text>
+</svg>

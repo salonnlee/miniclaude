@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430">
+  <defs>
+    <marker id="tf2ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+  </defs>
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#262626">矩阵的一生 · N 行进，N 行出</text>
+  <text x="105" y="48" font-size="10.5" fill="#667382">穿过 96 块积木，形状一步不变——变的是每行装的东西</text>
+
+  <text x="125" y="72" font-size="11" fill="#667382" text-anchor="middle">进网 · N×12,288</text>
+  <rect x="60" y="82" width="130" height="26" rx="6" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="52" y="99" font-size="11" fill="#4b5158" text-anchor="end" font-family="ui-monospace,Menlo,monospace">今</text>
+  <line x1="70" y1="95" x2="180" y2="95" stroke="rgba(37,99,235,.22)" stroke-width="14" stroke-dasharray="9 5"/>
+  <rect x="60" y="112" width="130" height="26" rx="6" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="52" y="129" font-size="11" fill="#4b5158" text-anchor="end" font-family="ui-monospace,Menlo,monospace">天</text>
+  <line x1="70" y1="125" x2="180" y2="125" stroke="rgba(37,99,235,.22)" stroke-width="14" stroke-dasharray="9 5"/>
+  <rect x="60" y="142" width="130" height="26" rx="6" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="52" y="159" font-size="11" fill="#4b5158" text-anchor="end" font-family="ui-monospace,Menlo,monospace">天</text>
+  <line x1="70" y1="155" x2="180" y2="155" stroke="rgba(37,99,235,.22)" stroke-width="14" stroke-dasharray="9 5"/>
+  <rect x="60" y="172" width="130" height="26" rx="6" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="52" y="189" font-size="11" fill="#4b5158" text-anchor="end" font-family="ui-monospace,Menlo,monospace">气</text>
+  <line x1="70" y1="185" x2="180" y2="185" stroke="rgba(37,99,235,.22)" stroke-width="14" stroke-dasharray="9 5"/>
+  <rect x="60" y="202" width="130" height="26" rx="6" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="52" y="219" font-size="11" fill="#4b5158" text-anchor="end" font-family="ui-monospace,Menlo,monospace">真</text>
+  <line x1="70" y1="215" x2="180" y2="215" stroke="rgba(37,99,235,.22)" stroke-width="14" stroke-dasharray="9 5"/>
+  <text x="125" y="252" font-size="10.5" fill="#667382" text-anchor="middle">每行 = 一个词条的裸词义</text>
+
+  <line x1="190" y1="155" x2="256" y2="155" stroke="#667382" stroke-width="1.5" marker-end="url(#tf2ar)"/>
+
+  <text x="430" y="72" font-size="11" fill="#667382" text-anchor="middle">96 块积木（示意画第 1 块与第 96 块）</text>
+  <rect x="260" y="82" width="340" height="48" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="276" y="102" font-size="11.5" font-weight="600" fill="#262626">👀 注意力 · 回看前文，抄信息进自己这行</text>
+  <text x="276" y="120" font-size="10.5" fill="#667382">只许看前面——偷看后面 = 作弊</text>
+  <text x="612" y="106" font-size="10" fill="#667382">第 1 块</text>
+  <line x1="430" y1="130" x2="430" y2="142" stroke="#667382" stroke-width="1.5" marker-end="url(#tf2ar)"/>
+  <rect x="260" y="142" width="340" height="48" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="276" y="162" font-size="11.5" font-weight="600" fill="#262626">🔬 前馈层 · 自己深加工</text>
+  <text x="276" y="180" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">12,288 → 49,152 → 12,288</text>
+  <text x="430" y="214" font-size="16" fill="#667382" text-anchor="middle">⋮</text>
+  <rect x="260" y="222" width="340" height="48" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="276" y="242" font-size="11.5" font-weight="600" fill="#262626">👀 注意力 + 🔬 前馈层</text>
+  <text x="276" y="260" font-size="10.5" fill="#667382">96 块结构全同 · 权重各异</text>
+  <text x="612" y="246" font-size="10" fill="#667382">第 96 块</text>
+
+  <line x1="600" y1="155" x2="688" y2="155" stroke="#667382" stroke-width="1.5" marker-end="url(#tf2ar)"/>
+
+  <text x="755" y="72" font-size="11" fill="#667382" text-anchor="middle">出网 · N×12,288</text>
+  <rect x="690" y="82" width="130" height="26" rx="6" fill="#f8f9fc" stroke="rgba(37,99,235,.45)"/>
+  <text x="682" y="99" font-size="11" fill="#4b5158" text-anchor="end" font-family="ui-monospace,Menlo,monospace">今</text>
+  <line x1="700" y1="95" x2="810" y2="95" stroke="rgba(37,99,235,.55)" stroke-width="14" stroke-dasharray="9 5"/>
+  <rect x="690" y="112" width="130" height="26" rx="6" fill="#f8f9fc" stroke="rgba(37,99,235,.45)"/>
+  <text x="682" y="129" font-size="11" fill="#4b5158" text-anchor="end" font-family="ui-monospace,Menlo,monospace">天</text>
+  <line x1="700" y1="125" x2="810" y2="125" stroke="rgba(37,99,235,.55)" stroke-width="14" stroke-dasharray="9 5"/>
+  <rect x="690" y="142" width="130" height="26" rx="6" fill="#f8f9fc" stroke="rgba(37,99,235,.45)"/>
+  <text x="682" y="159" font-size="11" fill="#4b5158" text-anchor="end" font-family="ui-monospace,Menlo,monospace">天</text>
+  <line x1="700" y1="155" x2="810" y2="155" stroke="rgba(37,99,235,.55)" stroke-width="14" stroke-dasharray="9 5"/>
+  <rect x="690" y="172" width="130" height="26" rx="6" fill="#f8f9fc" stroke="rgba(37,99,235,.45)"/>
+  <text x="682" y="189" font-size="11" fill="#4b5158" text-anchor="end" font-family="ui-monospace,Menlo,monospace">气</text>
+  <line x1="700" y1="185" x2="810" y2="185" stroke="rgba(37,99,235,.55)" stroke-width="14" stroke-dasharray="9 5"/>
+  <rect x="690" y="202" width="130" height="26" rx="6" fill="#f8f9fc" stroke="rgba(37,99,235,.45)"/>
+  <text x="682" y="219" font-size="11" fill="#4b5158" text-anchor="end" font-family="ui-monospace,Menlo,monospace">真</text>
+  <line x1="700" y1="215" x2="810" y2="215" stroke="rgba(37,99,235,.55)" stroke-width="14" stroke-dasharray="9 5"/>
+  <text x="755" y="244" font-size="10.5" fill="#667382" text-anchor="middle">同样的行 · 升级后的词义</text>
+
+  <line x1="755" y1="250" x2="755" y2="332" stroke="#667382" stroke-width="1.5" marker-end="url(#tf2ar)"/>
+  <text x="467" y="312" font-size="12" fill="#066fd1" text-anchor="middle">第 i 行进 = 第 i 行出 · 谁也不吞并谁</text>
+
+  <rect x="260" y="336" width="560" height="52" rx="10" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.55)"/>
+  <text x="276" y="356" font-size="12.5" font-weight="600" fill="#262626">🎯 只有最后一行去出口——只有它看完了全部前文</text>
+  <text x="276" y="374" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">第 5 行「真」去出口打分 → 概率表：「好」61%（怎么打，下一节）</text>
+
+  <text x="467" y="412" font-size="10.5" fill="#667382" text-anchor="middle">机器从头到尾没合并过任何一行——「猫追狗，狗追 __」的填空，发生在网外</text>
+</svg>

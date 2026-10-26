@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500">
+  <defs>
+    <marker id="s1ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+    <marker id="s1arO" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f76707"/></marker>
+  </defs>
+
+  <text x="110" y="30" font-size="13" font-weight="600" fill="#262626">① 下坡 · loss 山谷滚 200 步</text>
+  <text x="110" y="48" font-size="11" fill="#667382">两端为真实数据，中间为下坡示意</text>
+
+  <line x1="70" y1="70" x2="70" y2="400" stroke="#e6e7e9" stroke-width="1.5"/>
+  <line x1="70" y1="400" x2="420" y2="400" stroke="#e6e7e9" stroke-width="1.5"/>
+  <text x="42" y="66" font-size="11" fill="#667382">loss</text>
+  <text x="426" y="404" font-size="11" fill="#667382">w →</text>
+  <text x="110" y="416" font-size="10.5" fill="#667382" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">0</text>
+  <text x="225" y="416" font-size="10.5" fill="#667382" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">1</text>
+  <text x="340" y="416" font-size="10.5" fill="#667382" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">2</text>
+
+  <line x1="340" y1="122" x2="340" y2="390" stroke="#2fb344" stroke-width="1" stroke-dasharray="4 4" opacity=".5"/>
+  <text x="340" y="112" font-size="10.5" fill="#2fb344" text-anchor="middle">真相 w=2</text>
+
+  <path d="M110,80 L133,138.9 L156,191.6 L179,238.1 L202,278.4 L225,312.5 L248,340.4 L271,362.1 L294,377.6 L317,386.9 L340,390 L363,386.9 L386,377.6 L386,400 L110,400 Z" fill="rgba(37,99,235,.06)"/>
+  <path d="M110,80 L133,138.9 L156,191.6 L179,238.1 L202,278.4 L225,312.5 L248,340.4 L271,362.1 L294,377.6 L317,386.9 L340,390 L363,386.9 L386,377.6" fill="none" stroke="#066fd1" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <path d="M122,98 Q158,168 168,206" fill="none" stroke="#f76707" stroke-width="1.6" marker-end="url(#s1arO)" opacity=".9"/>
+  <path d="M279,369 Q297,379 311,384" fill="none" stroke="#f76707" stroke-width="1.6" marker-end="url(#s1arO)" opacity=".9"/>
+
+  <circle cx="110" cy="80" r="6" fill="#f76707"/>
+  <circle cx="167.5" cy="215.6" r="3.2" fill="#f76707"/>
+  <circle cx="225" cy="312.5" r="3.2" fill="#f76707"/>
+  <circle cx="271" cy="362.1" r="3" fill="#f76707"/>
+  <circle cx="303.2" cy="382.1" r="2.8" fill="#f76707"/>
+  <circle cx="323.9" cy="388.5" r="2.6" fill="#f76707"/>
+  <circle cx="335.4" cy="389.9" r="2.4" fill="#f76707"/>
+  <circle cx="340" cy="390" r="11" fill="none" stroke="#2fb344" opacity=".3"/>
+  <circle cx="340" cy="390" r="6.5" fill="#2fb344"/>
+
+  <text x="124" y="68" font-size="10.5" fill="#262626" font-family="ui-monospace,Menlo,monospace">step 0 · w=0 · loss 9.61</text>
+  <text x="340" y="434" font-size="10.5" fill="#2fb344" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">step 200 · w=1.998 · loss 0.0032</text>
+  <text x="128" y="120" font-size="11" fill="#667382">坡陡 → 步大</text>
+  <text x="128" y="136" font-size="10.5" fill="#667382" opacity=".8">梯度为负 → 拧大 w</text>
+  <text x="244" y="322" font-size="11" fill="#667382">坡缓 → 步小</text>
+
+  <text x="500" y="30" font-size="13" font-weight="600" fill="#262626">② 循环 · 每一步的五个动作</text>
+
+  <rect x="500" y="64" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="86" font-size="13" font-weight="600" fill="#262626">📊 数据（监督信号）</text>
+  <text x="516" y="105" font-size="11" fill="#667382" font-family="ui-monospace,Menlo,monospace">y = 2x + 1 ± 0.1（带噪声）</text>
+  <line x1="665" y1="118" x2="665" y2="136" stroke="#667382" stroke-width="1.5" marker-end="url(#s1ar)"/>
+
+  <rect x="500" y="142" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="164" font-size="13" font-weight="600" fill="#262626">🧮 预测（带旋钮的函数）</text>
+  <text x="516" y="183" font-size="11" fill="#667382" font-family="ui-monospace,Menlo,monospace">ŷ = w·x + b（w、b = 参数）</text>
+  <line x1="665" y1="196" x2="665" y2="214" stroke="#667382" stroke-width="1.5" marker-end="url(#s1ar)"/>
+
+  <rect x="500" y="220" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="242" font-size="13" font-weight="600" fill="#262626">📉 打分（loss）</text>
+  <text x="516" y="261" font-size="11" fill="#667382" font-family="ui-monospace,Menlo,monospace">平均 (ŷ − y)² · 错得多离谱</text>
+  <line x1="665" y1="274" x2="665" y2="292" stroke="#667382" stroke-width="1.5" marker-end="url(#s1ar)"/>
+
+  <rect x="500" y="298" width="330" height="52" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="516" y="320" font-size="13" font-weight="600" fill="#262626">📏 量坡（数值梯度）</text>
+  <text x="516" y="339" font-size="11" fill="#667382" font-family="ui-monospace,Menlo,monospace">[loss(w+H) − loss(w−H)] / 2H · H=1e−5</text>
+  <line x1="665" y1="352" x2="665" y2="370" stroke="#667382" stroke-width="1.5" marker-end="url(#s1ar)"/>
+
+  <rect x="500" y="376" width="330" height="52" rx="10" fill="#f8f9fc" stroke="rgba(194,65,12,.55)"/>
+  <text x="516" y="398" font-size="13" font-weight="600" fill="#262626">🔧 下坡（更新旋钮）</text>
+  <text x="516" y="417" font-size="11" fill="#667382" font-family="ui-monospace,Menlo,monospace">w −= LR·grad · 正拧小，负拧大</text>
+
+  <path d="M500,402 C466,402 466,90 496,90" fill="none" stroke="#667382" stroke-width="1.3" marker-end="url(#s1ar)" opacity=".75"/>
+  <text x="457" y="246" font-size="11" fill="#667382" text-anchor="middle" transform="rotate(-90 457 246)">🔁 ×200 步</text>
+
+  <rect x="500" y="448" width="330" height="42" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="665" y="467" font-size="12" fill="#2fb344" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">×200 步 → w = 1.998 · b = 0.979</text>
+  <text x="665" y="483" font-size="10.5" fill="#667382" text-anchor="middle">≈ 真相 y = 2x + 1 · 残差 = 噪声，理论不可再降</text>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 360">
+  <defs>
+    <marker id="tf1ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+  </defs>
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#262626">一台接龙机器 · 本体只干中间那件事</text>
+  <text x="105" y="48" font-size="10.5" fill="#667382">挑字和循环都发生在外面——换个外层程序，同一台机器就能换一份工作</text>
+
+  <rect x="105" y="64" width="190" height="72" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="121" y="86" font-size="12.5" font-weight="600" fill="#262626">📄 一段文字</text>
+  <text x="121" y="105" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">「今天天气真」（示意）</text>
+  <text x="121" y="123" font-size="10.5" fill="#667382">按冻结词表切成词条</text>
+  <line x1="295" y1="100" x2="315" y2="100" stroke="#667382" stroke-width="1.5" marker-end="url(#tf1ar)"/>
+
+  <rect x="315" y="64" width="270" height="72" rx="10" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.55)"/>
+  <text x="331" y="86" font-size="12.5" font-weight="600" fill="#262626">🤖 Transformer 本体</text>
+  <text x="331" y="105" font-size="10.5" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">文字 → 50,257 格概率表</text>
+  <text x="331" y="123" font-size="10.5" fill="#667382">1,750 亿个参数全在这框里</text>
+  <line x1="585" y1="100" x2="605" y2="100" stroke="#667382" stroke-width="1.5" marker-end="url(#tf1ar)"/>
+
+  <rect x="605" y="64" width="170" height="72" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="621" y="86" font-size="12.5" font-weight="600" fill="#262626">📊 概率表（示意）</text>
+  <text x="621" y="105" font-size="10" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">好 61% · 的 12% · 不 5%</text>
+  <text x="621" y="123" font-size="10.5" fill="#667382">其余 50,254 条 · 22%</text>
+
+  <line x1="690" y1="136" x2="690" y2="188" stroke="#667382" stroke-width="1.5" marker-end="url(#tf1ar)"/>
+  <rect x="605" y="190" width="170" height="56" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="621" y="212" font-size="12.5" font-weight="600" fill="#262626">🎲 挑一个字接上</text>
+  <text x="621" y="231" font-size="10.5" fill="#667382">贪心 / 带温度抽签</text>
+
+  <path d="M605,218 L200,218 L200,140" fill="none" stroke="#667382" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#tf1ar)"/>
+  <text x="400" y="210" font-size="10.5" fill="#667382" text-anchor="middle">接好尾巴 · 新文字再进 · 循环</text>
+
+  <rect x="105" y="300" width="725" height="46" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="467" y="319" font-size="12" fill="#2fb344" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">本体 = 概率表发生器 · 挑字与循环都在外面</text>
+  <text x="467" y="337" font-size="10.5" fill="#667382" text-anchor="middle">所以聊天、写代码、翻译用的可以是同一台机器——区别只在怎么喂、怎么接</text>
+</svg>
