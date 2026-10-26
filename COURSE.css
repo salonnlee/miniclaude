@@ -116,6 +116,8 @@
 
   /* ---------- acts & chapters(主线幕头左条 = 蓝,序章/支线 = 橙) ---------- */
   .act{margin:0 0 22px}
+  .act:last-child{margin-bottom:0}
+  details.act:not([open]) .act-head{margin-bottom:0;padding-bottom:6px}
   summary.act-head{cursor:pointer;list-style:none;user-select:none}
   summary.act-head::-webkit-details-marker{display:none}
   summary.act-head::after{content:'▸';color:var(--accent);font-size:22px;font-weight:700;align-self:center;transition:transform .25s ease}
