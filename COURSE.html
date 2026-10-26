@@ -1127,8 +1127,8 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
   <details class="act side" open>
     <summary class="act-head">
       <span class="act-no">支线 · 观影</span>
-      <h3>3Blue1Brown《深度学习》八集</h3>
-      <span class="act-range">B 站官方中文 · 3Blue1Brown《深度学习》八集合集</span>
+      <h3>3Blue1Brown《深度学习》系列</h3>
+      <span class="act-range">B 站官方中文 · 3Blue1Brown《深度学习》合集 + 加更</span>
       <span class="badge st-doing">🔥 进行中</span>
     </summary>
     <article class="chapter side">
@@ -2813,8 +2813,242 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
 
       <ul class="ch-list tight-top">
         <li><b>3B8</b> 卷积神经网络（CNN）可视化 ⏭ 下一站 —— 拓展视野：支线不深入，看个热闹即可</li>
+        <li><b>3B9</b> 大语言模型如何储存事实（系列加更） ✅ <span class="done-date">2026-10-26（伴读模式）</span></li>
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 · 8 集各一张全景卡 + 四集连读总全景</span><span class="foot-chip">🔍 呼应 · 心愿逆流（3B3）接上链式法则（3B4），NN3 手推时见真章</span></div>
+
+      <details class="ch-recap" id="b1b-09-recap">
+        <summary><span class="ch-lab-arrow">▶</span>🧠 3B9 全景（事实住在权重里 × 叠出来的字典）</summary>
+        <div class="ch-lab-body">
+          <p class="s1-recap">3B9 的标本问题只有一句：「Michael Jordan 后面接什么？」答案是篮球。图一走全链：嵌入表把 Jordan 换成一根 12,288 维向量——<b>毛坯词义</b>，人名、篮球运动员、国家约旦全掺在一起，谁也不突出；注意力跟在前面的「Michael」对暗号，把「篮球运动员」成分调亮、「约旦」压暗；MLP 深加工（图二拆开看）；出口 softmax 打分，「篮球」61% 榜首。本集最重要的一句话就挂在这条链上：<b>四站搬运改写的始终是同一根向量，没有一个部件在「读文字」</b>——所以任何解释大模型在做什么的尝试，都与「信息编码进高维嵌入向量」的想法密切相关。</p>
+          <div class="s1-fig">
+<svg viewBox="0 0 880 322" width="100%" role="img" aria-label="3B9 图一：乔丹那根向量的旅程。嵌入查表得毛坯词义，注意力按前文调义，MLP 两步账深加工，出口 softmax 打分篮球榜首；四站搬运的都是同一根 12,288 维向量">
+  <text x="16" y="26" font-size="13" font-weight="700" fill="#1a1a1f">图一 · 全链：乔丹那根向量的一生</text>
+  <text x="16" y="46" font-size="10.5" fill="#6b6b76">文字进门第一步就变成向量，此后没有部件再碰文字——四站搬运改写的都是同一根 12,288 维向量</text>
+  <rect x="16" y="64" width="186" height="84" rx="10" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="30" y="86" font-size="12" font-weight="600" fill="#1a1a1f">① 嵌入（第 0 层·查表）</text>
+  <text x="30" y="106" font-size="10.5" fill="#2563eb" font-family="ui-monospace,Menlo,monospace">Jordan → 一列 12,288 个数</text>
+  <text x="30" y="126" font-size="10" fill="#6b6b76">毛坯词义：人名/篮球/约旦全掺着</text>
+  <line x1="202" y1="106" x2="222" y2="106" stroke="#6b6b76" stroke-width="1.5"/>
+  <rect x="226" y="64" width="196" height="84" rx="10" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="240" y="86" font-size="12" font-weight="600" fill="#1a1a1f">② 注意力（按前文调义）</text>
+  <text x="240" y="106" font-size="10.5" fill="#2563eb" font-family="ui-monospace,Menlo,monospace">跟「Michael」对暗号</text>
+  <text x="240" y="126" font-size="10" fill="#6b6b76">亮「篮球运动员」，压「约旦」</text>
+  <line x1="422" y1="106" x2="442" y2="106" stroke="#6b6b76" stroke-width="1.5"/>
+  <rect x="446" y="64" width="196" height="84" rx="10" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.55)"/>
+  <text x="460" y="86" font-size="12" font-weight="600" fill="#1a1a1f">③ MLP（本集主角·深加工）</text>
+  <text x="460" y="106" font-size="10.5" fill="#c2410c" font-family="ui-monospace,Menlo,monospace">49,152 台探测器盘问</text>
+  <text x="460" y="126" font-size="10" fill="#6b6b76">两步账＋一排开关 → 图二</text>
+  <line x1="642" y1="106" x2="662" y2="106" stroke="#6b6b76" stroke-width="1.5"/>
+  <rect x="666" y="64" width="198" height="84" rx="10" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="680" y="86" font-size="12" font-weight="600" fill="#1a1a1f">④ 出口（打分挑词）</text>
+  <text x="680" y="106" font-size="10.5" fill="#2563eb" font-family="ui-monospace,Menlo,monospace">W_U × softmax</text>
+  <text x="680" y="126" font-size="10" fill="#6b6b76">「篮球」61% 榜首，接龙交卷</text>
+  <text x="16" y="180" font-size="10.5" fill="#6b6b76">同一根向量，四站下来还是它——只是内容变了（示意 12 格）</text>
+  <rect x="16.0" y="190" width="66" height="30" rx="5" fill="#e2e4ea"/><rect x="86.5" y="190" width="66" height="30" rx="5" fill="#e2e4ea"/><rect x="157.0" y="190" width="66" height="30" rx="5" fill="#e2e4ea"/><rect x="227.5" y="190" width="66" height="30" rx="5" fill="#e2e4ea"/><rect x="298.0" y="190" width="66" height="30" rx="5" fill="#e2e4ea"/><rect x="368.5" y="190" width="66" height="30" rx="5" fill="#e2e4ea"/><rect x="439.0" y="190" width="66" height="30" rx="5" fill="#e2e4ea"/><rect x="509.5" y="190" width="66" height="30" rx="5" fill="#e2e4ea"/><rect x="580.0" y="190" width="66" height="30" rx="5" fill="#e2e4ea"/><rect x="650.5" y="190" width="66" height="30" rx="5" fill="#e2e4ea"/><rect x="721.0" y="190" width="66" height="30" rx="5" fill="#e2e4ea"/><rect x="791.5" y="190" width="66" height="30" rx="5" fill="#e2e4ea"/>
+  <text x="16" y="246" font-size="10.5" fill="#6b6b76">嵌入 = 毛坯词义 → 注意力 = 按前文调义 → MLP = 按方向添特征 → 出口 = 打分挑词</text>
+  <rect x="16" y="262" width="848" height="46" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="440" y="281" font-size="12" fill="#15803d" text-anchor="middle">重要结论：解释 Transformer 在干什么 = 解释这根高维向量里编码了什么</text>
+  <text x="440" y="299" font-size="10.5" fill="#6b6b76" text-anchor="middle">「特征」不住在神经元里，住在向量的方向里——后面三张图的公共钥匙</text>
+</svg>
+          </div>
+          <p class="s1-recap">MLP 内部是两步账加一排开关（图二）。第一步<b>升维</b>：12,288 → 49,152（= 12,288×4，人为定的中间宽），升出来的每个格子是一台<b>探测器</b>——输入向量的一组学出来的权重，问一个问题：「你身上有多少篮球运动员成分？」给「球队名」「体育术语」「飞人意象」几千个维度各配权重，加权求和打分。第二步 <b>GELU 开关</b>：49,152 个分逐格过非线性门，正分基本放行、负分掐向零——没有这步，升维降维两张矩阵可以并成一步相乘，MLP 塌成一层废纸，开关是非线性的灵魂。第三步<b>降维</b>：把亮着的特征翻译回 12,288 维词空间——篮球探测器亮，就给输出向量添一大坨「basketball 方向」的成分。分工再钉一遍：MLP 不看邻居（那是注意力的活），逐行独立、全序列共用同一套权重；每层 ≈1,160 亿参数，是注意力的两倍。</p>
+          <div class="s1-fig">
+<svg viewBox="0 0 880 412" width="100%" role="img" aria-label="3B9 图二：MLP 两步账。左边 12,288 维输入条，升维四倍成 49,152 台探测器网格，篮球探测器点亮；GELU 逐格开关正分放行负分掐零；降维回 12,288 维输出条并添上 basketball 方向成分；底条分工与参数账">
+  <text x="16" y="26" font-size="13" font-weight="700" fill="#1a1a1f">图二 · MLP 两步账：升维对暗号 → GELU 开关 → 降维翻译回</text>
+  <text x="16" y="46" font-size="10.5" fill="#6b6b76">进 MLP 时「篮球」只是万千成分里不突出的一份，出来时已是这根向量的主旋律</text>
+  <text x="60" y="72" font-size="10" fill="#6b6b76" text-anchor="middle">进</text>
+  <rect x="40" y="80" width="40" height="18" rx="4" fill="#e2e4ea"/><rect x="40" y="100" width="40" height="18" rx="4" fill="#e2e4ea"/><rect x="40" y="120" width="40" height="18" rx="4" fill="#e2e4ea"/><rect x="40" y="140" width="40" height="18" rx="4" fill="#e2e4ea"/><rect x="40" y="160" width="40" height="18" rx="4" fill="#e2e4ea"/><rect x="40" y="180" width="40" height="18" rx="4" fill="#e2e4ea"/><rect x="40" y="200" width="40" height="18" rx="4" fill="#e2e4ea"/><rect x="40" y="220" width="40" height="18" rx="4" fill="#e2e4ea"/><rect x="40" y="240" width="40" height="18" rx="4" fill="#e2e4ea"/><rect x="40" y="260" width="40" height="18" rx="4" fill="#e2e4ea"/>
+  <text x="60" y="302" font-size="10.5" fill="#6b6b76" text-anchor="middle">12,288 维</text>
+  <line x1="88" y1="180" x2="112" y2="180" stroke="#6b6b76" stroke-width="1.5"/>
+  <text x="100" y="170" font-size="9.5" fill="#6b6b76" text-anchor="middle">升维</text>
+  <text x="242" y="72" font-size="10.5" fill="#6b6b76" text-anchor="middle">49,152 台探测器（示意）</text>
+  <circle cx="124" cy="84" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="160" cy="84" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="196" cy="84" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="232" cy="84" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="268" cy="84" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="304" cy="84" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="340" cy="84" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="124" cy="112" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="160" cy="112" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="196" cy="112" r="10" fill="rgba(194,65,12,.18)" stroke="rgba(194,65,12,.6)"/><circle cx="232" cy="112" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="268" cy="112" r="10" fill="rgba(194,65,12,.18)" stroke="rgba(194,65,12,.6)"/><circle cx="304" cy="112" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="340" cy="112" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="124" cy="140" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="160" cy="140" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="196" cy="140" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="232" cy="140" r="10.5" fill="#c2410c"/><circle cx="268" cy="140" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="304" cy="140" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="340" cy="140" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="124" cy="168" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="160" cy="168" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="196" cy="168" r="10" fill="rgba(194,65,12,.18)" stroke="rgba(194,65,12,.6)"/><circle cx="232" cy="168" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="268" cy="168" r="10" fill="rgba(194,65,12,.18)" stroke="rgba(194,65,12,.6)"/><circle cx="304" cy="168" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="340" cy="168" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="124" cy="196" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="160" cy="196" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="196" cy="196" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="232" cy="196" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="268" cy="196" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="304" cy="196" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="340" cy="196" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="124" cy="224" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="160" cy="224" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="196" cy="224" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="232" cy="224" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="268" cy="224" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="304" cy="224" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="340" cy="224" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="124" cy="252" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="160" cy="252" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="196" cy="252" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="232" cy="252" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="268" cy="252" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="304" cy="252" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="340" cy="252" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="124" cy="280" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="160" cy="280" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="196" cy="280" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="232" cy="280" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="268" cy="280" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="304" cy="280" r="10" fill="#f7f7f9" stroke="#e4e4ea"/><circle cx="340" cy="280" r="10" fill="#f7f7f9" stroke="#e4e4ea"/>
+  <text x="242" y="310" font-size="10" fill="#6b6b76" text-anchor="middle">每台 = 一组学出来的权重，问一个问题；橙 = 篮球探测器亮了，浅橙 = 体育相关半亮</text>
+  <line x1="376" y1="180" x2="400" y2="180" stroke="#6b6b76" stroke-width="1.5"/>
+  <text x="388" y="170" font-size="9.5" fill="#6b6b76" text-anchor="middle">GELU</text>
+  <rect x="404" y="84" width="140" height="200" rx="10" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="474" y="108" font-size="11" font-weight="600" fill="#1a1a1f" text-anchor="middle">逐格开关</text>
+  <text x="474" y="128" font-size="10" fill="#15803d" text-anchor="middle">正分 → 放行</text>
+  <rect x="414" y="136" width="20" height="14" rx="3" fill="#d9dde4" stroke="#c9cdd6"/><rect x="438" y="136" width="20" height="14" rx="3" fill="#d9dde4" stroke="#c9cdd6"/><rect x="462" y="136" width="20" height="14" rx="3" fill="#d9dde4" stroke="#c9cdd6"/><rect x="486" y="136" width="20" height="14" rx="3" fill="#d9dde4" stroke="#c9cdd6"/><rect x="510" y="136" width="20" height="14" rx="3" fill="#d9dde4" stroke="#c9cdd6"/>
+  <text x="474" y="186" font-size="10" fill="#6b6b76" text-anchor="middle">负分 → 掐向零</text>
+  <rect x="414" y="196" width="20" height="14" rx="3" fill="#fff" stroke="#d6d6de"/><rect x="438" y="196" width="20" height="14" rx="3" fill="#fff" stroke="#d6d6de"/><rect x="462" y="196" width="20" height="14" rx="3" fill="#fff" stroke="#d6d6de"/><rect x="486" y="196" width="20" height="14" rx="3" fill="#fff" stroke="#d6d6de"/><rect x="510" y="196" width="20" height="14" rx="3" fill="#fff" stroke="#d6d6de"/>
+  <text x="474" y="244" font-size="9.5" fill="#6b6b76" text-anchor="middle">没有开关：两步并一步，</text>
+  <text x="474" y="258" font-size="9.5" fill="#6b6b76" text-anchor="middle">MLP 塌成一层废纸</text>
+  <line x1="548" y1="180" x2="572" y2="180" stroke="#6b6b76" stroke-width="1.5"/>
+  <text x="560" y="170" font-size="9.5" fill="#6b6b76" text-anchor="middle">降维</text>
+  <text x="600" y="72" font-size="10" fill="#6b6b76" text-anchor="middle">出</text>
+  <rect x="580" y="80" width="40" height="18" rx="4" fill="#e2e4ea"/><rect x="580" y="100" width="40" height="18" rx="4" fill="#e2e4ea"/><rect x="580" y="120" width="40" height="18" rx="4" fill="#e2e4ea"/><rect x="580" y="140" width="40" height="18" rx="4" fill="rgba(194,65,12,.35)"/><rect x="580" y="160" width="40" height="18" rx="4" fill="rgba(194,65,12,.35)"/><rect x="580" y="180" width="40" height="18" rx="4" fill="rgba(194,65,12,.35)"/><rect x="580" y="200" width="40" height="18" rx="4" fill="#e2e4ea"/><rect x="580" y="220" width="40" height="18" rx="4" fill="#e2e4ea"/><rect x="580" y="240" width="40" height="18" rx="4" fill="#e2e4ea"/><rect x="580" y="260" width="40" height="18" rx="4" fill="#e2e4ea"/>
+  <text x="600" y="302" font-size="10.5" fill="#6b6b76" text-anchor="middle">12,288 维</text>
+  <text x="648" y="96" font-size="10.5" fill="#3d3d46">降维 = 把亮着的特征</text>
+  <text x="648" y="114" font-size="10.5" fill="#3d3d46">翻译回词空间：篮球探测器</text>
+  <text x="648" y="134" font-size="10.5" fill="#c2410c">亮 → 添一大坨「basketball</text>
+  <text x="648" y="152" font-size="10.5" fill="#c2410c">方向」的成分</text>
+  <text x="648" y="178" font-size="10" fill="#6b6b76">输出条橙色三格 =</text>
+  <text x="648" y="194" font-size="10" fill="#6b6b76">新添的成分（示意）</text>
+  <rect x="16" y="322" width="848" height="38" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="440" y="338" font-size="11.5" fill="#15803d" text-anchor="middle">MLP 不看邻居（那是注意力的活）：逐行独立、全序列共用同一套权重</text>
+  <text x="440" y="354" font-size="10.5" fill="#6b6b76" text-anchor="middle">每层 ≈1,160 亿参数 = 注意力的两倍——「MLP 才是大头」的机制版，也是本集「事实住 MLP」的地盘</text>
+  <rect x="16" y="366" width="848" height="34" rx="10" fill="#eff4fe" stroke="#b8cdf2"/>
+  <text x="440" y="387" font-size="11" fill="#1d4ed8" text-anchor="middle">升维表 49,152×12,288 + 降维表 12,288×49,152，每层 57,982,058,496×2——全账对表见下</text>
+</svg>
+          </div>
+          <p class="s1-recap">本集的主张：事实就存在 MLP 的两张表里，记法是<b>钥匙配货</b>（key-value 记忆框架，Geva et al., 2021，视频采纳的说法）——升维表的每一行是一把钥匙，认一个模式（「Jordan＋篮球语境」）；降维表的对应列是一份货，等着被添进输出向量（「basketball 方向成分」）。一条事实 = 一把钥匙配一份货，<b>分散在许多权重上，不是一格一事实</b>。图三走一遍取货流程。顺带对账：视频给的 GPT-3 全参数逐行表，与我们 3B6 卡的归并表逐格核对，分毫不差。</p>
+          <div class="s1-fig">
+<svg viewBox="0 0 880 352" width="100%" role="img" aria-label="3B9 图三：钥匙配货。升维表是钥匙墙，每行认一个模式；GELU 放行亮钥匙；降维表是货架，对应列是要添的成分；K1 认出 Jordan 加篮球语境，取货 basketball 方向成分加进输出向量">
+  <text x="16" y="26" font-size="13" font-weight="700" fill="#1a1a1f">图三 · 事实怎么住进权重：升维表配钥匙，降维表存货</text>
+  <text x="16" y="46" font-size="10.5" fill="#6b6b76">一条事实 = 一把钥匙配一份货，分散在许多权重上——不是一格一事实（key-value 记忆框架，Geva et al., 2021）</text>
+  <text x="16" y="72" font-size="11" font-weight="600" fill="#1a1a1f">升维表 · 钥匙墙（每行一把钥匙）</text>
+  <text x="388" y="72" font-size="11" font-weight="600" fill="#1a1a1f" text-anchor="middle">GELU</text>
+  <text x="452" y="72" font-size="11" font-weight="600" fill="#1a1a1f">降维表 · 货架（每列一份货）</text>
+  <rect x="16" y="82" width="310" height="44" rx="8" fill="#fff" stroke="rgba(194,65,12,.55)"/>
+  <text x="30" y="108" font-size="11" fill="#c2410c">🔑 K1 · 认出「Jordan＋篮球语境」</text>
+  <rect x="16" y="134" width="310" height="44" rx="8" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="30" y="160" font-size="11" fill="#3d3d46">🔑 K2 · 认出「Sharapova＋球拍语境」</text>
+  <rect x="16" y="186" width="310" height="44" rx="8" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="30" y="212" font-size="11" fill="#3d3d46">🔑 K3 · 认出「巴黎＋问首都」</text>
+  <rect x="16" y="238" width="310" height="44" rx="8" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="30" y="264" font-size="11" fill="#6b6b76">🔑 K4 …… 每层 49,152 把钥匙</text>
+  <rect x="452" y="82" width="412" height="44" rx="8" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.55)"/>
+  <text x="466" y="108" font-size="11" fill="#c2410c">📦 V1 · basketball 方向的成分一大坨</text>
+  <rect x="452" y="134" width="412" height="44" rx="8" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="466" y="160" font-size="11" fill="#3d3d46">📦 V2 · tennis 方向的成分（本轮没取）</text>
+  <rect x="452" y="186" width="412" height="44" rx="8" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="466" y="212" font-size="11" fill="#3d3d46">📦 V3 · 法国·首都关联成分（没取）</text>
+  <rect x="452" y="238" width="412" height="44" rx="8" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="466" y="264" font-size="11" fill="#6b6b76">📦 V4 …… 每层 49,152 份货</text>
+  <rect x="360" y="96" width="56" height="28" rx="6" fill="rgba(194,65,12,.15)" stroke="rgba(194,65,12,.6)"/>
+  <text x="388" y="114" font-size="10.5" fill="#c2410c" text-anchor="middle">亮 1</text>
+  <rect x="360" y="148" width="56" height="28" rx="6" fill="#fff" stroke="#d6d6de"/>
+  <text x="388" y="166" font-size="10.5" fill="#6b6b76" text-anchor="middle">灭 0</text>
+  <rect x="360" y="200" width="56" height="28" rx="6" fill="#fff" stroke="#d6d6de"/>
+  <text x="388" y="218" font-size="10.5" fill="#6b6b76" text-anchor="middle">灭 0</text>
+  <rect x="360" y="252" width="56" height="28" rx="6" fill="#fff" stroke="#d6d6de"/>
+  <text x="388" y="270" font-size="10.5" fill="#6b6b76" text-anchor="middle">…</text>
+  <line x1="326" y1="104" x2="348" y2="104" stroke="#c2410c" stroke-width="2"/>
+  <line x1="428" y1="110" x2="452" y2="110" stroke="#c2410c" stroke-width="2"/>
+  <line x1="326" y1="156" x2="348" y2="156" stroke="#d6d6de" stroke-width="1.5"/>
+  <line x1="428" y1="162" x2="452" y2="162" stroke="#d6d6de" stroke-width="1.5"/>
+  <line x1="326" y1="208" x2="348" y2="208" stroke="#d6d6de" stroke-width="1.5"/>
+  <rect x="16" y="298" width="848" height="44" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="440" y="316" font-size="11.5" fill="#15803d" text-anchor="middle">模式匹配（钥匙）→ 开关放行 → 添货（把货加进输出向量）→ 出口打分</text>
+  <text x="440" y="334" font-size="10.5" fill="#6b6b76" text-anchor="middle">「Michael Jordan 后面接篮球」= K1 认出模式、V1 添方向——事实不在某格里，在 K1 配 V1 这条线里</text>
+</svg>
+          </div>
+          <table class="tab">
+            <thead><tr><th>部件</th><th>视频逐行算式</th><th>数值</th><th>3B6 卡（归并后）</th></tr></thead>
+            <tbody>
+              <tr><td><b>嵌入 W_E</b></td><td>12,288 × 50,257</td><td class="num">617,558,016</td><td>6.2 亿 ✓</td></tr>
+              <tr><td><b>Q / K / V / O</b></td><td>128×12,288×96×96，四族各一行</td><td class="num">14,495,514,624 × 4</td><td>注意力 57,982,058,496 ≈ 580 亿 ✓</td></tr>
+              <tr><td><b>升维表</b></td><td>49,152 × 12,288 × 96</td><td class="num">57,982,058,496</td><td rowspan="2">MLP 115,964,116,992 ≈ 1,160 亿 ✓</td></tr>
+              <tr><td><b>降维表</b></td><td>12,288 × 49,152 × 96</td><td class="num">57,982,058,496</td></tr>
+              <tr><td><b>解嵌入 W_U</b></td><td>50,257 × 12,288</td><td class="num">617,558,016</td><td>6.2 亿 ✓</td></tr>
+              <tr class="tot"><td><b>合计</b></td><td>—</td><td class="num"><b>175,181,291,520</b></td><td><b>175,181,291,520 ≈ 1,750 亿 ✓</b></td></tr>
+            </tbody>
+          </table>
+          <p class="tab-note">口径差只在归并：视频 Q/K/V/O 四族逐行单列，我们并成注意力一笔，乘法互验 14,495,514,624×4 = 57,982,058,496、×2 = 115,964,116,992；O 族视频写 12,288×128（W_O 的确是另一个方向），我们四族统一 128×12,288，参数量不受影响；偏置两边都没算（量级差百倍）。</p>
+          <p class="s1-recap">为什么 12,288 维装得下那么多事实？几何上的靠山是<b>约翰逊–林登斯特劳斯引理</b>（Johnson–Lindenstrauss，1984，图四左）：n 个点，不管原本住在多少维，随机投影进 k 维就能让两两距离保真到 (1±ε)，而 k = O(ε⁻²·log n)——<b>只看点数、不看原维度</b>。两个价格各有来历：log n 是「n² 个点对都不许出事」的并界税，点的个数几乎白送（一百万个点 log₂ 才约 20）；ε⁻² 是集中现象的统一定价，误差从 10% 收到 1%，维度付一百倍。最要紧的是推论：<b>k 维空间里能容纳指数级多的近正交方向</b>——误差容忍 ε，方向数随维度指数涨。</p>
+          <div class="s1-fig">
+<svg viewBox="0 0 880 432" width="100%" role="img" aria-label="3B9 图四：装得下的几何。左：JL 引理——n 个点随机投影进低维距离保真，k 只看点的个数不看原维度；右：叠加——特征排成近正交方向共用神经元；底条稀疏是通行证，蓝条与 Scaling Laws 划清">
+  <text x="16" y="26" font-size="13" font-weight="700" fill="#1a1a1f">图四 · 为什么装得下：近正交方向指数级多</text>
+  <text x="16" y="46" font-size="10.5" fill="#6b6b76">JL 引理证「装得下」，叠加就是「真这么挤」——12,288 维塞得下远超 12,288 个概念方向</text>
+  <rect x="16" y="62" width="414" height="248" rx="10" fill="rgba(37,99,235,.06)" stroke="rgba(37,99,235,.5)"/>
+  <text x="32" y="88" font-size="12" font-weight="600" fill="#1a1a1f">约翰逊–林登斯特劳斯引理（1984）</text>
+  <text x="32" y="112" font-size="10.5" fill="#3d3d46">n 个点，原维度随便多高</text>
+  <text x="32" y="130" font-size="10.5" fill="#3d3d46">随机投影进低维，两两距离保真到 (1±ε)</text>
+  <text x="32" y="158" font-size="13" fill="#2563eb" font-family="ui-monospace,Menlo,monospace">k = O(ε⁻² · log n)</text>
+  <text x="32" y="182" font-size="10.5" fill="#3d3d46">数字例：n = 10⁶ 个点、ε = 10%</text>
+  <text x="32" y="200" font-size="11" fill="#2563eb" font-family="ui-monospace,Menlo,monospace">→ k ≈ 11,000 维装下</text>
+  <text x="32" y="228" font-size="10" fill="#6b6b76">log n：n² 个点对都不许出事的并界税——点的个数几乎白送</text>
+  <text x="32" y="244" font-size="10" fill="#6b6b76">（一百万个点，log₂ 才约 20）</text>
+  <text x="32" y="266" font-size="10" fill="#6b6b76">ε⁻²：精度平方级付费——集中现象的统一定价</text>
+  <text x="32" y="282" font-size="10" fill="#6b6b76">误差 10% 收到 1%，维度付一百倍</text>
+  <text x="32" y="302" font-size="10.5" fill="#1d4ed8">推论：k 维空间容纳指数级多的近正交方向</text>
+  <rect x="450" y="62" width="414" height="248" rx="10" fill="rgba(194,65,12,.06)" stroke="rgba(194,65,12,.5)"/>
+  <text x="466" y="88" font-size="12" font-weight="600" fill="#1a1a1f">叠加（superposition）：真这么挤</text>
+  <circle cx="580" cy="184" r="72" fill="none" stroke="#d6d6de" stroke-dasharray="5 4"/>
+<line x1="580" y1="184" x2="620" y2="137" stroke="#c2410c" stroke-width="2"/>
+  <circle cx="620" cy="137" r="3" fill="#c2410c"/>
+  <text x="634" y="123" font-size="9.5" fill="#c2410c" text-anchor="middle">特征A</text>
+  <line x1="580" y1="184" x2="559" y2="126" stroke="#c2410c" stroke-width="2"/>
+  <circle cx="559" cy="126" r="3" fill="#c2410c"/>
+  <text x="551" y="108" font-size="9.5" fill="#c2410c" text-anchor="middle">特征B</text>
+  <line x1="580" y1="184" x2="519" y2="173" stroke="#c2410c" stroke-width="2"/>
+  <circle cx="519" cy="173" r="3" fill="#c2410c"/>
+  <text x="497" y="172" font-size="9.5" fill="#c2410c" text-anchor="middle">特征C</text>
+  <line x1="580" y1="184" x2="529" y2="220" stroke="#c2410c" stroke-width="2"/>
+  <circle cx="529" cy="220" r="3" fill="#c2410c"/>
+  <text x="511" y="235" font-size="9.5" fill="#c2410c" text-anchor="middle">特征D</text>
+  <line x1="580" y1="184" x2="575" y2="246" stroke="#c2410c" stroke-width="2"/>
+  <circle cx="575" cy="246" r="3" fill="#c2410c"/>
+  <text x="573" y="271" font-size="9.5" fill="#c2410c" text-anchor="middle">特征E</text>
+  <line x1="580" y1="184" x2="627" y2="224" stroke="#c2410c" stroke-width="2"/>
+  <circle cx="627" cy="224" r="3" fill="#c2410c"/>
+  <text x="644" y="241" font-size="9.5" fill="#c2410c" text-anchor="middle">特征F</text>
+  <text x="676" y="120" font-size="10.5" fill="#3d3d46">要表达的概念远多于</text>
+  <text x="676" y="138" font-size="10.5" fill="#3d3d46">12,288 个维度</text>
+  <text x="676" y="162" font-size="10.5" fill="#3d3d46">特征排成近正交方向，</text>
+  <text x="676" y="180" font-size="10.5" fill="#3d3d46">多个特征共用同一批</text>
+  <text x="676" y="198" font-size="10.5" fill="#3d3d46">神经元</text>
+  <text x="676" y="222" font-size="10" fill="#6b6b76">近正交 = 内积 ≈ 0</text>
+  <text x="676" y="240" font-size="10" fill="#6b6b76">= 同时亮也互不干扰</text>
+  <text x="466" y="294" font-size="10" fill="#6b6b76">神经元多义（猫/粤语歌词/HTTP 同格都亮）的根源：特征是方向，不是格子</text>
+  <rect x="16" y="322" width="848" height="44" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="440" y="340" font-size="11.5" fill="#15803d" text-anchor="middle">稀疏是叠加的通行证：特征只在少数语境亮，同时亮的机会少、撞车就少</text>
+  <text x="440" y="358" font-size="10.5" fill="#6b6b76" text-anchor="middle">「金门大桥」一万段话里出现不了几次——这也是「稀疏」自编码器名字里那个「稀疏」的来源</text>
+  <rect x="16" y="376" width="848" height="44" rx="10" fill="#eff4fe" stroke="#b8cdf2"/>
+  <text x="440" y="394" font-size="11.5" fill="#1d4ed8" text-anchor="middle">别认错人：给「扩参数必然带来性能提升」底气的是 Scaling Laws（Kaplan 2020 / Chinchilla 2022，经验幂律）</text>
+  <text x="440" y="412" font-size="10.5" fill="#6b6b76" text-anchor="middle">JL 管几何（高维比直觉宽敞，有证明），Scaling 管账单（多大算力换多少聪明，经验外推）——两码事</text>
+</svg>
+          </div>
+          <p class="s1-recap">叠加（superposition）就是真这么挤（图四右）。解剖发现神经元几乎都是多义的——同一个格子，见「猫」亮、见「粤语歌词」也亮；<b>特征不住在神经元里，住在激活向量的方向里</b>。要表达的概念远多于一万两千个，网络就把特征排成近正交的方向、多个特征共用同一批神经元；能挤的前提是<b>稀疏</b>——一个特征只在少数语境亮（「金门大桥」一万段话里出现不了几次），同时亮的机会少，撞车就少。稀疏是叠加的通行证，也是「稀疏」自编码器名字里那个「稀疏」的来源。别认错人：给「扩参数必然带来性能提升」底气的是 Scaling Laws（Kaplan 2020 / Chinchilla 2022，经验幂律，外推的账单），不是 JL 引理——JL 管几何，Scaling 管账单，两码事。</p>
+          <p class="s1-recap">想看清一根叠着的向量里有哪些成分，用<b>稀疏自编码器</b>（SAE，图五）——搭在网络外面的翻译机，不动原网络一个权重：截取中间某层的激活向量 → 升维映射到更宽的字典（几万到上百万项，比原向量还宽，学出来的）→ L1 稀疏约束逼着重建时只点少数几项 → 加权加回去对账，能还原就说明点亮的这几项就是这根向量的成分清单。字典项是<b>单项式</b>的：一个项只对一个可命名的概念敏感。Anthropic 2023 年在单层小模型上跑通（论文标题就叫 Towards Monosemanticity，迈向单义性），2024 年在 Claude 3 Sonnet 上扩到上千万特征——金门大桥特征被人为调高后，模型看什么都往金门大桥上扯。两句 caveat 别省：字典是「重建够好＋够稀疏」的一个解，不是保证存在的真相，同一层可以有多本都能用的字典；且只覆盖向量的一部分信息——翻译人类能读的那部分，不是全息解密。</p>
+          <div class="s1-fig">
+<svg viewBox="0 0 880 358" width="100%" role="img" aria-label="3B9 图五：稀疏自编码器。截取激活向量，升维到更宽字典并加 L1 稀疏约束，点亮的少数字典项即成分清单，加权重建对账；金门大桥特征案例条与两句 caveat">
+  <text x="16" y="26" font-size="13" font-weight="700" fill="#1a1a1f">图五 · 稀疏自编码器（SAE）：把叠着的特征拆成一本单项式字典</text>
+  <text x="16" y="46" font-size="10.5" fill="#6b6b76">搭在网络外面的翻译机，不动原网络一个权重</text>
+  <rect x="16" y="62" width="186" height="88" rx="10" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="30" y="84" font-size="11.5" font-weight="600" fill="#1a1a1f">① 截激活向量</text>
+  <text x="30" y="104" font-size="10.5" fill="#2563eb" font-family="ui-monospace,Menlo,monospace">12,288 维，多义混装</text>
+  <text x="30" y="122" font-size="10" fill="#6b6b76">神经元多义、特征叠着</text>
+  <line x1="202" y1="106" x2="222" y2="106" stroke="#6b6b76" stroke-width="1.5"/>
+  <rect x="226" y="62" width="250" height="88" rx="10" fill="rgba(194,65,12,.07)" stroke="rgba(194,65,12,.55)"/>
+  <text x="240" y="84" font-size="11.5" font-weight="600" fill="#1a1a1f">② 升维成更宽的字典</text>
+  <text x="240" y="104" font-size="10.5" fill="#c2410c" font-family="ui-monospace,Menlo,monospace">几万～上百万项（学出来的）</text>
+  <text x="240" y="122" font-size="10" fill="#6b6b76">＋ L1 稀疏约束：只许点少数几项</text>
+  <line x1="476" y1="106" x2="496" y2="106" stroke="#6b6b76" stroke-width="1.5"/>
+  <rect x="500" y="62" width="180" height="88" rx="10" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="514" y="84" font-size="11.5" font-weight="600" fill="#1a1a1f">③ 重建对账</text>
+  <text x="514" y="104" font-size="10.5" fill="#2563eb" font-family="ui-monospace,Menlo,monospace">点亮项加权加回去</text>
+  <text x="514" y="122" font-size="10" fill="#6b6b76">≈ 原向量 = 对上了</text>
+  <text x="700" y="88" font-size="10.5" fill="#3d3d46">对上账 = 点亮的这几项</text>
+  <text x="700" y="106" font-size="10.5" fill="#3d3d46">就是这根向量的</text>
+  <text x="700" y="124" font-size="10.5" fill="#3d3d46">成分清单</text>
+  <text x="16" y="176" font-size="10.5" fill="#6b6b76">字典项（单项式，示意）——橙色 = 本轮点亮，其余全零：</text>
+  <rect x="16" y="186" width="58" height="26" rx="13" fill="rgba(194,65,12,.12)" stroke="rgba(194,65,12,.6)"/>
+  <text x="45" y="203" font-size="10.5" fill="#c2410c" text-anchor="middle">金门大桥 ✓</text>
+  <rect x="82" y="186" width="68" height="26" rx="13" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="116" y="203" font-size="10.5" fill="#3d3d46" text-anchor="middle">阿姆斯特丹</text>
+  <rect x="158" y="186" width="58" height="26" rx="13" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="187" y="203" font-size="10.5" fill="#3d3d46" text-anchor="middle">代码错误</text>
+  <rect x="224" y="186" width="89" height="26" rx="13" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="268" y="203" font-size="10.5" fill="#3d3d46" text-anchor="middle">密苏里州被提起</text>
+  <rect x="321" y="186" width="58" height="26" rx="13" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="350" y="203" font-size="10.5" fill="#3d3d46" text-anchor="middle">篮球战术</text>
+  <rect x="387" y="186" width="37" height="26" rx="13" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="405" y="203" font-size="10.5" fill="#3d3d46" text-anchor="middle">……</text>
+  <rect x="16" y="238" width="848" height="44" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="440" y="256" font-size="11.5" fill="#15803d" text-anchor="middle">金门大桥特征（Anthropic，Claude 3 Sonnet，2024）：把它人为调高，模型看什么都往金门大桥上扯</text>
+  <text x="440" y="274" font-size="10.5" fill="#6b6b76" text-anchor="middle">2023 年先在单层小模型跑通（Towards Monosemanticity），2024 年扩到上千万特征——特征真的可以单独拧</text>
+  <rect x="16" y="292" width="848" height="56" rx="10" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="440" y="312" font-size="11" fill="#3d3d46" text-anchor="middle">caveat 一：字典是「重建够好＋够稀疏」的一个解，不是保证存在的真相——同一层可以有多本都能用的字典</text>
+  <text x="440" y="332" font-size="11" fill="#3d3d46" text-anchor="middle">caveat 二：只覆盖向量的一部分信息——翻译人类能读的那部分，不是全息解密</text>
+</svg>
+          </div>
+          <p class="s1-recap">收线对暗号。3B6 的软查表在这里长成了「查了还往回写」：注意力管窗口内互抄（上下文进得来），MLP 管把一辈子见过的事实压进权重（知识记得住）——短期记忆与长期记忆分了家。NN2 的「解不唯一」（手工 OR−AND 与训练出的双探测器，两套等价解）在 SAE 的多解字典上是放大版重演。下一站 3B8 看热闹带双新眼睛：卷积核也是出厂焊死的权重，CNN 学特征与 MLP 存事实，住的是同一种「权重即记忆」。拓展两条已归档：事实手术 ROME（Meng et al., 2022）顺着钥匙与货定位单条事实，把「埃菲尔铁塔在巴黎」改成「在罗马」；幻觉的一种几何解释——挤得太近的事实互相渗漏，假记忆 = 钥匙误配（机制推测，非定论）。SAE 已进待学清单，想深挖随时喊开课。</p>
+        </div>
+      </details>
+
+      <div class="ch-foot"><span class="foot-chip ver">交付 · 8 集各一张全景卡 + 四集连读总全景 + 3B9 加更卡</span><span class="foot-chip">🔍 呼应 · 心愿逆流（3B3）接上链式法则（3B4），NN3 手推时见真章</span></div>
 
     </article>
   </details>
