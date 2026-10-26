@@ -1,5 +1,5 @@
 /* ============================================================================
-   data/lessons.js —— 课次数据(唯一事实源,配 COURSE-render.js 渲染)
+   content/lessons.js —— 课次数据(唯一事实源,配 COURSE-render.js 渲染)
    ----------------------------------------------------------------------------
    COURSE.html 里不再手写课次行:每个 <ul class="ch-list" data-lessons="key">
    是空容器,渲染器把下面的 groups 按出现顺序填进去(第 i 组 → 第 i 个容器)。
@@ -389,8 +389,7 @@ window.LESSONS = {
     "act-tf1": {
       "from": "tf",
       "only": "T1",
-      "sem": "puzzle",
-      "open": true
+      "sem": "puzzle"
     }
   },
   "chBadges": {

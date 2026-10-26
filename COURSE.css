@@ -43,7 +43,7 @@
   nav.toc a:hover{color:var(--text);background:var(--tint-grey)}
 
   /* ---------- section(Tabler 白卡) ---------- */
-  section.block{margin:20px 0;padding:26px 28px 10px;background:#fff;
+  section.block{margin:20px 0;padding:26px 28px 30px;background:#fff;
     border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
   .sec-kicker{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:2px;font-weight:700}
   h2.sec{margin:2px 0 6px;font-size:22px;letter-spacing:-.3px;font-weight:700}
@@ -111,7 +111,7 @@
     .row-loop{flex-wrap:wrap} .hlink{display:none}
     .row-loop .side{flex:1 1 100%;margin-top:6px}
     .hero h1{font-size:30px} .chip.update{margin-left:0}
-    section.block{padding:20px 18px 6px}
+    section.block{padding:20px 18px 18px}
   }
 
   /* ---------- acts & chapters(主线幕头左条 = 蓝,序章/支线 = 橙) ---------- */
@@ -302,14 +302,14 @@
   .log{list-style:none;padding:0;margin:0}
   .log li{display:flex;gap:14px;padding:9px 0;border-bottom:1px solid #eef0f3;font-size:14px}
   .log time{font-family:var(--mono);color:var(--muted);white-space:nowrap}
-  details.log-box{margin-top:34px}
+  details.log-box{margin-top:18px}
   .log-box summary{display:flex;align-items:center;gap:12px;cursor:pointer;list-style:none;user-select:none}
   .log-box summary::-webkit-details-marker{display:none}
   .log-box summary .sec{margin:0}
   .log-box summary .ch-lab-arrow{display:inline-block;transition:transform .2s;font-size:18px;color:var(--accent);font-weight:700}
   .log-box summary:hover .ch-lab-arrow{color:var(--text)}
   .log-box[open] summary .ch-lab-arrow{transform:rotate(90deg)}
-  .log-box .log-hint{margin-left:auto;font-family:var(--mono);font-weight:400;font-size:12px;color:var(--muted)}
+  .log-box .log-hint{font-family:var(--mono);font-weight:400;font-size:13px;color:var(--muted)}
   .log-days{margin-top:4px;display:flex;flex-direction:column;gap:2px}
   details.log-day{border-left:3px solid var(--border);padding-left:14px}
   details.log-day[open]{border-left-color:var(--accent)}

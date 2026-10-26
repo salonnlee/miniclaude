@@ -1,12 +1,12 @@
 /* ============================================================================
-   COURSE-render.js —— 课次渲染器(配 data/lessons.js)
+   COURSE-render.js —— 课次渲染器(配 content/lessons.js)
    ----------------------------------------------------------------------------
    职责只有三件:
-   · 把 data/lessons.js 的课次行填进 HTML 里的空容器 <ul data-lessons="key">;
+   · 把 content/lessons.js 的课次行填进 HTML 里的空容器 <ul data-lessons="key">;
    · 由数据推导幕头/章头徽章(🔥 进行中 / ✅ 完课·日期 / 未开始,拼图区:已拼上)
      与幕的折叠态(进行中展开,其余折叠;data 里 open 可强制覆写);
    · 页头「更新于」= 全表最新完课日期(data 的 updated 可手动覆写)。
-   新增/修改课次只动 data/lessons.js,本文件与 COURSE.html 都不用碰。
+   新增/修改课次只动 content/lessons.js,本文件与 COURSE.html 都不用碰。
    ============================================================================ */
 (function () {
   var L = window.LESSONS;
@@ -73,7 +73,7 @@
     return last;
   }
 
-  // —— 填内容卡(全景卡/书单/T1 长文):data/cards.js → 空占位
+  // —— 填内容卡(全景卡/书单/T1 长文):content/cards.js → 空占位
   //     必须先于徽章替换:T1 正文里带着 ch:tf1 的徽章锚点,注入后才轮得到徽章逻辑找它 ——
   var C = window.CARDS || {};
   Array.prototype.forEach.call(document.querySelectorAll('details.ch-recap[data-card]'), function (d) {
