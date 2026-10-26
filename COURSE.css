@@ -308,7 +308,7 @@
   .log-box summary .sec{margin:0}
   .log-box summary .ch-lab-arrow{display:inline-block;transition:transform .2s;font-size:18px;color:var(--accent);font-weight:700}
   .log-box summary:hover .ch-lab-arrow{color:var(--text)}
-  .log-box[open] summary .ch-lab-arrow{transform:rotate(90deg)}
+  .log-box[open] > summary > .ch-lab-arrow{transform:rotate(90deg)}
   .log-box .log-hint{font-family:var(--mono);font-weight:400;font-size:13px;color:var(--muted)}
   .log-days{margin-top:4px;display:flex;flex-direction:column;gap:2px}
   details.log-day{border-left:3px solid var(--border);padding-left:14px}
@@ -317,7 +317,7 @@
   .log-day summary::-webkit-details-marker{display:none}
   .log-day .ch-lab-arrow{display:inline-block;transition:transform .2s;font-size:13px;color:var(--accent);font-weight:700}
   .log-day summary:hover .ch-lab-arrow{color:var(--text)}
-  .log-day[open] summary .ch-lab-arrow{transform:rotate(90deg)}
+  .log-day[open] > summary > .ch-lab-arrow{transform:rotate(90deg)}
   .log-day summary time{font-family:var(--mono);color:var(--text);font-size:14px;font-weight:600;white-space:nowrap}
   .log-day .log-day-hint{margin-left:auto;font-family:var(--mono);font-weight:400;font-size:12px;color:var(--muted)}
   .log-day .log{margin:0 0 6px 25px}
