@@ -26,8 +26,8 @@
   function paint() {
     var xc = $id('l3-xmesh')._cells, wc = $id('l3-wmesh')._cells;
     for (var i = 0; i < N * N; i++) {
-      xc[i].style.background = X[i] ? 'rgba(26,26,31,.85)' : '#e4e4ea';
-      wc[i].style.background = W[i] > 0 ? 'rgba(220,38,38,.8)' : (W[i] < 0 ? 'rgba(37,99,235,.8)' : '#f7f7f9');
+      xc[i].style.background = X[i] ? 'rgba(38,38,38,.85)' : '#e6e7e9';
+      wc[i].style.background = W[i] > 0 ? 'rgba(214,57,57,.8)' : (W[i] < 0 ? 'rgba(6,111,209,.8)' : '#f8f9fc');
     }
   }
   function renderA() {
@@ -88,10 +88,10 @@
     var pts = [];
     for (var w = WMIN; w <= WMAX + 0.01; w += 0.05) pts.push(px(w).toFixed(1) + ',' + py(Cf(w)).toFixed(1));
     var tp = '';
-    for (var i = 0; i < trail.length; i++) tp += '<circle cx="' + px(trail[i]).toFixed(1) + '" cy="' + py(Cf(trail[i])).toFixed(1) + '" r="2" fill="rgba(194,65,12,.55)"/>';
-    $id('l3-hill').innerHTML = '<polyline points="' + pts.join(' ') + '" fill="none" stroke="#2563eb" stroke-width="1.8"/>' + tp +
-      '<circle cx="' + px(wb).toFixed(1) + '" cy="' + py(Cf(wb)).toFixed(1) + '" r="7" fill="#c2410c"/>' +
-      '<text x="24" y="20" font-size="10" fill="#6b6b76">loss 山 C(w) · 谷底在 w=2.2 · 小球沿 −梯度 走</text>';
+    for (var i = 0; i < trail.length; i++) tp += '<circle cx="' + px(trail[i]).toFixed(1) + '" cy="' + py(Cf(trail[i])).toFixed(1) + '" r="2" fill="rgba(247,103,7,.55)"/>';
+    $id('l3-hill').innerHTML = '<polyline points="' + pts.join(' ') + '" fill="none" stroke="#066fd1" stroke-width="1.8"/>' + tp +
+      '<circle cx="' + px(wb).toFixed(1) + '" cy="' + py(Cf(wb)).toFixed(1) + '" r="7" fill="#f76707"/>' +
+      '<text x="24" y="20" font-size="10" fill="#667382">loss 山 C(w) · 谷底在 w=2.2 · 小球沿 −梯度 走</text>';
   }
   $id('l3-lr').oninput = function () { LRb = +this.value; $id('l3-lrv').textContent = fmt(LRb, 2); };
   $id('l3-sgd').onclick = function () { sgd = !sgd; this.classList.toggle('on', sgd); };

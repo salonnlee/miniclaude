@@ -41,7 +41,8 @@ curl -fsSL -o data/input.txt https://cs.stanford.edu/people/karpathy/char-rnn/sh
 │                             里程碑 / 教学契约(结构骨架 + 全景卡等富内容;课次行由
 │                             data/lessons.js 渲染,全部同根、相对路径引用,整库挪目录或
 │                             部署到任意子路径都不断链)
-├── COURSE.css                课程页全局样式(含 P0.1 抽签台 .bg-*)
+├── COURSE.css                课程页全局样式(Tabler 设计语言:浅灰蓝底 + 白卡 + tint 徽章,
+│                             主线蓝/搓丹与支线橙;含 P0.1 抽签台 .bg-*)
 ├── COURSE-page.js            页级行为:全景架构图播放器 + 锚点滚动联动
 ├── data/lessons.js           课次数据·唯一事实源:课次行、徽章、折叠态、「更新于」
 │                             全由它推导——完课/加课次只改这里

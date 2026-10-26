@@ -135,7 +135,7 @@
       ctx.fillText('▶ 扫描 / ⚡ 瞬时算', 52, 132);
     }
     if (marker) {
-      ctx.strokeStyle = '#c2410c'; ctx.lineWidth = 2.5;
+      ctx.strokeStyle = '#f76707'; ctx.lineWidth = 2.5;
       ctx.strokeRect(marker[0] * KS + 1.25, marker[1] * KS + 1.25, msize * KS - 2.5, msize * KS - 2.5);
     }
   }
@@ -187,7 +187,7 @@
       + '<div class="l7b-op">=</div>'
       + '<div><div class="l7a-cap" style="margin:0 0 4px;text-align:center">乘积</div><div class="l7b-t3">' + prod.map(function (v) { return '<span>' + v + '</span>'; }).join('') + '</div></div>'
       + '<div class="lab-stat" style="line-height:1.9">Σ = ' + s.toFixed(2) + ' → 截回 [0,1] = ' + Math.max(0, Math.min(1, OUT[y * KB + x])).toFixed(2)
-      + '<br><span style="display:inline-block;width:13px;height:13px;border-radius:3px;border:1px solid #d6d6de;vertical-align:-2px;background:' + cell + '"></span> 输出亮度</div>';
+      + '<br><span style="display:inline-block;width:13px;height:13px;border-radius:3px;border:1px solid #e6e7e9;vertical-align:-2px;background:' + cell + '"></span> 输出亮度</div>';
     $id('l7b-insp').innerHTML = html;
   }
   function scanOutput(instant) {
@@ -239,7 +239,7 @@
   function polyLine(str, ds) {
     var terms = [];
     for (var i = 0; i < ds.length; i++) terms.push(ds[i] + '·x' + sup(i));
-    return '<div class="l7-poly">' + str + ' → 低位在前 [' + ds.join(',') + '] → ' + terms.join(' + ') + ' <span style="color:#6b6b76">(x=10)</span></div>';
+    return '<div class="l7-poly">' + str + ' → 低位在前 [' + ds.join(',') + '] → ' + terms.join(' + ') + ' <span style="color:#667382">(x=10)</span></div>';
   }
   function stag(txt) { return '<div class="l7-stag">' + txt + '</div>'; }
   var runSeq = 0;
@@ -339,7 +339,7 @@
           $id('l7-cres').textContent = A + ' × ' + B + ' = ' + pretty;
           var truth = (BigInt(A) * BigInt(B)).toString();
           $id('l7-cchk').innerHTML = '卷积路线：' + pretty + '<br>BigInt 直乘：' + truth.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-            + (str === truth ? ' <span style="color:#15803d;font-weight:700">✓ 一致</span>' : ' <span style="color:#c2410c;font-weight:700">✗ 不一致</span>');
+            + (str === truth ? ' <span style="color:#2b8a3e;font-weight:700">✓ 一致</span>' : ' <span style="color:#f76707;font-weight:700">✗ 不一致</span>');
         }, finalDelay + 200);
       }, 150 + cells.length * (FAST() ? 1 : 24) + 240 + K * (FAST() ? 1 : 330) + K * (FAST() ? 1 : 120) + 250);
     }, 400);

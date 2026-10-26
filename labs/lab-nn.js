@@ -19,12 +19,12 @@
     var L=hist[hist.length-1];
     $id('nnl-loss').textContent=fmt(L,5);
     var b=$id('nnl-badge');
-    if(L<0.01){b.textContent='🎉 四题通关';b.style.cssText='color:#15803d;border:1px solid rgba(21,128,61,.5)'}
+    if(L<0.01){b.textContent='🎉 四题通关';b.style.cssText='color:#2b8a3e;border:1px solid rgba(47,179,68,.5)'}
     else if(step>=400&&Math.abs(L-hist[hist.length-201])<1e-6){b.textContent='🧊 卡死区 · 换种子';b.style.cssText='color:#dc2626;border:1px solid rgba(220,38,38,.5)'}
-    else{b.textContent='下坡中…';b.style.cssText='color:#6b6b76;border:1px solid #d6d6de'}
+    else{b.textContent='下坡中…';b.style.cssText='color:#667382;border:1px solid #e6e7e9'}
     var n=Math.min(hist.length,240),pts=[];
     for(var i=0;i<n;i++){var h=hist[Math.floor(i*(hist.length-1)/Math.max(1,n-1))];var l=Math.max(1e-7,Math.min(1,h));pts.push((10+i/Math.max(1,n-1)*820).toFixed(1)+','+(10+(-Math.log10(l))/6*100).toFixed(1))}
-    $id('nnl-curve').innerHTML='<line x1="10" y1="110" x2="830" y2="110" stroke="#d6d6de"/><text x="14" y="104" font-size="9" fill="#6b6b76">纵轴 loss 对数（顶=1 底=1e-7） · 横轴 = step</text><polyline points="'+pts.join(' ')+'" fill="none" stroke="#2563eb" stroke-width="1.8"/>';
+    $id('nnl-curve').innerHTML='<line x1="10" y1="110" x2="830" y2="110" stroke="#e6e7e9"/><text x="14" y="104" font-size="9" fill="#667382">纵轴 loss 对数（顶=1 底=1e-7） · 横轴 = step</text><polyline points="'+pts.join(' ')+'" fill="none" stroke="#066fd1" stroke-width="1.8"/>';
     var html='';
     for(var i=0;i<4;i++){var d=DATA[i],f=fwd(P,d[0],d[1]);var ok=(d[2]===1&&f.out>0.9)||(d[2]===0&&f.out<0.1);html+='<div class="nnl-pred"><span>('+d[0]+','+d[1]+')→'+d[2]+'</span><div class="nnl-pbar"><div class="nnl-pfill" style="width:'+(f.out*100).toFixed(1)+'%"></div></div><span>'+fmt(f.out,3)+'</span><span>'+(ok?'✓':'✗')+'</span></div>'}
     $id('nnl-preds').innerHTML=html;
