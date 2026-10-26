@@ -1984,510 +1984,6 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
       <ul class="ch-list tight-top">
         <li><b>3B7</b> 卷积是什么 ✅ <span class="done-date">2026-10-26（伴读模式）</span></li>
       </ul>
-      <details class="ch-lab" id="lab3b7">
-        <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · 卷积三台（骰子滑动台 × 滤镜像机 × 大数乘法台）<span class="ch-lab-hint">3B7 的三个画面：翻转·滑动·乘加，亲手拧</span></summary>
-        <div class="ch-lab-body">
-        <style>
-        #lab3b7 .l7-grid{display:grid;grid-template-columns:280px 1fr;gap:16px;align-items:start}
-        #lab3b7 .l7-box{border:1px solid var(--border);border-radius:12px;padding:14px;background:rgba(0,0,0,.02)}
-        #lab3b7 .l7-cap{font-size:12.5px;color:var(--muted);margin:14px 0 8px}
-        #lab3b7 .l7-cap:first-child{margin-top:0}
-        #lab3b7 .l7-row{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:12px;flex-wrap:wrap}
-        #lab3b7 .l7-row label{width:60px;color:var(--muted);flex:none}
-        #lab3b7 input[type=range]{flex:1;accent-color:var(--accent)}
-        #lab3b7 .l7-stat{font-family:var(--mono);font-size:12px}
-        #lab3b7 .l7-mini{font-size:11px;color:var(--muted);padding:2px 10px;border:1px solid var(--border);border-radius:999px;cursor:pointer;user-select:none}
-        #lab3b7 .l7-mini.on{border-color:#c2410c;color:#c2410c}
-        #lab3b7 .l7-note{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.8}
-        /* ---- A 骰子滑动台 ---- */
-        #lab3b7 .l7a-track{position:relative;height:104px;margin:2px 0 2px}
-        #lab3b7 .l7a-chip{position:absolute;width:32px;height:30px;border-radius:7px;border:1px solid #d6d6de;background:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;transition:background-color .25s,border-color .25s,color .25s}
-        #lab3b7 .l7a-rowA .l7a-chip{top:6px}
-        #lab3b7 .l7a-rowB{position:absolute;top:50px;transition:left .4s cubic-bezier(.5,1.5,.5,1)}
-        #lab3b7 .l7a-rowB .l7a-chip{position:relative;top:0}
-        #lab3b7 .l7a-rowB{display:flex;gap:4px}
-        #lab3b7 .l7a-chip.hit{border-color:#2563eb;background:rgba(37,99,235,.12);color:#1d4ed8;font-weight:700}
-        #lab3b7 .l7a-cap{font-size:10.5px;color:var(--muted);margin:2px 0 10px}
-        #lab3b7 .l7a-duo{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-top:8px}
-        #lab3b7 .l7a-g6{display:grid;grid-template-columns:20px repeat(6,30px);gap:2px}
-        #lab3b7 .l7a-c{height:26px;border-radius:4px;border:1px solid #e4e4ea;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10.5px;color:var(--muted);background:#fff;transition:background-color .2s,border-color .2s,color .2s}
-        #lab3b7 .l7a-c.hd{border:none;background:none;font-size:10px}
-        #lab3b7 .l7a-c.dg{background:rgba(37,99,235,.14);border-color:rgba(37,99,235,.5);color:#1d4ed8;font-weight:700}
-        #lab3b7 .l7a-bars{display:flex;gap:5px;align-items:stretch;height:118px;flex:1;min-width:290px}
-        #lab3b7 .l7a-bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
-        #lab3b7 .l7a-bar i{display:block;width:100%;background:#d9d9e1;border-radius:3px 3px 0 0;font-style:normal}
-        #lab3b7 .l7a-bar em{font-style:normal;font-family:var(--mono);font-size:9.5px;color:#1d4ed8;margin-bottom:2px;height:13px;visibility:hidden}
-        #lab3b7 .l7a-bar.on em{visibility:visible}
-        #lab3b7 .l7a-bar b{font-weight:400;font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:3px}
-        #lab3b7 .l7a-bar.on i{background:#2563eb}
-        /* ---- B 滤镜像机 ---- */
-        #lab3b7 .l7b-canwrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-        #lab3b7 .l7b-canlab{font-size:10.5px;color:var(--muted);text-align:center;margin-bottom:6px}
-        #lab3b7 canvas.l7b-can{border:1px solid var(--border);border-radius:8px;cursor:crosshair;display:block}
-        #lab3b7 .l7b-kern{display:grid;grid-template-columns:repeat(3,46px);gap:3px;margin:8px 0 4px}
-        #lab3b7 .l7b-k{height:32px;border:1px solid #d6d6de;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px}
-        #lab3b7 .l7b-sum{font-family:var(--mono);font-size:11.5px;color:var(--text)}
-        #lab3b7 .l7b-insp{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}
-        #lab3b7 .l7b-t3{display:grid;grid-template-columns:repeat(3,46px);gap:2px}
-        #lab3b7 .l7b-t3 span{height:25px;border:1px solid #e4e4ea;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10.5px;color:#3d3d46}
-        #lab3b7 .l7b-t3.k span{border-color:#d6d6de;background:#fbfbfd}
-        #lab3b7 .l7b-op{font-family:var(--mono);color:var(--muted);font-size:14px}
-        #lab3b7 .l7b-arrow{font-family:var(--mono);color:var(--muted);font-size:16px}
-        /* ---- C 大数乘法台 ---- */
-        #lab3b7 .l7-inp{width:128px;padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-family:var(--mono);font-size:14px}
-        #lab3b7 .l7-ghost{background:var(--panel-2);color:var(--text)}
-        #lab3b7 .l7-stage{display:none;margin-top:12px;padding-top:10px;border-top:1px dashed var(--border)}
-        #lab3b7 .l7-stage.on{display:block;animation:l7fade .35s}
-        @keyframes l7fade{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
-        #lab3b7 .l7-stag{font-size:11px;color:var(--muted);margin-bottom:8px}
-        #lab3b7 .l7-poly{font-family:var(--mono);font-size:12px;color:#3d3d46;margin:3px 0;line-height:1.9}
-        #lab3b7 .l7-ctab{display:grid;gap:3px;justify-content:start;margin:6px 0;flex-wrap:wrap}
-        #lab3b7 .l7-tc{width:40px;height:30px;border:1px solid #e4e4ea;border-radius:5px;background:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11.5px;color:#3d3d46;opacity:0;transform:scale(.7)}
-        #lab3b7 .l7-tc.hd{border:none;background:none;color:var(--muted);font-weight:600;opacity:1;transform:none}
-        #lab3b7 .l7-tc.on{opacity:1;transform:scale(1);transition:opacity .18s,transform .18s}
-        #lab3b7 .l7-tc.cur{border-color:#c2410c;color:#c2410c;font-weight:700;box-shadow:0 0 0 2px rgba(194,65,12,.15)}
-        #lab3b7 .l7-tc.dk0{background:#eef2ff}#lab3b7 .l7-tc.dk1{background:#fef3c7}#lab3b7 .l7-tc.dk2{background:#ecfdf5}
-        #lab3b7 .l7-tc.dk3{background:#fdf2f8}#lab3b7 .l7-tc.dk4{background:#f0f9ff}#lab3b7 .l7-tc.dk5{background:#faf5ff}
-        #lab3b7 .l7-cds{display:flex;flex-wrap:wrap;gap:6px}
-        #lab3b7 .l7-cd{border:1px solid #d6d6de;border-radius:8px;padding:5px 9px;font-family:var(--mono);font-size:11px;color:#3d3d46;background:#fff;opacity:0}
-        #lab3b7 .l7-cd.on{opacity:1;transition:opacity .25s}
-        #lab3b7 .l7-cd b{color:#1d4ed8;font-weight:700}
-        #lab3b7 .l7-ct{border-collapse:collapse;font-family:var(--mono);font-size:11.5px}
-        #lab3b7 .l7-ct th{font-weight:500;color:var(--muted);text-align:right;padding:3px 8px;font-size:10.5px}
-        #lab3b7 .l7-ct td{border:1px solid #e4e4ea;padding:3px 10px;text-align:right;background:#fff;color:#3d3d46}
-        #lab3b7 .l7-ct tr.on td{border-color:rgba(194,65,12,.5);color:var(--text)}
-        #lab3b7 .l7-cres{font-family:var(--mono);font-size:22px;font-weight:700;color:#15803d;margin-top:12px}
-        </style>
-
-        <div class="l7-cap">A · 骰子滑动台（3B7）—— 「和的分布」怎么来：第二枚的分布整个翻转、贴着第一枚滑，每个位置乘加一次</div>
-        <div class="l7-grid">
-          <div class="l7-box">
-            <div class="l7-row"><label>目标和 t</label><input type="range" id="l7a-t" min="2" max="12" step="1" value="7"><span class="l7-stat" id="l7a-tv">7</span></div>
-            <div class="l7-row"><button class="arch-btn" id="l7a-scan" type="button" style="padding:6px 14px;font-size:13px">▶ 自动扫 2→12</button></div>
-            <div class="l7-stat" style="margin-top:10px;line-height:2.1">P(X+Y=t) = Σ P(a)·P(t−a)<br>对子：<span id="l7a-pl">(1,6)(2,5)(3,4)(4,3)(5,2)(6,1)</span><br>共 <span id="l7a-n">6</span> 对 × 1/36 = <span id="l7a-p">6/36 ≈ 0.167</span></div>
-            <div class="l7-note">公平骰子每面 1/6，所以每对乘积恒为 1/36——对子数就是一切；不公平骰子的话，每对乘积各自不同，乘加照样成立。</div>
-          </div>
-          <div class="l7-box">
-            <div class="l7a-track" id="l7a-track">
-              <div class="l7a-rowA" id="l7a-rowA"></div>
-              <div class="l7a-rowB" id="l7a-rowB"></div>
-            </div>
-            <div class="l7a-cap">上排：第一枚（固定，每面 1/6） · 下排：第二枚（整个翻转，随 t 左右滑） · 蓝框 = 对上的对子（乘 1/36 计入）</div>
-            <div class="l7a-duo">
-              <div>
-                <div class="l7a-cap" style="margin-bottom:5px">乘法表：格子值 = a+b，同一条对角线（右上→左下）= 同一个 t</div>
-                <div class="l7a-g6" id="l7a-g6"></div>
-              </div>
-              <div style="flex:1;min-width:290px">
-                <div class="l7a-cap" style="margin-bottom:5px">和的分布（卷积结果，11 种 t）</div>
-                <div class="l7a-bars" id="l7a-bars"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <p class="bg-hint">玩法：t=7 六对全上，1/6 封顶；滑到 t=2 只剩 (1,1) 一对，1/36 谷底——「翻转·滑动·乘加」三个动作在滑条上全看得见。下面那张 6×6 表先别急着关：C 台大数乘法的表跟它同构——格子放乘积、按对角线收账，连高亮方式都是一套。</p>
-
-        <div class="l7-cap">B · 滤镜像机（3B7）—— 3×3 核滑过整图：每个新像素 = 窗口九格的加权混合；核加和定性格（1 保亮度、0 只剩边）</div>
-        <div class="l7-grid">
-          <div class="l7-box">
-            <div class="l7-row"><label>核预设</label>
-              <span class="l7-mini" data-k="blur">模糊 1/9</span><span class="l7-mini" data-k="sharp">锐化</span><span class="l7-mini" data-k="edge">勾边</span><span class="l7-mini" data-k="ident">恒等</span>
-            </div>
-            <div class="l7-row"><label></label>
-              <button class="arch-btn" id="l7b-scan" type="button" style="padding:6px 14px;font-size:13px">▶ 扫描一遍</button>
-              <button class="arch-btn l7-ghost" id="l7b-inst" type="button" style="padding:6px 14px;font-size:13px">⚡ 瞬时算</button>
-            </div>
-            <div class="l7b-kern" id="l7b-kern"></div>
-            <div class="l7b-sum" id="l7b-sum">核加和 = —</div>
-            <div class="l7-note">真卷积要把核转 180° 再滑；这四个核全都中心对称，翻了白翻——机器学习里大家就这么偷懒，照样叫卷积。</div>
-          </div>
-          <div class="l7-box">
-            <div class="l7b-canwrap">
-              <div><div class="l7b-canlab">输入 24×24（点格子选窗）</div><canvas class="l7b-can" id="l7b-cin" width="240" height="240"></canvas></div>
-              <div class="l7b-arrow">→</div>
-              <div><div class="l7b-canlab">输出（扫描后点亮；点点看）</div><canvas class="l7b-can" id="l7b-cout" width="240" height="240"></canvas></div>
-            </div>
-          </div>
-        </div>
-        <div class="l7-box" style="margin-top:12px" id="l7b-inspbox">
-          <div class="l7a-cap" style="margin:0 0 8px">一格的解剖（点击上图任意格）—— 窗口 × 核 → 乘积 → 求和 → 截回 [0,1]</div>
-          <div class="l7b-insp" id="l7b-insp"><span class="l7-stat">先扫一遍或瞬时算，再点图上任意一格。</span></div>
-        </div>
-        <p class="bg-hint">玩法：「模糊」扫描，细竖线先糊没，方块轮廓还在；换「勾边」，全图归黑，只剩轮廓亮线——平整区九格相同，加和为 0 的核一乘就清零，只有「起变化」的地方活得下来；再换「锐化」，边缘两侧一亮一暗，像被人描了一遍。扫描时盯住输入图上的 3×3 橙框：它就是滑动窗口，框到哪、输出亮到哪。</p>
-
-        <div class="l7-cap">C · 大数乘法台（3B7）—— 两个数相乘 = 两串系数做卷积：乘法表按对角线收账，再进位清洗</div>
-        <div class="l7-grid">
-          <div class="l7-box">
-            <div class="l7-row"><label>乘数 A</label><input class="l7-inp" id="l7-ca" value="1234" maxlength="8" inputmode="numeric"></div>
-            <div class="l7-row"><label>乘数 B</label><input class="l7-inp" id="l7-cb" value="5678" maxlength="8" inputmode="numeric"></div>
-            <div class="l7-row"><label></label>
-              <button class="arch-btn" id="l7-crun" type="button" style="padding:6px 14px;font-size:13px">▶ 卷积乘</button>
-              <button class="arch-btn l7-ghost" id="l7-cre" type="button" style="padding:6px 14px;font-size:13px">↻ 清空</button>
-            </div>
-            <div class="l7-stat" style="margin-top:10px;line-height:2" id="l7-cchk">最多各 8 位；非数字自动清洗。</div>
-            <div class="l7-note">小学竖式 = 同一张乘法表排成阶梯逐行加；卷积 = 按对角线收账——一张表，两种读法。位数大了还有第三种：FFT 绕开整张表，O(n²) 变 O(n log n)。</div>
-          </div>
-          <div class="l7-box">
-            <div class="l7-stage" id="l7-s1"></div>
-            <div class="l7-stage" id="l7-s2"></div>
-            <div class="l7-stage" id="l7-s3"></div>
-            <div class="l7-stage" id="l7-s4"></div>
-          </div>
-        </div>
-        <p class="bg-hint">玩法：默认 1234×5678，点「卷积乘」看四步流水线——拆位、乘法表逐格点亮、七条对角线挨个收账（底色按 k 分组，和 A 台骰子表同一套机关）、进位清洗。末尾 BigInt 直乘对表，两路必须一个数。换个 9999×9999 试试：对角线和全是 81 的倍数，进位特别热闹。</p>
-
-        <script>
-        (function () {
-          var $id = function (x) { return document.getElementById(x); };
-          var FAST = function () { return !!window.L7FAST; };
-          function st(fn, ms) { setTimeout(fn, FAST() ? 16 : ms); }
-
-          /* ================= A 骰子滑动台 ================= */
-          var SLOT = 36, TRACK_SLOTS = 16;
-          (function buildA() {
-            var track = $id('l7a-track');
-            track.style.width = (TRACK_SLOTS * SLOT - 4) + 'px';
-            var A = $id('l7a-rowA'), B = $id('l7a-rowB');
-            A.style.position = 'absolute'; A.style.top = '6px'; A.className = 'l7a-rowA';
-            for (var i = 0; i < 6; i++) {
-              var c = document.createElement('div');
-              c.className = 'l7a-chip'; c.textContent = i + 1;
-              c.style.left = (5 + i) * SLOT + 'px';
-              A.appendChild(c);
-            }
-            for (var j = 0; j < 6; j++) {
-              var d = document.createElement('div');
-              d.className = 'l7a-chip'; d.textContent = 6 - j;
-              B.appendChild(d);
-            }
-            var g = $id('l7a-g6'), k;
-            var hd = document.createElement('div'); hd.className = 'l7a-c hd'; hd.textContent = 'a╲b'; g.appendChild(hd);
-            for (k = 1; k <= 6; k++) { var h = document.createElement('div'); h.className = 'l7a-c hd'; h.textContent = k; g.appendChild(h); }
-            for (var a = 1; a <= 6; a++) {
-              var rh = document.createElement('div'); rh.className = 'l7a-c hd'; rh.textContent = a; g.appendChild(rh);
-              for (var b = 1; b <= 6; b++) {
-                var cc = document.createElement('div');
-                cc.className = 'l7a-c'; cc.textContent = a + b; cc.setAttribute('data-s', a + b);
-                g.appendChild(cc);
-              }
-            }
-            var bars = $id('l7a-bars');
-            for (var t = 2; t <= 12; t++) {
-              var col = document.createElement('div'); col.className = 'l7a-bar';
-              col.innerHTML = '<em></em><i style="height:0"></i><b>' + t + '</b>';
-              bars.appendChild(col);
-            }
-            $id('l7a-t').addEventListener('input', renderA);
-            $id('l7a-scan').addEventListener('click', autoScan);
-            renderA();
-          })();
-          function pairsOf(t) { var r = []; for (var a = 1; a <= 6; a++) { var b = t - a; if (b >= 1 && b <= 6) r.push([a, b]); } return r; }
-          function renderA() {
-            var t = +$id('l7a-t').value;
-            $id('l7a-tv').textContent = t;
-            var ps = pairsOf(t);
-            $id('l7a-pl').textContent = ps.map(function (p) { return '(' + p[0] + ',' + p[1] + ')'; }).join('');
-            $id('l7a-n').textContent = ps.length;
-            $id('l7a-p').textContent = ps.length + '/36 ≈ ' + (ps.length / 36).toFixed(3);
-            $id('l7a-rowB').style.left = ((t - 2) * SLOT) + 'px';
-            var aCh = $id('l7a-rowA').children, bCh = $id('l7a-rowB').children, i;
-            for (i = 0; i < 6; i++) {
-              var a = i + 1, b = t - a;
-              aCh[i].className = 'l7a-chip' + (b >= 1 && b <= 6 ? ' hit' : '');
-            }
-            for (i = 0; i < 6; i++) {
-              var bb = 6 - i, aa = t - bb;
-              bCh[i].className = 'l7a-chip' + (aa >= 1 && aa <= 6 ? ' hit' : '');
-            }
-            var cells = $id('l7a-g6').children;
-            for (i = 0; i < cells.length; i++) {
-              var c = cells[i];
-              if (c.getAttribute('data-s')) c.className = 'l7a-c' + (+c.getAttribute('data-s') === t ? ' dg' : '');
-            }
-            var cols = $id('l7a-bars').children;
-            for (i = 0; i < cols.length; i++) {
-              var n = pairsOf(i + 2).length, col = cols[i];
-              col.className = 'l7a-bar' + (i + 2 === t ? ' on' : '');
-              col.querySelector('i').style.height = (n / 36 * 88) + 'px';
-              col.querySelector('em').textContent = n + '/36';
-            }
-          }
-          function autoScan() {
-            var btn = $id('l7a-scan'), t = 2, timer;
-            btn.disabled = true; btn.style.opacity = .5;
-            $id('l7a-t').value = t; renderA();
-            timer = setInterval(function () {
-              t++;
-              if (t > 12) { clearInterval(timer); btn.disabled = false; btn.style.opacity = 1; return; }
-              $id('l7a-t').value = t; renderA();
-            }, FAST() ? 60 : 420);
-          }
-
-          /* ================= B 滤镜像机 ================= */
-          var KB = 24, KS = 10, IMG = new Float32Array(KB * KB), OUT = null, KER = null, KERD = null;
-          var PRESETS = {
-            blur: { name: '模糊', k: [1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9], d: ['1/9', '1/9', '1/9', '1/9', '1/9', '1/9', '1/9', '1/9', '1/9'] },
-            sharp: { name: '锐化', k: [0, -1, 0, -1, 5, -1, 0, -1, 0], d: ['0', '-1', '0', '-1', '5', '-1', '0', '-1', '0'] },
-            edge: { name: '勾边', k: [0, 1, 0, 1, -4, 1, 0, 1, 0], d: ['0', '1', '0', '1', '-4', '1', '0', '1', '0'] },
-            ident: { name: '恒等', k: [0, 0, 0, 0, 1, 0, 0, 0, 0], d: ['0', '0', '0', '0', '1', '0', '0', '0', '0'] }
-          };
-          var cin, cout, ctxIn, ctxOut, selCell = null;
-          function buildImg() {
-            IMG.fill(0.92);
-            var x, y;
-            for (y = 3; y <= 9; y++) for (x = 3; x <= 9; x++) IMG[y * KB + x] = 0.15;   /* 实心方 */
-            for (y = 0; y < KB; y++) for (x = 0; x < KB; x++) {                          /* 圆环 */
-              var dd = Math.hypot(x - 15.5, y - 6.5);
-              if (Math.abs(dd - 3.1) < 0.62) IMG[y * KB + x] = 0.15;
-            }
-            for (y = 3; y <= 20; y++) IMG[y * KB + 21] = 0.45;                           /* 细竖线 */
-            for (x = 3; x <= 21; x++) IMG[19 * KB + x] = 0.45;                           /* 细横线 */
-          }
-          function paintArr(ctx, arr, marker, msize) {
-            var i;
-            for (var y = 0; y < KB; y++) for (var x = 0; x < KB; x++) {
-              var v = arr ? Math.max(0, Math.min(1, arr[y * KB + x])) : 0.94;
-              var g = Math.round(v * 255);
-              ctx.fillStyle = 'rgb(' + g + ',' + g + ',' + g + ')';
-              ctx.fillRect(x * KS, y * KS, KS, KS);
-            }
-            if (!arr) {
-              ctx.fillStyle = '#8a8a94'; ctx.font = '12px ui-monospace,Menlo,monospace';
-              ctx.fillText('▶ 扫描 / ⚡ 瞬时算', 34, 124);
-            }
-            if (marker) {
-              ctx.strokeStyle = '#c2410c'; ctx.lineWidth = 2.5;
-              ctx.strokeRect(marker[0] * KS + 1.25, marker[1] * KS + 1.25, msize * KS - 2.5, msize * KS - 2.5);
-            }
-          }
-          function convolve(k) {
-            var out = new Float32Array(KB * KB);
-            for (var y = 0; y < KB; y++) for (var x = 0; x < KB; x++) {
-              var s = 0;
-              for (var dy = -1; dy <= 1; dy++) for (var dx = -1; dx <= 1; dx++) {
-                var yy = Math.min(KB - 1, Math.max(0, y + dy)), xx = Math.min(KB - 1, Math.max(0, x + dx));
-                s += k[(dy + 1) * 3 + (dx + 1)] * IMG[yy * KB + xx];
-              }
-              out[y * KB + x] = s;
-            }
-            return out;
-          }
-          function setPreset(key) {
-            KER = PRESETS[key].k.slice(); KERD = PRESETS[key].d.slice();
-            OUT = null; selCell = null;
-            var chips = document.querySelectorAll('#lab3b7 .l7-mini');
-            for (var i = 0; i < chips.length; i++) chips[i].classList.toggle('on', chips[i].getAttribute('data-k') === key);
-            var kd = $id('l7b-kern'); kd.innerHTML = '';
-            for (var j = 0; j < 9; j++) { var c = document.createElement('div'); c.className = 'l7b-k'; c.textContent = KERD[j]; kd.appendChild(c); }
-            var sum = 0; for (var s = 0; s < 9; s++) sum += KER[s];
-            var v = Math.abs(sum - 1) < .01 ? '核加和 = 1 · 整体明暗不变（模糊只是揉，锐化白边黑边互补）'
-              : Math.abs(sum) < .01 ? '核加和 = 0 · 平整区一律归零，只剩变化（勾边的秘密）'
-              : '核加和 = ' + sum.toFixed(2);
-            $id('l7b-sum').textContent = v;
-            paintArr(ctxIn, IMG, null, 0); paintArr(ctxOut, null, null, 0);
-            $id('l7b-insp').innerHTML = '<span class="l7-stat">先扫一遍或瞬时算，再点图上任意一格。</span>';
-          }
-          function refreshPaint() {
-            paintArr(ctxIn, IMG, selCell ? [selCell[0] - 1, selCell[1] - 1] : null, 3);
-            if (OUT) paintArr(ctxOut, OUT, selCell, 1);
-            else paintArr(ctxOut, null, null, 0);
-          }
-          function inspect(x, y) {
-            selCell = [x, y];
-            refreshPaint();
-            if (!OUT) return;
-            var patch = [], prod = [], s = 0, i = 0;
-            for (var dy = -1; dy <= 1; dy++) for (var dx = -1; dx <= 1; dx++) {
-              var yy = Math.min(KB - 1, Math.max(0, y + dy)), xx = Math.min(KB - 1, Math.max(0, x + dx));
-              var p = IMG[yy * KB + xx];
-              patch.push(p.toFixed(2)); prod.push((p * KER[i]).toFixed(2)); s += p * KER[i]; i++;
-            }
-            var cell = 'rgb(' + Math.round(Math.max(0, Math.min(1, OUT[y * KB + x])) * 255) + ')';
-            var html = '<div><div class="l7a-cap" style="margin:0 0 4px;text-align:center">窗口 (' + x + ',' + y + ')</div><div class="l7b-t3">' + patch.map(function (v) { return '<span>' + v + '</span>'; }).join('') + '</div></div>'
-              + '<div class="l7b-op">×</div>'
-              + '<div><div class="l7a-cap" style="margin:0 0 4px;text-align:center">核</div><div class="l7b-t3 k">' + KERD.map(function (v) { return '<span>' + v + '</span>'; }).join('') + '</div></div>'
-              + '<div class="l7b-op">=</div>'
-              + '<div><div class="l7a-cap" style="margin:0 0 4px;text-align:center">乘积</div><div class="l7b-t3">' + prod.map(function (v) { return '<span>' + v + '</span>'; }).join('') + '</div></div>'
-              + '<div class="l7-stat" style="line-height:1.9">Σ = ' + s.toFixed(2) + ' → 截回 [0,1] = ' + Math.max(0, Math.min(1, OUT[y * KB + x])).toFixed(2)
-              + '<br><span style="display:inline-block;width:13px;height:13px;border-radius:3px;border:1px solid #d6d6de;vertical-align:-2px;background:' + cell + '"></span> 输出亮度</div>';
-            $id('l7b-insp').innerHTML = html;
-          }
-          function scanOutput(instant) {
-            OUT = convolve(KER);
-            if (instant) { refreshPaint(); inspect(6, 3); return; }
-            var btn = $id('l7b-scan'), idx = 0;
-            btn.disabled = true; btn.style.opacity = .5;
-            paintArr(ctxOut, null, null, 0);
-            var blank = new Float32Array(KB * KB); blank.fill(NaN);
-            var timer = setInterval(function () {
-              for (var q = 0; q < 5 && idx < KB * KB; q++, idx++) {
-                var x = idx % KB, y = (idx / KB) | 0;
-                var v = Math.max(0, Math.min(1, OUT[y * KB + x]));
-                var g = Math.round(v * 255);
-                ctxOut.fillStyle = 'rgb(' + g + ',' + g + ',' + g + ')';
-                ctxOut.fillRect(x * KS, y * KS, KS, KS);
-                paintArr(ctxIn, IMG, [x - 1, y - 1], 3);
-              }
-              if (idx >= KB * KB) {
-                clearInterval(timer);
-                btn.disabled = false; btn.style.opacity = 1;
-                inspect(6, 3);
-              }
-            }, FAST() ? 8 : 14);
-          }
-          (function buildB() {
-            cin = $id('l7b-cin'); cout = $id('l7b-cout');
-            ctxIn = cin.getContext('2d'); ctxOut = cout.getContext('2d');
-            buildImg();
-            var chips = document.querySelectorAll('#lab3b7 .l7-mini');
-            for (var i = 0; i < chips.length; i++) chips[i].addEventListener('click', function () { setPreset(this.getAttribute('data-k')); });
-            $id('l7b-scan').addEventListener('click', function () { if (KER) scanOutput(false); });
-            $id('l7b-inst').addEventListener('click', function () { if (KER) scanOutput(true); });
-            cin.addEventListener('click', function (e) {
-              if (!OUT) return;
-              var r = cin.getBoundingClientRect();
-              inspect(Math.floor((e.clientX - r.left) / r.width * KB), Math.floor((e.clientY - r.top) / r.height * KB));
-            });
-            cout.addEventListener('click', function (e) {
-              if (!OUT) return;
-              var r = cout.getBoundingClientRect();
-              inspect(Math.floor((e.clientX - r.left) / r.width * KB), Math.floor((e.clientY - r.top) / r.height * KB));
-            });
-            setPreset('blur');
-          })();
-
-          /* ================= C 大数乘法台 ================= */
-          var SUP = { 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹' };
-          function sup(n) { return String(n).split('').map(function (d) { return SUP[+d]; }).join(''); }
-          function polyLine(str, ds) {
-            var terms = [];
-            for (var i = 0; i < ds.length; i++) terms.push(ds[i] + '·x' + sup(i));
-            return '<div class="l7-poly">' + str + ' → 低位在前 [' + ds.join(',') + '] → ' + terms.join(' + ') + ' <span style="color:#6b6b76">(x=10)</span></div>';
-          }
-          function stag(txt) { return '<div class="l7-stag">' + txt + '</div>'; }
-          var runSeq = 0;
-          function runC() {
-            var seq = ++runSeq;
-            var A = String($id('l7-ca').value).replace(/\D/g, '').replace(/^0+/, '') || '0';
-            var B = String($id('l7-cb').value).replace(/\D/g, '').replace(/^0+/, '') || '0';
-            if (A.length > 8) A = A.slice(0, 8);
-            if (B.length > 8) B = B.slice(0, 8);
-            $id('l7-ca').value = A; $id('l7-cb').value = B;
-            var a = A.split('').reverse().map(Number), b = B.split('').reverse().map(Number);
-            var n = a.length, m = b.length, K = n + m - 1;
-            ['l7-s1', 'l7-s2', 'l7-s3', 'l7-s4'].forEach(function (id) { $id(id).className = 'l7-stage'; $id(id).innerHTML = ''; });
-            $id('l7-cchk').innerHTML = '流水线启动…';
-
-            /* ① 拆位 */
-            st(function () {
-              if (seq !== runSeq) return;
-              $id('l7-s1').innerHTML = stag('① 拆位——数字 = 「x 取 10」的多项式，系数低位在前')
-                + polyLine(A, a) + polyLine(B, b);
-              $id('l7-s1').className = 'l7-stage on';
-            }, 150);
-
-            /* ② 乘法表 */
-            st(function () {
-              if (seq !== runSeq) return;
-              var html = stag('② 乘法表——格 = 行数字 × 列数字；同一条对角线（右上→左下）上，指数和 k 相同，一会儿按 k 收账');
-              var tab = document.createElement('div');
-              tab.className = 'l7-ctab';
-              tab.style.gridTemplateColumns = 'repeat(' + (m + 1) + ',40px)';
-              var corner = document.createElement('div'); corner.className = 'l7-tc hd'; corner.textContent = 'A╲B'; tab.appendChild(corner);
-              var cells = [], c, r, i2, j2;
-              for (c = m - 1; c >= 0; c--) { var h = document.createElement('div'); h.className = 'l7-tc hd'; h.textContent = b[c]; tab.appendChild(h); }
-              for (r = n - 1; r >= 0; r--) {
-                var rh = document.createElement('div'); rh.className = 'l7-tc hd'; rh.textContent = a[r]; tab.appendChild(rh);
-                for (c = m - 1; c >= 0; c--) {
-                  var tc = document.createElement('div');
-                  tc.className = 'l7-tc';
-                  tc.textContent = a[r] * b[c];
-                  var i = n - 1 - r, j = m - 1 - c, k = i + j;
-                  tc.setAttribute('data-k', k);
-                  tab.appendChild(tc); cells.push(tc);
-                }
-              }
-              $id('l7-s2').innerHTML = html;
-              $id('l7-s2').appendChild(tab);
-              $id('l7-s2').className = 'l7-stage on';
-              cells.forEach(function (tc2, q) { st(function () { if (seq === runSeq) tc2.classList.add('on'); }, 150 + q * (FAST() ? 1 : 24)); });
-              /* ③ 对角线收账 */
-              var raw = [];
-              for (var k2 = 0; k2 < K; k2++) {
-                var kk = k2;
-                raw.push(computeRaw(a, b, kk));
-                st(function () {
-                  if (seq !== runSeq) return;
-                  var cur = kk;
-                  cells.forEach(function (tc3) {
-                    var kk3 = +tc3.getAttribute('data-k');
-                    tc3.classList.toggle('cur', kk3 === cur);
-                    if (kk3 < cur) tc3.classList.add('dk' + (kk3 % 6));
-                  });
-                }, 150 + cells.length * (FAST() ? 1 : 24) + 240 + kk * (FAST() ? 1 : 330));
-              }
-              st(function () {
-                if (seq !== runSeq) return;
-                cells.forEach(function (tc4) { tc4.classList.remove('cur'); tc4.classList.add('dk' + (+tc4.getAttribute('data-k') % 6)); });
-                var cards = raw.map(function (rw, k3) {
-                  return '<div class="l7-cd" id="l7cd' + k3 + '"><b>c' + sup(k3) + '</b> = ' + rw.terms.join(' + ') + ' = ' + rw.sum + '</div>';
-                }).join('');
-                $id('l7-s3').innerHTML = stag('③ 对角线收账——每条对角线一次乘加，乘积的系数（还没进位）就位') + '<div class="l7-cds">' + cards + '</div>';
-                $id('l7-s3').className = 'l7-stage on';
-                raw.forEach(function (rw2, k4) { st(function () { if (seq === runSeq) $id('l7cd' + k4).classList.add('on'); }, k4 * (FAST() ? 1 : 120)); });
-              }, 150 + cells.length * (FAST() ? 1 : 24) + 240 + K * (FAST() ? 1 : 330));
-
-              /* ④ 进位清洗 + 验算 */
-              st(function () {
-                if (seq !== runSeq) return;
-                var carry = 0, rows = [], digits = [];
-                for (var k5 = 0; k5 < K; k5++) {
-                  var tot = raw[k5].sum + carry;
-                  var dg = tot % 10, nc = (tot - dg) / 10;
-                  rows.push('<tr id="l7cr' + k5 + '"><td>k=' + k5 + '</td><td>' + raw[k5].sum + '</td><td>+' + carry + '</td><td><b>' + dg + '</b></td><td>' + nc + '</td></tr>');
-                  digits.push(dg); carry = nc;
-                }
-                while (carry > 0) { digits.push(carry % 10); carry = (carry - carry % 10) / 10; }
-                $id('l7-s4').innerHTML = stag('④ 进位清洗——卷积出的系数可以 ≥ 10，按位把多出来的往前进，再当 x=10 读回')
-                  + '<table class="l7-ct"><thead><tr><th>位 k</th><th>对角线和 cₖ</th><th>+上一位进位</th><th>本位写</th><th>向上进</th></tr></thead><tbody>'
-                  + rows.join('') + '</tbody></table><div class="l7-cres" id="l7-cres"></div>';
-                $id('l7-s4').className = 'l7-stage on';
-                rows.forEach(function (rw3, k6) { st(function () { if (seq === runSeq) $id('l7cr' + k6).className = 'on'; }, k6 * (FAST() ? 1 : 130)); });
-                var finalDelay = K * (FAST() ? 1 : 130);
-                st(function () {
-                  if (seq !== runSeq) return;
-                  var ds2 = digits.slice().reverse();
-                  while (ds2.length > 1 && ds2[0] === 0) ds2.shift();
-                  var str = ds2.join(''), pretty = str.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                  $id('l7-cres').textContent = A + ' × ' + B + ' = ' + pretty;
-                  var truth = (BigInt(A) * BigInt(B)).toString();
-                  $id('l7-cchk').innerHTML = '卷积路线：' + pretty + '<br>BigInt 直乘：' + truth.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                    + (str === truth ? ' <span style="color:#15803d;font-weight:700">✓ 一致</span>' : ' <span style="color:#c2410c;font-weight:700">✗ 不一致</span>');
-                }, finalDelay + 200);
-              }, 150 + cells.length * (FAST() ? 1 : 24) + 240 + K * (FAST() ? 1 : 330) + K * (FAST() ? 1 : 120) + 250);
-            }, 400);
-          }
-          function computeRaw(a, b, k) {
-            var terms = [], sum = 0;
-            for (var i = 0; i < a.length; i++) {
-              var j = k - i;
-              if (j >= 0 && j < b.length) { terms.push(a[i] + '×' + b[j]); sum += a[i] * b[j]; }
-            }
-            return { terms: terms, sum: sum };
-          }
-          (function buildC() {
-            $id('l7-crun').addEventListener('click', runC);
-            $id('l7-cre').addEventListener('click', function () {
-              runSeq++;
-              ['l7-s1', 'l7-s2', 'l7-s3', 'l7-s4'].forEach(function (id) { $id(id).className = 'l7-stage'; $id(id).innerHTML = ''; });
-              $id('l7-cchk').innerHTML = '最多各 8 位；非数字自动清洗。';
-            });
-          })();
-        })();
-        </script>
-        </div>
-      </details>
-
       <details class="ch-recap" id="b1b-07-recap">
         <summary><span class="ch-lab-arrow">▶</span>🧠 3B7 全景（一条流水线 × 三副面孔 × 实验室三台实拍）</summary>
         <div class="ch-lab-body">
@@ -2645,14 +2141,23 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
           </div>
           <p class="s1-recap">第二副面孔是图像。3×3 的核（九个权重）滑过整图，每停一处，新像素 = 窗口九格的加权和；<b>核加和定性格</b>：九格全 1/9，加和 = 1，明暗不变、细节揉没——模糊；中心 5 四邻 −1，加和仍 1 但带负权重，保亮度、放大差异——锐化；勾边核加和 = 0，平整区（九格全同）一乘归零，只剩「起变化」的边缘——三兄弟一图看尽（图二，输出由滤镜当场真算）。顺带一笔：数学定义要把核转 180° 再滑，机器学习偷懒不翻（这几种核左右对称，翻了白翻），照样叫卷积。图二即 B 台实拍简化：扫描看 3×3 橙框逐格点亮输出，点任意格出「窗口×核→乘积→求和」解剖面板。</p>
           <div class="s1-fig">
-<svg viewBox="0 0 880 470" width="100%" role="img" aria-label="3B7 图二：滤镜。左边输入示意图，后面三列分别是模糊、锐化、勾边三种 3 乘 3 核与各自输出，由 SVG 卷积滤镜实时算出；底条对照注意力">
+<svg viewBox="0 0 880 470" width="100%" role="img" aria-label="3B7 图二：滤镜。左边输入猫脸示意图，后面三列分别是模糊、锐化、勾边三种 3 乘 3 核与各自输出，由 SVG 卷积滤镜实时算出；底条对照注意力">
   <defs>
     <g id="f7src">
       <rect x="0" y="0" width="140" height="140" fill="#ececec"/>
-      <rect x="10" y="10" width="42" height="42" fill="#262626"/>
-      <circle cx="98" cy="34" r="20" fill="none" stroke="#262626" stroke-width="5"/>
-      <line x1="129" y1="8" x2="129" y2="132" stroke="#6b6b76" stroke-width="3"/>
-      <line x1="10" y1="112" x2="130" y2="112" stroke="#6b6b76" stroke-width="3"/>
+      <ellipse cx="70" cy="78" rx="44" ry="38" fill="#262626"/>
+      <polygon points="36,54 48,18 62,54" fill="#262626"/>
+      <polygon points="78,54 92,18 104,54" fill="#262626"/>
+      <line x1="55" y1="44" x2="55" y2="60" stroke="#6b6b76" stroke-width="6"/>
+      <line x1="70" y1="42" x2="70" y2="60" stroke="#6b6b76" stroke-width="6"/>
+      <line x1="85" y1="44" x2="85" y2="60" stroke="#6b6b76" stroke-width="6"/>
+      <rect x="54" y="70" width="9" height="12" fill="#ececec"/>
+      <rect x="77" y="70" width="9" height="12" fill="#ececec"/>
+      <rect x="65" y="90" width="10" height="7" fill="#ececec"/>
+      <line x1="8" y1="84" x2="34" y2="84" stroke="#6b6b76" stroke-width="3"/>
+      <line x1="8" y1="96" x2="34" y2="96" stroke="#6b6b76" stroke-width="3"/>
+      <line x1="106" y1="84" x2="132" y2="84" stroke="#6b6b76" stroke-width="3"/>
+      <line x1="106" y1="96" x2="132" y2="96" stroke="#6b6b76" stroke-width="3"/>
     </g>
     <filter id="f7blur" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
       <feGaussianBlur stdDeviation="2.4"/>
@@ -2689,7 +2194,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
   <text x="303" y="112" font-size="10" fill="#6b6b76">加和 = 1</text>
   <text x="260" y="176" font-size="13" text-anchor="middle" fill="#6b6b76">↓</text>
   <g transform="translate(215,192)"><use href="#f7src" filter="url(#f7blur)"/></g>
-  <text x="215" y="356" font-size="10.5" fill="#6b6b76">明暗不变，细节揉没——细线先糊掉</text>
+  <text x="215" y="356" font-size="10.5" fill="#6b6b76">明暗不变，细节揉没——胡须先糊掉</text>
   <text x="425" y="66" font-size="11" fill="#6b6b76">锐化</text>
   <rect x="425" y="78" width="24" height="24" rx="4" fill="#fff" stroke="#d6d6de"/>
   <text x="437" y="94" font-size="10.5" text-anchor="middle" fill="#3d3d46" font-family="ui-monospace,Menlo,monospace">0</text>
@@ -2814,6 +2319,522 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
 </svg>
           </div>
           <p class="s1-recap">收个钩子连回主线：卷积和 3B6 的注意力是亲戚——都是「加权混合邻居」，差别在<b>权重谁定</b>。卷积核的权重出厂焊死，滑到哪用到哪，只认位置不认内容；注意力的权重每行现算，q 跟前文的 k 对暗号，内容说了算。视野也不同：卷积一层只看得见 3×3，叠好多层才越看越远；注意力一层就看全前文。带着这个对照看 3B8（CNN 可视化），热闹底下全是门道。</p>
+        </div>
+      </details>
+
+      <details class="ch-lab" id="lab3b7">
+        <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · 卷积三台（骰子滑动台 × 滤镜像机 × 大数乘法台）<span class="ch-lab-hint">3B7 的三个画面：翻转·滑动·乘加，亲手拧</span></summary>
+        <div class="ch-lab-body">
+        <style>
+        #lab3b7 .l7-grid{display:grid;grid-template-columns:280px 1fr;gap:16px;align-items:start}
+        #lab3b7 .l7-box{border:1px solid var(--border);border-radius:12px;padding:14px;background:rgba(0,0,0,.02)}
+        #lab3b7 .l7-cap{font-size:12.5px;color:var(--muted);margin:14px 0 8px}
+        #lab3b7 .l7-cap:first-child{margin-top:0}
+        #lab3b7 .l7-row{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:12px;flex-wrap:wrap}
+        #lab3b7 .l7-row label{width:60px;color:var(--muted);flex:none}
+        #lab3b7 input[type=range]{flex:1;accent-color:var(--accent)}
+        #lab3b7 .l7-stat{font-family:var(--mono);font-size:12px}
+        #lab3b7 .l7-mini{font-size:11px;color:var(--muted);padding:2px 10px;border:1px solid var(--border);border-radius:999px;cursor:pointer;user-select:none}
+        #lab3b7 .l7-mini.on{border-color:#c2410c;color:#c2410c}
+        #lab3b7 .l7-note{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.8}
+        /* ---- A 骰子滑动台 ---- */
+        #lab3b7 .l7a-track{position:relative;height:104px;margin:2px 0 2px}
+        #lab3b7 .l7a-chip{position:absolute;width:32px;height:30px;border-radius:7px;border:1px solid #d6d6de;background:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;transition:background-color .25s,border-color .25s,color .25s}
+        #lab3b7 .l7a-rowA .l7a-chip{top:6px}
+        #lab3b7 .l7a-rowB{position:absolute;top:50px;transition:left .4s cubic-bezier(.5,1.5,.5,1)}
+        #lab3b7 .l7a-rowB .l7a-chip{position:relative;top:0}
+        #lab3b7 .l7a-rowB{display:flex;gap:4px}
+        #lab3b7 .l7a-chip.hit{border-color:#2563eb;background:rgba(37,99,235,.12);color:#1d4ed8;font-weight:700}
+        #lab3b7 .l7a-cap{font-size:10.5px;color:var(--muted);margin:2px 0 10px}
+        #lab3b7 .l7a-duo{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-top:8px}
+        #lab3b7 .l7a-g6{display:grid;grid-template-columns:20px repeat(6,30px);gap:2px}
+        #lab3b7 .l7a-c{height:26px;border-radius:4px;border:1px solid #e4e4ea;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10.5px;color:var(--muted);background:#fff;transition:background-color .2s,border-color .2s,color .2s}
+        #lab3b7 .l7a-c.hd{border:none;background:none;font-size:10px}
+        #lab3b7 .l7a-c.dg{background:rgba(37,99,235,.14);border-color:rgba(37,99,235,.5);color:#1d4ed8;font-weight:700}
+        #lab3b7 .l7a-bars{display:flex;gap:5px;align-items:stretch;height:118px;flex:1;min-width:290px}
+        #lab3b7 .l7a-bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+        #lab3b7 .l7a-bar i{display:block;width:100%;background:#d9d9e1;border-radius:3px 3px 0 0;font-style:normal}
+        #lab3b7 .l7a-bar em{font-style:normal;font-family:var(--mono);font-size:9.5px;color:#1d4ed8;margin-bottom:2px;height:13px;visibility:hidden}
+        #lab3b7 .l7a-bar.on em{visibility:visible}
+        #lab3b7 .l7a-bar b{font-weight:400;font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:3px}
+        #lab3b7 .l7a-bar.on i{background:#2563eb}
+        /* ---- B 滤镜像机 ---- */
+        #lab3b7 .l7b-canwrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+        #lab3b7 .l7b-canlab{font-size:10.5px;color:var(--muted);text-align:center;margin-bottom:6px}
+        #lab3b7 canvas.l7b-can{border:1px solid var(--border);border-radius:8px;cursor:crosshair;display:block}
+        #lab3b7 .l7b-kern{display:grid;grid-template-columns:repeat(3,46px);gap:3px;margin:8px 0 4px}
+        #lab3b7 .l7b-k{height:32px;border:1px solid #d6d6de;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px}
+        #lab3b7 .l7b-sum{font-family:var(--mono);font-size:11.5px;color:var(--text)}
+        #lab3b7 .l7b-insp{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}
+        #lab3b7 .l7b-t3{display:grid;grid-template-columns:repeat(3,46px);gap:2px}
+        #lab3b7 .l7b-t3 span{height:25px;border:1px solid #e4e4ea;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10.5px;color:#3d3d46}
+        #lab3b7 .l7b-t3.k span{border-color:#d6d6de;background:#fbfbfd}
+        #lab3b7 .l7b-op{font-family:var(--mono);color:var(--muted);font-size:14px}
+        #lab3b7 .l7b-arrow{font-family:var(--mono);color:var(--muted);font-size:16px}
+        /* ---- C 大数乘法台 ---- */
+        #lab3b7 .l7-inp{width:128px;padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-family:var(--mono);font-size:14px}
+        #lab3b7 .l7-ghost{background:var(--panel-2);color:var(--text)}
+        #lab3b7 .l7-stage{display:none;margin-top:12px;padding-top:10px;border-top:1px dashed var(--border)}
+        #lab3b7 .l7-stage.on{display:block;animation:l7fade .35s}
+        @keyframes l7fade{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
+        #lab3b7 .l7-stag{font-size:11px;color:var(--muted);margin-bottom:8px}
+        #lab3b7 .l7-poly{font-family:var(--mono);font-size:12px;color:#3d3d46;margin:3px 0;line-height:1.9}
+        #lab3b7 .l7-ctab{display:grid;gap:3px;justify-content:start;margin:6px 0;flex-wrap:wrap}
+        #lab3b7 .l7-tc{width:40px;height:30px;border:1px solid #e4e4ea;border-radius:5px;background:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11.5px;color:#3d3d46;opacity:0;transform:scale(.7)}
+        #lab3b7 .l7-tc.hd{border:none;background:none;color:var(--muted);font-weight:600;opacity:1;transform:none}
+        #lab3b7 .l7-tc.on{opacity:1;transform:scale(1);transition:opacity .18s,transform .18s}
+        #lab3b7 .l7-tc.cur{border-color:#c2410c;color:#c2410c;font-weight:700;box-shadow:0 0 0 2px rgba(194,65,12,.15)}
+        #lab3b7 .l7-tc.dk0{background:#eef2ff}#lab3b7 .l7-tc.dk1{background:#fef3c7}#lab3b7 .l7-tc.dk2{background:#ecfdf5}
+        #lab3b7 .l7-tc.dk3{background:#fdf2f8}#lab3b7 .l7-tc.dk4{background:#f0f9ff}#lab3b7 .l7-tc.dk5{background:#faf5ff}
+        #lab3b7 .l7-cds{display:flex;flex-wrap:wrap;gap:6px}
+        #lab3b7 .l7-cd{border:1px solid #d6d6de;border-radius:8px;padding:5px 9px;font-family:var(--mono);font-size:11px;color:#3d3d46;background:#fff;opacity:0}
+        #lab3b7 .l7-cd.on{opacity:1;transition:opacity .25s}
+        #lab3b7 .l7-cd b{color:#1d4ed8;font-weight:700}
+        #lab3b7 .l7-ct{border-collapse:collapse;font-family:var(--mono);font-size:11.5px}
+        #lab3b7 .l7-ct th{font-weight:500;color:var(--muted);text-align:right;padding:3px 8px;font-size:10.5px}
+        #lab3b7 .l7-ct td{border:1px solid #e4e4ea;padding:3px 10px;text-align:right;background:#fff;color:#3d3d46}
+        #lab3b7 .l7-ct tr.on td{border-color:rgba(194,65,12,.5);color:var(--text)}
+        #lab3b7 .l7-cres{font-family:var(--mono);font-size:22px;font-weight:700;color:#15803d;margin-top:12px}
+        </style>
+
+        <div class="l7-cap">A · 骰子滑动台（3B7）—— 「和的分布」怎么来：第二枚的分布整个翻转、贴着第一枚滑，每个位置乘加一次</div>
+        <div class="l7-grid">
+          <div class="l7-box">
+            <div class="l7-row"><label>目标和 t</label><input type="range" id="l7a-t" min="2" max="12" step="1" value="7"><span class="l7-stat" id="l7a-tv">7</span></div>
+            <div class="l7-row"><button class="arch-btn" id="l7a-scan" type="button" style="padding:6px 14px;font-size:13px">▶ 自动扫一遍</button>
+        <button class="arch-btn l7-ghost" id="l7a-reset" type="button" style="padding:6px 14px;font-size:13px">↻ 清空直方图</button></div>
+            <div class="l7-stat" style="margin-top:10px;line-height:2.1">P(X+Y=t) = Σ P(a)·P(t−a)<br>对子：<span id="l7a-pl">(1,6)(2,5)(3,4)(4,3)(5,2)(6,1)</span><br>共 <span id="l7a-n">6</span> 对 × 1/36 = <span id="l7a-p">6/36 ≈ 0.167</span></div>
+            <div class="l7-note">公平骰子每面 1/6，所以每对乘积恒为 1/36——对子数就是一切；不公平骰子的话，每对乘积各自不同，乘加照样成立。</div>
+          </div>
+          <div class="l7-box">
+            <div class="l7a-track" id="l7a-track">
+              <div class="l7a-rowA" id="l7a-rowA"></div>
+              <div class="l7a-rowB" id="l7a-rowB"></div>
+            </div>
+            <div class="l7a-cap">上排：第一枚（固定，每面 1/6） · 下排：第二枚（整个翻转，随 t 左右滑） · 蓝框 = 对上的对子（乘 1/36 计入）</div>
+            <div class="l7a-duo">
+              <div>
+                <div class="l7a-cap" style="margin-bottom:5px">乘法表：格子值 = a+b，同一条对角线（右上→左下）= 同一个 t</div>
+                <div class="l7a-g6" id="l7a-g6"></div>
+              </div>
+              <div style="flex:1;min-width:290px">
+                <div class="l7a-cap" style="margin-bottom:5px">和的分布——扫到哪，哪根柱子才长出来</div>
+                <div class="l7a-bars" id="l7a-bars"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="bg-hint">玩法：先自己拖几个 t，再点「自动扫一遍」——11 种和的分布是一根根柱子长出来的，哪种 t 对子最多，扫完才知道。下面那张 6×6 表先别急着关：C 台大数乘法的表跟它同构——格子放乘积、按对角线收账，连高亮方式都是一套。</p>
+
+        <div class="l7-cap">B · 滤镜像机（3B7）—— 3×3 核滑过整图：每个新像素 = 窗口九格的加权混合；核加和定性格（1 保亮度、0 只剩边）</div>
+        <div class="l7-grid">
+          <div class="l7-box">
+            <div class="l7-row"><label>核预设</label>
+              <span class="l7-mini" data-k="blur">模糊 1/9</span><span class="l7-mini" data-k="sharp">锐化</span><span class="l7-mini" data-k="edge">勾边</span><span class="l7-mini" data-k="ident">恒等</span>
+            </div>
+            <div class="l7-row"><label></label>
+              <button class="arch-btn" id="l7b-scan" type="button" style="padding:6px 14px;font-size:13px">▶ 扫描一遍</button>
+              <button class="arch-btn l7-ghost" id="l7b-inst" type="button" style="padding:6px 14px;font-size:13px">⚡ 瞬时算</button>
+            </div>
+            <div class="l7b-kern" id="l7b-kern"></div>
+            <div class="l7b-sum" id="l7b-sum">核加和 = —</div>
+            <div class="l7-note">真卷积要把核转 180° 再滑；这四个核全都中心对称，翻了白翻——机器学习里大家就这么偷懒，照样叫卷积。</div>
+          </div>
+          <div class="l7-box">
+            <div class="l7b-canwrap">
+              <div><div class="l7b-canlab">输入 32×32 程序绘猫（点格子选窗）</div><canvas class="l7b-can" id="l7b-cin" width="256" height="256"></canvas></div>
+              <div class="l7b-arrow">→</div>
+              <div><div class="l7b-canlab">输出（扫描后点亮；点点看）</div><canvas class="l7b-can" id="l7b-cout" width="256" height="256"></canvas></div>
+            </div>
+          </div>
+        </div>
+        <div class="l7-box" style="margin-top:12px" id="l7b-inspbox">
+          <div class="l7a-cap" style="margin:0 0 8px">一格的解剖（点击上图任意格）—— 窗口 × 核 → 乘积 → 求和 → 截回 [0,1]</div>
+          <div class="l7b-insp" id="l7b-insp"><span class="l7-stat">先扫一遍或瞬时算，再点图上任意一格。</span></div>
+        </div>
+        <p class="bg-hint">玩法：「模糊」扫描，胡须先糊没，条纹糊成灰雾，猫脸还在；换「勾边」，全图归黑，只剩猫的轮廓亮线——平整区九格相同，加和为 0 的核一乘就清零，只有「起变化」的地方活得下来；再换「锐化」，轮廓和条纹像被描了一遍。扫描时盯住输入图上的 3×3 橙框：它就是滑动窗口，框到哪、输出亮到哪。</p>
+
+        <div class="l7-cap">C · 大数乘法台（3B7）—— 两个数相乘 = 两串系数做卷积：乘法表按对角线收账，再进位清洗</div>
+        <div class="l7-grid">
+          <div class="l7-box">
+            <div class="l7-row"><label>乘数 A</label><input class="l7-inp" id="l7-ca" value="1234" maxlength="8" inputmode="numeric"></div>
+            <div class="l7-row"><label>乘数 B</label><input class="l7-inp" id="l7-cb" value="5678" maxlength="8" inputmode="numeric"></div>
+            <div class="l7-row"><label></label>
+              <button class="arch-btn" id="l7-crun" type="button" style="padding:6px 14px;font-size:13px">▶ 卷积乘</button>
+              <button class="arch-btn l7-ghost" id="l7-cre" type="button" style="padding:6px 14px;font-size:13px">↻ 清空</button>
+            </div>
+            <div class="l7-stat" style="margin-top:10px;line-height:2" id="l7-cchk">最多各 8 位；非数字自动清洗。</div>
+            <div class="l7-note">小学竖式 = 同一张乘法表排成阶梯逐行加；卷积 = 按对角线收账——一张表，两种读法。位数大了还有第三种：FFT 绕开整张表，O(n²) 变 O(n log n)。</div>
+          </div>
+          <div class="l7-box">
+            <div class="l7-stage" id="l7-s1"></div>
+            <div class="l7-stage" id="l7-s2"></div>
+            <div class="l7-stage" id="l7-s3"></div>
+            <div class="l7-stage" id="l7-s4"></div>
+          </div>
+        </div>
+        <p class="bg-hint">玩法：默认 1234×5678，点「卷积乘」看四步流水线——拆位、乘法表逐格点亮、七条对角线挨个收账（底色按 k 分组，和 A 台骰子表同一套机关）、进位清洗。末尾 BigInt 直乘对表，两路必须一个数。换个 9999×9999 试试：对角线和全是 81 的倍数，进位特别热闹。</p>
+
+        <script>
+        (function () {
+          var $id = function (x) { return document.getElementById(x); };
+          var FAST = function () { return !!window.L7FAST; };
+          function st(fn, ms) { setTimeout(fn, FAST() ? 16 : ms); }
+
+          /* ================= A 骰子滑动台 ================= */
+          var SLOT = 36, TRACK_SLOTS = 16, visited = {};
+          (function buildA() {
+            var track = $id('l7a-track');
+            track.style.width = (TRACK_SLOTS * SLOT - 4) + 'px';
+            var A = $id('l7a-rowA'), B = $id('l7a-rowB');
+            A.style.position = 'absolute'; A.style.top = '6px'; A.className = 'l7a-rowA';
+            for (var i = 0; i < 6; i++) {
+              var c = document.createElement('div');
+              c.className = 'l7a-chip'; c.textContent = i + 1;
+              c.style.left = (5 + i) * SLOT + 'px';
+              A.appendChild(c);
+            }
+            for (var j = 0; j < 6; j++) {
+              var d = document.createElement('div');
+              d.className = 'l7a-chip'; d.textContent = 6 - j;
+              B.appendChild(d);
+            }
+            var g = $id('l7a-g6'), k;
+            var hd = document.createElement('div'); hd.className = 'l7a-c hd'; hd.textContent = 'a╲b'; g.appendChild(hd);
+            for (k = 1; k <= 6; k++) { var h = document.createElement('div'); h.className = 'l7a-c hd'; h.textContent = k; g.appendChild(h); }
+            for (var a = 1; a <= 6; a++) {
+              var rh = document.createElement('div'); rh.className = 'l7a-c hd'; rh.textContent = a; g.appendChild(rh);
+              for (var b = 1; b <= 6; b++) {
+                var cc = document.createElement('div');
+                cc.className = 'l7a-c'; cc.textContent = a + b; cc.setAttribute('data-s', a + b);
+                g.appendChild(cc);
+              }
+            }
+            var bars = $id('l7a-bars');
+            for (var t = 2; t <= 12; t++) {
+              var col = document.createElement('div'); col.className = 'l7a-bar';
+              col.innerHTML = '<em></em><i style="height:0"></i><b>' + t + '</b>';
+              bars.appendChild(col);
+            }
+            $id('l7a-t').addEventListener('input', renderA);
+            $id('l7a-scan').addEventListener('click', autoScan);
+            $id('l7a-reset').addEventListener('click', function () { visited = {}; renderA(); });
+            renderA();
+          })();
+          function pairsOf(t) { var r = []; for (var a = 1; a <= 6; a++) { var b = t - a; if (b >= 1 && b <= 6) r.push([a, b]); } return r; }
+          function renderA() {
+            var t = +$id('l7a-t').value;
+            $id('l7a-tv').textContent = t;
+            var ps = pairsOf(t);
+            $id('l7a-pl').textContent = ps.map(function (p) { return '(' + p[0] + ',' + p[1] + ')'; }).join('');
+            $id('l7a-n').textContent = ps.length;
+            $id('l7a-p').textContent = ps.length + '/36 ≈ ' + (ps.length / 36).toFixed(3);
+            $id('l7a-rowB').style.left = ((t - 2) * SLOT) + 'px';
+            var aCh = $id('l7a-rowA').children, bCh = $id('l7a-rowB').children, i;
+            for (i = 0; i < 6; i++) {
+              var a = i + 1, b = t - a;
+              aCh[i].className = 'l7a-chip' + (b >= 1 && b <= 6 ? ' hit' : '');
+            }
+            for (i = 0; i < 6; i++) {
+              var bb = 6 - i, aa = t - bb;
+              bCh[i].className = 'l7a-chip' + (aa >= 1 && aa <= 6 ? ' hit' : '');
+            }
+            var cells = $id('l7a-g6').children;
+            for (i = 0; i < cells.length; i++) {
+              var c = cells[i];
+              if (c.getAttribute('data-s')) c.className = 'l7a-c' + (+c.getAttribute('data-s') === t ? ' dg' : '');
+            }
+            visited[t] = true;
+            var cols = $id('l7a-bars').children;
+            for (i = 0; i < cols.length; i++) {
+              var tt = i + 2, n = pairsOf(tt).length, col = cols[i];
+              col.className = 'l7a-bar' + (tt === t ? ' on' : '');
+              col.querySelector('i').style.height = (visited[tt] ? n / 36 * 88 : 0) + 'px';
+              col.querySelector('em').textContent = tt === t ? n + '/36' : '';
+            }
+          }
+          function autoScan() {
+            var btn = $id('l7a-scan'), t = 2, timer;
+            btn.disabled = true; btn.style.opacity = .5;
+            $id('l7a-t').value = t; renderA();
+            timer = setInterval(function () {
+              t++;
+              if (t > 12) { clearInterval(timer); btn.disabled = false; btn.style.opacity = 1; return; }
+              $id('l7a-t').value = t; renderA();
+            }, FAST() ? 60 : 420);
+          }
+
+          /* ================= B 滤镜像机 ================= */
+          var KB = 32, KS = 8, IMG = new Float32Array(KB * KB), OUT = null, KER = null, KERD = null;
+          var PRESETS = {
+            blur: { name: '模糊', k: [1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9], d: ['1/9', '1/9', '1/9', '1/9', '1/9', '1/9', '1/9', '1/9', '1/9'] },
+            sharp: { name: '锐化', k: [0, -1, 0, -1, 5, -1, 0, -1, 0], d: ['0', '-1', '0', '-1', '5', '-1', '0', '-1', '0'] },
+            edge: { name: '勾边', k: [0, 1, 0, 1, -4, 1, 0, 1, 0], d: ['0', '1', '0', '1', '-4', '1', '0', '1', '0'] },
+            ident: { name: '恒等', k: [0, 0, 0, 0, 1, 0, 0, 0, 0], d: ['0', '0', '0', '0', '1', '0', '0', '0', '0'] }
+          };
+          var cin, cout, ctxIn, ctxOut, selCell = null;
+          function buildImg() {
+            IMG.fill(0.92);
+            var x, y;
+            for (y = 0; y < KB; y++) for (x = 0; x < KB; x++) {                          /* 猫头椭圆 */
+              var dx = (x - 15.5) / 9.5, dy = (y - 18) / 8.5;
+              if (dx * dx + dy * dy <= 1) IMG[y * KB + x] = 0.15;
+            }
+            function ear(x1, x2, tip) {                                                 /* 三角耳 */
+              for (var yy = tip[1]; yy <= 14; yy++) {
+                var lo = x1 + (tip[0] - x1) * (yy - 14) / (tip[1] - 14);
+                var hi = x2 + (tip[0] - x2) * (yy - 14) / (tip[1] - 14);
+                for (var xx = Math.round(lo); xx <= Math.round(hi); xx++) IMG[yy * KB + xx] = 0.15;
+              }
+            }
+            ear(7, 12, [9, 3]); ear(19, 24, [22, 3]);
+            [12, 15, 18].forEach(function (sx) { for (y = 11; y <= 15; y++) for (x = sx; x <= sx + 1; x++) IMG[y * KB + x] = 0.42; });  /* 额头条纹 */
+            for (y = 17; y <= 19; y++) { IMG[y * KB + 11] = 0.92; IMG[y * KB + 12] = 0.92; IMG[y * KB + 19] = 0.92; IMG[y * KB + 20] = 0.92; }  /* 亮眼睛 */
+            for (y = 21; y <= 22; y++) { IMG[y * KB + 15] = 0.92; IMG[y * KB + 16] = 0.92; }            /* 亮鼻头 */
+            [20, 22].forEach(function (wy) { for (x = 1; x <= 5; x++) IMG[wy * KB + x] = 0.42; for (x = 26; x <= 30; x++) IMG[wy * KB + x] = 0.42; });  /* 胡须 */
+          }
+          function paintArr(ctx, arr, marker, msize) {
+            var i;
+            for (var y = 0; y < KB; y++) for (var x = 0; x < KB; x++) {
+              var v = arr ? Math.max(0, Math.min(1, arr[y * KB + x])) : 0.94;
+              var g = Math.round(v * 255);
+              ctx.fillStyle = 'rgb(' + g + ',' + g + ',' + g + ')';
+              ctx.fillRect(x * KS, y * KS, KS, KS);
+            }
+            if (!arr) {
+              ctx.fillStyle = '#8a8a94'; ctx.font = '12px ui-monospace,Menlo,monospace';
+              ctx.fillText('▶ 扫描 / ⚡ 瞬时算', 52, 132);
+            }
+            if (marker) {
+              ctx.strokeStyle = '#c2410c'; ctx.lineWidth = 2.5;
+              ctx.strokeRect(marker[0] * KS + 1.25, marker[1] * KS + 1.25, msize * KS - 2.5, msize * KS - 2.5);
+            }
+          }
+          function convolve(k) {
+            var out = new Float32Array(KB * KB);
+            for (var y = 0; y < KB; y++) for (var x = 0; x < KB; x++) {
+              var s = 0;
+              for (var dy = -1; dy <= 1; dy++) for (var dx = -1; dx <= 1; dx++) {
+                var yy = Math.min(KB - 1, Math.max(0, y + dy)), xx = Math.min(KB - 1, Math.max(0, x + dx));
+                s += k[(dy + 1) * 3 + (dx + 1)] * IMG[yy * KB + xx];
+              }
+              out[y * KB + x] = s;
+            }
+            return out;
+          }
+          function setPreset(key) {
+            KER = PRESETS[key].k.slice(); KERD = PRESETS[key].d.slice();
+            OUT = null; selCell = null;
+            var chips = document.querySelectorAll('#lab3b7 .l7-mini');
+            for (var i = 0; i < chips.length; i++) chips[i].classList.toggle('on', chips[i].getAttribute('data-k') === key);
+            var kd = $id('l7b-kern'); kd.innerHTML = '';
+            for (var j = 0; j < 9; j++) { var c = document.createElement('div'); c.className = 'l7b-k'; c.textContent = KERD[j]; kd.appendChild(c); }
+            var sum = 0; for (var s = 0; s < 9; s++) sum += KER[s];
+            var v = Math.abs(sum - 1) < .01 ? '核加和 = 1 · 整体明暗不变（模糊只是揉，锐化白边黑边互补）'
+              : Math.abs(sum) < .01 ? '核加和 = 0 · 平整区一律归零，只剩变化（勾边的秘密）'
+              : '核加和 = ' + sum.toFixed(2);
+            $id('l7b-sum').textContent = v;
+            paintArr(ctxIn, IMG, null, 0); paintArr(ctxOut, null, null, 0);
+            $id('l7b-insp').innerHTML = '<span class="l7-stat">先扫一遍或瞬时算，再点图上任意一格。</span>';
+          }
+          function refreshPaint() {
+            paintArr(ctxIn, IMG, selCell ? [selCell[0] - 1, selCell[1] - 1] : null, 3);
+            if (OUT) paintArr(ctxOut, OUT, selCell, 1);
+            else paintArr(ctxOut, null, null, 0);
+          }
+          function inspect(x, y) {
+            selCell = [x, y];
+            refreshPaint();
+            if (!OUT) return;
+            var patch = [], prod = [], s = 0, i = 0;
+            for (var dy = -1; dy <= 1; dy++) for (var dx = -1; dx <= 1; dx++) {
+              var yy = Math.min(KB - 1, Math.max(0, y + dy)), xx = Math.min(KB - 1, Math.max(0, x + dx));
+              var p = IMG[yy * KB + xx];
+              patch.push(p.toFixed(2)); prod.push((p * KER[i]).toFixed(2)); s += p * KER[i]; i++;
+            }
+            var cell = 'rgb(' + Math.round(Math.max(0, Math.min(1, OUT[y * KB + x])) * 255) + ')';
+            var html = '<div><div class="l7a-cap" style="margin:0 0 4px;text-align:center">窗口 (' + x + ',' + y + ')</div><div class="l7b-t3">' + patch.map(function (v) { return '<span>' + v + '</span>'; }).join('') + '</div></div>'
+              + '<div class="l7b-op">×</div>'
+              + '<div><div class="l7a-cap" style="margin:0 0 4px;text-align:center">核</div><div class="l7b-t3 k">' + KERD.map(function (v) { return '<span>' + v + '</span>'; }).join('') + '</div></div>'
+              + '<div class="l7b-op">=</div>'
+              + '<div><div class="l7a-cap" style="margin:0 0 4px;text-align:center">乘积</div><div class="l7b-t3">' + prod.map(function (v) { return '<span>' + v + '</span>'; }).join('') + '</div></div>'
+              + '<div class="l7-stat" style="line-height:1.9">Σ = ' + s.toFixed(2) + ' → 截回 [0,1] = ' + Math.max(0, Math.min(1, OUT[y * KB + x])).toFixed(2)
+              + '<br><span style="display:inline-block;width:13px;height:13px;border-radius:3px;border:1px solid #d6d6de;vertical-align:-2px;background:' + cell + '"></span> 输出亮度</div>';
+            $id('l7b-insp').innerHTML = html;
+          }
+          function scanOutput(instant) {
+            OUT = convolve(KER);
+            if (instant) { refreshPaint(); inspect(16, 10); return; }
+            var btn = $id('l7b-scan'), idx = 0;
+            btn.disabled = true; btn.style.opacity = .5;
+            paintArr(ctxOut, null, null, 0);
+            var blank = new Float32Array(KB * KB); blank.fill(NaN);
+            var timer = setInterval(function () {
+              for (var q = 0; q < 5 && idx < KB * KB; q++, idx++) {
+                var x = idx % KB, y = (idx / KB) | 0;
+                var v = Math.max(0, Math.min(1, OUT[y * KB + x]));
+                var g = Math.round(v * 255);
+                ctxOut.fillStyle = 'rgb(' + g + ',' + g + ',' + g + ')';
+                ctxOut.fillRect(x * KS, y * KS, KS, KS);
+                paintArr(ctxIn, IMG, [x - 1, y - 1], 3);
+              }
+              if (idx >= KB * KB) {
+                clearInterval(timer);
+                btn.disabled = false; btn.style.opacity = 1;
+                inspect(16, 10);
+              }
+            }, FAST() ? 8 : 14);
+          }
+          (function buildB() {
+            cin = $id('l7b-cin'); cout = $id('l7b-cout');
+            ctxIn = cin.getContext('2d'); ctxOut = cout.getContext('2d');
+            buildImg();
+            var chips = document.querySelectorAll('#lab3b7 .l7-mini');
+            for (var i = 0; i < chips.length; i++) chips[i].addEventListener('click', function () { setPreset(this.getAttribute('data-k')); });
+            $id('l7b-scan').addEventListener('click', function () { if (KER) scanOutput(false); });
+            $id('l7b-inst').addEventListener('click', function () { if (KER) scanOutput(true); });
+            cin.addEventListener('click', function (e) {
+              if (!OUT) return;
+              var r = cin.getBoundingClientRect();
+              inspect(Math.floor((e.clientX - r.left) / r.width * KB), Math.floor((e.clientY - r.top) / r.height * KB));
+            });
+            cout.addEventListener('click', function (e) {
+              if (!OUT) return;
+              var r = cout.getBoundingClientRect();
+              inspect(Math.floor((e.clientX - r.left) / r.width * KB), Math.floor((e.clientY - r.top) / r.height * KB));
+            });
+            setPreset('blur');
+          })();
+
+          /* ================= C 大数乘法台 ================= */
+          var SUP = { 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹' };
+          function sup(n) { return String(n).split('').map(function (d) { return SUP[+d]; }).join(''); }
+          function polyLine(str, ds) {
+            var terms = [];
+            for (var i = 0; i < ds.length; i++) terms.push(ds[i] + '·x' + sup(i));
+            return '<div class="l7-poly">' + str + ' → 低位在前 [' + ds.join(',') + '] → ' + terms.join(' + ') + ' <span style="color:#6b6b76">(x=10)</span></div>';
+          }
+          function stag(txt) { return '<div class="l7-stag">' + txt + '</div>'; }
+          var runSeq = 0;
+          function runC() {
+            var seq = ++runSeq;
+            var A = String($id('l7-ca').value).replace(/\D/g, '').replace(/^0+/, '') || '0';
+            var B = String($id('l7-cb').value).replace(/\D/g, '').replace(/^0+/, '') || '0';
+            if (A.length > 8) A = A.slice(0, 8);
+            if (B.length > 8) B = B.slice(0, 8);
+            $id('l7-ca').value = A; $id('l7-cb').value = B;
+            var a = A.split('').reverse().map(Number), b = B.split('').reverse().map(Number);
+            var n = a.length, m = b.length, K = n + m - 1;
+            ['l7-s1', 'l7-s2', 'l7-s3', 'l7-s4'].forEach(function (id) { $id(id).className = 'l7-stage'; $id(id).innerHTML = ''; });
+            $id('l7-cchk').innerHTML = '流水线启动…';
+
+            /* ① 拆位 */
+            st(function () {
+              if (seq !== runSeq) return;
+              $id('l7-s1').innerHTML = stag('① 拆位——数字 = 「x 取 10」的多项式，系数低位在前')
+                + polyLine(A, a) + polyLine(B, b);
+              $id('l7-s1').className = 'l7-stage on';
+            }, 150);
+
+            /* ② 乘法表 */
+            st(function () {
+              if (seq !== runSeq) return;
+              var html = stag('② 乘法表——格 = 行数字 × 列数字；同一条对角线（右上→左下）上，指数和 k 相同，一会儿按 k 收账');
+              var tab = document.createElement('div');
+              tab.className = 'l7-ctab';
+              tab.style.gridTemplateColumns = 'repeat(' + (m + 1) + ',40px)';
+              var corner = document.createElement('div'); corner.className = 'l7-tc hd'; corner.textContent = 'A╲B'; tab.appendChild(corner);
+              var cells = [], c, r, i2, j2;
+              for (c = m - 1; c >= 0; c--) { var h = document.createElement('div'); h.className = 'l7-tc hd'; h.textContent = b[c]; tab.appendChild(h); }
+              for (r = n - 1; r >= 0; r--) {
+                var rh = document.createElement('div'); rh.className = 'l7-tc hd'; rh.textContent = a[r]; tab.appendChild(rh);
+                for (c = m - 1; c >= 0; c--) {
+                  var tc = document.createElement('div');
+                  tc.className = 'l7-tc';
+                  tc.textContent = a[r] * b[c];
+                  var i = n - 1 - r, j = m - 1 - c, k = i + j;
+                  tc.setAttribute('data-k', k);
+                  tab.appendChild(tc); cells.push(tc);
+                }
+              }
+              $id('l7-s2').innerHTML = html;
+              $id('l7-s2').appendChild(tab);
+              $id('l7-s2').className = 'l7-stage on';
+              cells.forEach(function (tc2, q) { st(function () { if (seq === runSeq) tc2.classList.add('on'); }, 150 + q * (FAST() ? 1 : 24)); });
+              /* ③ 对角线收账 */
+              var raw = [];
+              for (var k2 = 0; k2 < K; k2++) {
+                var kk = k2;
+                raw.push(computeRaw(a, b, kk));
+                st(function () {
+                  if (seq !== runSeq) return;
+                  var cur = kk;
+                  cells.forEach(function (tc3) {
+                    var kk3 = +tc3.getAttribute('data-k');
+                    tc3.classList.toggle('cur', kk3 === cur);
+                    if (kk3 < cur) tc3.classList.add('dk' + (kk3 % 6));
+                  });
+                }, 150 + cells.length * (FAST() ? 1 : 24) + 240 + kk * (FAST() ? 1 : 330));
+              }
+              st(function () {
+                if (seq !== runSeq) return;
+                cells.forEach(function (tc4) { tc4.classList.remove('cur'); tc4.classList.add('dk' + (+tc4.getAttribute('data-k') % 6)); });
+                var cards = raw.map(function (rw, k3) {
+                  return '<div class="l7-cd" id="l7cd' + k3 + '"><b>c' + sup(k3) + '</b> = ' + rw.terms.join(' + ') + ' = ' + rw.sum + '</div>';
+                }).join('');
+                $id('l7-s3').innerHTML = stag('③ 对角线收账——每条对角线一次乘加，乘积的系数（还没进位）就位') + '<div class="l7-cds">' + cards + '</div>';
+                $id('l7-s3').className = 'l7-stage on';
+                raw.forEach(function (rw2, k4) { st(function () { if (seq === runSeq) $id('l7cd' + k4).classList.add('on'); }, k4 * (FAST() ? 1 : 120)); });
+              }, 150 + cells.length * (FAST() ? 1 : 24) + 240 + K * (FAST() ? 1 : 330));
+
+              /* ④ 进位清洗 + 验算 */
+              st(function () {
+                if (seq !== runSeq) return;
+                var carry = 0, rows = [], digits = [];
+                for (var k5 = 0; k5 < K; k5++) {
+                  var tot = raw[k5].sum + carry;
+                  var dg = tot % 10, nc = (tot - dg) / 10;
+                  rows.push('<tr id="l7cr' + k5 + '"><td>k=' + k5 + '</td><td>' + raw[k5].sum + '</td><td>+' + carry + '</td><td><b>' + dg + '</b></td><td>' + nc + '</td></tr>');
+                  digits.push(dg); carry = nc;
+                }
+                while (carry > 0) { digits.push(carry % 10); carry = (carry - carry % 10) / 10; }
+                $id('l7-s4').innerHTML = stag('④ 进位清洗——卷积出的系数可以 ≥ 10，按位把多出来的往前进，再当 x=10 读回')
+                  + '<table class="l7-ct"><thead><tr><th>位 k</th><th>对角线和 cₖ</th><th>+上一位进位</th><th>本位写</th><th>向上进</th></tr></thead><tbody>'
+                  + rows.join('') + '</tbody></table><div class="l7-cres" id="l7-cres"></div>';
+                $id('l7-s4').className = 'l7-stage on';
+                rows.forEach(function (rw3, k6) { st(function () { if (seq === runSeq) $id('l7cr' + k6).className = 'on'; }, k6 * (FAST() ? 1 : 130)); });
+                var finalDelay = K * (FAST() ? 1 : 130);
+                st(function () {
+                  if (seq !== runSeq) return;
+                  var ds2 = digits.slice().reverse();
+                  while (ds2.length > 1 && ds2[0] === 0) ds2.shift();
+                  var str = ds2.join(''), pretty = str.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                  $id('l7-cres').textContent = A + ' × ' + B + ' = ' + pretty;
+                  var truth = (BigInt(A) * BigInt(B)).toString();
+                  $id('l7-cchk').innerHTML = '卷积路线：' + pretty + '<br>BigInt 直乘：' + truth.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                    + (str === truth ? ' <span style="color:#15803d;font-weight:700">✓ 一致</span>' : ' <span style="color:#c2410c;font-weight:700">✗ 不一致</span>');
+                }, finalDelay + 200);
+              }, 150 + cells.length * (FAST() ? 1 : 24) + 240 + K * (FAST() ? 1 : 330) + K * (FAST() ? 1 : 120) + 250);
+            }, 400);
+          }
+          function computeRaw(a, b, k) {
+            var terms = [], sum = 0;
+            for (var i = 0; i < a.length; i++) {
+              var j = k - i;
+              if (j >= 0 && j < b.length) { terms.push(a[i] + '×' + b[j]); sum += a[i] * b[j]; }
+            }
+            return { terms: terms, sum: sum };
+          }
+          (function buildC() {
+            $id('l7-crun').addEventListener('click', runC);
+            $id('l7-cre').addEventListener('click', function () {
+              runSeq++;
+              ['l7-s1', 'l7-s2', 'l7-s3', 'l7-s4'].forEach(function (id) { $id(id).className = 'l7-stage'; $id(id).innerHTML = ''; });
+              $id('l7-cchk').innerHTML = '最多各 8 位；非数字自动清洗。';
+            });
+          })();
+        })();
+        </script>
         </div>
       </details>
 
