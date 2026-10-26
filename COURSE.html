@@ -2113,6 +2113,50 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
   <text x="467" y="412" font-size="10.5" fill="#6b6b76" text-anchor="middle">机器从头到尾没合并过任何一行——「猫追狗，狗追 __」的填空，发生在网外</text>
 </svg>
       </div>
+      <p class="s1-recap">图二看的是 96 块的整体；钻进任意一块，两道工序各有一层细节值得摊开。先看横的——注意力干的是三件事：</p>
+      <ul class="ch-list">
+        <li><b>对暗号——抄谁的、抄多少？</b>每行发出一根「查询」向量，和前文每一行的「钥匙」向量比对，越合拍份额越大：「它」的查询跟前面「狗」的钥匙一拍即合，跟「把」「骨头」就淡得多。暗号怎么算成分数，T2 专门讲。</li>
+        <li><b>加权抄录——抄来怎么并？</b>按份额把前文各行的内容混成一份「抄录」——「它」的抄录里「狗」占大头，其余各字按关系分剩下的。</li>
+        <li><b>添回原行——抄完怎么落？</b>抄录是「添」进自己这行，不是整个换掉——裸词义始终垫在底下，每穿过一块积木，只是往上摞一层理解。</li>
+      </ul>
+      <p class="s1-recap">这次抄录还是 96 组并行的：第二节数字框里那笔账在这里兑现——12,288 维切成 96 头，每头 128 维，有的头盯指代、有的头盯相邻搭配，各抄各的角度，最后 96 份拼回一根 12,288 维。再看纵的——前馈层把添好的每一行从 12,288 维扩到 49,152 维，在 49,152 个特征位上各过一道开关（术语叫 GELU，简单理解为信号够强就放行、不够就压向零），再把有用的压回 12,288 维。「狗＋宾语位置＋叼骨头」这类组合特征，就是在这一步从「打听到别人的原话」炼成「自己的判断」。96 行各过各的、互不串门，用的却是同一套权重；两道干完，形状纹丝没动，交给下一块积木从头再来。</p>
+      <div class="s1-fig">
+<svg viewBox="0 0 880 500" width="100%" role="img" aria-label="图三：一块积木内部——注意力三步（对暗号、加权抄录、添回原行），前馈层扩维过 GELU 开关再压回，形状不变">
+  <defs>
+    <marker id="tfblkar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b6b76"/></marker>
+  </defs>
+  <text x="105" y="30" font-size="13" font-weight="600" fill="#1a1a1f">一块积木内部 · 两道工序各干各的</text>
+  <text x="105" y="48" font-size="10.5" fill="#6b6b76">以「它」那一行为例——行数与宽度全程不变，变的只是每行装的理解</text>
+
+  <rect x="307" y="64" width="320" height="44" rx="10" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="323" y="84" font-size="12.5" font-weight="600" fill="#1a1a1f">📥 进积木 · N×12,288</text>
+  <text x="323" y="102" font-size="10.5" fill="#6b6b76">每行 = 一个位置 + 一份当前的理解</text>
+  <line x1="467" y1="108" x2="467" y2="122" stroke="#6b6b76" stroke-width="1.5" marker-end="url(#tfblkar)"/>
+
+  <rect x="105" y="126" width="725" height="104" rx="10" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="121" y="148" font-size="12.5" font-weight="600" fill="#1a1a1f">👀 第一道 · 注意力——行与行之间打听</text>
+  <text x="121" y="170" font-size="10" fill="#2563eb" font-family="ui-monospace,Menlo,monospace">① 对暗号：每行发「查询」，跟前文各行的「钥匙」比，越合拍份额越大</text>
+  <text x="121" y="188" font-size="10" fill="#2563eb" font-family="ui-monospace,Menlo,monospace">② 加权抄录：按份额把前文各行混成一份抄录——「它」的抄录里「狗」占大头</text>
+  <text x="121" y="206" font-size="10" fill="#2563eb" font-family="ui-monospace,Menlo,monospace">③ 添回原行：抄来的「添」进自己这行——不替换，裸词义垫底</text>
+  <text x="121" y="222" font-size="10.5" fill="#6b6b76">96 头并行（每头 128 维）：有的头盯指代、有的头盯搭配，各抄各的角度，最后拼回一根</text>
+  <line x1="467" y1="230" x2="467" y2="248" stroke="#6b6b76" stroke-width="1.5" marker-end="url(#tfblkar)"/>
+
+  <rect x="105" y="252" width="725" height="92" rx="10" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="121" y="276" font-size="12.5" font-weight="600" fill="#1a1a1f">🔬 第二道 · 前馈层——自己这一行往深里消化</text>
+  <text x="121" y="298" font-size="10" fill="#2563eb" font-family="ui-monospace,Menlo,monospace">12,288 → 49,152 → 12,288（4 倍惯例，人为沿用）</text>
+  <text x="121" y="316" font-size="10" fill="#2563eb" font-family="ui-monospace,Menlo,monospace">49,152 个特征位逐格过一道开关，术语叫 GELU：信号够强就放行 · 不够就压向零</text>
+  <text x="121" y="334" font-size="10.5" fill="#6b6b76">96 行各过各的、互不串门——用的都是同一套权重</text>
+  <line x1="467" y1="344" x2="467" y2="370" stroke="#6b6b76" stroke-width="1.5" marker-end="url(#tfblkar)"/>
+
+  <rect x="307" y="374" width="320" height="44" rx="10" fill="#f7f7f9" stroke="#e2e2e8"/>
+  <text x="323" y="394" font-size="12.5" font-weight="600" fill="#1a1a1f">📤 出积木 · 还是 N×12,288</text>
+  <text x="323" y="412" font-size="10.5" fill="#6b6b76">形状没动 · 交给下一块从头再来</text>
+
+  <rect x="105" y="436" width="725" height="46" rx="10" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.55)"/>
+  <text x="467" y="455" font-size="12" fill="#15803d" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">一块积木 ≈ 18.1 亿参数 · 96 块 ≈ 1,740 亿——总账在第五节</text>
+  <text x="467" y="473" font-size="10.5" fill="#6b6b76" text-anchor="middle">横道管行与行，纵道管一行之内——两道干完，形状纹丝不动</text>
+</svg>
+      </div>
 
       <div class="tf-h"><span class="no">四</span>出口：最后一行去领任务</div>
       <p class="s1-recap">猜「下一个字」只需要<b>最后一行</b>——只有它看完了全部前文。两步出分。<b>第一步，打分</b>：出口备着一张表，每个词条一行——拿最后一行的向量和每个词条那一行做点积（12,288 对数对应相乘再求和；两根向量越「对得上」，分越高），得 50,257 个分数。这张出口表通常就是入口那张嵌入表转过来共用，省一半存储，论文里记作 W_U（解嵌入矩阵）。<b>第二步，softmax</b>：每个分数取 e 的幂（拉大差距、全变正数），再除以总和——50,257 个数就成了加和恰为 1 的概率。</p>
@@ -2120,7 +2164,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
       <p class="s1-recap">出口宽度为什么恰是 50,257？被词表<b>钉死</b>——要给每个词条一个概率，格数 = 词条数，没有第二种选法。至此一台完整的接龙机器成型：文字进 → 概率表出 → 挑一个接尾 → 新尾巴又进 → 循环。</p>
       <p class="s1-recap">但此刻它是台废物——所有表和权重开局全是随机数，猜字跟抛硬币差不多。它怎么变成高手？</p>
       <div class="s1-fig">
-<svg viewBox="0 0 880 352" width="100%" role="img" aria-label="图三：两步出分——最后一行与每个词条打分，softmax 抹成概率表，挑字二选一；出口宽度被词表钉死">
+<svg viewBox="0 0 880 352" width="100%" role="img" aria-label="图四：两步出分——最后一行与每个词条打分，softmax 抹成概率表，挑字二选一；出口宽度被词表钉死">
   <defs>
     <marker id="tfexar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b6b76"/></marker>
   </defs>
@@ -2186,7 +2230,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
         <p>论文实测，单位 FLOPs（浮点运算次数）。它也不是决定，是账单：宽 12,288、深 96、学 3,000 亿 token——这些选择跑完之后自然欠下的量，数千张专业显卡连转数周。</p>
       </div>
       <div class="s1-fig">
-<svg viewBox="0 0 880 460" width="100%" role="img" aria-label="图四：一步训练——语料切段、并行出题、罚分、反向传播、挪参数，循环">
+<svg viewBox="0 0 880 460" width="100%" role="img" aria-label="图五：一步训练——语料切段、并行出题、罚分、反向传播、挪参数，循环">
   <defs>
     <marker id="tf3ar" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b6b76"/></marker>
   </defs>
@@ -2241,7 +2285,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
       <p class="s1-recap">之后有人来问「猫追狗，狗追谁」，机器跑的只是前向那一趟：查表 → 96 块积木 → 出分 → 接龙，一步梯度都不算。所以使用不会让它变聪明——它只在训练期学，学完即定型；想再学，得另起炉灶重新训练，那是另一个工程。</p>
       <p class="s1-recap">最后一层窗户纸：一台只会接龙的机器，怎么就成了「助手」？还是外层程序的活——把你的问题连同全部对话历史拼成一段文字喂进去，把接龙的输出包装成回答。机器自始至终只会一件事：猜下一个字。</p>
       <div class="s1-fig">
-<svg viewBox="0 0 880 530" width="100%" role="img" aria-label="图五：GPT-3 数字地图——十二个关键数字，各自标明来源与性质：人为定、相乘而来或客观基数">
+<svg viewBox="0 0 880 530" width="100%" role="img" aria-label="图六：GPT-3 数字地图——十二个关键数字，各自标明来源与性质：人为定、相乘而来或客观基数">
   <text x="105" y="30" font-size="13" font-weight="600" fill="#1a1a1f">GPT-3 数字地图 · 每个数从哪来、谁定的</text>
 
   <rect x="105" y="47" width="11" height="11" rx="3" fill="#c2410c"/>
@@ -2329,7 +2373,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
 </svg>
       </div>
 
-      <div class="ch-foot"><span class="foot-chip ver">标本 · GPT-3（Brown et al., 2020）</span><span class="foot-chip">五图 · 接龙循环 / 形状不变 / 两步出分 / 一步训练 / 数字地图</span></div>
+      <div class="ch-foot"><span class="foot-chip ver">标本 · GPT-3（Brown et al., 2020）</span><span class="foot-chip">六图 · 接龙循环 / 形状不变 / 积木内部 / 两步出分 / 一步训练 / 数字地图</span></div>
     </article>
   </details>
 </section>
