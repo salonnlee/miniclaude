@@ -1927,7 +1927,18 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
   <text x="467" y="405" font-size="10.5" fill="#6b6b76" text-anchor="middle">学，就是学这 1,750 亿个数该取什么值 —— 3B2 下坡循环 + 3B3/3B4 反传，一帧未改</text>
 </svg>
           </div>
-          <div class="s1-fig">
+                    <table class="tab">
+            <thead><tr><th>部件</th><th>形状与来历</th><th>参数量</th><th>占比</th></tr></thead>
+            <tbody>
+              <tr><td><b>嵌入表 W_E</b></td><td>50,257 个词条，每词条一列 12,288 个数——一个词条的全部档案</td><td class="num">617,558,016 ≈ 6.2 亿</td><td>0.4%</td></tr>
+              <tr><td><b>注意力 Q/K/V/O</b></td><td>每头每族一张 128×12,288（一根输出一行旋钮）→ ×96 头 ×4 族 ×96 层</td><td class="num">57,982,058,496 ≈ 580 亿</td><td>33%</td></tr>
+              <tr><td><b>MLP 升/降两表</b></td><td>每层 12,288→49,152→12,288，中间宽＝4 倍模型宽 → ×96 层</td><td class="num">115,964,116,992 ≈ 1,160 亿</td><td>66%</td></tr>
+              <tr><td><b>解嵌入表 W_U</b></td><td>出口把 12,288 维映回 50,257 个词条，每词条一分；常与 W_E 共享转置</td><td class="num">617,558,016 ≈ 6.2 亿</td><td>0.4%</td></tr>
+              <tr class="tot"><td><b>合计</b></td><td>偏置（每张表输出维一个数）量级差百倍，未计</td><td class="num"><b>175,181,291,520 ≈ 1,750 亿</b></td><td><b>100%</b></td></tr>
+            </tbody>
+          </table>
+          <p class="tab-note">每层 MLP 参数＝注意力的两倍（8×12,288² vs 4×12,288²）——「MLP 才是大头」的机制版；两张嵌入表若共享转置，再省 6.2 亿。</p>
+<div class="s1-fig">
 <svg viewBox="0 0 880 420" width="100%" role="img" aria-label="3B6 图三：左边单头一根粗管子，两个诉求挤一次打分成灰糊；右边多头 96 根细管子各问各的，抄完 concat 乘 W_O 揉成一份；底部同预算等式与 P0.3 形状预告">
   <defs>
     <marker id="m6c" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6b6b76"/></marker>
