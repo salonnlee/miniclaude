@@ -26,7 +26,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
       <span class="chip update">更新于 2026-10-26</span>
     </div>
     <nav class="toc">
-      <a href="#arch">全景架构</a><a href="#acts">课程表</a><a href="#tf">Transformer 拼图</a><a href="#miles">里程碑</a><a href="#pact">教学契约</a>
+      <a href="#arch">全景架构</a><a href="#acts">课程表</a><a href="#tf">Transformer 拼图</a><a href="#ft">调频 · 傅里叶</a><a href="#miles">里程碑</a><a href="#pact">教学契约</a>
     </nav>
   </div>
 </header>
@@ -117,6 +117,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
     <li><code>NN</code> = 支线·内功（神经网络，sidequest/，课次 NN1 起）</li>
     <li><code>3B</code> = 支线·观影（3Blue1Brown，课次 3B1 起；3B 是品牌名，不是序数）</li>
     <li><code>T</code> = 拼图·Transformer（#tf 专区，课次 T1 起——终极目标的拼图板）</li>
+    <li><code>FT</code> = 支线·调频（傅里叶变换，#ft 专区，课次 FT1 起）</li>
   </ul>
   <p class="rules-note">支线之间发散无序，不共用编号——卡片代称 = 名字缩写，线内课次 = 前缀 + 序号；新支线 = 新前缀，永不撞号。</p>
 
@@ -3373,9 +3374,32 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
   </details>
 </section>
 
+<!-- ================= 调频 · 傅里叶 ================= -->
+<section class="block" id="ft">
+  <div class="sec-kicker">04 / FOURIER</div>
+  <h2 class="sec">把频率拧出来</h2>
+  <p class="sec-sub sub-rules">同一支曲子，两种记法：按时间记「每一刻的声波怎么挤过来」（时域）；按成分记「里面掺了哪几根纯音、各占几成」（频域）。傅里叶变换（Fourier Transform）就是两种记法之间的翻译官——时域翻译到频域，混在一起的成分一根根分开。和弦怎么听出音符、图像的纹理怎么滤、大数乘法怎么快五万倍，全是它的地盘。专区英文名 <b>FOURIER</b>，支线中文代号<b>调频</b>：把藏在信号里的频率，一根根拧出来。代称规则同前：<code>FT</code> + 序号 = 调频课次——FT1 = 第 1 次调频，依此类推。</p>
+  <details class="act side">
+    <summary class="act-head">
+      <span class="act-no">支线 · 调频</span><h3>傅里叶变换：时域 ↔ 频域的翻译官</h3><span class="act-range">Fourier Transform · 课次 FT1 起</span><span class="badge">未开始</span>
+    </summary>
+    <article class="chapter side">
+      <div class="ch-top"><span class="ch-no">FT</span><span class="ch-title">调频：把频率拧出来</span><span class="badge">未开始</span></div>
+      <p class="ch-q">「只是换了一副记法，难题怎么就变简单了？」——同一个信号，左眼时域右眼频域，哪边顺手从哪边下手。</p>
+      <ul class="ch-list">
+        <li><b>FT1</b> 两副眼镜：时域与频域 ⏳ —— 一根吉他弦，记「怎么振动」与记「掺了哪几根纯音」是同一件事的两种语言</li>
+        <li><b>FT2</b> 傅里叶变换：把混响称出成分 ⏳ —— 「任意波形都是正弦波叠出来的」怎么算账：逐根对暗号，量出各自的份量</li>
+        <li><b>FT3</b> 卷积定理：频域一乘 = 时域一卷 ⏳ —— 3B7 埋的那扇门在这里推开：两边各翻译一次、中间逐点相乘，整张乘法表就绕开了</li>
+        <li><b>FT4</b> 快速傅里叶变换（FFT）⏳ —— 分而治之的蝴蝶舞：O(n²) 拧成 O(n log n)，算 π 到一百万亿位的引擎</li>
+      </ul>
+      <div class="ch-foot"><span class="foot-chip">🔗 钩子已埋：3B7 卷积三台 C 台的 FFT 注脚 · 滤镜像机的频域视角</span></div>
+    </article>
+  </details>
+</section>
+
 <!-- ================= 里程碑 ================= -->
 <section class="block" id="miles">
-  <div class="sec-kicker">04 / MILESTONES</div>
+  <div class="sec-kicker">05 / MILESTONES</div>
   <h2 class="sec">里程碑</h2>
   <p class="sec-sub">每章一次 git commit，课程结束时 git log 就是你的学习编年史。</p>
   <div class="tbl-scroll">
@@ -3398,7 +3422,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
 
 <!-- ================= 教学契约 ================= -->
 <section class="block pact" id="pact">
-  <div class="sec-kicker">05 / PACT</div>
+  <div class="sec-kicker">06 / PACT</div>
   <h2 class="sec">教学契约</h2>
   <p class="sec-sub">每章固定节奏：先教，后考，绝不突袭。</p>
   <ol>
