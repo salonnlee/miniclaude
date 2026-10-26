@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>miniclaude · 课程总表</title>
 <link rel="stylesheet" href="COURSE.css">
+<link rel="stylesheet" href="labs/labs.css">
 <script>
 /* 带 #区块 锚点打开/刷新时先藏内容(见 COURSE.css 的 html.cloak),
    由页尾脚本瞬时跳到目标位置后再显示——否则浏览器先画顶部一帧再恢复滚动,看起来闪一下 */
@@ -361,119 +362,6 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
   <div class="bg-out" id="bl-out"></div>
   <p class="bg-hint">玩法：① ▶ 自动蹦字，看概率表跟着每个字实时变脸（橙色柱 = 刚抽中的字）；② 点任意候选接管下一个字——前 6 名的行、完整 67 柱里任意一根柱，都能点（跟模型抢方向盘）；③ 连点「🎯 贪心」十几下，亲眼看它掉进 <code>\n</code> 自环坑或 <code>␣→t→h→e</code> 循环圈——这就是 temperature 存在的意义（P0.4 见）。</p>
 
-  <script>
-  (function () {
-    var BV = ["\n", " ", "!", "$", "&", "'", ",", "-", ".", "3", ":", ";", "?", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "[", "]", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-        var BP = "1856,0,0,0,0,67,0,1,0,2,0,0,0,883,403,307,215,87,304,168,394,628,33,117,222,340,210,303,231,33,93,444,989,54,41,620,0,165,0,0,0,66,42,41,29,15,34,20,58,32,2,9,23,46,24,32,29,2,13,62,116,7,6,57,0,26,0;0,1,0,0,0,36,0,0,0,0,0,0,0,38,29,42,16,24,21,28,38,241,13,7,32,30,10,27,29,3,20,35,32,1,14,25,0,10,0,0,0,833,466,316,321,140,387,206,695,441,22,92,306,637,302,453,261,21,139,711,1367,105,56,613,0,307,1;5380,4293,0,0,0,180,0,146,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10000,0,0,0,0,0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1111,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8889,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;220,839,5,0,0,2,3,17,0,0,2,2,17,32,16,16,6,2,31,27,24,37,2,1,15,12,11,17,9,0,6,28,327,0,3,30,0,7,7,0,0,20,14,26,2128,461,18,44,11,10,1,2,1064,25,40,12,10,1,62,3298,957,2,8,9,0,4,1;2641,7227,0,0,0,33,0,100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;1308,10,0,0,0,24,1,2438,0,0,0,0,0,7,11,12,6,2,11,21,26,65,69,1,7,17,10,64,6,0,2,18,8,2,1,18,0,1,0,0,0,314,518,290,508,101,345,175,407,87,33,48,291,535,286,93,271,15,148,478,383,27,69,358,0,52,0;8137,1756,0,0,0,94,0,11,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;0,10000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;8288,1674,0,0,0,20,0,17,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;4220,5712,0,0,0,48,0,20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;7311,2591,0,0,0,58,0,40,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;2,426,0,0,0,5,1,0,0,0,817,0,0,16,101,200,187,100,159,186,1,46,15,4,593,264,1080,0,78,20,1129,255,297,214,70,0,15,12,1,0,0,7,32,46,36,1,27,56,39,2,16,0,241,44,2211,0,34,2,147,401,99,28,4,48,0,182,0;0,2,0,0,0,0,0,0,0,0,4,0,0,752,17,0,0,1364,0,0,12,382,0,0,38,0,0,405,0,0,475,0,0,375,0,4,0,197,0,0,0,356,0,0,0,1437,0,0,0,160,0,0,128,0,0,359,0,0,473,0,0,2352,0,0,0,709,0;0,0,0,0,0,3,0,0,0,0,19,1,0,971,143,5,54,1380,0,0,910,400,0,513,621,3,0,505,0,0,178,0,167,459,0,0,0,87,0,0,0,1084,0,0,0,47,0,0,306,173,0,0,485,0,1,1227,0,0,142,0,0,86,0,0,0,32,0;0,493,0,0,0,0,0,0,0,0,1273,0,0,411,0,0,0,1163,24,102,0,924,0,0,0,74,0,980,1,0,749,40,0,793,2,169,0,247,0,0,0,200,0,0,0,494,0,0,0,563,0,0,0,0,0,864,0,0,132,0,0,296,0,4,0,5,0;0,372,0,0,0,6,0,0,0,0,938,0,0,210,60,38,365,258,0,51,0,24,0,0,825,267,1609,324,103,0,1217,1355,734,138,43,59,34,130,0,0,0,56,1,2,110,0,1,38,0,25,0,0,36,21,262,0,12,1,49,12,10,7,130,0,62,2,0;0,794,0,0,0,1,0,0,0,0,622,0,0,585,0,0,0,358,848,0,0,69,0,0,198,0,0,531,0,0,194,0,0,0,0,0,0,0,0,0,0,699,0,0,0,193,0,0,0,1235,0,0,147,0,0,2312,0,0,1135,0,0,79,0,0,0,0,0;1,1584,0,0,0,1,1,1,1,0,125,0,0,648,189,0,0,720,0,0,296,30,0,0,634,0,44,652,0,0,350,87,0,239,0,0,0,0,0,0,0,208,0,0,0,584,0,0,30,407,0,0,212,0,1,2374,0,0,512,0,0,68,0,0,0,0,0;0,68,0,0,0,0,0,0,1,0,530,0,0,1115,32,0,0,1507,0,0,0,411,0,0,0,10,135,476,0,0,13,55,1,312,0,0,0,78,0,0,0,1253,0,0,0,2283,0,0,0,432,0,0,0,0,0,1138,0,0,0,0,0,129,0,0,0,21,0;105,4143,2,0,0,415,75,0,18,0,120,13,6,496,20,335,86,51,19,25,0,119,0,0,190,130,942,554,58,0,157,246,99,371,80,3,13,0,33,0,0,15,0,1,2,0,312,0,0,0,0,0,9,17,300,1,0,0,13,199,206,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0,0,0,0,809,0,0,0,161,0,0,0,0,0,0,0,0,0,1476,0,0,0,0,0,1445,0,0,0,0,0,0,0,859,0,0,0,1025,0,0,0,12,0,0,0,0,0,2464,0,0,0,0,0,1748,0,0,0,0,0;0,447,0,0,0,0,0,0,0,0,2161,0,0,421,0,0,0,1729,0,0,0,3436,0,0,272,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,343,0,0,0,290,0,0,0,567,0,0,0,0,330,0,0,0,0,0,0,0,0,0,0,0,0;0,119,0,0,0,1,0,0,1,0,291,0,0,1136,90,139,49,1425,5,0,0,1163,0,111,781,23,1,1099,71,0,0,312,54,595,96,0,0,238,0,0,0,283,0,0,0,677,0,0,0,217,0,0,0,0,0,870,0,0,0,0,0,125,0,0,0,31,0;0,14,0,0,0,0,5,0,0,0,346,0,0,1265,169,0,0,730,0,0,0,1038,0,0,307,0,96,842,158,0,0,24,0,144,0,18,0,4,0,0,0,1676,0,0,0,504,0,0,0,321,0,0,0,0,0,680,0,0,0,0,0,295,0,0,0,1364,0;0,373,0,0,0,0,0,0,0,0,876,0,0,673,13,629,727,672,0,949,0,688,0,0,10,10,69,371,0,16,430,191,892,147,32,26,0,185,49,0,0,298,0,0,0,174,0,0,0,27,0,0,0,0,0,1402,0,0,0,0,0,58,0,0,0,8,0;4,587,9,0,0,23,451,0,1,0,1805,0,0,20,143,142,41,3,340,74,78,84,0,51,851,357,1209,6,156,0,983,327,379,327,31,111,23,40,0,0,0,0,14,20,3,0,438,0,10,0,0,0,43,3,199,0,24,0,298,4,22,235,11,5,13,0,0;0,90,0,0,0,1,0,0,0,0,70,0,0,1181,0,23,0,1253,0,0,925,296,0,0,67,0,0,692,55,0,861,42,87,377,0,0,0,1,0,0,0,794,0,0,0,643,0,0,159,190,0,0,301,0,0,558,0,0,1057,3,6,181,0,0,0,88,0;0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1543,0,0,0,0,0;0,284,0,0,0,0,0,0,1,0,917,0,0,690,81,176,887,716,32,160,0,1385,0,274,211,133,143,1240,3,0,56,164,377,421,32,98,0,540,0,0,1,61,0,0,0,244,0,0,7,162,0,0,0,0,0,453,0,0,0,0,0,52,0,0,0,0,0;0,482,0,0,0,0,0,0,2,0,2410,0,0,459,40,66,71,292,0,0,147,600,0,0,37,4,5,64,142,0,11,576,1001,138,0,16,0,86,0,0,0,238,4,54,0,575,0,0,575,553,0,3,38,16,8,676,115,1,0,0,242,158,0,81,0,12,0;0,1,0,0,0,1,0,0,1,0,479,0,0,425,0,6,0,532,0,0,473,636,4,0,3,18,0,434,0,0,468,37,39,233,0,0,0,9,19,0,0,146,0,0,0,89,0,0,4129,338,0,0,0,0,0,1134,0,0,177,0,0,64,0,70,0,37,0;0,0,0,0,0,2,0,0,0,0,97,0,0,0,58,1263,298,516,226,110,0,228,0,449,551,335,341,29,31,0,430,3882,395,0,11,0,2,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,17,1,392,0,295,0,16,20,4,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0,1182,0,0,957,0,0,0,758,0,0,0,4306,0,0,0,0,0,768,0,0,0,0,0,0,0,0,0,47,0,0,0,522,0,0,0,721,0,0,4,446,0,0,0,0,0,268,0,0,0,0,0,22,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0,193,0,0,371,24,0,0,101,0,0,6,246,0,0,0,0,0,89,0,0,0,0,0,0,0,0,0,0,0,0,0,454,0,0,0,1397,0,0,5331,1421,0,0,0,0,0,327,0,0,39,0,0,0,0,0,0,2,0;0,0,0,0,0,0,0,0,0,0,3619,0,0,858,0,0,0,3843,522,0,0,784,0,0,0,0,0,0,0,0,0,0,336,0,0,0,0,0,0,0,0,37,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;0,1483,0,0,0,0,0,2,2,0,2095,0,0,0,26,107,0,120,0,0,0,0,0,0,119,175,26,473,0,0,337,259,29,0,0,0,0,0,29,0,0,3,0,0,0,1037,0,0,0,26,0,0,0,0,0,3655,0,0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0,1412,0,0,5216,0,0,0,1297,0,0,0,0,0,0,0,0,0,1354,0,0,0,0,0,0,0,173,0,0,0,0,0,0,0,0,0,58,0,0,0,0,0,0,0,0,0,490,0,0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0,0,0,0,3333,0,0,0,0,0,3333,0,0,0,0,0,0,0,0,3333,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;3333,0,0,0,0,0,0,0,0,0,6667,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;23,517,10,0,0,15,32,7,8,0,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,109,286,381,23,66,168,8,428,13,276,767,323,1903,2,124,1,1186,723,1451,130,446,103,7,437,13;8,56,3,0,0,17,22,4,8,0,4,3,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,689,72,0,9,3522,0,0,11,341,53,0,1158,7,2,986,0,0,925,122,86,1198,0,2,0,688,0;2,43,2,0,0,1,11,0,8,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1069,7,113,3,2089,0,0,2008,344,0,646,287,1,0,2058,0,18,374,6,489,324,0,0,0,88,0;255,4539,62,0,0,53,615,29,256,0,134,125,70,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,321,1,1,57,1068,13,55,1,600,1,3,76,22,31,686,1,0,175,418,1,116,31,24,0,159,0;163,2918,43,0,0,75,392,21,177,0,78,81,56,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,655,13,133,391,399,90,40,16,128,1,16,373,182,773,25,88,10,1261,716,329,11,125,62,40,116,2;110,3096,13,0,0,11,119,27,69,0,29,33,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,931,0,0,0,942,409,0,0,646,0,0,231,0,1,2017,1,0,653,21,266,332,0,0,0,26,0;106,1805,30,0,0,61,277,43,158,0,62,70,44,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,602,16,0,24,1457,2,91,1551,496,0,0,291,42,186,1121,1,0,813,267,36,329,0,1,0,19,0;49,978,13,0,0,35,124,9,49,0,22,21,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1875,6,1,2,3549,7,0,1,1398,0,0,9,13,24,1000,0,0,93,25,278,121,0,3,0,283,0;0,3,0,0,0,18,2,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,128,40,405,316,485,244,332,1,0,0,123,708,470,2325,347,76,4,595,1685,1335,42,266,1,18,0,27;0,0,0,0,0,15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,725,0,0,0,3460,0,0,0,42,0,0,0,0,0,2491,0,0,0,0,0,3268,0,0,0,0,0;141,2067,67,0,0,212,532,48,186,0,80,82,55,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,3,1,0,3268,21,0,1,1312,0,0,120,5,1168,39,0,0,8,523,1,6,0,9,0,33,0;69,1604,25,0,0,66,200,25,98,0,47,45,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,667,14,38,716,1348,173,5,0,804,0,53,1971,34,5,1015,35,0,12,184,161,101,55,5,0,407,0;63,1126,23,0,0,45,214,5,129,0,53,53,34,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1537,212,0,0,2719,31,0,0,618,0,0,13,133,42,873,308,0,1,173,2,354,1,2,0,1233,0;106,1837,36,0,0,100,273,16,129,0,107,59,40,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,182,6,394,1936,812,57,985,11,228,14,142,42,11,91,1072,5,12,17,349,743,34,25,10,0,115,3;30,1190,13,0,0,45,101,22,36,0,15,19,16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,51,62,61,253,44,624,31,12,68,2,91,267,529,1018,415,89,1,1253,246,614,1944,184,589,5,55,5;51,605,16,0,0,67,121,17,66,0,28,27,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1147,5,1,1,1826,3,0,213,621,0,5,844,2,1,1352,429,0,1575,181,300,404,0,6,0,70,0;0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10000,0,0,0,0,0;102,2140,31,0,0,115,314,25,138,0,100,64,45,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,575,27,104,489,2033,38,75,8,623,3,74,94,116,167,714,41,1,182,519,494,197,83,20,0,248,0;195,3067,58,0,0,51,508,11,198,0,97,100,59,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,295,26,104,13,1093,9,6,640,424,0,30,76,34,8,530,227,5,0,393,1337,256,0,127,0,21,0;123,2484,27,0,0,53,283,18,135,0,73,59,39,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,300,0,47,0,669,5,0,3351,434,0,0,121,4,13,854,0,0,280,158,138,138,0,58,0,134,0;46,1358,12,0,0,29,180,2,68,0,24,22,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,99,113,391,146,365,51,354,0,161,0,57,820,183,793,28,307,0,1998,1230,1110,0,1,0,3,11,3;0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,504,0,0,0,7679,0,0,0,1282,0,0,1,0,0,421,0,0,2,0,0,14,0,0,0,98,0;71,1072,33,0,0,68,243,20,68,0,36,28,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1076,6,1,29,1694,13,1,1285,2206,0,3,47,1,453,1142,0,0,161,207,4,0,0,0,0,3,0;70,821,41,0,0,242,263,25,127,0,49,70,37,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,612,0,1954,0,1133,119,0,103,447,0,0,16,4,0,45,1416,49,0,12,2250,74,0,0,0,21,0;228,4848,76,0,0,102,813,35,289,0,113,111,71,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,53,8,3,3,411,6,2,2,64,0,0,9,31,4,2414,15,0,35,242,6,0,1,3,0,0,1;8,181,25,0,0,0,198,66,49,0,66,49,25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1179,0,0,0,6315,0,0,0,379,0,0,206,0,0,453,0,0,0,0,0,66,33,33,0,256,412";
-    // PF[cur][next] = 万分数概率(真实语料统计,每行合计 10000);BV[i] = 第 i 个字符
-    var PF = BP.split(';').map(function (r) { return r.split(',').map(Number); });
-    var V = BV.length;
-    var STARTS = ['\n', 'T', 'q', 'e', ' '];
-    var start = '\n', cur = BV.indexOf('\n'), out = [], steps = 0, last = -1, timer = null;
-    function $(id) { return document.getElementById(id); }
-    var elCur = $('bl-cur'), elSteps = $('bl-steps'), elLast = $('bl-last'),
-        elRows = $('bl-rows'), elSpec = $('bl-spec'), elOut = $('bl-out'), elStarts = $('bl-starts'),
-        elAuto = $('bl-auto'), elSpeed = $('bl-speed'), elTabTop = $('bl-tab-top'), elTabAll = $('bl-tab-all'),
-        elRead = $('bl-read');
-    function fmt(i) { var c = BV[i]; return c === '\n' ? '⏎' : (c === ' ' ? '␣' : c); }
-    function sorted(i) {
-      var a = PF[i].map(function (p, j) { return [j, p]; });
-      a.sort(function (x, y) { return y[1] - x[1]; });
-      return a;
-    }
-    function renderTop(i) {
-      var top = sorted(i).filter(function (x) { return x[1] > 0; }).slice(0, 6), mi = top[0][0], html = '', k;
-      for (k = 0; k < top.length; k++) {
-        var j = top[k][0], p = top[k][1] / 100;
-        html += '<div class="brow' + (j === mi ? ' ismax' : '') + '" data-j="' + j + '" title="点它 = 接管下一个字"><code>' + fmt(j) + '</code>' +
-          '<div class="bbar"><i style="width:' + Math.max(p * 100, 0.5).toFixed(1) + '%"></i></div>' +
-          '<span>' + p.toFixed(1) + '%</span>' +
-          '<b class="bmax">' + (j === mi ? '🎯' : '') + '</b></div>';
-      }
-      var rest = sorted(i).slice(6), nz = 0, sum = 0, nn = 0;
-      for (k = 0; k < rest.length; k++) if (rest[k][1] > 0) { nz++; sum += rest[k][1]; }
-      for (k = 0; k < top.length; k++) if (top[k][1] > 0) nn++;
-      html += nz === 0
-        ? '<button type="button" class="bg-tail">这已是全表——语料里这个字符的后续只有 ' + nn + ' 种，没有「其余」；点此仍可切「完整 67 柱」看 0 柱长什么样 →</button>'
-        : '<button type="button" class="bg-tail">其余 ' + nz + ' 个候选合计 ' + (sum / 100).toFixed(1) + '% —— 点此切「完整 67 柱」看全表 →</button>';
-      elRows.innerHTML = html;
-    }
-    function renderSpec(i) {
-      var mi = sorted(i)[0][0], html = '', j;
-      for (j = 0; j < V; j++) {
-        var p = PF[i][j] / 100;
-        html += '<div class="bg-col' + (j === mi ? ' is-max' : '') + (j === last ? ' is-pick' : '') +
-          '" data-j="' + j + '" title="' + fmt(j) + ' ' + p.toFixed(1) + '% · 点它 = 接管"' + (p === 0 ? ' style="opacity:.35"' : '') + '>' +
-          '<i style="height:' + Math.max(p * 0.76, 2).toFixed(1) + 'px"></i><em>' + fmt(j) + '</em></div>';
-      }
-      elSpec.innerHTML = html;
-    }
-    function render() {
-      elCur.textContent = fmt(cur);
-      elSteps.textContent = '第 ' + steps + ' 步';
-      elLast.textContent = '上次:' + (last < 0 ? '—' : fmt(last));
-      renderTop(cur); renderSpec(cur);
-      elOut.textContent = out.map(fmt).join('').slice(-120);
-      Array.prototype.forEach.call(elStarts.children, function (b) {
-        b.classList.toggle('is-on', b.getAttribute('data-s') === start);
-      });
-    }
-    function pick(i) {
-      var r = Math.random(), acc = 0, j;
-      for (j = 0; j < V; j++) { acc += PF[i][j] / 10000; if (r < acc) return j; }
-      return V - 1;
-    }
-    function stepTo(j) { last = j; cur = j; out.push(j); steps++; render(); }
-    function step(greedy) { stepTo(greedy ? sorted(cur)[0][0] : pick(cur)); }
-    function stopAuto() {
-      if (timer) { clearInterval(timer); timer = null; elAuto.textContent = '▶ 自动蹦字'; elAuto.classList.remove('is-on'); }
-    }
-    STARTS.forEach(function (s) {
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'bg-start'; b.setAttribute('data-s', s);
-      b.textContent = fmt(BV.indexOf(s));
-      b.onclick = function () { stopAuto(); start = s; cur = BV.indexOf(s); out = []; steps = 0; last = -1; render(); };
-      elStarts.appendChild(b);
-    });
-    elTabTop.onclick = function () {
-      elTabTop.classList.add('is-on'); elTabAll.classList.remove('is-on');
-      elRows.hidden = false; elSpec.hidden = true; elRead.hidden = true;
-    };
-    elTabAll.onclick = function () {
-      elTabAll.classList.add('is-on'); elTabTop.classList.remove('is-on');
-      elSpec.hidden = false; elRows.hidden = true; elRead.hidden = false;
-    };
-    elSpec.addEventListener('mouseover', function (e) {
-      var col = e.target.closest('.bg-col');
-      if (col) {
-        var j = +col.getAttribute('data-j');
-        elRead.innerHTML = fmt(cur) + ' → <b>' + fmt(j) + '</b> · ' + (PF[cur][j] / 100).toFixed(1) + '%';
-      }
-    });
-    elSpec.addEventListener('click', function (e) {
-      var col = e.target.closest('.bg-col');
-      if (col) stepTo(+col.getAttribute('data-j')); // 点击接管:下一字由你指定
-    });
-    elRows.addEventListener('click', function (e) {
-      var row = e.target.closest('.brow');
-      if (row) { stepTo(+row.getAttribute('data-j')); return; } // 前 6 名的行同样可接管
-      if (e.target.closest('.bg-tail')) elTabAll.onclick();    // 尾行 = 切全表入口
-    });
-    elAuto.onclick = function () {
-      if (timer) { stopAuto(); return; }
-      var go = function () { step(false); };
-      go();
-      timer = setInterval(go, +elSpeed.value);
-      elAuto.textContent = '⏸ 暂停';
-      elAuto.classList.add('is-on');
-    };
-    elSpeed.onchange = function () { if (timer) { stopAuto(); elAuto.onclick(); } };
-    $('bl-sample').onclick = function () { step(false); };
-    $('bl-greedy').onclick = function () { step(true); };
-    $('bl-reset').onclick = function () { stopAuto(); cur = BV.indexOf(start); out = []; steps = 0; last = -1; render(); };
-    render();
-  })();
-  </script>
         </div>
       </details>
 </article>
@@ -997,30 +885,11 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
       <details class="ch-lab" id="nn-lab">
         <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · 内功合成台（XOR 训练台 + softmax 试押台）<span class="ch-lab-hint">种子 / LR 自己拧，亲手复现死区与通关</span></summary>
         <div class="ch-lab-body">
-  <style>
-  #nn-lab .nnl-grid{display:grid;grid-template-columns:280px 1fr;gap:16px;align-items:start}
-  #nn-lab .nnl-box{border:1px solid var(--border);border-radius:12px;padding:14px;background:rgba(0,0,0,.02)}
-  #nn-lab .nnl-cap{font-size:12.5px;color:var(--muted);margin:14px 0 8px}
-  #nn-lab .nnl-cap:first-child{margin-top:0}
-  #nn-lab .nnl-row{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:12px;flex-wrap:wrap}
-  #nn-lab .nnl-row label{width:60px;color:var(--muted);flex:none}
-  #nn-lab select{background:#f7f7f9;color:var(--text);border:1px solid var(--border);border-radius:8px;padding:4px 8px;font-size:12px}
-  #nn-lab input[type=range]{flex:1;accent-color:var(--accent)}
-  #nn-lab .nnl-stat{font-family:ui-monospace,Menlo,monospace;font-size:12px}
-  #nn-lab .nnl-badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;margin-left:8px;border:1px solid #d6d6de;color:var(--muted)}
-  #nn-lab .nnl-pred{display:flex;align-items:center;gap:10px;margin:6px 0;font-family:ui-monospace,Menlo,monospace;font-size:12px}
-  #nn-lab .nnl-pred>span:first-child{width:86px;flex:none}
-  #nn-lab .nnl-pbar{flex:1;height:10px;border-radius:6px;background:#f7f7f9;overflow:hidden}
-  #nn-lab .nnl-pfill{height:100%;background:linear-gradient(90deg,#2563eb,#c2410c)}
-  #nn-lab .nnl-chip{cursor:pointer;padding:3px 14px;border-radius:8px;border:1px solid var(--border);font-size:12px;user-select:none}
-  #nn-lab .nnl-chip.on{border-color:#c2410c;color:#c2410c}
-  #nn-lab .bg-hint{margin-top:12px}
-  </style>
 
-  <div class="nnl-cap">A · 2-2-1 九旋钮训练台 —— NN1 的下坡循环 + NN3 的反向梯度在跑，NN2 的死区等你踩</div>
-  <div class="nnl-grid">
-    <div class="nnl-box">
-      <div class="nnl-row"><label>种子</label>
+  <div class="lab-cap">A · 2-2-1 九旋钮训练台 —— NN1 的下坡循环 + NN3 的反向梯度在跑，NN2 的死区等你踩</div>
+  <div class="lab-grid">
+    <div class="lab-box">
+      <div class="lab-row"><label>种子</label>
         <select id="nnl-seed">
           <option value="2" selected>2 ✅ 学得动</option>
           <option value="7">7 ✅ 学得动</option>
@@ -1030,93 +899,40 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
           <option value="21">21 🧊 半死（0.659）</option>
         </select>
       </div>
-      <div class="nnl-row"><label>LR 步长</label><input type="range" id="nnl-lr" min="0.1" max="2" step="0.1" value="0.5"><span class="nnl-stat" id="nnl-lrv">0.5</span></div>
-      <div class="nnl-row">
+      <div class="lab-row"><label>LR 步长</label><input type="range" id="nnl-lr" min="0.1" max="2" step="0.1" value="0.5"><span class="lab-stat" id="nnl-lrv">0.5</span></div>
+      <div class="lab-row">
         <button class="arch-btn" id="nnl-s1" type="button">走 1 步</button>
         <button class="arch-btn" id="nnl-s100" type="button">走 100 步</button>
         <button class="arch-btn" id="nnl-all" type="button">一把梭 8000</button>
         <button class="arch-btn" id="nnl-re" type="button">↻ 重置</button>
       </div>
-      <div class="nnl-stat" style="margin-top:12px">step <span id="nnl-step">0</span> · loss <span id="nnl-loss">—</span><span class="nnl-badge" id="nnl-badge"></span></div>
+      <div class="lab-stat" style="margin-top:12px">step <span id="nnl-step">0</span> · loss <span id="nnl-loss">—</span><span class="nnl-badge" id="nnl-badge"></span></div>
     </div>
-    <div class="nnl-box">
+    <div class="lab-box">
       <svg id="nnl-curve" viewBox="0 0 840 120" width="100%" role="img" aria-label="loss 曲线"></svg>
       <div id="nnl-preds"></div>
     </div>
   </div>
   <p class="bg-hint">玩法：先用 🧊 0 号一把梭,亲眼看 loss 卡在 0.25、四题全答 0.499——NN2 的投降书；换 2 号再一把梭，loss 掉到 0.00003 四题全对。死区是常态（40 个种子里只有 4 个爬得出来），种子就是第一批超参数；LR 拉到 2 试试大步长会不会翻车。</p>
 
-  <div class="nnl-cap">B · softmax 试押台 —— 拉一拉分数，看 p − y 怎么动</div>
-  <div class="nnl-grid">
-    <div class="nnl-box">
-      <div class="nnl-row"><label>z(a)</label><input type="range" id="nnl-z0" min="-4" max="4" step="0.1" value="2"><span class="nnl-stat" id="nnl-z0v">2.0</span></div>
-      <div class="nnl-row"><label>z(b)</label><input type="range" id="nnl-z1" min="-4" max="4" step="0.1" value="1"><span class="nnl-stat" id="nnl-z1v">1.0</span></div>
-      <div class="nnl-row"><label>z(c)</label><input type="range" id="nnl-z2" min="-4" max="4" step="0.1" value="0.1"><span class="nnl-stat" id="nnl-z2v">0.1</span></div>
-      <div class="nnl-row"><label>答案</label>
+  <div class="lab-cap">B · softmax 试押台 —— 拉一拉分数，看 p − y 怎么动</div>
+  <div class="lab-grid">
+    <div class="lab-box">
+      <div class="lab-row"><label>z(a)</label><input type="range" id="nnl-z0" min="-4" max="4" step="0.1" value="2"><span class="lab-stat" id="nnl-z0v">2.0</span></div>
+      <div class="lab-row"><label>z(b)</label><input type="range" id="nnl-z1" min="-4" max="4" step="0.1" value="1"><span class="lab-stat" id="nnl-z1v">1.0</span></div>
+      <div class="lab-row"><label>z(c)</label><input type="range" id="nnl-z2" min="-4" max="4" step="0.1" value="0.1"><span class="lab-stat" id="nnl-z2v">0.1</span></div>
+      <div class="lab-row"><label>答案</label>
         <span class="nnl-chip" data-a="0">a</span><span class="nnl-chip" data-a="1">b</span><span class="nnl-chip on" data-a="2">c</span>
       </div>
-      <div class="nnl-stat" style="margin-top:12px">loss = −ln(押在答案上的概率) = <span id="nnl-xe">—</span></div>
+      <div class="lab-stat" style="margin-top:12px">loss = −ln(押在答案上的概率) = <span id="nnl-xe">—</span></div>
     </div>
-    <div class="nnl-box">
+    <div class="lab-box">
       <div id="nnl-bars"></div>
-      <div id="nnl-grads" class="nnl-stat" style="margin-top:10px"></div>
+      <div id="nnl-grads" class="lab-stat" style="margin-top:10px"></div>
     </div>
   </div>
   <p class="bg-hint">玩法：三个滑条一起 +1（比如拉到 3 / 2 / 1.1），概率一格不动——平移不变，softmax 只看相对差距；把答案那格拉到最低，loss 飙升、那格梯度变成最大负数——「自信地错」罚得最狠，p − y 就是往回拽的力。</p>
 
-  <script>
-  (function () {
-    var DATA = [[0,0,0],[0,1,1],[1,0,1],[1,1,0]];
-    function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
-    function initP(seed){var r=mulberry32(seed),p=[];for(var i=0;i<9;i++)p.push(r()*2-1);return p}
-    function fwd(p,x1,x2){var h1=p[0]*x1+p[1]*x2+p[2],h1r=Math.max(0,h1),h2=p[3]*x1+p[4]*x2+p[5],h2r=Math.max(0,h2),pre=p[6]*h1r+p[7]*h2r+p[8],out=1/(1+Math.exp(-pre));return{out:out,h1:h1,h2:h2,h1r:h1r,h2r:h2r}}
-    function $id(x){return document.getElementById(x)}
-    function fmt(v,n){return v.toFixed(n==null?4:n)}
-    var P,step,hist,LR=0.5,seed=2;
-    function avgLoss(){var t=0;for(var i=0;i<4;i++){t+=Math.pow(fwd(P,DATA[i][0],DATA[i][1]).out-DATA[i][2],2)}return t/4}
-    function stepOnce(){for(var i=0;i<4;i++){var d=DATA[i],f=fwd(P,d[0],d[1]);var delta=2*(f.out-d[2])*f.out*(1-f.out);var d1=P[6]*delta*(f.h1>0?1:0),d2=P[7]*delta*(f.h2>0?1:0);var g=[d[0]*d1,d[1]*d1,d1,d[0]*d2,d[1]*d2,d2,f.h1r*delta,f.h2r*delta,delta];for(var k=0;k<9;k++)P[k]-=LR*g[k]}step++;hist.push(avgLoss())}
-    function render(){
-      $id('nnl-step').textContent=step;
-      var L=hist[hist.length-1];
-      $id('nnl-loss').textContent=fmt(L,5);
-      var b=$id('nnl-badge');
-      if(L<0.01){b.textContent='🎉 四题通关';b.style.cssText='color:#15803d;border:1px solid rgba(21,128,61,.5)'}
-      else if(step>=400&&Math.abs(L-hist[hist.length-201])<1e-6){b.textContent='🧊 卡死区 · 换种子';b.style.cssText='color:#dc2626;border:1px solid rgba(220,38,38,.5)'}
-      else{b.textContent='下坡中…';b.style.cssText='color:#6b6b76;border:1px solid #d6d6de'}
-      var n=Math.min(hist.length,240),pts=[];
-      for(var i=0;i<n;i++){var h=hist[Math.floor(i*(hist.length-1)/Math.max(1,n-1))];var l=Math.max(1e-7,Math.min(1,h));pts.push((10+i/Math.max(1,n-1)*820).toFixed(1)+','+(10+(-Math.log10(l))/6*100).toFixed(1))}
-      $id('nnl-curve').innerHTML='<line x1="10" y1="110" x2="830" y2="110" stroke="#d6d6de"/><text x="14" y="104" font-size="9" fill="#6b6b76">纵轴 loss 对数（顶=1 底=1e-7） · 横轴 = step</text><polyline points="'+pts.join(' ')+'" fill="none" stroke="#2563eb" stroke-width="1.8"/>';
-      var html='';
-      for(var i=0;i<4;i++){var d=DATA[i],f=fwd(P,d[0],d[1]);var ok=(d[2]===1&&f.out>0.9)||(d[2]===0&&f.out<0.1);html+='<div class="nnl-pred"><span>('+d[0]+','+d[1]+')→'+d[2]+'</span><div class="nnl-pbar"><div class="nnl-pfill" style="width:'+(f.out*100).toFixed(1)+'%"></div></div><span>'+fmt(f.out,3)+'</span><span>'+(ok?'✓':'✗')+'</span></div>'}
-      $id('nnl-preds').innerHTML=html;
-    }
-    function reset(){P=initP(seed);step=0;hist=[avgLoss()];render()}
-    $id('nnl-seed').onchange=function(){seed=+this.value;reset()};
-    $id('nnl-lr').oninput=function(){LR=+this.value;$id('nnl-lrv').textContent=fmt(LR,1)};
-    $id('nnl-s1').onclick=function(){stepOnce();render()};
-    $id('nnl-s100').onclick=function(){for(var i=0;i<100;i++)stepOnce();render()};
-    $id('nnl-all').onclick=function(){for(var i=0;i<8000;i++)stepOnce();render()};
-    $id('nnl-re').onclick=reset;
-    reset();
-
-    var zs=[2,1,0.1],ans=2,names=['a','b','c'];
-    function smx(z){var m=Math.max.apply(null,z),e=z.map(function(v){return Math.exp(v-m)}),s=e.reduce(function(a,b){return a+b},0);return e.map(function(v){return v/s})}
-    function renderS(){
-      for(var i=0;i<3;i++)$id('nnl-z'+i+'v').textContent=fmt(zs[i],1);
-      var p=smx(zs),html='';
-      for(var i=0;i<3;i++){html+='<div class="nnl-pred"><span>'+names[i]+(i===ans?' ← 答案':'')+'</span><div class="nnl-pbar"><div class="nnl-pfill" style="width:'+(p[i]*100).toFixed(1)+'%"></div></div><span>'+fmt(p[i],3)+'</span></div>'}
-      $id('nnl-bars').innerHTML=html;
-      $id('nnl-xe').textContent=fmt(-Math.log(p[ans]),3);
-      var t='';
-      for(var i=0;i<3;i++){var g=p[i]-(i===ans?1:0);t+='grad z('+names[i]+')='+(g>=0?'+':'')+fmt(g,3)+'  '}
-      $id('nnl-grads').textContent=t+'（p − y：答案格负=往上加，其余正=往下按）';
-    }
-    for(var k=0;k<3;k++)(function(k){$id('nnl-z'+k).oninput=function(){zs[k]=+this.value;renderS()}})(k);
-    var chips=document.querySelectorAll('#nn-lab .nnl-chip');
-    for(var c=0;c<chips.length;c++)(function(el){el.onclick=function(){for(var j=0;j<chips.length;j++)chips[j].classList.remove('on');el.classList.add('on');ans=+el.getAttribute('data-a');renderS()}})(chips[c]);
-    renderS();
-  })();
-  </script>
         </div>
       </details>
       <div class="ch-foot"><span class="foot-chip ver">交付：看得懂 02_neural_bigram.py 的每一行</span></div>
@@ -1532,43 +1348,20 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
       <details class="ch-lab" id="lab3b">
         <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · 观影三台（神经元打分台 × loss 小球场 × 链式对表台）<span class="ch-lab-hint">3B1/3B2/3B4 的核心画面，亲手拧</span></summary>
         <div class="ch-lab-body">
-  <style>
-  #lab3b .l3-grid{display:grid;grid-template-columns:280px 1fr;gap:16px;align-items:start}
-  #lab3b .l3-box{border:1px solid var(--border);border-radius:12px;padding:14px;background:rgba(0,0,0,.02)}
-  #lab3b .l3-cap{font-size:12.5px;color:var(--muted);margin:14px 0 8px}
-  #lab3b .l3-cap:first-child{margin-top:0}
-  #lab3b .l3-row{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:12px;flex-wrap:wrap}
-  #lab3b .l3-row label{width:60px;color:var(--muted);flex:none}
-  #lab3b input[type=range]{flex:1;accent-color:var(--accent)}
-  #lab3b .l3-stat{font-family:ui-monospace,Menlo,monospace;font-size:12px}
-  #lab3b .l3-mesh{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;width:200px}
-  #lab3b .l3-cell{aspect-ratio:1;border-radius:3px;cursor:pointer;border:1px solid #e0e0e6}
-  #lab3b .l3-meshwrap{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
-  #lab3b .l3-meshlab{font-size:11px;color:var(--muted);text-align:center;margin-bottom:6px}
-  #lab3b .l3-out{font-size:12px;margin-top:10px;font-family:ui-monospace,Menlo,monospace}
-  #lab3b .l3-outbar{height:12px;border-radius:6px;background:#f7f7f9;overflow:hidden;margin:6px 0}
-  #lab3b .l3-outfill{height:100%;background:linear-gradient(90deg,#2563eb,#c2410c)}
-  #lab3b .l3-chain{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:6px}
-  #lab3b .l3-card{border:1px solid #d6d6de;border-radius:8px;padding:6px 10px;text-align:center;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;min-width:76px}
-  #lab3b .l3-card b{display:block;font-size:10px;color:var(--muted);font-weight:400;margin-bottom:2px}
-  #lab3b .l3-arrow{color:var(--muted);font-size:12px}
-  #lab3b .l3-mini{font-size:11px;color:var(--muted);padding:2px 10px;border:1px solid var(--border);border-radius:999px;cursor:pointer;user-select:none}
-  #lab3b .l3-mini.on{border-color:#c2410c;color:#c2410c}
-  </style>
 
-  <div class="l3-cap">A · 神经元打分台（3B1）—— 权重 = 你想检测的图案，偏置 = 激发门槛；点格子涂权重，看 σ 冲不冲</div>
-  <div class="l3-grid">
-    <div class="l3-box">
-      <div class="l3-row"><label>输入图案</label>
-        <span class="l3-mini" data-x="spot">左上亮斑</span><span class="l3-mini" data-x="vline">竖线</span><span class="l3-mini" data-x="hline">横线</span><span class="l3-mini" data-x="all">全亮</span><span class="l3-mini" data-x="none">全黑</span>
+  <div class="lab-cap">A · 神经元打分台（3B1）—— 权重 = 你想检测的图案，偏置 = 激发门槛；点格子涂权重，看 σ 冲不冲</div>
+  <div class="lab-grid">
+    <div class="lab-box">
+      <div class="lab-row"><label>输入图案</label>
+        <span class="lab-mini" data-x="spot">左上亮斑</span><span class="lab-mini" data-x="vline">竖线</span><span class="lab-mini" data-x="hline">横线</span><span class="lab-mini" data-x="all">全亮</span><span class="lab-mini" data-x="none">全黑</span>
       </div>
-      <div class="l3-row"><label>权重预设</label>
-        <span class="l3-mini" data-w="v">竖边检测器</span><span class="l3-mini" data-w="spot">亮斑检测器</span><span class="l3-mini" data-w="zero">清零</span>
+      <div class="lab-row"><label>权重预设</label>
+        <span class="lab-mini" data-w="v">竖边检测器</span><span class="lab-mini" data-w="spot">亮斑检测器</span><span class="lab-mini" data-w="zero">清零</span>
       </div>
-      <div class="l3-row"><label>偏置 b</label><input type="range" id="l3-b" min="-3" max="3" step="0.1" value="0"><span class="l3-stat" id="l3-bv">0.0</span></div>
-      <div class="l3-stat" style="margin-top:10px;line-height:1.9">h = Σ w·x + b = <span id="l3-sum">—</span><br>σ(h) 激活 = <span id="l3-act">—</span></div>
+      <div class="lab-row"><label>偏置 b</label><input type="range" id="l3-b" min="-3" max="3" step="0.1" value="0"><span class="lab-stat" id="l3-bv">0.0</span></div>
+      <div class="lab-stat" style="margin-top:10px;line-height:1.9">h = Σ w·x + b = <span id="l3-sum">—</span><br>σ(h) 激活 = <span id="l3-act">—</span></div>
     </div>
-    <div class="l3-box">
+    <div class="lab-box">
       <div class="l3-meshwrap">
         <div><div class="l3-meshlab">输入 x（0/1，可点击）</div><div class="l3-mesh" id="l3-xmesh"></div></div>
         <div><div class="l3-meshlab">权重 w（点击循环 +1→−1→0）</div><div class="l3-mesh" id="l3-wmesh"></div></div>
@@ -1579,32 +1372,32 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
   </div>
   <p class="bg-hint">玩法：权重选「竖边检测器」（左半 −1 = 要暗、右半 +1 = 要亮），输入切「竖线」，σ 冲上 1.0；输入换「横线」，σ 掉回 0.5——横线左右两半在权重里正负抵消，加权和为零，它无话可说。再把横线的亮格点进左半（负权重区），σ 直接趴到 0——亮的不是它要的地方，反而扣分。最后把 b 拉到 −3：图案没变，门槛抬高，激活熄火——3B1 的偏置 = 激发门槛。</p>
 
-  <div class="l3-cap">B · loss 山小球场（3B2）—— 负梯度方向下山，LR 定步长；小球自己会告诉你步子大了会翻车</div>
-  <div class="l3-grid">
-    <div class="l3-box">
-      <div class="l3-row"><label>LR 步长</label><input type="range" id="l3-lr" min="0.05" max="2.2" step="0.05" value="0.3"><span class="l3-stat" id="l3-lrv">0.30</span></div>
-      <div class="l3-row"><label>SGD</label><span class="l3-mini" id="l3-sgd">每步只看一个样本的坡（带噪声）</span></div>
-      <div class="l3-row">
+  <div class="lab-cap">B · loss 山小球场（3B2）—— 负梯度方向下山，LR 定步长；小球自己会告诉你步子大了会翻车</div>
+  <div class="lab-grid">
+    <div class="lab-box">
+      <div class="lab-row"><label>LR 步长</label><input type="range" id="l3-lr" min="0.05" max="2.2" step="0.05" value="0.3"><span class="lab-stat" id="l3-lrv">0.30</span></div>
+      <div class="lab-row"><label>SGD</label><span class="lab-mini" id="l3-sgd">每步只看一个样本的坡（带噪声）</span></div>
+      <div class="lab-row">
         <button class="arch-btn" id="l3-s1" type="button">走 1 步</button>
         <button class="arch-btn" id="l3-s20" type="button">走 20 步</button>
         <button class="arch-btn" id="l3-re" type="button">↻ 回起点</button>
       </div>
-      <div class="l3-stat" style="margin-top:10px">step <span id="l3-step">0</span> · w = <span id="l3-wv">—</span> · loss = <span id="l3-cv">—</span></div>
+      <div class="lab-stat" style="margin-top:10px">step <span id="l3-step">0</span> · w = <span id="l3-wv">—</span> · loss = <span id="l3-cv">—</span></div>
     </div>
-    <div class="l3-box">
+    <div class="lab-box">
       <svg id="l3-hill" viewBox="0 0 840 150" width="100%" role="img" aria-label="loss 山与小球"></svg>
     </div>
   </div>
   <p class="bg-hint">玩法：LR 0.3 走 20 步，小球稳稳滚进谷底；拉到 1.9 再走——左右横跳，步子比谷宽还大；勾上 SGD，每步的坡带样本噪声，轨迹抖着下但大方向不变——打乱分批的意义（3B2 结尾的 SGD）。</p>
 
-  <div class="l3-cap">C · 链式法则对表台（3B3/3B4）—— 上排前向算值，下排本地导数连乘；和数值梯度当场对表</div>
-  <div class="l3-grid">
-    <div class="l3-box">
-      <div class="l3-row"><label>x 的值</label><input type="range" id="l3-x" min="0.5" max="6" step="0.1" value="4"><span class="l3-stat" id="l3-xv">4.0</span></div>
-      <div class="l3-stat" style="margin-top:10px;line-height:1.9">链：x → ×3 → 平方 → +2 → C<br>反向连乘：3 × 2a × 1 = <span id="l3-chainmul">—</span><br>数值梯度 ε=1e-5：<span id="l3-numg">—</span> <span id="l3-ok"></span></div>
+  <div class="lab-cap">C · 链式法则对表台（3B3/3B4）—— 上排前向算值，下排本地导数连乘；和数值梯度当场对表</div>
+  <div class="lab-grid">
+    <div class="lab-box">
+      <div class="lab-row"><label>x 的值</label><input type="range" id="l3-x" min="0.5" max="6" step="0.1" value="4"><span class="lab-stat" id="l3-xv">4.0</span></div>
+      <div class="lab-stat" style="margin-top:10px;line-height:1.9">链：x → ×3 → 平方 → +2 → C<br>反向连乘：3 × 2a × 1 = <span id="l3-chainmul">—</span><br>数值梯度 ε=1e-5：<span id="l3-numg">—</span> <span id="l3-ok"></span></div>
       <div style="font-size:11px;color:var(--muted);margin-top:8px">本地导数「2a」用的是本节点自己的输入 a——展开成 9x² 拿 9，乘 3 层就背两遍锅（NN3 亲手踩过的坑）。</div>
     </div>
-    <div class="l3-box">
+    <div class="lab-box">
       <div class="l3-chain" id="l3-fwd"></div>
       <div style="height:10px"></div>
       <div class="l3-chain" id="l3-bwd"></div>
@@ -1612,128 +1405,6 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
   </div>
   <p class="bg-hint">玩法：x 拖到 4，正是 NN3 第一幕那道题——连乘 72、数值梯度 72 ✓；随便拖到别的数，两行永远对得上。岔口相加（loss=(3x)²+(x+1) → 72+1=73）在 NN3 已手推，这里只演一条路的版本。</p>
 
-  <script>
-  (function () {
-    var $id = function (x) { return document.getElementById(x); };
-    function fmt(v, n) { return v.toFixed(n == null ? 2 : n); }
-
-    /* A 台 */
-    var N = 10, X = [], W = [], b0 = 0;
-    function mesh(el, arr, editable) {
-      el.innerHTML = '';
-      for (var i = 0; i < N * N; i++) {
-        (function (i) {
-          var d = document.createElement('div');
-          d.className = 'l3-cell';
-          d.onclick = function () {
-            if (editable) { arr[i] = ((arr[i] + 2) % 3) - 1; } else { arr[i] = 1 - arr[i]; }
-            renderA();
-          };
-          el.appendChild(d);
-        })(i);
-      }
-      el._cells = el.children;
-    }
-    function paint() {
-      var xc = $id('l3-xmesh')._cells, wc = $id('l3-wmesh')._cells;
-      for (var i = 0; i < N * N; i++) {
-        xc[i].style.background = X[i] ? 'rgba(26,26,31,.85)' : '#e4e4ea';
-        wc[i].style.background = W[i] > 0 ? 'rgba(220,38,38,.8)' : (W[i] < 0 ? 'rgba(37,99,235,.8)' : '#f7f7f9');
-      }
-    }
-    function renderA() {
-      var s = 0;
-      for (var i = 0; i < N * N; i++) s += W[i] * X[i];
-      var h = s + b0, a = 1 / (1 + Math.exp(-h));
-      $id('l3-sum').textContent = fmt(h, 2);
-      $id('l3-act').textContent = fmt(a, 3);
-      $id('l3-fill').style.width = (a * 100).toFixed(1) + '%';
-      paint();
-    }
-    function presetX(kind) {
-      X = [];
-      for (var r = 0; r < N; r++) for (var c = 0; c < N; c++) {
-        var v = 0;
-        if (kind === 'spot') v = (r < 3 && c < 3) ? 1 : 0;
-        if (kind === 'vline') v = (c === 6 || c === 7) ? 1 : 0;
-        if (kind === 'hline') v = (r === 2 || r === 3) ? 1 : 0;
-        if (kind === 'all') v = 1;
-        X.push(v);
-      }
-      renderA();
-    }
-    function presetW(kind) {
-      W = [];
-      for (var r = 0; r < N; r++) for (var c = 0; c < N; c++) {
-        var v = 0;
-        if (kind === 'v') v = c < 5 ? -1 : 1;
-        if (kind === 'spot') v = (r < 3 && c < 3) ? 1 : 0;
-        W.push(v);
-      }
-      renderA();
-    }
-    mesh($id('l3-xmesh'), X, false);
-    mesh($id('l3-wmesh'), W, true);
-    var xbtns = document.querySelectorAll('#lab3b [data-x]');
-    for (var i = 0; i < xbtns.length; i++) xbtns[i].onclick = (function (el) { return function () { presetX(el.getAttribute('data-x')); }; })(xbtns[i]);
-    var wbtns = document.querySelectorAll('#lab3b [data-w]');
-    for (var j = 0; j < wbtns.length; j++) wbtns[j].onclick = (function (el) { return function () { presetW(el.getAttribute('data-w')); }; })(wbtns[j]);
-    $id('l3-b').oninput = function () { b0 = +this.value; $id('l3-bv').textContent = fmt(b0, 1); renderA(); };
-    presetX('vline'); presetW('v');
-
-    /* B 台 */
-    var WMIN = -2, WMAX = 6, LRb = 0.3, sgd = false, wb, stepb, trail;
-    function Cf(w) { return 0.5 * (w - 2.2) * (w - 2.2) + 0.15; }
-    function dC(w) { return 1.0 * (w - 2.2); }
-    function px(w) { return 20 + (w - WMIN) / (WMAX - WMIN) * 800; }
-    function py(c) { return 130 - c / 12 * 115; }
-    function resetB() { wb = -1.6; stepb = 0; trail = [wb]; renderB(); }
-    function stepBall() {
-      var g = dC(wb);
-      if (sgd) g *= 1 + (Math.random() - 0.5);
-      wb = Math.max(WMIN + 0.05, Math.min(WMAX - 0.05, wb - LRb * g));
-      stepb++; trail.push(wb);
-    }
-    function renderB() {
-      $id('l3-step').textContent = stepb;
-      $id('l3-wv').textContent = fmt(wb, 3);
-      $id('l3-cv').textContent = fmt(Cf(wb), 4);
-      var pts = [];
-      for (var w = WMIN; w <= WMAX + 0.01; w += 0.05) pts.push(px(w).toFixed(1) + ',' + py(Cf(w)).toFixed(1));
-      var tp = '';
-      for (var i = 0; i < trail.length; i++) tp += '<circle cx="' + px(trail[i]).toFixed(1) + '" cy="' + py(Cf(trail[i])).toFixed(1) + '" r="2" fill="rgba(194,65,12,.55)"/>';
-      $id('l3-hill').innerHTML = '<polyline points="' + pts.join(' ') + '" fill="none" stroke="#2563eb" stroke-width="1.8"/>' + tp +
-        '<circle cx="' + px(wb).toFixed(1) + '" cy="' + py(Cf(wb)).toFixed(1) + '" r="7" fill="#c2410c"/>' +
-        '<text x="24" y="20" font-size="10" fill="#6b6b76">loss 山 C(w) · 谷底在 w=2.2 · 小球沿 −梯度 走</text>';
-    }
-    $id('l3-lr').oninput = function () { LRb = +this.value; $id('l3-lrv').textContent = fmt(LRb, 2); };
-    $id('l3-sgd').onclick = function () { sgd = !sgd; this.classList.toggle('on', sgd); };
-    $id('l3-s1').onclick = function () { stepBall(); renderB(); };
-    $id('l3-s20').onclick = function () { for (var i = 0; i < 20; i++) stepBall(); renderB(); };
-    $id('l3-re').onclick = resetB;
-    resetB();
-
-    /* C 台 */
-    function renderC() {
-      var x = +$id('l3-x').value;
-      $id('l3-xv').textContent = fmt(x, 1);
-      var a = 3 * x, sq = a * a, C = sq + 2;
-      $id('l3-fwd').innerHTML =
-        card('x', fmt(x, 1)) + arw() + card('a = 3x', fmt(a, 1)) + arw() + card('b = a²', fmt(sq, 1)) + arw() + card('C = b+2', fmt(C, 1));
-      var d1 = 1, da = 2 * a, dx = 3, mul = d1 * da * dx;
-      $id('l3-bwd').innerHTML =
-        card('dC/db = 1', fmt(d1, 0)) + arw(true) + card('db/da = 2a', fmt(da, 1)) + arw(true) + card('da/dx = 3', fmt(dx, 0)) + arw(true) + card('连乘 dC/dx', fmt(mul, 1));
-      var eps = 1e-5, num = ((3 * (x + eps)) * (3 * (x + eps)) + 2 - C) / eps;
-      $id('l3-chainmul').textContent = fmt(mul, 1);
-      $id('l3-numg').textContent = fmt(num, 1);
-      $id('l3-ok').textContent = Math.abs(num - mul) < 0.01 ? '✓' : '✗';
-    }
-    function card(t, v) { return '<div class="l3-card"><b>' + t + '</b>' + v + '</div>'; }
-    function arw(back) { return '<span class="l3-arrow">' + (back ? '←' : '→') + '</span>'; }
-    $id('l3-x').oninput = renderC;
-    renderC();
-  })();
-  </script>
         </div>
       </details>
       <ul class="ch-list tight-top">
@@ -2298,88 +1969,17 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
       <details class="ch-lab" id="lab3b7">
         <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · 卷积三台（骰子滑动台 × 滤镜像机 × 大数乘法台）<span class="ch-lab-hint">3B7 的三个画面：翻转·滑动·乘加，亲手拧</span></summary>
         <div class="ch-lab-body">
-        <style>
-        #lab3b7 .l7-grid{display:grid;grid-template-columns:280px 1fr;gap:16px;align-items:start}
-        #lab3b7 .l7-box{border:1px solid var(--border);border-radius:12px;padding:14px;background:rgba(0,0,0,.02)}
-        #lab3b7 .l7-cap{font-size:12.5px;color:var(--muted);margin:14px 0 8px}
-        #lab3b7 .l7-cap:first-child{margin-top:0}
-        #lab3b7 .l7-row{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:12px;flex-wrap:wrap}
-        #lab3b7 .l7-row label{width:60px;color:var(--muted);flex:none}
-        #lab3b7 input[type=range]{flex:1;accent-color:var(--accent)}
-        #lab3b7 .l7-stat{font-family:var(--mono);font-size:12px}
-        #lab3b7 .l7-mini{font-size:11px;color:var(--muted);padding:2px 10px;border:1px solid var(--border);border-radius:999px;cursor:pointer;user-select:none}
-        #lab3b7 .l7-mini.on{border-color:#c2410c;color:#c2410c}
-        #lab3b7 .l7-note{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.8}
-        /* ---- A 骰子滑动台 ---- */
-        #lab3b7 .l7a-track{position:relative;height:104px;margin:2px 0 2px}
-        #lab3b7 .l7a-chip{position:absolute;width:32px;height:30px;border-radius:7px;border:1px solid #d6d6de;background:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;transition:background-color .25s,border-color .25s,color .25s}
-        #lab3b7 .l7a-rowA .l7a-chip{top:6px}
-        #lab3b7 .l7a-rowB{position:absolute;top:50px;transition:left .4s cubic-bezier(.5,1.5,.5,1)}
-        #lab3b7 .l7a-rowB .l7a-chip{position:relative;top:0}
-        #lab3b7 .l7a-rowB{display:flex;gap:4px}
-        #lab3b7 .l7a-chip.hit{border-color:#2563eb;background:rgba(37,99,235,.12);color:#1d4ed8;font-weight:700}
-        #lab3b7 .l7a-cap{font-size:10.5px;color:var(--muted);margin:2px 0 10px}
-        #lab3b7 .l7a-duo{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-top:8px}
-        #lab3b7 .l7a-g6{display:grid;grid-template-columns:20px repeat(6,30px);gap:2px}
-        #lab3b7 .l7a-c{height:26px;border-radius:4px;border:1px solid #e4e4ea;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10.5px;color:var(--muted);background:#fff;transition:background-color .2s,border-color .2s,color .2s}
-        #lab3b7 .l7a-c.hd{border:none;background:none;font-size:10px}
-        #lab3b7 .l7a-c.dg{background:rgba(37,99,235,.14);border-color:rgba(37,99,235,.5);color:#1d4ed8;font-weight:700}
-        #lab3b7 .l7a-bars{display:flex;gap:5px;align-items:stretch;height:118px;flex:1;min-width:290px}
-        #lab3b7 .l7a-bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
-        #lab3b7 .l7a-bar i{display:block;width:100%;background:#d9d9e1;border-radius:3px 3px 0 0;font-style:normal}
-        #lab3b7 .l7a-bar em{font-style:normal;font-family:var(--mono);font-size:9.5px;color:#1d4ed8;margin-bottom:2px;height:13px;visibility:hidden}
-        #lab3b7 .l7a-bar.on em{visibility:visible}
-        #lab3b7 .l7a-bar b{font-weight:400;font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:3px}
-        #lab3b7 .l7a-bar.on i{background:#2563eb}
-        /* ---- B 滤镜像机 ---- */
-        #lab3b7 .l7b-canwrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-        #lab3b7 .l7b-canlab{font-size:10.5px;color:var(--muted);text-align:center;margin-bottom:6px}
-        #lab3b7 canvas.l7b-can{border:1px solid var(--border);border-radius:8px;cursor:crosshair;display:block}
-        #lab3b7 .l7b-kern{display:grid;grid-template-columns:repeat(3,46px);gap:3px;margin:8px 0 4px}
-        #lab3b7 .l7b-k{height:32px;border:1px solid #d6d6de;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px}
-        #lab3b7 .l7b-sum{font-family:var(--mono);font-size:11.5px;color:var(--text)}
-        #lab3b7 .l7b-insp{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}
-        #lab3b7 .l7b-t3{display:grid;grid-template-columns:repeat(3,46px);gap:2px}
-        #lab3b7 .l7b-t3 span{height:25px;border:1px solid #e4e4ea;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10.5px;color:#3d3d46}
-        #lab3b7 .l7b-t3.k span{border-color:#d6d6de;background:#fbfbfd}
-        #lab3b7 .l7b-op{font-family:var(--mono);color:var(--muted);font-size:14px}
-        #lab3b7 .l7b-arrow{font-family:var(--mono);color:var(--muted);font-size:16px}
-        /* ---- C 大数乘法台 ---- */
-        #lab3b7 .l7-inp{width:128px;padding:6px 10px;border:1px solid var(--border);border-radius:8px;font-family:var(--mono);font-size:14px}
-        #lab3b7 .l7-ghost{background:var(--panel-2);color:var(--text)}
-        #lab3b7 .l7-stage{display:none;margin-top:12px;padding-top:10px;border-top:1px dashed var(--border)}
-        #lab3b7 .l7-stage.on{display:block;animation:l7fade .35s}
-        @keyframes l7fade{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
-        #lab3b7 .l7-stag{font-size:11px;color:var(--muted);margin-bottom:8px}
-        #lab3b7 .l7-poly{font-family:var(--mono);font-size:12px;color:#3d3d46;margin:3px 0;line-height:1.9}
-        #lab3b7 .l7-ctab{display:grid;gap:3px;justify-content:start;margin:6px 0;flex-wrap:wrap}
-        #lab3b7 .l7-tc{width:40px;height:30px;border:1px solid #e4e4ea;border-radius:5px;background:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11.5px;color:#3d3d46;opacity:0;transform:scale(.7)}
-        #lab3b7 .l7-tc.hd{border:none;background:none;color:var(--muted);font-weight:600;opacity:1;transform:none}
-        #lab3b7 .l7-tc.on{opacity:1;transform:scale(1);transition:opacity .18s,transform .18s}
-        #lab3b7 .l7-tc.cur{border-color:#c2410c;color:#c2410c;font-weight:700;box-shadow:0 0 0 2px rgba(194,65,12,.15)}
-        #lab3b7 .l7-tc.dk0{background:#eef2ff}#lab3b7 .l7-tc.dk1{background:#fef3c7}#lab3b7 .l7-tc.dk2{background:#ecfdf5}
-        #lab3b7 .l7-tc.dk3{background:#fdf2f8}#lab3b7 .l7-tc.dk4{background:#f0f9ff}#lab3b7 .l7-tc.dk5{background:#faf5ff}
-        #lab3b7 .l7-cds{display:flex;flex-wrap:wrap;gap:6px}
-        #lab3b7 .l7-cd{border:1px solid #d6d6de;border-radius:8px;padding:5px 9px;font-family:var(--mono);font-size:11px;color:#3d3d46;background:#fff;opacity:0}
-        #lab3b7 .l7-cd.on{opacity:1;transition:opacity .25s}
-        #lab3b7 .l7-cd b{color:#1d4ed8;font-weight:700}
-        #lab3b7 .l7-ct{border-collapse:collapse;font-family:var(--mono);font-size:11.5px}
-        #lab3b7 .l7-ct th{font-weight:500;color:var(--muted);text-align:right;padding:3px 8px;font-size:10.5px}
-        #lab3b7 .l7-ct td{border:1px solid #e4e4ea;padding:3px 10px;text-align:right;background:#fff;color:#3d3d46}
-        #lab3b7 .l7-ct tr.on td{border-color:rgba(194,65,12,.5);color:var(--text)}
-        #lab3b7 .l7-cres{font-family:var(--mono);font-size:22px;font-weight:700;color:#15803d;margin-top:12px}
-        </style>
 
-        <div class="l7-cap">A · 骰子滑动台（3B7）—— 「和的分布」怎么来：第二枚的分布整个翻转、贴着第一枚滑，每个位置乘加一次</div>
-        <div class="l7-grid">
-          <div class="l7-box">
-            <div class="l7-row"><label>目标和 t</label><input type="range" id="l7a-t" min="2" max="12" step="1" value="7"><span class="l7-stat" id="l7a-tv">7</span></div>
-            <div class="l7-row"><button class="arch-btn" id="l7a-scan" type="button" style="padding:6px 14px;font-size:13px">▶ 自动扫一遍</button>
+        <div class="lab-cap">A · 骰子滑动台（3B7）—— 「和的分布」怎么来：第二枚的分布整个翻转、贴着第一枚滑，每个位置乘加一次</div>
+        <div class="lab-grid">
+          <div class="lab-box">
+            <div class="lab-row"><label>目标和 t</label><input type="range" id="l7a-t" min="2" max="12" step="1" value="7"><span class="lab-stat" id="l7a-tv">7</span></div>
+            <div class="lab-row"><button class="arch-btn" id="l7a-scan" type="button" style="padding:6px 14px;font-size:13px">▶ 自动扫一遍</button>
         <button class="arch-btn l7-ghost" id="l7a-reset" type="button" style="padding:6px 14px;font-size:13px">↻ 清空直方图</button></div>
-            <div class="l7-stat" style="margin-top:10px;line-height:2.1">P(X+Y=t) = Σ P(a)·P(t−a)<br>对子：<span id="l7a-pl">(1,6)(2,5)(3,4)(4,3)(5,2)(6,1)</span><br>共 <span id="l7a-n">6</span> 对 × 1/36 = <span id="l7a-p">6/36 ≈ 0.167</span></div>
+            <div class="lab-stat" style="margin-top:10px;line-height:2.1">P(X+Y=t) = Σ P(a)·P(t−a)<br>对子：<span id="l7a-pl">(1,6)(2,5)(3,4)(4,3)(5,2)(6,1)</span><br>共 <span id="l7a-n">6</span> 对 × 1/36 = <span id="l7a-p">6/36 ≈ 0.167</span></div>
             <div class="l7-note">公平骰子每面 1/6，所以每对乘积恒为 1/36——对子数就是一切；不公平骰子的话，每对乘积各自不同，乘加照样成立。</div>
           </div>
-          <div class="l7-box">
+          <div class="lab-box">
             <div class="l7a-track" id="l7a-track">
               <div class="l7a-rowA" id="l7a-rowA"></div>
               <div class="l7a-rowB" id="l7a-rowB"></div>
@@ -2399,13 +1999,13 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
         </div>
         <p class="bg-hint">玩法：先自己拖几个 t，再点「自动扫一遍」——11 种和的分布是一根根柱子长出来的，哪种 t 对子最多，扫完才知道。下面那张 6×6 表先别急着关：C 台大数乘法的表跟它同构——格子放乘积、按对角线收账，连高亮方式都是一套。</p>
 
-        <div class="l7-cap">B · 滤镜像机（3B7）—— 3×3 核滑过整图：每个新像素 = 窗口九格的加权混合；核加和定性格（1 保亮度、0 只剩边）</div>
-        <div class="l7-grid">
-          <div class="l7-box">
-            <div class="l7-row"><label>核预设</label>
-              <span class="l7-mini" data-k="blur">模糊 1/9</span><span class="l7-mini" data-k="sharp">锐化</span><span class="l7-mini" data-k="edge">勾边</span><span class="l7-mini" data-k="ident">恒等</span>
+        <div class="lab-cap">B · 滤镜像机（3B7）—— 3×3 核滑过整图：每个新像素 = 窗口九格的加权混合；核加和定性格（1 保亮度、0 只剩边）</div>
+        <div class="lab-grid">
+          <div class="lab-box">
+            <div class="lab-row"><label>核预设</label>
+              <span class="lab-mini" data-k="blur">模糊 1/9</span><span class="lab-mini" data-k="sharp">锐化</span><span class="lab-mini" data-k="edge">勾边</span><span class="lab-mini" data-k="ident">恒等</span>
             </div>
-            <div class="l7-row"><label></label>
+            <div class="lab-row"><label></label>
               <button class="arch-btn" id="l7b-scan" type="button" style="padding:6px 14px;font-size:13px">▶ 扫描一遍</button>
               <button class="arch-btn l7-ghost" id="l7b-inst" type="button" style="padding:6px 14px;font-size:13px">⚡ 瞬时算</button>
             </div>
@@ -2413,7 +2013,7 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
             <div class="l7b-sum" id="l7b-sum">核加和 = —</div>
             <div class="l7-note">真卷积要把核转 180° 再滑；这四个核全都中心对称，翻了白翻——机器学习里大家就这么偷懒，照样叫卷积。</div>
           </div>
-          <div class="l7-box">
+          <div class="lab-box">
             <div class="l7b-canwrap">
               <div><div class="l7b-canlab">输入 32×32 程序绘猫（点格子选窗）</div><canvas class="l7b-can" id="l7b-cin" width="256" height="256"></canvas></div>
               <div class="l7b-arrow">→</div>
@@ -2421,25 +2021,25 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
             </div>
           </div>
         </div>
-        <div class="l7-box" style="margin-top:12px" id="l7b-inspbox">
+        <div class="lab-box" style="margin-top:12px" id="l7b-inspbox">
           <div class="l7a-cap" style="margin:0 0 8px">一格的解剖（点击上图任意格）—— 窗口 × 核 → 乘积 → 求和 → 截回 [0,1]</div>
-          <div class="l7b-insp" id="l7b-insp"><span class="l7-stat">先扫一遍或瞬时算，再点图上任意一格。</span></div>
+          <div class="l7b-insp" id="l7b-insp"><span class="lab-stat">先扫一遍或瞬时算，再点图上任意一格。</span></div>
         </div>
         <p class="bg-hint">玩法：「模糊」扫描，胡须先糊没，条纹糊成灰雾，猫脸还在；换「勾边」，全图归黑，只剩猫的轮廓亮线——平整区九格相同，加和为 0 的核一乘就清零，只有「起变化」的地方活得下来；再换「锐化」，轮廓和条纹像被描了一遍。扫描时盯住输入图上的 3×3 橙框：它就是滑动窗口，框到哪、输出亮到哪。</p>
 
-        <div class="l7-cap">C · 大数乘法台（3B7）—— 两个数相乘 = 两串系数做卷积：乘法表按对角线收账，再进位清洗</div>
-        <div class="l7-grid">
-          <div class="l7-box">
-            <div class="l7-row"><label>乘数 A</label><input class="l7-inp" id="l7-ca" value="1234" maxlength="8" inputmode="numeric"></div>
-            <div class="l7-row"><label>乘数 B</label><input class="l7-inp" id="l7-cb" value="5678" maxlength="8" inputmode="numeric"></div>
-            <div class="l7-row"><label></label>
+        <div class="lab-cap">C · 大数乘法台（3B7）—— 两个数相乘 = 两串系数做卷积：乘法表按对角线收账，再进位清洗</div>
+        <div class="lab-grid">
+          <div class="lab-box">
+            <div class="lab-row"><label>乘数 A</label><input class="l7-inp" id="l7-ca" value="1234" maxlength="8" inputmode="numeric"></div>
+            <div class="lab-row"><label>乘数 B</label><input class="l7-inp" id="l7-cb" value="5678" maxlength="8" inputmode="numeric"></div>
+            <div class="lab-row"><label></label>
               <button class="arch-btn" id="l7-crun" type="button" style="padding:6px 14px;font-size:13px">▶ 卷积乘</button>
               <button class="arch-btn l7-ghost" id="l7-cre" type="button" style="padding:6px 14px;font-size:13px">↻ 清空</button>
             </div>
-            <div class="l7-stat" style="margin-top:10px;line-height:2" id="l7-cchk">最多各 8 位；非数字自动清洗。</div>
+            <div class="lab-stat" style="margin-top:10px;line-height:2" id="l7-cchk">最多各 8 位；非数字自动清洗。</div>
             <div class="l7-note">小学竖式 = 同一张乘法表排成阶梯逐行加；卷积 = 按对角线收账——一张表，两种读法。位数大了还有第三种：FFT 绕开整张表，O(n²) 变 O(n log n)。</div>
           </div>
-          <div class="l7-box">
+          <div class="lab-box">
             <div class="l7-stage" id="l7-s1"></div>
             <div class="l7-stage" id="l7-s2"></div>
             <div class="l7-stage" id="l7-s3"></div>
@@ -2448,366 +2048,6 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
         </div>
         <p class="bg-hint">玩法：默认 1234×5678，点「卷积乘」看四步流水线——拆位、乘法表逐格点亮、七条对角线挨个收账（底色按 k 分组，和 A 台骰子表同一套机关）、进位清洗。末尾 BigInt 直乘对表，两路必须一个数。换个 9999×9999 试试：对角线和全是 81 的倍数，进位特别热闹。</p>
 
-        <script>
-        (function () {
-          var $id = function (x) { return document.getElementById(x); };
-          var FAST = function () { return !!window.L7FAST; };
-          function st(fn, ms) { setTimeout(fn, FAST() ? 16 : ms); }
-
-          /* ================= A 骰子滑动台 ================= */
-          var SLOT = 36, TRACK_SLOTS = 16, visited = {};
-          (function buildA() {
-            var track = $id('l7a-track');
-            track.style.width = (TRACK_SLOTS * SLOT - 4) + 'px';
-            var A = $id('l7a-rowA'), B = $id('l7a-rowB');
-            A.style.position = 'absolute'; A.style.top = '6px'; A.className = 'l7a-rowA';
-            for (var i = 0; i < 6; i++) {
-              var c = document.createElement('div');
-              c.className = 'l7a-chip'; c.textContent = i + 1;
-              c.style.left = (5 + i) * SLOT + 'px';
-              A.appendChild(c);
-            }
-            for (var j = 0; j < 6; j++) {
-              var d = document.createElement('div');
-              d.className = 'l7a-chip'; d.textContent = 6 - j;
-              B.appendChild(d);
-            }
-            var g = $id('l7a-g6'), k;
-            var hd = document.createElement('div'); hd.className = 'l7a-c hd'; hd.textContent = 'a╲b'; g.appendChild(hd);
-            for (k = 1; k <= 6; k++) { var h = document.createElement('div'); h.className = 'l7a-c hd'; h.textContent = k; g.appendChild(h); }
-            for (var a = 1; a <= 6; a++) {
-              var rh = document.createElement('div'); rh.className = 'l7a-c hd'; rh.textContent = a; g.appendChild(rh);
-              for (var b = 1; b <= 6; b++) {
-                var cc = document.createElement('div');
-                cc.className = 'l7a-c'; cc.textContent = a + b; cc.setAttribute('data-s', a + b);
-                g.appendChild(cc);
-              }
-            }
-            var bars = $id('l7a-bars');
-            for (var t = 2; t <= 12; t++) {
-              var col = document.createElement('div'); col.className = 'l7a-bar';
-              col.innerHTML = '<em></em><i style="height:0"></i><b>' + t + '</b>';
-              bars.appendChild(col);
-            }
-            $id('l7a-t').addEventListener('input', renderA);
-            $id('l7a-scan').addEventListener('click', autoScan);
-            $id('l7a-reset').addEventListener('click', function () { visited = {}; renderA(); });
-            renderA();
-          })();
-          function pairsOf(t) { var r = []; for (var a = 1; a <= 6; a++) { var b = t - a; if (b >= 1 && b <= 6) r.push([a, b]); } return r; }
-          function renderA() {
-            var t = +$id('l7a-t').value;
-            $id('l7a-tv').textContent = t;
-            var ps = pairsOf(t);
-            $id('l7a-pl').textContent = ps.map(function (p) { return '(' + p[0] + ',' + p[1] + ')'; }).join('');
-            $id('l7a-n').textContent = ps.length;
-            $id('l7a-p').textContent = ps.length + '/36 ≈ ' + (ps.length / 36).toFixed(3);
-            $id('l7a-rowB').style.left = ((t - 2) * SLOT) + 'px';
-            var aCh = $id('l7a-rowA').children, bCh = $id('l7a-rowB').children, i;
-            for (i = 0; i < 6; i++) {
-              var a = i + 1, b = t - a;
-              aCh[i].className = 'l7a-chip' + (b >= 1 && b <= 6 ? ' hit' : '');
-            }
-            for (i = 0; i < 6; i++) {
-              var bb = 6 - i, aa = t - bb;
-              bCh[i].className = 'l7a-chip' + (aa >= 1 && aa <= 6 ? ' hit' : '');
-            }
-            var cells = $id('l7a-g6').children;
-            for (i = 0; i < cells.length; i++) {
-              var c = cells[i];
-              if (c.getAttribute('data-s')) c.className = 'l7a-c' + (+c.getAttribute('data-s') === t ? ' dg' : '');
-            }
-            visited[t] = true;
-            var cols = $id('l7a-bars').children;
-            for (i = 0; i < cols.length; i++) {
-              var tt = i + 2, n = pairsOf(tt).length, col = cols[i];
-              col.className = 'l7a-bar' + (tt === t ? ' on' : '');
-              col.querySelector('i').style.height = (visited[tt] ? n / 36 * 88 : 0) + 'px';
-              col.querySelector('em').textContent = tt === t ? n + '/36' : '';
-            }
-          }
-          function autoScan() {
-            var btn = $id('l7a-scan'), t = 2, timer;
-            btn.disabled = true; btn.style.opacity = .5;
-            $id('l7a-t').value = t; renderA();
-            timer = setInterval(function () {
-              t++;
-              if (t > 12) { clearInterval(timer); btn.disabled = false; btn.style.opacity = 1; return; }
-              $id('l7a-t').value = t; renderA();
-            }, FAST() ? 60 : 420);
-          }
-
-          /* ================= B 滤镜像机 ================= */
-          var KB = 32, KS = 8, IMG = new Float32Array(KB * KB), OUT = null, KER = null, KERD = null;
-          var PRESETS = {
-            blur: { name: '模糊', k: [1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9, 1 / 9], d: ['1/9', '1/9', '1/9', '1/9', '1/9', '1/9', '1/9', '1/9', '1/9'] },
-            sharp: { name: '锐化', k: [0, -1, 0, -1, 5, -1, 0, -1, 0], d: ['0', '-1', '0', '-1', '5', '-1', '0', '-1', '0'] },
-            edge: { name: '勾边', k: [0, 1, 0, 1, -4, 1, 0, 1, 0], d: ['0', '1', '0', '1', '-4', '1', '0', '1', '0'] },
-            ident: { name: '恒等', k: [0, 0, 0, 0, 1, 0, 0, 0, 0], d: ['0', '0', '0', '0', '1', '0', '0', '0', '0'] }
-          };
-          var cin, cout, ctxIn, ctxOut, selCell = null;
-          function buildImg() {
-            IMG.fill(0.92);
-            var x, y;
-            for (y = 0; y < KB; y++) for (x = 0; x < KB; x++) {                          /* 猫头椭圆 */
-              var dx = (x - 15.5) / 9.5, dy = (y - 18) / 8.5;
-              if (dx * dx + dy * dy <= 1) IMG[y * KB + x] = 0.15;
-            }
-            function ear(x1, x2, tip) {                                                 /* 三角耳 */
-              for (var yy = tip[1]; yy <= 14; yy++) {
-                var lo = x1 + (tip[0] - x1) * (yy - 14) / (tip[1] - 14);
-                var hi = x2 + (tip[0] - x2) * (yy - 14) / (tip[1] - 14);
-                for (var xx = Math.round(lo); xx <= Math.round(hi); xx++) IMG[yy * KB + xx] = 0.15;
-              }
-            }
-            ear(7, 12, [9, 3]); ear(19, 24, [22, 3]);
-            [12, 15, 18].forEach(function (sx) { for (y = 11; y <= 15; y++) for (x = sx; x <= sx + 1; x++) IMG[y * KB + x] = 0.42; });  /* 额头条纹 */
-            for (y = 17; y <= 19; y++) { IMG[y * KB + 11] = 0.92; IMG[y * KB + 12] = 0.92; IMG[y * KB + 19] = 0.92; IMG[y * KB + 20] = 0.92; }  /* 亮眼睛 */
-            for (y = 21; y <= 22; y++) { IMG[y * KB + 15] = 0.92; IMG[y * KB + 16] = 0.92; }            /* 亮鼻头 */
-            [20, 22].forEach(function (wy) { for (x = 1; x <= 5; x++) IMG[wy * KB + x] = 0.42; for (x = 26; x <= 30; x++) IMG[wy * KB + x] = 0.42; });  /* 胡须 */
-          }
-          function paintArr(ctx, arr, marker, msize) {
-            var i;
-            for (var y = 0; y < KB; y++) for (var x = 0; x < KB; x++) {
-              var v = arr ? Math.max(0, Math.min(1, arr[y * KB + x])) : 0.94;
-              var g = Math.round(v * 255);
-              ctx.fillStyle = 'rgb(' + g + ',' + g + ',' + g + ')';
-              ctx.fillRect(x * KS, y * KS, KS, KS);
-            }
-            if (!arr) {
-              ctx.fillStyle = '#8a8a94'; ctx.font = '12px ui-monospace,Menlo,monospace';
-              ctx.fillText('▶ 扫描 / ⚡ 瞬时算', 52, 132);
-            }
-            if (marker) {
-              ctx.strokeStyle = '#c2410c'; ctx.lineWidth = 2.5;
-              ctx.strokeRect(marker[0] * KS + 1.25, marker[1] * KS + 1.25, msize * KS - 2.5, msize * KS - 2.5);
-            }
-          }
-          function convolve(k) {
-            var out = new Float32Array(KB * KB);
-            for (var y = 0; y < KB; y++) for (var x = 0; x < KB; x++) {
-              var s = 0;
-              for (var dy = -1; dy <= 1; dy++) for (var dx = -1; dx <= 1; dx++) {
-                var yy = Math.min(KB - 1, Math.max(0, y + dy)), xx = Math.min(KB - 1, Math.max(0, x + dx));
-                s += k[(dy + 1) * 3 + (dx + 1)] * IMG[yy * KB + xx];
-              }
-              out[y * KB + x] = s;
-            }
-            return out;
-          }
-          function setPreset(key) {
-            KER = PRESETS[key].k.slice(); KERD = PRESETS[key].d.slice();
-            OUT = null; selCell = null;
-            var chips = document.querySelectorAll('#lab3b7 .l7-mini');
-            for (var i = 0; i < chips.length; i++) chips[i].classList.toggle('on', chips[i].getAttribute('data-k') === key);
-            var kd = $id('l7b-kern'); kd.innerHTML = '';
-            for (var j = 0; j < 9; j++) { var c = document.createElement('div'); c.className = 'l7b-k'; c.textContent = KERD[j]; kd.appendChild(c); }
-            var sum = 0; for (var s = 0; s < 9; s++) sum += KER[s];
-            var v = Math.abs(sum - 1) < .01 ? '核加和 = 1 · 整体明暗不变（模糊只是揉，锐化白边黑边互补）'
-              : Math.abs(sum) < .01 ? '核加和 = 0 · 平整区一律归零，只剩变化（勾边的秘密）'
-              : '核加和 = ' + sum.toFixed(2);
-            $id('l7b-sum').textContent = v;
-            paintArr(ctxIn, IMG, null, 0); paintArr(ctxOut, null, null, 0);
-            $id('l7b-insp').innerHTML = '<span class="l7-stat">先扫一遍或瞬时算，再点图上任意一格。</span>';
-          }
-          function refreshPaint() {
-            paintArr(ctxIn, IMG, selCell ? [selCell[0] - 1, selCell[1] - 1] : null, 3);
-            if (OUT) paintArr(ctxOut, OUT, selCell, 1);
-            else paintArr(ctxOut, null, null, 0);
-          }
-          function inspect(x, y) {
-            selCell = [x, y];
-            refreshPaint();
-            if (!OUT) return;
-            var patch = [], prod = [], s = 0, i = 0;
-            for (var dy = -1; dy <= 1; dy++) for (var dx = -1; dx <= 1; dx++) {
-              var yy = Math.min(KB - 1, Math.max(0, y + dy)), xx = Math.min(KB - 1, Math.max(0, x + dx));
-              var p = IMG[yy * KB + xx];
-              patch.push(p.toFixed(2)); prod.push((p * KER[i]).toFixed(2)); s += p * KER[i]; i++;
-            }
-            var cell = 'rgb(' + Math.round(Math.max(0, Math.min(1, OUT[y * KB + x])) * 255) + ')';
-            var html = '<div><div class="l7a-cap" style="margin:0 0 4px;text-align:center">窗口 (' + x + ',' + y + ')</div><div class="l7b-t3">' + patch.map(function (v) { return '<span>' + v + '</span>'; }).join('') + '</div></div>'
-              + '<div class="l7b-op">×</div>'
-              + '<div><div class="l7a-cap" style="margin:0 0 4px;text-align:center">核</div><div class="l7b-t3 k">' + KERD.map(function (v) { return '<span>' + v + '</span>'; }).join('') + '</div></div>'
-              + '<div class="l7b-op">=</div>'
-              + '<div><div class="l7a-cap" style="margin:0 0 4px;text-align:center">乘积</div><div class="l7b-t3">' + prod.map(function (v) { return '<span>' + v + '</span>'; }).join('') + '</div></div>'
-              + '<div class="l7-stat" style="line-height:1.9">Σ = ' + s.toFixed(2) + ' → 截回 [0,1] = ' + Math.max(0, Math.min(1, OUT[y * KB + x])).toFixed(2)
-              + '<br><span style="display:inline-block;width:13px;height:13px;border-radius:3px;border:1px solid #d6d6de;vertical-align:-2px;background:' + cell + '"></span> 输出亮度</div>';
-            $id('l7b-insp').innerHTML = html;
-          }
-          function scanOutput(instant) {
-            OUT = convolve(KER);
-            if (instant) { refreshPaint(); inspect(16, 10); return; }
-            var btn = $id('l7b-scan'), idx = 0;
-            btn.disabled = true; btn.style.opacity = .5;
-            paintArr(ctxOut, null, null, 0);
-            var blank = new Float32Array(KB * KB); blank.fill(NaN);
-            var timer = setInterval(function () {
-              for (var q = 0; q < 5 && idx < KB * KB; q++, idx++) {
-                var x = idx % KB, y = (idx / KB) | 0;
-                var v = Math.max(0, Math.min(1, OUT[y * KB + x]));
-                var g = Math.round(v * 255);
-                ctxOut.fillStyle = 'rgb(' + g + ',' + g + ',' + g + ')';
-                ctxOut.fillRect(x * KS, y * KS, KS, KS);
-                paintArr(ctxIn, IMG, [x - 1, y - 1], 3);
-              }
-              if (idx >= KB * KB) {
-                clearInterval(timer);
-                btn.disabled = false; btn.style.opacity = 1;
-                inspect(16, 10);
-              }
-            }, FAST() ? 8 : 14);
-          }
-          (function buildB() {
-            cin = $id('l7b-cin'); cout = $id('l7b-cout');
-            ctxIn = cin.getContext('2d'); ctxOut = cout.getContext('2d');
-            buildImg();
-            var chips = document.querySelectorAll('#lab3b7 .l7-mini');
-            for (var i = 0; i < chips.length; i++) chips[i].addEventListener('click', function () { setPreset(this.getAttribute('data-k')); });
-            $id('l7b-scan').addEventListener('click', function () { if (KER) scanOutput(false); });
-            $id('l7b-inst').addEventListener('click', function () { if (KER) scanOutput(true); });
-            cin.addEventListener('click', function (e) {
-              if (!OUT) return;
-              var r = cin.getBoundingClientRect();
-              inspect(Math.floor((e.clientX - r.left) / r.width * KB), Math.floor((e.clientY - r.top) / r.height * KB));
-            });
-            cout.addEventListener('click', function (e) {
-              if (!OUT) return;
-              var r = cout.getBoundingClientRect();
-              inspect(Math.floor((e.clientX - r.left) / r.width * KB), Math.floor((e.clientY - r.top) / r.height * KB));
-            });
-            setPreset('blur');
-          })();
-
-          /* ================= C 大数乘法台 ================= */
-          var SUP = { 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹' };
-          function sup(n) { return String(n).split('').map(function (d) { return SUP[+d]; }).join(''); }
-          function polyLine(str, ds) {
-            var terms = [];
-            for (var i = 0; i < ds.length; i++) terms.push(ds[i] + '·x' + sup(i));
-            return '<div class="l7-poly">' + str + ' → 低位在前 [' + ds.join(',') + '] → ' + terms.join(' + ') + ' <span style="color:#6b6b76">(x=10)</span></div>';
-          }
-          function stag(txt) { return '<div class="l7-stag">' + txt + '</div>'; }
-          var runSeq = 0;
-          function runC() {
-            var seq = ++runSeq;
-            var A = String($id('l7-ca').value).replace(/\D/g, '').replace(/^0+/, '') || '0';
-            var B = String($id('l7-cb').value).replace(/\D/g, '').replace(/^0+/, '') || '0';
-            if (A.length > 8) A = A.slice(0, 8);
-            if (B.length > 8) B = B.slice(0, 8);
-            $id('l7-ca').value = A; $id('l7-cb').value = B;
-            var a = A.split('').reverse().map(Number), b = B.split('').reverse().map(Number);
-            var n = a.length, m = b.length, K = n + m - 1;
-            ['l7-s1', 'l7-s2', 'l7-s3', 'l7-s4'].forEach(function (id) { $id(id).className = 'l7-stage'; $id(id).innerHTML = ''; });
-            $id('l7-cchk').innerHTML = '流水线启动…';
-
-            /* ① 拆位 */
-            st(function () {
-              if (seq !== runSeq) return;
-              $id('l7-s1').innerHTML = stag('① 拆位——数字 = 「x 取 10」的多项式，系数低位在前')
-                + polyLine(A, a) + polyLine(B, b);
-              $id('l7-s1').className = 'l7-stage on';
-            }, 150);
-
-            /* ② 乘法表 */
-            st(function () {
-              if (seq !== runSeq) return;
-              var html = stag('② 乘法表——格 = 行数字 × 列数字；同一条对角线（右上→左下）上，指数和 k 相同，一会儿按 k 收账');
-              var tab = document.createElement('div');
-              tab.className = 'l7-ctab';
-              tab.style.gridTemplateColumns = 'repeat(' + (m + 1) + ',40px)';
-              var corner = document.createElement('div'); corner.className = 'l7-tc hd'; corner.textContent = 'A╲B'; tab.appendChild(corner);
-              var cells = [], c, r, i2, j2;
-              for (c = m - 1; c >= 0; c--) { var h = document.createElement('div'); h.className = 'l7-tc hd'; h.textContent = b[c]; tab.appendChild(h); }
-              for (r = n - 1; r >= 0; r--) {
-                var rh = document.createElement('div'); rh.className = 'l7-tc hd'; rh.textContent = a[r]; tab.appendChild(rh);
-                for (c = m - 1; c >= 0; c--) {
-                  var tc = document.createElement('div');
-                  tc.className = 'l7-tc';
-                  tc.textContent = a[r] * b[c];
-                  var i = n - 1 - r, j = m - 1 - c, k = i + j;
-                  tc.setAttribute('data-k', k);
-                  tab.appendChild(tc); cells.push(tc);
-                }
-              }
-              $id('l7-s2').innerHTML = html;
-              $id('l7-s2').appendChild(tab);
-              $id('l7-s2').className = 'l7-stage on';
-              cells.forEach(function (tc2, q) { st(function () { if (seq === runSeq) tc2.classList.add('on'); }, 150 + q * (FAST() ? 1 : 24)); });
-              /* ③ 对角线收账 */
-              var raw = [];
-              for (var k2 = 0; k2 < K; k2++) {
-                var kk = k2;
-                raw.push(computeRaw(a, b, kk));
-                st(function () {
-                  if (seq !== runSeq) return;
-                  var cur = kk;
-                  cells.forEach(function (tc3) {
-                    var kk3 = +tc3.getAttribute('data-k');
-                    tc3.classList.toggle('cur', kk3 === cur);
-                    if (kk3 < cur) tc3.classList.add('dk' + (kk3 % 6));
-                  });
-                }, 150 + cells.length * (FAST() ? 1 : 24) + 240 + kk * (FAST() ? 1 : 330));
-              }
-              st(function () {
-                if (seq !== runSeq) return;
-                cells.forEach(function (tc4) { tc4.classList.remove('cur'); tc4.classList.add('dk' + (+tc4.getAttribute('data-k') % 6)); });
-                var cards = raw.map(function (rw, k3) {
-                  return '<div class="l7-cd" id="l7cd' + k3 + '"><b>c' + sup(k3) + '</b> = ' + rw.terms.join(' + ') + ' = ' + rw.sum + '</div>';
-                }).join('');
-                $id('l7-s3').innerHTML = stag('③ 对角线收账——每条对角线一次乘加，乘积的系数（还没进位）就位') + '<div class="l7-cds">' + cards + '</div>';
-                $id('l7-s3').className = 'l7-stage on';
-                raw.forEach(function (rw2, k4) { st(function () { if (seq === runSeq) $id('l7cd' + k4).classList.add('on'); }, k4 * (FAST() ? 1 : 120)); });
-              }, 150 + cells.length * (FAST() ? 1 : 24) + 240 + K * (FAST() ? 1 : 330));
-
-              /* ④ 进位清洗 + 验算 */
-              st(function () {
-                if (seq !== runSeq) return;
-                var carry = 0, rows = [], digits = [];
-                for (var k5 = 0; k5 < K; k5++) {
-                  var tot = raw[k5].sum + carry;
-                  var dg = tot % 10, nc = (tot - dg) / 10;
-                  rows.push('<tr id="l7cr' + k5 + '"><td>k=' + k5 + '</td><td>' + raw[k5].sum + '</td><td>+' + carry + '</td><td><b>' + dg + '</b></td><td>' + nc + '</td></tr>');
-                  digits.push(dg); carry = nc;
-                }
-                while (carry > 0) { digits.push(carry % 10); carry = (carry - carry % 10) / 10; }
-                $id('l7-s4').innerHTML = stag('④ 进位清洗——卷积出的系数可以 ≥ 10，按位把多出来的往前进，再当 x=10 读回')
-                  + '<table class="l7-ct"><thead><tr><th>位 k</th><th>对角线和 cₖ</th><th>+上一位进位</th><th>本位写</th><th>向上进</th></tr></thead><tbody>'
-                  + rows.join('') + '</tbody></table><div class="l7-cres" id="l7-cres"></div>';
-                $id('l7-s4').className = 'l7-stage on';
-                rows.forEach(function (rw3, k6) { st(function () { if (seq === runSeq) $id('l7cr' + k6).className = 'on'; }, k6 * (FAST() ? 1 : 130)); });
-                var finalDelay = K * (FAST() ? 1 : 130);
-                st(function () {
-                  if (seq !== runSeq) return;
-                  var ds2 = digits.slice().reverse();
-                  while (ds2.length > 1 && ds2[0] === 0) ds2.shift();
-                  var str = ds2.join(''), pretty = str.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                  $id('l7-cres').textContent = A + ' × ' + B + ' = ' + pretty;
-                  var truth = (BigInt(A) * BigInt(B)).toString();
-                  $id('l7-cchk').innerHTML = '卷积路线：' + pretty + '<br>BigInt 直乘：' + truth.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                    + (str === truth ? ' <span style="color:#15803d;font-weight:700">✓ 一致</span>' : ' <span style="color:#c2410c;font-weight:700">✗ 不一致</span>');
-                }, finalDelay + 200);
-              }, 150 + cells.length * (FAST() ? 1 : 24) + 240 + K * (FAST() ? 1 : 330) + K * (FAST() ? 1 : 120) + 250);
-            }, 400);
-          }
-          function computeRaw(a, b, k) {
-            var terms = [], sum = 0;
-            for (var i = 0; i < a.length; i++) {
-              var j = k - i;
-              if (j >= 0 && j < b.length) { terms.push(a[i] + '×' + b[j]); sum += a[i] * b[j]; }
-            }
-            return { terms: terms, sum: sum };
-          }
-          (function buildC() {
-            $id('l7-crun').addEventListener('click', runC);
-            $id('l7-cre').addEventListener('click', function () {
-              runSeq++;
-              ['l7-s1', 'l7-s2', 'l7-s3', 'l7-s4'].forEach(function (id) { $id(id).className = 'l7-stage'; $id(id).innerHTML = ''; });
-              $id('l7-cchk').innerHTML = '最多各 8 位；非数字自动清洗。';
-            });
-          })();
-        })();
-        </script>
         </div>
       </details>
 
@@ -3654,7 +2894,6 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
     <li><b>复盘发散</b>——这个设计在真实世界还有哪些做法。</li>
   </ol>
   <div id="course-log"></div>
-  <script src="COURSE-LOG.js"></script>
 </section>
 
 </main>
@@ -3663,105 +2902,12 @@ if (/^#(arch|acts|miles|pact|tf)$/.test(location.hash)) {
   <span class="mono">miniclaude/COURSE.html</span> · 小z 自动维护：课程内容调整后重新生成本页并告知 · 用浏览器直接打开即可
 </footer>
 
-<script>
-(function () {
-  var root = document.querySelector('.arch-stack');
-  if (!root) return;
-  var steps = [
-    { a: ['user'], l: [], t: '你输入:「帮我修掉 bug.py 里的报错」' },
-    { a: ['ui'], l: ['user-ui'], t: 'UI 把消息塞进对话历史,交给 Agent 循环' },
-    { a: ['loop', 'ctx'], l: ['ui-loop'], t: '循环组装完整上下文:全部历史 + system prompt,上下文管理随时记账' },
-    { a: ['loop', 'llm'], l: ['loop-llm'], t: '发给 LLM——它是无状态的,每次都带上全部历史' },
-    { a: ['llm'], l: ['loop-llm'], t: '模型吐回 tool_use:「我要 Read 一下 bug.py」' },
-    { a: ['perm', 'loop'], l: ['loop-tools'], t: '权限系统过问:Read 在允许清单里,放行' },
-    { a: ['tools', 'sys'], l: ['tools-sys'], t: '工具层真的去读文件,拿到带行号的内容' },
-    { a: ['tools', 'loop'], l: ['loop-tools'], t: 'tool_result 喂回循环——结果是给模型看的,不是给你看的' },
-    { a: ['loop', 'llm'], l: ['loop-llm'], t: '带着新结果再问 LLM……循环往复,直到它不再要工具' },
-    { a: ['ui', 'user'], l: ['ui-loop', 'user-ui'], t: '最终回答流式渲染——这一整套,就是第 3 章的 Agent 循环' }
-  ];
-  var btn = document.getElementById('arch-btn');
-  var ic = document.getElementById('arch-btn-ic');
-  var btnLabel = document.getElementById('arch-btn-label');
-  var caption = document.getElementById('arch-cap');
-  var marks = root.querySelectorAll('[data-layer], [data-link]');
-  var idx = -1, timer = null;
-
-  function setStep(i) {
-    idx = i;
-    var s = steps[i];
-    marks.forEach(function (m) {
-      var on = s.a.indexOf(m.getAttribute('data-layer')) > -1 || s.l.indexOf(m.getAttribute('data-link')) > -1;
-      m.classList.toggle('is-active', on);
-    });
-    caption.textContent = (i + 1) + '/' + steps.length + ' · ' + s.t;
-  }
-  function setState(state) {
-    btnLabel.textContent = state === 'playing' ? '暂停' : state === 'done' ? '重播' : (idx >= 0 ? '继续' : '播放:一次请求的旅程');
-    ic.textContent = state === 'playing' ? '⏸' : state === 'done' ? '↻' : '▶';
-  }
-  btn.addEventListener('click', function () {
-    if (timer) { clearInterval(timer); timer = null; setState('idle'); return; }
-    if (idx >= steps.length - 1 || idx < 0) setStep(0);
-    setState('playing');
-    timer = setInterval(function () {
-      if (idx >= steps.length - 1) { clearInterval(timer); timer = null; setState('done'); return; }
-      setStep(idx + 1);
-    }, 2600);
-  });
-})();
-</script>
-<script>
-/* 锚点滚动联动:URL 的 #锚点 随滚动实时同步(replaceState,不写历史记录),
-   刷新即可回到当前区块;滚回顶部自动清掉锚点。 */
-(function () {
-  var secs = ['arch', 'acts', 'tf', 'miles', 'pact']
-    .map(function (id) { return document.getElementById(id); })
-    .filter(Boolean);
-  var ticking = false;
-
-  // 带锚点加载(见 head 的 cloak):接管滚动恢复,自己瞬时跳到目标区块,再显示页面
-  var cloak = document.documentElement.classList.contains('cloak');
-  if (cloak) {
-    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    var target = document.getElementById(location.hash.slice(1));
-    if (target) window.scrollTo(0, target.getBoundingClientRect().top + window.scrollY);
-    document.documentElement.classList.remove('cloak');
-  }
-
-  // 平滑滚动只在用户首次交互(点击/按键)后才启用:加载期的锚点定位、滚动恢复
-  // 全部保持瞬时——load 一到就开 smooth 的话,浏览器随后的恢复滚动会带着动画滑,照样闪
-  function armSmooth() {
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches)
-      document.documentElement.style.scrollBehavior = 'smooth';
-  }
-  ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(function (ev) {
-    window.addEventListener(ev, armSmooth, { once: true, passive: true });
-  });
-
-  function currentHash() {
-    // 滚到文档底部时直接选最后一个区块(末尾剩余空间可能不足以让它的顶边过线)
-    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2)
-      return '#' + secs[secs.length - 1].id;
-    var line = window.scrollY + Math.min(window.innerHeight * 0.35, 300); // 视口 35% 处的"阅读线"
-    var cur = '';
-    for (var i = 0; i < secs.length; i++) {
-      if (secs[i].getBoundingClientRect().top + window.scrollY <= line) cur = '#' + secs[i].id;
-      else break;
-    }
-    return cur;
-  }
-  function sync() {
-    ticking = false;
-    var h = currentHash();
-    if (h === window.location.hash) return;
-    history.replaceState(null, '', h || window.location.pathname + window.location.search);
-  }
-  window.addEventListener('scroll', function () {
-    if (!ticking) { ticking = true; requestAnimationFrame(sync); }
-  }, { passive: true });
-  window.addEventListener('load', sync);
-  sync();
-})();
-</script>
+<script src="labs/shared.js"></script>
+<script src="labs/lab-bigram.js"></script>
+<script src="labs/lab-nn.js"></script>
+<script src="labs/lab-3b.js"></script>
+<script src="labs/lab-3b7.js"></script>
+<script src="COURSE-LOG.js"></script>
+<script src="COURSE-page.js"></script>
 </body>
 </html>

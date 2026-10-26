@@ -30,4 +30,4 @@
 ## 命名与文件(既有宪法,沿用)
 
 - CH1–CH10 = 正文章节 · P0.x = 序章 · v0.x = 交付版本 · 支线 = 前缀 + 序号(NN = 支线·内功,3B = 支线·观影)。
-- 课程表三文件同目录、相对路径引用:COURSE.html + COURSE.css + COURSE-LOG.js;章节状态唯一事实源 = COURSE.html。
+- 课程表多文件同根、全部相对路径引用:COURSE.html(纯结构,章节状态唯一事实源)+ COURSE.css + COURSE-page.js(页级行为:架构图播放器 + 锚点联动)+ COURSE-LOG.js(更新记录)+ labs/(实验室资产:labs.css、shared.js、lab-*.js)。整库挪目录或部署到任意子路径不断链;新增实验室 = labs/ 加一对样式/脚本文件 + COURSE.html 页尾加一行引用,不再往 HTML 里内嵌 <style>/<script>。
