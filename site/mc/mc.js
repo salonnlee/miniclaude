@@ -85,14 +85,15 @@ var esc = function (s) {
     return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
   });
 };
-/* 轻量 markdown:只认围栏代码块与行内 code,其余原样——先转义再替换,没进 innerHTML 的口子 */
+/* 轻量 markdown:只认围栏代码块、行内 code、**加粗**,其余原样——先转义再替换,没进 innerHTML 的口子 */
 function rich(text) {
   return esc(text)
     .split('```')
     .map(function (seg, i) {
-      return i % 2
-        ? '<pre><code>' + seg.replace(/^[^\n]*\n/, '') + '</code></pre>'
-        : seg.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+      if (i % 2) return '<pre><code>' + seg.replace(/^[^\n]*\n/, '') + '</code></pre>';
+      return seg
+        .replace(/`([^`\n]+)`/g, '<code>$1</code>')
+        .replace(/\*\*([^*\n]+)\*\*/g, '<b>$1</b>');
     })
     .join('');
 }
