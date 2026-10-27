@@ -1,0 +1,16 @@
+{
+  "name": "miniclaude",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "从零搓一个 Claude Code 克隆:课程仓库 + v0.1 聊天机器人",
+  "scripts": {
+    "chat": "node --env-file=.env src/chat.ts",
+    "course": "node scripts/serve.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.0",
+    "typescript": "^5.9.3"
+  }
+}

@@ -23,6 +23,12 @@ python3 -m venv .venv
 
 # 4. 交付版:散装三课重组成一个能继续长大的迷你 GPT(训练 → 考试 → 采样)
 .venv/bin/python -m minigpt
+
+# 5. 铸剑线(Node ≥ 23,直接跑 TS,零运行时依赖):课程表本地起服务,不再裸开 html
+npm install
+npm run course      # → http://127.0.0.1:8080/COURSE.html
+npm run chat        # v0.1 聊天机器人(从 .env 读 GLM_API_KEY)
+npm run typecheck   # tsc --noEmit
 ```
 
 ## 🧭 我该从哪进?(入口门户)
@@ -59,6 +65,10 @@ python3 -m venv .venv
 │   ├── shared.js             共用工具 Lab:$id 取元素 / fmt 定点数 / chips 芯片组开关
 │   └── lab-*.js              五家实验室:bigram 抽签台 / NN 内功合成台 / 3B 观影三台 / 3B7 卷积三台 / CH1 素颜相见 + messages 解剖台
 ├── README.md                 你在这里:入口门户
+├── package.json / tsconfig.json  铸剑线脚手架:npm run course 起课程表服务 / chat 跑 v0.1 /
+│                             typecheck 类型检查(Node 原生跑 TS,devDeps 仅 typescript + @types/node)
+├── scripts/serve.mjs         课程表静态服务器:正确 MIME + 防目录穿越/点文件拦截(本地专用)
+├── src/chat.ts               🟠 正文 · v0.1 聊天机器人主战场(随 CH2 长出多轮循环/流式/记账)
 ├── LEARNER.md                AI 教师手册:给「想用本仓库重讲这门课」的 AI 或人类
 ├── poster.svg / poster.png   3:4 极客风课程海报(SVG 里的光标会闪)
 ├── requirements.txt          Python 依赖(目前仅 numpy)
