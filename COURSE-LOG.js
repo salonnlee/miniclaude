@@ -15,6 +15,7 @@ var DAYS = [
       "P0.4 全景卡入册：lessons.js 拆组（P0.4 单独一组）+ COURSE.html 补第四容器，卡位恢复「课次行→卡→知识点/总结」；七段正文×两图——抽签一步的旋钮图（分数→top-k 清场→÷T→softmax→抽签）+贪心死循环现场，温度三档小账对照。",
       "P0.4 完课状态全站同步：lessons.js P0.4 落 done、⏭下一站清零；mc-map 卡与 svg v0.0→v0.1；README/LEARNER 序章全清，P0.1 卡「P0.4 见」改「已验」。",
       "P0.4《temperature 调参》完课：minigpt v0.1——sample.py 抽签前加调温与限签，只管说话不管学习；五档温度实测：贪心死循环、0.5 稳、1.5 疯，top-k=10 写作业配方。",
+      "实验室·MLP 调音台交付（学员点单）：bigram 台保持原样，另起新台——12,739 参数导出 mlp-params.js，浏览器真前向接龙，T/top-k 现场拧；前向与 python 逐位对账，T=0.2 复读陷阱当场复现。",
       "miniclaude 解剖专区改版（学员反馈）：更名「miniclaude 解剖」，撤下 src/ 器官路线图、不预画演进；换当前全貌图（mc-map 卡+svg：双线定位 + minigpt 五文件 + 一生五幕），图随课程表主线交付重画。",
       "「解剖 miniclaude」专区上线（#tf 之后）：src/ 器官清单 11 行挂出，一行一文件、标章节与版本，交付一版点亮一行——与拼图区互为镜像；区块序号顺延，导航与锚点联动同步。",
       "序章交付 v0.0·minigpt/ 落包：散装三课重组为 data/models/engine/sample 四件，同一插头换模型不换发动机；python -m minigpt 一生跑通，MLP dev 1.9555 复现 P0.3 的 1.95；止步 temperature，P0.4 接上。",

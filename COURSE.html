@@ -213,6 +213,51 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
 
         </div>
       </details>
+
+      <details class="ch-lab" id="mlp-lab">
+        <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · MLP 调音台（minigpt v0.1 真前向 · temperature / top-k 现场拧）<span class="ch-lab-hint">12,739 个参数浏览器里真算，不是示意</span></summary>
+        <div class="ch-lab-body">
+  <p class="bg-hint" style="margin-top:0">调音台装的是训练好的 MLPLM（<code>labs/mlp-params.js</code>，minigpt 同款三查一拼 → W1 搅拌 → tanh → W2 表决，dev 1.9777）。每一步的 67 柱分布都是<b>这组参数此刻真算出来的</b>；T 与 top-k 拧在抽签之前——与 <code>minigpt sample.py</code> 同构，参数与考卷 loss 一概不动。</p>
+  <div class="bg-lab">
+    <div>
+      <div class="bg-curbox"><span class="bg-cur-ch" id="mlp-win">⏎ ⏎ ⏎</span><span class="bg-cur-lab">窗口 · 最近 3 字</span></div>
+      <div class="bg-meta"><span id="mlp-steps">第 0 字</span><span id="mlp-last">上次：—</span></div>
+      <div class="bg-lab-cap" style="margin-top:12px">P0.4 旋钮 · 抽签之前</div>
+      <div class="lab-row"><label>temperature</label><input type="range" id="mlp-temp" min="0.2" max="3" step="0.1" value="1"><span class="lab-stat" id="mlp-tempv">1.0</span></div>
+      <div class="lab-row"><label>top-k</label><select id="mlp-topk"><option value="0">不限</option><option value="2">前 2 名</option><option value="5">前 5 名</option><option value="10">前 10 名</option><option value="20">前 20 名</option></select></div>
+      <div class="mlp-presets">
+        <button type="button" class="arch-btn is-on" id="mlp-preset-t02">🥶 T=0.2</button>
+        <button type="button" class="arch-btn" id="mlp-preset-t09">✍️ T=0.9</button>
+        <button type="button" class="arch-btn" id="mlp-preset-k10">📝 T=0.9 + top-10</button>
+        <button type="button" class="arch-btn" id="mlp-preset-t15">🤪 T=1.5</button>
+      </div>
+      <div class="bg-btns">
+        <button class="arch-btn" id="mlp-step" type="button">🎲 接一字</button>
+        <button class="arch-btn bg-btn-auto" id="mlp-auto" type="button">▶ 自动接龙</button>
+        <label class="bg-speed">速度
+          <select id="mlp-speed"><option value="320">慢</option><option value="160" selected>中</option><option value="70">快</option></select>
+        </label>
+        <button class="arch-btn bg-btn-ghost" id="mlp-reset" type="button">↻ 重置</button>
+      </div>
+    </div>
+    <div>
+      <div class="bg-lab-tabs">
+        <button class="bg-tab is-on" id="mlp-tab-top" type="button">前 8 名</button>
+        <button class="bg-tab" id="mlp-tab-all" type="button">完整 67 柱 · 点击任意柱可接管下一字</button>
+      </div>
+      <div class="bg-lab-cap">下一字分布 · 真前向实算（🎯 = 当前旋钮下的最大项）<span id="mlp-knob"></span></div>
+      <div id="mlp-rows"></div>
+      <div id="mlp-spec" class="bg-spec" hidden></div>
+    </div>
+  </div>
+  <div class="bg-lab-cap" style="margin-top:14px">out · 接龙结果（⏎ = 换行，␣ = 空格，只显示最近 120 字符）</div>
+  <div class="bg-out" id="mlp-out"></div>
+  <p class="bg-hint">玩法：① ▶ 自动接龙看它写出伪莎翁——比 bigram 台强在窗口 3 字、分布是 12,739 个参数现场真算；② 拧 T 看柱子实时变形：T=0.2 头名垄断（贪心陷阱预警：连着接龙很容易复读），T=1.5 长尾翻身、怪字出笼；③ top-k 让榜外柱子直接熄灯；④ 点任意候选（前 8 名的行、67 柱里任意柱）接管下一字，跟模型抢方向盘。</p>
+        </div>
+      </details>
+
+        </div>
+      </details>
 </article>
   </details>
 
@@ -692,6 +737,8 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
 
 <script src="labs/shared.js"></script>
 <script src="labs/lab-bigram.js"></script>
+<script src="labs/mlp-params.js"></script>
+<script src="labs/lab-mlp.js"></script>
 <script src="labs/lab-nn.js"></script>
 <script src="labs/lab-3b.js"></script>
 <script src="labs/lab-3b7.js"></script>

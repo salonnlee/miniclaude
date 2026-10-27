@@ -104,3 +104,8 @@
 #lab3b7 .l7-ct td{border:1px solid #e6e7e9;padding:3px 10px;text-align:right;background:#fff;color:#4b5158}
 #lab3b7 .l7-ct tr.on td{border-color:rgba(247,103,7,.5);color:var(--text)}
 #lab3b7 .l7-cres{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--green);margin-top:12px}
+
+/* P0.4 MLP 调音台 */
+.mlp-presets{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}
+.mlp-presets .arch-btn{padding:4px 10px;font-size:12px}
+.mlp-presets .arch-btn.is-on{border-color:var(--accent);color:var(--accent)}

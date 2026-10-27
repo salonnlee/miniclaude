@@ -32,7 +32,7 @@ curl -fsSL -o data/input.txt https://cs.stanford.edu/people/karpathy/char-rnn/sh
 | 你是谁 / 你想要 | 入口 |
 |---|---|
 | 从头系统学 | 本文件 → 浏览器打开 **COURSE.html** 看全景 → 按 `prologue/01 → 02 → …` 顺序逐个啃 py(有 JS 底子就把 `prologue/python-for-js.md` 放手边) |
-| 只想玩互动实验室(5 分钟) | 浏览器打开 **COURSE.html**,展开「🔬 实验室」抽屉:P0.1 抽签台(亲手抽字/贪心掉坑)、NN 内功合成台(XOR 训练 + softmax 试押)、3B 观影三台(神经元打分/loss 山小球/链式对表) |
+| 只想玩互动实验室(5 分钟) | 浏览器打开 **COURSE.html**,展开「🔬 实验室」抽屉:P0.1 抽签台(亲手抽字/贪心掉坑)、P0.4 MLP 调音台(真前向接龙,temperature/top-k 现场拧)、NN 内功合成台(XOR 训练 + softmax 试押)、3B 观影三台(神经元打分/loss 山小球/链式对表) |
 | 只想看海报 | `poster.png`(1080×1440,3:4) |
 | 我是 AI,要给别人重讲这门课 | **LEARNER.md**(教师手册,先读它) |
 | 想看这门课怎么一步步长出来 | `git log --reverse --oneline`——提交信息按教学脉络写,倒放即教程 |
