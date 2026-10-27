@@ -52,7 +52,9 @@ window.LESSONS = {
             "code": "P0.4",
             "name": "temperature 调参",
             "done": "2026-10-27（minigpt v0.1：调温与限签旋钮，只管说话不管学习）"
-          },
+          }
+        ],
+        [
           {
             "label": "知识点",
             "text": "token 与采样；bigram 统计；embedding 与 MLP；训练循环、loss 与梯度下降；temperature / top-k"

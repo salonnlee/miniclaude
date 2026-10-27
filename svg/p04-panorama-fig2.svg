@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 500">
+  <defs>
+    <marker id="p4f2g" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+    <marker id="p4f2o" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c2430c"/></marker>
+  </defs>
+
+  <text x="24" y="28" font-size="13" font-weight="600" fill="#262626">① T=0 现场抓获:贪心走进自我闭合的圈,没有任何随机性捞它出来</text>
+
+  <text x="38" y="62" font-size="10.5" fill="#4b5158">实测样本(v0.1,MLP,seed 7)开头几步就定终身:</text>
+
+  <rect x="38" y="76" width="560" height="40" rx="8" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="56" y="101" font-size="11" font-family="ui-monospace,Menlo,monospace" fill="#c2430c">What the shall the shall the shall the shall …(永动)</text>
+
+  <text x="38" y="146" font-size="10.5" fill="#4b5158">循环圈长这样——每步都取头名,前文确定地推出下一个字,下一个字又确定地拼回前文:</text>
+
+  <rect x="100" y="164" width="80" height="36" rx="8" fill="rgba(6,111,209,.06)" stroke="rgba(6,111,209,.4)"/>
+  <text x="140" y="187" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">␣s</text>
+  <line x1="180" y1="182" x2="222" y2="182" stroke="#667382" stroke-width="1.4" marker-end="url(#p4f2g)"/>
+  <rect x="224" y="164" width="80" height="36" rx="8" fill="rgba(6,111,209,.06)" stroke="rgba(6,111,209,.4)"/>
+  <text x="264" y="187" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">sha</text>
+  <line x1="304" y1="182" x2="346" y2="182" stroke="#667382" stroke-width="1.4" marker-end="url(#p4f2g)"/>
+  <rect x="348" y="164" width="80" height="36" rx="8" fill="rgba(6,111,209,.06)" stroke="rgba(6,111,209,.4)"/>
+  <text x="388" y="187" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">hal</text>
+  <line x1="428" y1="182" x2="470" y2="182" stroke="#667382" stroke-width="1.4" marker-end="url(#p4f2g)"/>
+  <rect x="472" y="164" width="80" height="36" rx="8" fill="rgba(6,111,209,.06)" stroke="rgba(6,111,209,.4)"/>
+  <text x="512" y="187" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">l␣</text>
+  <path d="M 512 200 Q 380 260 220 240 Q 140 228 100 200" fill="none" stroke="#c2430c" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#p4f2o)"/>
+  <text x="306" y="256" font-size="9.5" fill="#c2430c">l␣ 又确定地推出 ␣s——圈闭合,复读开始</text>
+
+  <text x="640" y="172" font-size="9.5" fill="#667382">确定性 × 自回归 =</text>
+  <text x="640" y="188" font-size="9.5" fill="#667382">误差也一步一步</text>
+  <text x="640" y="204" font-size="9.5" fill="#667382">传下去且无法纠偏;</text>
+  <text x="640" y="228" font-size="9.5" fill="#4b5158">采样本身就是解药:</text>
+  <text x="640" y="244" font-size="9.5" fill="#4b5158">骰子偶尔的「失误」</text>
+  <text x="640" y="260" font-size="9.5" fill="#4b5158">正是跳出循环的那股劲</text>
+
+  <text x="38" y="290" font-size="10.5" fill="#4b5158">这不是 bug 是数学:贪心 = T→0 的极限,概率塌成头名独中;真实 API 几乎不暴露纯贪心,同款原因。P0.1 抽签台连点「🎯 贪心」掉进</text>
+  <text x="38" y="308" font-size="10.5" fill="#4b5158">␣→t→h→e 循环圈的种子,到这里对上了账——从实验现象走到公式解释,闭环。</text>
+
+  <line x1="24" y1="330" x2="856" y2="330" stroke="#e6e7e9" stroke-dasharray="4 4"/>
+
+  <text x="24" y="356" font-size="12" font-weight="600" fill="#262626">② 五档温度谱系:同一个模型,同一颗骰子,唯一变量是 T</text>
+
+  <text x="38" y="380" font-size="9.5" font-weight="600" fill="#c2430c">T=0</text>
+  <text x="80" y="380" font-size="9.5" font-family="ui-monospace,Menlo,monospace" fill="#4b5158">What the shall the shall…</text>
+  <text x="430" y="380" font-size="9.5" fill="#667382">死循环,复读机</text>
+
+  <text x="38" y="402" font-size="9.5" font-weight="600" fill="#066fd1">T=0.5</text>
+  <text x="80" y="402" font-size="9.5" font-family="ui-monospace,Menlo,monospace" fill="#4b5158">more is our you and the gain the greed</text>
+  <text x="430" y="402" font-size="9.5" fill="#667382">单词全对,句子像账本</text>
+
+  <text x="38" y="424" font-size="9.5" font-weight="600" fill="#2fb344">T=0.8</text>
+  <text x="80" y="424" font-size="9.5" font-family="ui-monospace,Menlo,monospace" fill="#4b5158">black with I shack conself not and thy mine</text>
+  <text x="430" y="424" font-size="9.5" fill="#2fb344">甜点区</text>
+
+  <text x="38" y="446" font-size="9.5" font-weight="600" fill="#4b5158">T=1.0</text>
+  <text x="80" y="446" font-size="9.5" font-family="ui-monospace,Menlo,monospace" fill="#4b5158">COK: / THOAL: 剧台格式照旧</text>
+  <text x="430" y="446" font-size="9.5" fill="#667382">模型本色,P0.3 同款</text>
+
+  <text x="38" y="468" font-size="9.5" font-weight="600" fill="#667382">T=1.5</text>
+  <text x="80" y="468" font-size="9.5" font-family="ui-monospace,Menlo,monospace" fill="#4b5158">WDTRKAFBHINthey / Do'd / HEGMARCN:</text>
+  <text x="430" y="468" font-size="9.5" fill="#667382">疯得有章法:骨架仍在</text>
+
+  <text x="38" y="492" font-size="9.5" font-weight="600" fill="#2fb344">写作业配方 T=0.9 + top-10</text>
+  <text x="270" y="492" font-size="9.5" font-family="ui-monospace,Menlo,monospace" fill="#4b5158">Sound will not as of a bay</text>
+  <text x="560" y="492" font-size="9.5" fill="#667382">不死循环、不冒怪字</text>
+</svg>
