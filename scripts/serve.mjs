@@ -1,50 +1,27 @@
-// 课程表静态服务器:静态根在 site/,COURSE.html 及其相对路径引用全部照常工作
-// npm run course → http://127.0.0.1:8080/COURSE.html
-import { createServer } from 'node:http';
-import { readFile } from 'node:fs/promises';
-import { extname, join, normalize } from 'node:path';
+// 课程表服务器(Hono):静态根 site/,/ 直达 COURSE.html
+// npm run course → http://127.0.0.1:8080
+// 后续 API 路由(如 CH2 流式代理)从这里挂:app.get('/api/...', ...)
+import { serve } from '@hono/node-server';
+import { serveStatic } from '@hono/node-server/serve-static';
+import { Hono } from 'hono';
 
-const ROOT = join(process.cwd(), 'site');
 const PORT = Number(process.env.PORT) || 8080;
 
-const MIME = {
-  '.html': 'text/html; charset=utf-8',
-  '.css': 'text/css; charset=utf-8',
-  '.js': 'text/javascript; charset=utf-8',
-  '.json': 'application/json; charset=utf-8',
-  '.svg': 'image/svg+xml',
-  '.png': 'image/png',
-  '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg',
-  '.gif': 'image/gif',
-  '.webp': 'image/webp',
-  '.ico': 'image/x-icon',
-};
+const app = new Hono();
 
-createServer(async (req, res) => {
-  try {
-    const url = new URL(req.url, 'http://x');
-    // 防目录穿越 + 防泄密:WHATWG URL 会把 /../.env 归一化成 /.env,
-    // 所以先在原始 path 上拦 ..,再校验最终路径仍在仓库根内
-    const rawPath = decodeURIComponent(url.pathname);
-    const segments = rawPath.split('/').filter(Boolean);
-    if (segments.includes('..') || segments.some((s) => s.startsWith('.'))) {
-      res.writeHead(403).end('forbidden');
-      return;
-    }
-    const file = normalize(join(ROOT, rawPath));
-    if (!file.startsWith(ROOT + '/')) {
-      res.writeHead(403).end('forbidden');
-      return;
-    }
-    let path = file;
-    if (rawPath.endsWith('/')) path = join(file, 'index.html');
-    const body = await readFile(path); // 不存在则抛错进 catch
-    res.writeHead(200, { 'content-type': MIME[extname(path)] ?? 'application/octet-stream' });
-    res.end(body);
-  } catch {
-    res.writeHead(404).end('not found');
+// 守卫:拦目录穿越与点文件。必须在 serveStatic 之前——
+// URL 解析层会把 /../.env 归一化成 /.env,归一化之后才校验就晚了(2026-10-27 实测踩过)
+app.use('*', async (c, next) => {
+  const seg = c.req.path.split('/').filter(Boolean);
+  if (seg.includes('..') || seg.some((s) => s.startsWith('.'))) {
+    return c.text('forbidden', 403);
   }
-}).listen(PORT, () => {
-  console.log(`课程表已开张:http://127.0.0.1:${PORT}/COURSE.html`);
+  return next();
+});
+
+app.get('/', serveStatic({ path: './site/COURSE.html' }));
+app.use('*', serveStatic({ root: './site' }));
+
+serve({ fetch: app.fetch, port: PORT }, () => {
+  console.log(`课程表已开张:http://127.0.0.1:${PORT}/(或 /COURSE.html)`);
 });

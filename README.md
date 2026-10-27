@@ -26,7 +26,7 @@ python3 -m venv .venv
 
 # 5. 铸剑线(Node ≥ 23,直接跑 TS,零运行时依赖):课程表本地起服务,不再裸开 html
 npm install
-npm run course      # → http://127.0.0.1:8080/COURSE.html
+npm run course      # → http://127.0.0.1:8080/
 npm run chat        # v0.1 聊天机器人(从 .env 读 GLM_API_KEY)
 npm run typecheck   # tsc --noEmit
 ```
@@ -50,7 +50,7 @@ npm run typecheck   # tsc --noEmit
 ├── package.json / tsconfig.json  Node 工程:npm run course 起课程表服务 / chat 跑 v0.1 /
 │                             typecheck 类型检查(Node ≥ 23 原生跑 TS,零运行时依赖)
 ├── scripts/                  工程脚本
-│   ├── serve.mjs             课程表静态服务器:正确 MIME + 防目录穿越/点文件拦截(本地专用)
+│   ├── serve.mjs             课程表服务器(Hono):静态托管 site/、/ 直达 COURSE.html、守卫拦目录穿越与点文件;后续 API 路由从此挂
 │   └── git/pre-commit        提交前密钥扫描钩子(文件名 + 内容双保险)
 ├── src/                      🟠 正文 · 铸剑线主战场
 │   └── chat.ts               v0.1 聊天机器人(随 CH2 长出多轮循环/流式/记账)
