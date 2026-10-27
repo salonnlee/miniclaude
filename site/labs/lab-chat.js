@@ -182,6 +182,13 @@ function hl(src) {
     });
   });
   box.firstChild.click(); /* 默认展开第一段 */
+  /* 代码面板展开/收起开关:限高模式下 macOS 滚动条默认隐形,看着像截断 */
+  var fold = $id('cx-fold');
+  if (fold) fold.addEventListener('click', function () {
+    var full = $id('cx-code').classList.toggle('full');
+    fold.classList.toggle('on', full);
+    fold.textContent = full ? '⤡ 收起' : '⤢ 展开全部';
+  });
 })();
 
 /* ================= B · SSE 缓冲实验 ================= */

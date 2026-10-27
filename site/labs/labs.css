@@ -130,7 +130,9 @@
 /* ---------- #chat-lab chat.ts 透视台 ---------- */
 #chat-lab .cx-grid{grid-template-columns:1fr 1fr}
 #chat-lab .cx-grid>.lab-box{min-width:0} /* pre 代码 min-content 大,不压它会把卡列挤成窄条 */
-#chat-lab .cx-code{font-family:var(--mono);font-size:11.5px;line-height:1.6;max-height:600px;overflow-y:auto;padding-right:4px}
+#chat-lab .cx-code{font-family:var(--mono);font-size:11.5px;line-height:1.6;max-height:600px;overflow-y:auto;padding-right:4px;scrollbar-width:thin;scrollbar-color:var(--accent) var(--panel)}
+#chat-lab .cx-code.full{max-height:none}
+#chat-lab #cx-fold.on{border-color:var(--accent);color:var(--accent)}
 #chat-lab .cx-bgrid{grid-template-columns:1fr 1fr}
 #chat-lab .cx-seg{padding:7px 10px;border-radius:6px;cursor:pointer;border:1px solid transparent;white-space:pre;overflow-x:auto}
 #chat-lab .cx-seg+.cx-seg{margin-top:2px}

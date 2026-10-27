@@ -622,7 +622,10 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
   <div class="lab-cap">A · 代码透视 —— 左边是 src/chat.ts 全文（五段），点任意段落，右边透视卡交代它干什么、数据什么形状</div>
   <div class="lab-grid cx-grid">
     <div class="lab-box">
-      <div class="lab-cap">src/chat.ts · 81 行（点击段落）</div>
+      <div class="lab-row" style="margin:0 0 8px">
+        <span class="lab-cap" style="margin:0">src/chat.ts · 81 行（点击段落 · 滚轮看全文）</span>
+        <span class="lab-mini" id="cx-fold">⤢ 展开全部</span>
+      </div>
       <div class="cx-code" id="cx-code"></div>
     </div>
     <div class="lab-box">
