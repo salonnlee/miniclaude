@@ -61,8 +61,11 @@ app.post('/api/chat', async (c) => {
   });
 });
 
-app.get('/', serveStatic({ path: './site/COURSE.html' }));
-app.use('*', serveStatic({ root: './site' }));
+// 静态资源一律禁缓存:浏览器会把旧 labs.css/lab-chat.js 钉在缓存里,
+// URL 上的 ?b= 只破得了 HTML 自己、破不了 import 的模块和 <link> 的 CSS,改完刷新「看着没变」(2026-10-27 实测踩过)
+const noStore = (_path, c) => c.header('Cache-Control', 'no-store');
+app.get('/', serveStatic({ path: './site/COURSE.html', onFound: noStore }));
+app.use('*', serveStatic({ root: './site', onFound: noStore }));
 
 // 自动开浏览器(NO_OPEN=1 跳过,端口被占等场景用)
 const openBrowser = (url) => {
