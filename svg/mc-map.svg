@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 528">
+  <defs>
+    <marker id="mcmg" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+  </defs>
+
+  <text x="24" y="28" font-size="13" font-weight="600" fill="#262626">① 双线全貌:解剖台上现在只有一件实货</text>
+
+  <text x="24" y="56" font-size="11" font-weight="700" fill="#066fd1">🔵 搓丹线 · Python(模型侧)</text>
+  <rect x="24" y="66" width="180" height="44" rx="8" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="114" y="84" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">prologue/</text>
+  <text x="114" y="100" font-size="9" fill="#667382" text-anchor="middle">三课板书:数数表→神经版→MLP</text>
+  <line x1="204" y1="88" x2="226" y2="88" stroke="#667382" stroke-width="1.4" marker-end="url(#mcmg)"/>
+  <rect x="228" y="66" width="216" height="44" rx="8" fill="rgba(6,111,209,.06)" stroke="rgba(6,111,209,.4)"/>
+  <text x="336" y="84" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">minigpt/ · v0.0 ✅</text>
+  <text x="336" y="100" font-size="9" fill="#667382" text-anchor="middle">模型侧交付物 · 2026-10-27</text>
+  <text x="480" y="82" font-size="10" fill="#667382">散装三课收拢成一个能继续长大的包:</text>
+  <text x="480" y="98" font-size="10" fill="#667382">板书留在 prologue/,产品住进 minigpt/</text>
+
+  <text x="24" y="134" font-size="11" font-weight="700" fill="#c2430c">🟠 铸剑线 · TypeScript(正文)</text>
+  <rect x="24" y="144" width="420" height="44" rx="8" fill="none" stroke="#e6e7e9" stroke-dasharray="5 4"/>
+  <text x="234" y="162" font-size="10.5" font-weight="600" fill="#667382" text-anchor="middle">正文 CH1–CH10 · 未开工</text>
+  <text x="234" y="178" font-size="9" fill="#667382" text-anchor="middle">agent 本体 · 开课时动工</text>
+  <text x="480" y="160" font-size="10" fill="#667382">全景架构图(01 区)画的每个方框,将来都长成这条线上的真实文件;</text>
+  <text x="480" y="176" font-size="10" fill="#667382">解剖台不预画——长出来什么,摆什么</text>
+
+  <line x1="24" y1="210" x2="856" y2="210" stroke="#e6e7e9" stroke-dasharray="4 4"/>
+
+  <text x="24" y="236" font-size="11.5" font-weight="700" fill="#262626">② minigpt/ 五个文件:一个插头 + 一台发动机</text>
+
+  <rect x="24" y="252" width="150" height="64" rx="8" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="99" y="270" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">data.py</text>
+  <text x="99" y="288" font-size="10" fill="#4b5158" text-anchor="middle">语料→词表→窗口</text>
+  <text x="99" y="304" font-size="9" fill="#667382" text-anchor="middle">→ train/dev 考卷</text>
+
+  <rect x="194.5" y="252" width="150" height="64" rx="8" fill="rgba(6,111,209,.06)" stroke="rgba(6,111,209,.4)"/>
+  <text x="269.5" y="270" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">models.py</text>
+  <text x="269.5" y="288" font-size="10" fill="#4b5158" text-anchor="middle">货架:两件同插头</text>
+  <text x="269.5" y="304" font-size="9" fill="#667382" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">BigramLM · MLPLM</text>
+
+  <rect x="365" y="252" width="150" height="64" rx="8" fill="rgba(47,179,68,.08)" stroke="rgba(47,179,68,.5)"/>
+  <text x="440" y="270" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">engine.py</text>
+  <text x="440" y="288" font-size="10" fill="#4b5158" text-anchor="middle">softmax·发令枪·SGD</text>
+  <text x="440" y="304" font-size="9" fill="#667382" text-anchor="middle">换模型不换发动机</text>
+
+  <rect x="535.5" y="252" width="150" height="64" rx="8" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="610.5" y="270" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">sample.py</text>
+  <text x="610.5" y="288" font-size="10" fill="#4b5158" text-anchor="middle">滑窗接龙采样</text>
+  <text x="610.5" y="304" font-size="9" fill="#667382" text-anchor="middle">抽签→拼窗→右移</text>
+
+  <rect x="706" y="252" width="150" height="64" rx="8" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="781" y="270" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">__main__.py</text>
+  <text x="781" y="288" font-size="10" fill="#4b5158" text-anchor="middle">CLI 入口</text>
+  <text x="781" y="304" font-size="9" fill="#667382" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">python -m minigpt</text>
+
+  <text x="24" y="340" font-size="10.5" fill="#4b5158">插头四件套:<tspan font-family="ui-monospace,Menlo,monospace" fill="#262626">block_size / forward / backward / update</tspan>——发动机只认插头不认型号,挂新模型只动 models.py</text>
+
+  <line x1="24" y1="364" x2="856" y2="364" stroke="#e6e7e9" stroke-dasharray="4 4"/>
+
+  <text x="24" y="390" font-size="11.5" font-weight="700" fill="#262626">③ 一生五幕 · 一条命令跑通</text>
+
+  <rect x="24" y="406" width="150" height="56" rx="8" fill="rgba(6,111,209,.06)" stroke="rgba(6,111,209,.4)"/>
+  <text x="99" y="428" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">① 读语料</text>
+  <text x="99" y="446" font-size="9" fill="#667382" text-anchor="middle">data.py · 457 万字符</text>
+  <line x1="174" y1="434" x2="192" y2="434" stroke="#667382" stroke-width="1.4" marker-end="url(#mcmg)"/>
+
+  <rect x="194.5" y="406" width="150" height="56" rx="8" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="269.5" y="428" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">② 裸采样</text>
+  <text x="269.5" y="446" font-size="9" fill="#667382" text-anchor="middle">sample.py · ln 67≈4.20</text>
+  <line x1="344.5" y1="434" x2="363" y2="434" stroke="#667382" stroke-width="1.4" marker-end="url(#mcmg)"/>
+
+  <rect x="365" y="406" width="150" height="56" rx="8" fill="rgba(47,179,68,.08)" stroke="rgba(47,179,68,.5)"/>
+  <text x="440" y="428" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">③ 训练</text>
+  <text x="440" y="446" font-size="9" fill="#667382" text-anchor="middle">engine⇄models · 30000 步</text>
+  <line x1="515" y1="434" x2="533.5" y2="434" stroke="#667382" stroke-width="1.4" marker-end="url(#mcmg)"/>
+
+  <rect x="535.5" y="406" width="150" height="56" rx="8" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="610.5" y="428" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">④ 考卷</text>
+  <text x="610.5" y="446" font-size="9" fill="#667382" text-anchor="middle">train 1.93 · dev 1.9555</text>
+  <line x1="685.5" y1="434" x2="704" y2="434" stroke="#667382" stroke-width="1.4" marker-end="url(#mcmg)"/>
+
+  <rect x="706" y="406" width="150" height="56" rx="8" fill="rgba(6,111,209,.06)" stroke="rgba(6,111,209,.4)"/>
+  <text x="781" y="428" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">⑤ 采样</text>
+  <text x="781" y="446" font-size="9" fill="#667382" text-anchor="middle">400 字伪莎翁</text>
+
+  <text x="24" y="496" font-size="10.5" font-weight="600" fill="#2fb344">一生一句话:dev 从 4.2048(均匀瞎猜的理论值 ln 67)走到 1.9555——P0.3 的 1.95 复现,12,739 个参数,全程 CPU</text>
+  <text x="24" y="514" font-size="10" fill="#667382">同一台发动机换个插头:BigramLM 跑到 train 2.5022,与 P0.2 数数版 2.47 会师;采样从纯噪声进化到成形单词</text>
+</svg>

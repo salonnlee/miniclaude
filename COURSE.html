@@ -27,7 +27,7 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
       <span class="chip update" id="hero-updated">更新于 2026-10-26</span>
     </div>
     <nav class="toc">
-      <a href="#arch">全景架构</a><a href="#acts">课程表</a><a href="#tf">Transformer 拼图</a><a href="#mc">解剖 miniclaude</a><a href="#backlog">待学清单</a><a href="#miles">里程碑</a><a href="#pact">教学契约</a><a href="#log">更新记录</a>
+      <a href="#arch">全景架构</a><a href="#acts">课程表</a><a href="#tf">Transformer 拼图</a><a href="#mc">miniclaude 解剖</a><a href="#backlog">待学清单</a><a href="#miles">里程碑</a><a href="#pact">教学契约</a><a href="#log">更新记录</a>
     </nav>
   </div>
 </header>
@@ -619,14 +619,12 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
   </details>
 </section>
 
-<!-- ================= 解剖 miniclaude ================= -->
+<!-- ================= miniclaude 解剖 ================= -->
 <section class="block" id="mc">
   <div class="sec-kicker">04 / MINICLAUDE</div>
-  <h2 class="sec">解剖 miniclaude</h2>
-  <p class="sec-sub">与 Transformer 拼图互为镜像:那边把模型钉上拼图板,这边把正文要亲手写出的 miniclaude 钉上解剖台——项目结构一行一个器官,核心文件随各章交付逐块点亮、逐块挂代码走读。全景架构图(01 区)里的每个方框,落到这里都是一个真实文件。</p>
-  <ul class="ch-list" data-lessons="mc">
-  </ul>
-  <p class="tf-note">器官清单是路标:文件名与分工以各章开课定案为准,交付一版点亮一行,行内挂代码走读;⏳ = 还在图纸上。src/ 是正文 TypeScript 项目的家,铸剑线开工(第 2 章)那天起打地基。</p>
+  <h2 class="sec">miniclaude 解剖</h2>
+  <p class="sec-sub">与 Transformer 拼图互为镜像:那边钉标本,这边摆实货——解剖台上只放当前真实长成的项目,课程表主线走到哪,这张图重画到哪,不预画路线。</p>
+  <div data-card-body="mc-map"></div>
 </section>
 
 <!-- ================= 待学清单 ================= -->
