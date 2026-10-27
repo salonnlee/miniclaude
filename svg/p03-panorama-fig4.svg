@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400">
+  <defs>
+    <marker id="p3f4g" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+  </defs>
+
+  <text x="24" y="28" font-size="13" font-weight="600" fill="#262626">④ dev 考卷总对账:五名选手,一份账单(条越短越好)</text>
+
+  <line x1="300" y1="50" x2="300" y2="300" stroke="#e6e7e9"/>
+  <text x="300" y="46" font-size="9" fill="#667382" text-anchor="middle">0</text>
+  <line x1="415" y1="50" x2="415" y2="300" stroke="#eef0f3"/>
+  <text x="415" y="46" font-size="9" fill="#667382" text-anchor="middle">1.0</text>
+  <line x1="530" y1="50" x2="530" y2="300" stroke="#eef0f3"/>
+  <text x="530" y="46" font-size="9" fill="#667382" text-anchor="middle">2.0</text>
+  <line x1="645" y1="50" x2="645" y2="300" stroke="#eef0f3"/>
+  <text x="645" y="46" font-size="9" fill="#667382" text-anchor="middle">3.0</text>
+
+  <text x="24" y="76" font-size="11" font-weight="700" fill="#f76707">3-gram + 插值修补</text>
+  <text x="24" y="91" font-size="9" fill="#667382">161 MB 表 + 手调 λ</text>
+  <rect x="300" y="64" width="407" height="20" rx="4" fill="rgba(247,103,7,.75)"/>
+  <text x="715" y="79" font-size="11" font-weight="700" fill="#f76707" font-family="ui-monospace,Menlo,monospace">1.7866</text>
+  <text x="775" y="79" font-size="10.5" fill="#c2430c">*</text>
+  <text x="24" y="106" font-size="9" fill="#c2430c">*λ=0.7 是在考卷上挑的最好值,偷看了一道</text>
+
+  <text x="24" y="140" font-size="11" font-weight="700" fill="#2fb344">MLP 版(最终版)</text>
+  <text x="24" y="155" font-size="9" fill="#667382">12,739 参数 / 100 KB · 裸考</text>
+  <rect x="300" y="128" width="445" height="20" rx="4" fill="#2fb344"/>
+  <text x="753" y="143" font-size="11" font-weight="700" fill="#2fb344" font-family="ui-monospace,Menlo,monospace">1.9515</text>
+  <text x="24" y="170" font-size="9" fill="#667382">train 1.9431 ≈ dev:分数靠懂组合,不靠背题</text>
+
+  <text x="24" y="204" font-size="11" font-weight="700" fill="#066fd1">线性身份证版</text>
+  <text x="24" y="219" font-size="9" fill="#667382">4,288 参数 / 34 KB · 零补丁</text>
+  <rect x="300" y="192" width="517" height="20" rx="4" fill="rgba(6,111,209,.7)"/>
+  <text x="825" y="207" font-size="11" font-weight="700" fill="#066fd1" font-family="ui-monospace,Menlo,monospace">2.2677</text>
+
+  <text x="24" y="268" font-size="11" font-weight="700" fill="#667382">bigram 本尊</text>
+  <text x="24" y="283" font-size="9" fill="#667382">4,489 格 · 只看 1 字的前辈</text>
+  <rect x="300" y="256" width="567" height="20" rx="4" fill="#a8aeb8"/>
+  <text x="875" y="271" font-size="11" font-weight="700" fill="#667382" font-family="ui-monospace,Menlo,monospace" text-anchor="end">2.4890</text>
+
+  <text x="24" y="300" font-size="11" font-weight="700" fill="#7c848f">3-gram + 回退补丁</text>
+  <rect x="300" y="288" width="579" height="20" rx="4" fill="#8b929c"/>
+  <text x="887" y="303" font-size="11" font-weight="700" fill="#7c848f" font-family="ui-monospace,Menlo,monospace" text-anchor="end">2.5400</text>
+  <text x="24" y="323" font-size="9" fill="#7c848f">161 MB · 零修补直接 ∞ 爆表</text>
+
+  <rect x="24" y="340" width="832" height="48" rx="8" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="440" y="360" font-size="11" font-weight="600" fill="#262626" text-anchor="middle">历史判决:小语料上「记忆 + 平滑」尚能一战——Bengio 2003 那篇论文的对手就是它</text>
+  <text x="440" y="378" font-size="10.5" fill="#4b5158" text-anchor="middle">数据规模上去,神经路线全面反超。数数表死于斜率,不死于单场比分——GPT 的 2,048 上下文,只有一条路走得通</text>
+</svg>

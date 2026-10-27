@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 480">
+  <defs>
+    <marker id="p3f3g" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+    <marker id="p3f3b" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#066fd1"/></marker>
+    <marker id="p3f3gr" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2fb344"/></marker>
+  </defs>
+
+  <text x="24" y="28" font-size="13" font-weight="600" fill="#262626">③ 路线二:从「三票直加」到「先开会再表决」——最终版解剖</text>
+
+  <text x="24" y="56" font-size="11.5" font-weight="700" fill="#066fd1">第一步 · 线性身份证版(dev 2.27):钥匙是知识搬家</text>
+
+  <text x="38" y="98" font-size="11" font-family="ui-monospace,Menlo,monospace" fill="#262626">the</text>
+  <line x1="66" y1="94" x2="92" y2="94" stroke="#667382" stroke-width="1.4" marker-end="url(#p3f3g)"/>
+
+  <rect x="94" y="72" width="58" height="44" rx="8" fill="rgba(6,111,209,.06)" stroke="rgba(6,111,209,.4)"/>
+  <text x="123" y="90" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">C[t]</text>
+  <text x="123" y="106" font-size="9" fill="#667382" text-anchor="middle">16 个数</text>
+
+  <rect x="94" y="122" width="58" height="44" rx="8" fill="rgba(6,111,209,.06)" stroke="rgba(6,111,209,.4)"/>
+  <text x="123" y="140" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">C[h]</text>
+  <text x="123" y="156" font-size="9" fill="#667382" text-anchor="middle">16 个数</text>
+
+  <rect x="94" y="172" width="58" height="44" rx="8" fill="rgba(6,111,209,.06)" stroke="rgba(6,111,209,.4)"/>
+  <text x="123" y="190" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">C[e]</text>
+  <text x="123" y="206" font-size="9" fill="#667382" text-anchor="middle">16 个数</text>
+
+  <line x1="152" y1="144" x2="178" y2="144" stroke="#667382" stroke-width="1.4" marker-end="url(#p3f3g)"/>
+  <text x="165" y="134" font-size="9" fill="#667382" text-anchor="middle">拼</text>
+
+  <rect x="180" y="122" width="64" height="44" rx="8" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="212" y="140" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">h</text>
+  <text x="212" y="156" font-size="9" fill="#667382" text-anchor="middle">48 个数</text>
+
+  <line x1="244" y1="144" x2="270" y2="144" stroke="#667382" stroke-width="1.4" marker-end="url(#p3f3g)"/>
+
+  <rect x="272" y="122" width="120" height="44" rx="8" fill="rgba(6,111,209,.06)" stroke="rgba(6,111,209,.4)"/>
+  <text x="332" y="140" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">W(48×67)</text>
+  <text x="332" y="156" font-size="9" fill="#667382" text-anchor="middle">一次矩阵乘</text>
+
+  <line x1="392" y1="144" x2="418" y2="144" stroke="#667382" stroke-width="1.4" marker-end="url(#p3f3g)"/>
+
+  <rect x="420" y="122" width="96" height="44" rx="8" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="468" y="140" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">67 个分数</text>
+  <text x="468" y="156" font-size="9" fill="#667382" text-anchor="middle">softmax → 抽签</text>
+
+  <text x="540" y="112" font-size="10" fill="#667382">天花板:W 按列切三块,</text>
+  <text x="540" y="128" font-size="10" font-family="ui-monospace,Menlo,monospace" fill="#262626">logits = C[t]@W左</text>
+  <text x="540" y="144" font-size="10" font-family="ui-monospace,Menlo,monospace" fill="#262626">        + C[h]@W中</text>
+  <text x="540" y="160" font-size="10" font-family="ui-monospace,Menlo,monospace" fill="#262626">        + C[e]@W右</text>
+  <text x="540" y="178" font-size="10" fill="#c2430c">t/h/e 各投各的票,零交互——</text>
+  <text x="540" y="194" font-size="10" fill="#c2430c">「the 连体」这类组合信号进不了分数</text>
+
+  <line x1="24" y1="232" x2="856" y2="232" stroke="#e6e7e9" stroke-dasharray="4 4"/>
+
+  <text x="24" y="262" font-size="11.5" font-weight="700" fill="#2fb344">第二步 · MLP 最终版(dev 1.95,12,739 参数):让字符先见面</text>
+
+  <text x="38" y="330" font-size="11" font-family="ui-monospace,Menlo,monospace" fill="#262626">the</text>
+  <line x1="66" y1="326" x2="92" y2="326" stroke="#667382" stroke-width="1.4" marker-end="url(#p3f3g)"/>
+
+  <rect x="94" y="306" width="72" height="40" rx="8" fill="rgba(6,111,209,.06)" stroke="rgba(6,111,209,.4)"/>
+  <text x="130" y="322" font-size="10" font-weight="600" fill="#262626" text-anchor="middle">三查 C 表</text>
+  <text x="130" y="337" font-size="9" fill="#667382" text-anchor="middle">拼成 48</text>
+
+  <line x1="166" y1="326" x2="190" y2="326" stroke="#667382" stroke-width="1.4" marker-end="url(#p3f3g)"/>
+
+  <rect x="192" y="306" width="112" height="40" rx="8" fill="rgba(47,179,68,.08)" stroke="rgba(47,179,68,.5)"/>
+  <text x="248" y="322" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">W1(48×100) 搅拌</text>
+  <text x="248" y="337" font-size="9" fill="#667382" text-anchor="middle">字符第一次见面</text>
+
+  <line x1="304" y1="326" x2="328" y2="326" stroke="#667382" stroke-width="1.4" marker-end="url(#p3f3g)"/>
+
+  <rect x="330" y="306" width="86" height="40" rx="8" fill="rgba(194,65,12,.08)" stroke="rgba(194,65,12,.55)"/>
+  <text x="373" y="322" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">tanh 折弯</text>
+  <text x="373" y="337" font-size="9" fill="#667382" text-anchor="middle">非线性是灵魂</text>
+
+  <line x1="416" y1="326" x2="440" y2="326" stroke="#667382" stroke-width="1.4" marker-end="url(#p3f3g)"/>
+
+  <rect x="442" y="306" width="118" height="40" rx="8" fill="rgba(47,179,68,.08)" stroke="rgba(47,179,68,.5)"/>
+  <text x="501" y="322" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">W2(100×67) 表决</text>
+  <text x="501" y="337" font-size="9" fill="#667382" text-anchor="middle">会议结论 → 打分</text>
+
+  <line x1="560" y1="326" x2="584" y2="326" stroke="#667382" stroke-width="1.4" marker-end="url(#p3f3g)"/>
+
+  <rect x="586" y="306" width="106" height="40" rx="8" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="639" y="322" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">67 分数</text>
+  <text x="639" y="337" font-size="9" fill="#667382" text-anchor="middle">softmax → 抽签</text>
+
+  <text x="716" y="314" font-size="9.5" fill="#667382">采样:生成一字,</text>
+  <text x="716" y="328" font-size="9.5" fill="#667382">窗口右移一格,</text>
+  <text x="716" y="342" font-size="9.5" fill="#667382">自回归接龙</text>
+
+  <text x="38" y="382" font-size="10.5" fill="#4b5158">为什么必须有 tanh:线性套线性塌回一层(NN2 反证过:激活换恒等,XOR loss 死守 0.25)——</text>
+  <text x="38" y="398" font-size="10.5" fill="#4b5158">折弯之后,每个神经元看到的是 48 个数的一笔加权账,x₁x₂ 这类乘积项(「the 连体」信号)才表达得出来</text>
+
+  <text x="38" y="424" font-size="10.5" fill="#4b5158">反向传播两条路(全程 0.2 的老班底):p − onehot 发令 → 路①更新 W2 → 过弯乘 <tspan font-family="ui-monospace,Menlo,monospace" fill="#262626">(1−h₁²)</tspan>(tanh 导数,</text>
+  <text x="38" y="440" font-size="10.5" fill="#4b5158">NN3 链式法则实战)→ 更新 W1 → 路②穿回 48 维,散射回 C 的各自身份证行;纪律:全部梯度用旧参数算完,再统一更新</text>
+
+  <text x="38" y="466" font-size="10.5" font-weight="600" fill="#2fb344">会师反转:0.2 里数数表是理论最优、梯度去追平;0.3 里神经版裸考双杀——连「怎么组合」也是学出来的</text>
+</svg>

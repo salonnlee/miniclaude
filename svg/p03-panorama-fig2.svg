@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 430">
+  <defs>
+    <marker id="p3f2g" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+    <marker id="p3f2o" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f76707"/></marker>
+  </defs>
+
+  <text x="24" y="28" font-size="13" font-weight="600" fill="#262626">② 路线一:表是怎么死的——空户口、过自信、考场爆表、斜率死刑</text>
+
+  <text x="40" y="58" font-size="11.5" font-weight="600" fill="#4b5158">刑场证据 A:户口本大面积空白</text>
+  <rect x="40" y="68" width="238" height="150" rx="6" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <line x1="40" y1="92" x2="278" y2="92" stroke="#e6e7e9"/>
+  <text x="52" y="86" font-size="9.5" fill="#667382">前文组合 │ 下一字符的账</text>
+  <text x="52" y="108" font-size="10" font-family="ui-monospace,Menlo,monospace" fill="#262626">the  → ' ':…, r:…, m:…</text>
+  <text x="52" y="126" font-size="10" fill="#c8ccd2">e T  → ──── 从没来过 ────</text>
+  <text x="52" y="144" font-size="10" font-family="ui-monospace,Menlo,monospace" fill="#262626">qu i → c: …</text>
+  <text x="52" y="162" font-size="10" fill="#c8ccd2">x y z → ──── 从没来过 ────</text>
+  <text x="52" y="180" font-size="10" fill="#c8ccd2">h e z → ──── 从没来过 ────</text>
+  <text x="52" y="198" font-size="10" fill="#667382">⋮  300,763 行,大部分是空的</text>
+
+  <text x="300" y="88" font-size="10.5" fill="#4b5158">全语料 457 万窗口走完,只有</text>
+  <text x="300" y="108" font-size="13" font-weight="700" fill="#f76707" font-family="ui-monospace,Menlo,monospace">15,443 行有账(5.1%)</text>
+  <text x="300" y="128" font-size="10.5" fill="#4b5158">285,320 行空户口(94.9%)</text>
+  <text x="300" y="150" font-size="10.5" fill="#667382">直觉以为「457 万 ÷ 30 万 ≈ 每行</text>
+  <text x="300" y="166" font-size="10.5" fill="#667382">15 笔账,怎么也填得差不多」——</text>
+  <text x="300" y="182" font-size="10.5" fill="#667382">文本是幂律的:热门行挤爆,</text>
+  <text x="300" y="198" font-size="10.5" fill="#667382">长尾一次也没来过,平均数骗人</text>
+
+  <text x="40" y="246" font-size="11.5" font-weight="600" fill="#4b5158">刑场证据 B:一笔账也敢说 100%</text>
+  <text x="40" y="268" font-size="10.5" fill="#4b5158">某组合只见过 <tspan font-family="ui-monospace,Menlo,monospace" fill="#262626">Xy→a</tspan> 一次,行内归一化后</text>
+  <text x="40" y="286" font-size="10.5" fill="#4b5158">它宣布:a 概率 <tspan font-weight="700" fill="#f76707">100%</tspan> —— 1,737 行都这么</text>
+  <text x="40" y="304" font-size="10.5" fill="#667382">押注尖刺:押对 −log 1 = 0 分,押错 −log(≈0) 巨亏</text>
+  <text x="40" y="322" font-size="10.5" fill="#667382">bigram 每行几万笔账,概率是磨平的——这就是差距的来源</text>
+
+  <text x="470" y="58" font-size="11.5" font-weight="600" fill="#4b5158">刑场证据 C:考卷直接爆表</text>
+  <rect x="470" y="68" width="180" height="80" rx="6" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="560" y="92" font-size="10.5" fill="#4b5158" text-anchor="middle">dev 里 0.61% 的窗口,</text>
+  <text x="560" y="110" font-size="10.5" fill="#4b5158" text-anchor="middle">户口号是空行 → 查表得 0</text>
+  <text x="560" y="130" font-size="13" font-weight="700" fill="#d63939" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">−log 0 = ∞ 爆表</text>
+
+  <line x1="650" y1="108" x2="676" y2="108" stroke="#f76707" stroke-width="1.6" marker-end="url(#p3f2o)"/>
+
+  <rect x="678" y="68" width="180" height="80" rx="6" fill="rgba(247,103,7,.06)" stroke="rgba(247,103,7,.45)"/>
+  <text x="768" y="90" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">修补①backoff</text>
+  <text x="768" y="108" font-size="10" fill="#4b5158" text-anchor="middle">查不到 3 字行,</text>
+  <text x="768" y="124" font-size="10" fill="#4b5158" text-anchor="middle">退回 1 字行凑合</text>
+  <text x="768" y="141" font-size="10.5" font-weight="700" fill="#f76707" text-anchor="middle">dev 2.54,仍输 bigram</text>
+
+  <rect x="678" y="160" width="180" height="84" rx="6" fill="rgba(247,103,7,.06)" stroke="rgba(247,103,7,.45)"/>
+  <text x="768" y="182" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">修补②插值平滑</text>
+  <text x="768" y="200" font-size="10" fill="#4b5158" text-anchor="middle">λ·p3 + (1−λ)·p2 全程混</text>
+  <text x="768" y="216" font-size="10" fill="#4b5158" text-anchor="middle">尖刺配稳重,N-gram 时代手艺</text>
+  <text x="768" y="236" font-size="10.5" font-weight="700" fill="#f76707" text-anchor="middle">dev 1.79*(λ 挑的考卷最好值)</text>
+
+  <text x="470" y="278" font-size="10.5" fill="#667382">它没偷看考卷的部分是真的能打——但每修一处多一坨:</text>
+  <text x="470" y="296" font-size="10.5" fill="#667382">表 161 MB 照带、λ 每级手调、换语料全部重数。</text>
+  <text x="470" y="314" font-size="10.5" fill="#667382">神经版那边:一件补丁都没有。</text>
+
+  <rect x="24" y="352" width="832" height="58" rx="8" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="440" y="376" font-size="11.5" font-weight="700" fill="#262626" text-anchor="middle">死刑条款:斜率</text>
+  <text x="440" y="396" font-size="11" fill="#4b5158" text-anchor="middle">前文每加 1 个字,表 ×67:161 MB → 10.7 GB → 718 GB,空户口率飙到 99%+,修补手艺逐级重调——</text>
+  <text x="440" y="408" font-size="10.5" fill="#f76707" text-anchor="middle">表不是输在单场比分,是死在整条指数曲线上</text>
+</svg>

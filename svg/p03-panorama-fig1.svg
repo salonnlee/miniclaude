@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400">
+  <defs>
+    <marker id="p3f1g" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+    <marker id="p3f1o" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f76707"/></marker>
+    <marker id="p3f1b" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#066fd1"/></marker>
+    <marker id="p3f1gr" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2fb344"/></marker>
+  </defs>
+
+  <text x="24" y="28" font-size="13" font-weight="600" fill="#262626">① 一场变革,两条路线:前文从 1 个字看到 3 个字</text>
+
+  <text x="214" y="72" font-size="11.5" font-weight="700" fill="#f76707">路线一 · 数数表(知识按「组合」存)</text>
+  <text x="214" y="238" font-size="11.5" font-weight="700" fill="#066fd1">路线二 · 神经网络(知识按「字符」存)</text>
+
+  <rect x="24" y="136" width="150" height="140" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="99" y="160" font-size="12" font-weight="600" fill="#262626" text-anchor="middle">bigram(0.1 / 0.2)</text>
+  <text x="99" y="181" font-size="10.5" fill="#667382" text-anchor="middle">前文只看 1 个字</text>
+  <text x="99" y="201" font-size="10.5" fill="#4b5158" text-anchor="middle">数数 67 行 ≈ 神经 W 4,489</text>
+  <text x="99" y="221" font-size="10.5" fill="#4b5158" text-anchor="middle">两条路在 0.2 会师:</text>
+  <text x="99" y="241" font-size="10.5" font-family="ui-monospace,Menlo,monospace" fill="#262626" text-anchor="middle">2.47 ≈ 2.50</text>
+  <text x="99" y="264" font-size="9.5" fill="#667382" text-anchor="middle">起点:谁也没赢谁</text>
+
+  <path d="M174,182 C194,182 196,138 210,138" fill="none" stroke="#f76707" stroke-width="1.6" marker-end="url(#p3f1o)"/>
+  <path d="M174,222 C194,222 196,298 210,298" fill="none" stroke="#066fd1" stroke-width="1.6" marker-end="url(#p3f1b)"/>
+
+  <rect x="214" y="86" width="248" height="104" rx="10" fill="rgba(247,103,7,.06)" stroke="rgba(247,103,7,.45)"/>
+  <text x="338" y="108" font-size="12" font-weight="600" fill="#262626" text-anchor="middle">3-gram 数数表</text>
+  <text x="338" y="126" font-size="10.5" fill="#4b5158" text-anchor="middle">改法:行单位从「字符」换成「组合」</text>
+  <text x="338" y="143" font-size="10.5" font-family="ui-monospace,Menlo,monospace" fill="#262626" text-anchor="middle">67³ = 300,763 行</text>
+  <text x="338" y="160" font-size="10.5" fill="#c2430c" text-anchor="middle">94.9% 空户口 · 161 MB</text>
+  <text x="338" y="180" font-size="11" font-weight="700" fill="#f76707" text-anchor="middle">dev 2.54(带回退)</text>
+
+  <line x1="462" y1="138" x2="488" y2="138" stroke="#f76707" stroke-width="1.6" marker-end="url(#p3f1o)"/>
+  <text x="475" y="128" font-size="9.5" fill="#667382" text-anchor="middle">表爆了</text>
+
+  <rect x="490" y="96" width="196" height="84" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="588" y="116" font-size="11.5" font-weight="600" fill="#262626" text-anchor="middle">修补匠手艺</text>
+  <text x="588" y="134" font-size="10" fill="#4b5158" text-anchor="middle">backoff:查不到退 bigram</text>
+  <text x="588" y="150" font-size="10" fill="#4b5158" text-anchor="middle">插值:λ·p3+(1−λ)·p2 全程混</text>
+  <text x="588" y="170" font-size="10.5" font-weight="700" fill="#f76707" text-anchor="middle">dev 1.79*(λ 挑的考卷最好值)</text>
+
+  <rect x="214" y="256" width="248" height="104" rx="10" fill="rgba(6,111,209,.06)" stroke="rgba(6,111,209,.4)"/>
+  <text x="338" y="278" font-size="12" font-weight="600" fill="#262626" text-anchor="middle">线性身份证版</text>
+  <text x="338" y="296" font-size="10.5" fill="#4b5158" text-anchor="middle">改法:知识搬家——C 表发身份证</text>
+  <text x="338" y="313" font-size="10.5" font-family="ui-monospace,Menlo,monospace" fill="#262626" text-anchor="middle">C(67×16) + W(48×67)</text>
+  <text x="338" y="330" font-size="10.5" fill="#4b5158" text-anchor="middle">三查一拼一乘 · 三票直加</text>
+  <text x="338" y="350" font-size="11" font-weight="700" fill="#066fd1" text-anchor="middle">4,288 参数/34 KB · dev 2.27</text>
+
+  <line x1="462" y1="308" x2="488" y2="308" stroke="#2fb344" stroke-width="1.6" marker-end="url(#p3f1gr)"/>
+  <text x="475" y="296" font-size="9.5" fill="#667382" text-anchor="middle">三票没化学反应</text>
+
+  <rect x="490" y="256" width="248" height="104" rx="10" fill="rgba(47,179,68,.07)" stroke="rgba(47,179,68,.5)"/>
+  <text x="614" y="278" font-size="12" font-weight="700" fill="#262626" text-anchor="middle">MLP 版(最终版)</text>
+  <text x="614" y="296" font-size="10.5" fill="#4b5158" text-anchor="middle">升级:隐藏层 100,先开会再表决</text>
+  <text x="614" y="313" font-size="10.5" font-family="ui-monospace,Menlo,monospace" fill="#262626" text-anchor="middle">+W1(48×100)+tanh+W2(100×67)</text>
+  <text x="614" y="330" font-size="10.5" fill="#4b5158" text-anchor="middle">t/h/e 在会议室见面(NN2 兑现)</text>
+  <text x="614" y="350" font-size="11" font-weight="700" fill="#2fb344" text-anchor="middle">12,739 参数/100 KB · dev 1.95</text>
+
+  <text x="742" y="112" font-size="10" fill="#667382" text-anchor="middle">死因:斜率</text>
+  <text x="742" y="128" font-size="10" fill="#667382" text-anchor="middle">前文+1字 = 表×67</text>
+  <text x="742" y="144" font-size="10" font-family="ui-monospace,Menlo,monospace" fill="#667382" text-anchor="middle">161MB→10.7GB</text>
+
+  <text x="742" y="296" font-size="10" fill="#667382" text-anchor="middle">前文+1字 = W 宽 16 列</text>
+  <text x="742" y="312" font-size="10" fill="#667382" text-anchor="middle">C 表一个数不动</text>
+  <text x="742" y="328" font-size="10" fill="#667382" text-anchor="middle">+1,600 参数打发一个字</text>
+
+  <rect x="24" y="376" width="832" height="18" rx="4" fill="none"/>
+  <text x="440" y="390" font-size="10.5" fill="#667382" text-anchor="middle">同一道题「前文 1→3」:表把知识存进组合里,组合爆炸;网把知识存进字符里,恒 67 张身份证——分岔从这里开始,再没合拢</text>
+</svg>
