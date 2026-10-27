@@ -152,3 +152,30 @@ rng.choice(V, p=p)                # 按概率抽签 ≈ 前面手写的 weighted
 if __name__ == "__main__":             # ≈ require.main === module(直接运行才执行)
 probs[np.arange(B), nxt]               # 二维花式索引:按 (行号, 列号) 成对取/改元素
 ```
+
+## 03_mlp.py 里出现的语法点
+
+### np.where 三分支全求值(≠ JS 三元的惰性)
+```python
+np.where(cond, a, b)   # 警告:三个参数都会先完整算出来,再按 cond 挑
+```
+JS 的 `cond ? a() : b()` 只算一边;np.where 相当于「a、b 全算,再 pick」。
+踩坑实录:0/0 在被丢弃的分支里照样发生,触发 `RuntimeWarning: invalid value encountered in divide`——
+数值没错(nan 会被替换),但要干净就得让每个分支自兜底(空行分母 `np.maximum(rows, 1)`)。
+
+### np.concatenate ↔ [...a, ...b]
+```python
+np.concatenate([np.full(3, x), np.array(rest)])   # 拼接 ≈ [x,x,x, ...rest]
+np.full(3, x)                                     # 造 [x, x, x] ≈ new Array(3).fill(x)
+```
+
+### str.count ↔ split 计数
+```python
+text.count("\n\n\n")   # 子串出现次数 ≈ text.split("\n\n\n").length - 1
+```
+
+### np.stack(按轴叠)↔ zip 成对
+```python
+np.stack([ids[0:], ids[1:], ids[2:]], axis=1)   # 三个等长切片按列叠成 (n, 3)
+```
+≈ `ids.map((_, i) => [ids[i], ids[i+1], ids[i+2]])`,但零拷贝向量化。
