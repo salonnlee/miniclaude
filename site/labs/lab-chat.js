@@ -173,6 +173,12 @@ function hl(src) {
         runMode('shred');
         $id('cx-chunk').scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
+      /* 卡不完全在视口里(含只裁一半)就把它居中到眼前——手算 scrollTo,
+         scrollIntoView 在个别嵌入环境/平滑滚动状态下会静默失灵 */
+      var r = exp.getBoundingClientRect();
+      if (r.top < 0 || r.bottom > innerHeight) {
+        window.scrollTo(0, scrollY + r.top - (innerHeight - r.height) / 2);
+      }
     });
   });
   box.firstChild.click(); /* 默认展开第一段 */

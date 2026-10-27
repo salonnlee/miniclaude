@@ -127,10 +127,11 @@
 .mlp-presets .arch-btn{padding:4px 10px;font-size:12px}
 .mlp-presets .arch-btn.is-on{border-color:var(--accent);color:var(--accent)}
 
-/* ---------- #chat-lab chat.ts 解剖台 ---------- */
-#chat-lab .cx-grid{grid-template-columns:1.15fr .85fr}
+/* ---------- #chat-lab chat.ts 透视台 ---------- */
+#chat-lab .cx-grid{grid-template-columns:1fr 1fr}
+#chat-lab .cx-grid>.lab-box{min-width:0} /* pre 代码 min-content 大,不压它会把卡列挤成窄条 */
+#chat-lab .cx-code{font-family:var(--mono);font-size:11.5px;line-height:1.6;max-height:600px;overflow-y:auto;padding-right:4px}
 #chat-lab .cx-bgrid{grid-template-columns:1fr 1fr}
-#chat-lab .cx-code{font-family:var(--mono);font-size:11.5px;line-height:1.6}
 #chat-lab .cx-seg{padding:7px 10px;border-radius:6px;cursor:pointer;border:1px solid transparent;white-space:pre;overflow-x:auto}
 #chat-lab .cx-seg+.cx-seg{margin-top:2px}
 #chat-lab .cx-seg:hover,#chat-lab .cx-seg.on{background:var(--tint-blue);border-color:var(--accent)}
@@ -147,8 +148,10 @@
 #chat-lab .cx-chunk{border-color:rgba(247,103,7,.4)}
 #chat-lab .cx-chunk.hot{background:rgba(247,103,7,.08)}
 #chat-lab .cx-buf .cx-pend{color:var(--accent-2)}
-#chat-lab .cx-evts{font-family:var(--mono);font-size:11px;line-height:1.5;max-height:150px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
+#chat-lab .cx-evts{font-family:var(--mono);font-size:12px;line-height:1.5;max-height:150px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
 #chat-lab .cx-evt{padding:4px 8px;border-radius:6px;background:var(--panel);border:1px solid var(--border);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#chat-lab #cx-raw{max-height:320px}
+#chat-lab #cx-raw .cx-evt{white-space:normal;word-break:break-all;line-height:1.6;font-size:12.5px}
 #chat-lab .cx-evt.evt-delta{color:var(--green);border-color:rgba(47,179,68,.35)}
 #chat-lab .cx-evt.evt-usage{color:#0553a3;border-color:rgba(6,111,209,.35)}
 #chat-lab .cx-evt.evt-done{color:var(--muted)}
@@ -159,4 +162,7 @@
 #chat-lab .cx-in:focus{outline:none;border-color:var(--accent)}
 #chat-lab #cx-send{padding:5px 14px}
 #chat-lab #cx-send.busy{opacity:.45;pointer-events:none}
-@media (max-width:900px){#chat-lab .cx-grid,#chat-lab .cx-bgrid{grid-template-columns:1fr}}
+@media (max-width:900px){
+  #chat-lab .cx-grid,#chat-lab .cx-bgrid{grid-template-columns:1fr}
+  #chat-lab .cx-code{max-height:none}
+}
