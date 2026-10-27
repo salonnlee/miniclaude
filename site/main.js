@@ -10,6 +10,7 @@ import './labs/lab-nn.js';
 import './labs/lab-3b.js';
 import './labs/lab-3b7.js';
 import './labs/lab-ch1.js';
+import './labs/lab-chat.js';
 import './COURSE-render.js';
 import './COURSE-LOG.js';
 import './COURSE-page.js';

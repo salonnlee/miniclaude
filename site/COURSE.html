@@ -27,7 +27,7 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
       <span class="chip update" id="hero-updated">更新于 2026-10-26</span>
     </div>
     <nav class="toc">
-      <a href="#arch">全景架构</a><a href="#acts">课程表</a><a href="#tf">Transformer 拼图</a><a href="#mc">miniclaude 解剖</a><a href="#backlog">待学清单</a><a href="#miles">里程碑</a><a href="#pact">教学契约</a><a href="#log">更新记录</a>
+      <a href="#arch">全景架构</a><a href="#acts">课程表</a><a href="#tf">Transformer 拼图</a><a href="#mc">MiniClaude 剖析</a><a href="#backlog">待学清单</a><a href="#miles">里程碑</a><a href="#pact">教学契约</a><a href="#log">更新记录</a>
     </nav>
   </div>
 </header>
@@ -506,7 +506,7 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
           </div>
         </div>
         <div class="lab-box" style="margin-top:12px" id="l7b-inspbox">
-          <div class="l7a-cap" style="margin:0 0 8px">一格的解剖（点击上图任意格）—— 窗口 × 核 → 乘积 → 求和 → 截回 [0,1]</div>
+          <div class="l7a-cap" style="margin:0 0 8px">一格的透视（点击上图任意格）—— 窗口 × 核 → 乘积 → 求和 → 截回 [0,1]</div>
           <div class="l7b-insp" id="l7b-insp"><span class="lab-stat">先扫一遍或瞬时算，再点图上任意一格。</span></div>
         </div>
         <p class="bg-hint">玩法：「模糊」扫描，胡须先糊没，条纹糊成灰雾，猫脸还在；换「勾边」，全图归黑，只剩猫的轮廓亮线——平整区九格相同，加和为 0 的核一乘就清零，只有「起变化」的地方活得下来；再换「锐化」，轮廓和条纹像被描了一遍。扫描时盯住输入图上的 3×3 橙框：它就是滑动窗口，框到哪、输出亮到哪。</p>
@@ -556,7 +556,7 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
       </ul>
       <div class="ch-foot"><span class="foot-chip">交付 · 素颜相见实验</span><span class="foot-chip">🔍 考点 · 为什么说模型是无状态的？</span></div>
       <details class="ch-lab" id="ch1-lab">
-        <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · curl 素颜相见 + messages 解剖台<span class="ch-lab-hint">2026-10-27 真机实测数据，非示意</span></summary>
+        <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · curl 素颜相见 + messages 透视台<span class="ch-lab-hint">2026-10-27 真机实测数据，非示意</span></summary>
         <div class="ch-lab-body">
   <div class="lab-cap">A · curl 素颜相见台 —— CH1 实测的那次裸调，点任意色块看它是谁</div>
   <div class="lab-grid c1-req-grid">
@@ -584,11 +584,11 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
 }</pre>
     </div>
     <div class="lab-box">
-      <div class="lab-cap">解剖卡</div>
+      <div class="lab-cap">透视卡</div>
       <div class="c1-exp" id="c1-exp">点左侧任意色块，这里交代它从哪来、管什么。</div>
     </div>
   </div>
-  <div class="lab-cap" style="margin-top:18px">B · messages 解剖台 —— 「记忆」是历史重放，账单当场对账</div>
+  <div class="lab-cap" style="margin-top:18px">B · messages 透视台 —— 「记忆」是历史重放，账单当场对账</div>
   <div class="lab-grid">
     <div class="lab-box">
       <div class="lab-cap">塞进 messages 的货（点击开关）</div>
@@ -616,6 +616,60 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
       <p class="ch-q">「怎么把『猜下一个词的函数』变成『能连续对话的伙伴』？」</p>
       <ul class="ch-list" data-lessons="ch2">
       </ul>
+      <details class="ch-lab" id="chat-lab">
+        <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · chat.ts 解剖台（整份代码可点 × 透视卡 × 真机连线）<span class="ch-lab-hint">src/chat.ts 81 行真代码，SSE 流式当场拆</span></summary>
+        <div class="ch-lab-body">
+  <div class="lab-cap">A · 代码解剖 —— 左边是 src/chat.ts 全文（五段），点任意段落，右边透视卡交代它干什么、数据什么形状</div>
+  <div class="lab-grid cx-grid">
+    <div class="lab-box">
+      <div class="lab-cap">src/chat.ts · 81 行（点击段落）</div>
+      <div class="cx-code" id="cx-code"></div>
+    </div>
+    <div class="lab-box">
+      <div class="lab-cap">透视卡</div>
+      <div class="cx-exp" id="cx-exp"></div>
+    </div>
+  </div>
+  <div class="lab-cap" style="margin-top:18px">B · SSE 缓冲实验 —— 网络分块不讲道理，看缓冲区怎么攒出一条完整事件</div>
+  <div class="lab-grid cx-bgrid">
+    <div class="lab-box">
+      <div class="lab-row">
+        <span class="lab-mini cx-mode" data-k="whole">整包到达（网络顺）</span>
+        <span class="lab-mini cx-mode" data-k="shred">劈成碎片（网络堵）</span>
+      </div>
+      <div class="lab-cap">当前网络分块 chunk（橙色 = 正在到达）</div>
+      <pre class="cx-pre cx-chunk" id="cx-chunk">点上面任一模式开演</pre>
+      <div class="lab-cap">缓冲区 buf（⏎ = 换行符；半截事件只能干等）</div>
+      <pre class="cx-pre cx-buf" id="cx-buf"></pre>
+    </div>
+    <div class="lab-box">
+      <div class="lab-cap">切出来的完整事件（按顺序）</div>
+      <div class="cx-evts" id="cx-evts"></div>
+      <div class="lab-cap" style="margin-top:12px">打字机输出（delta 逐词拼接）</div>
+      <pre class="cx-pre cx-type" id="cx-type"></pre>
+      <div class="lab-stat" style="margin-top:12px" id="cx-bill">账单:还没收到</div>
+    </div>
+  </div>
+  <div class="lab-cap" style="margin-top:18px">C · 真机连线 —— 同一份代码跑在浏览器里（key 在服务端，页面代码碰不到它）</div>
+  <div class="lab-grid cx-bgrid">
+    <div class="lab-box">
+      <div class="lab-row">
+        <input class="cx-in" id="cx-in" type="text" placeholder="说点什么，回车发送（如:用一句话自我介绍）" />
+        <span class="lab-mini" id="cx-send">发送</span>
+      </div>
+      <div class="lab-cap">回复（打字机——与 src/chat.ts 同一套解析）</div>
+      <pre class="cx-pre cx-type cx-live" id="cx-live">还没开口</pre>
+      <div class="lab-stat" style="margin-top:10px" id="cx-acc">账本:1 条 system · 累计 0 token</div>
+      <div class="lab-stat" id="cx-acc2">账单:¥0.0000（输入 4 / 输出 14 元每百万 token）</div>
+    </div>
+    <div class="lab-box">
+      <div class="lab-cap">原始 SSE 事件流（透视：思考草稿 reasoning_content 在流里，chat.ts 不理它）</div>
+      <div class="cx-evts" id="cx-raw">发一条消息，这里直播服务器吐的每一行</div>
+    </div>
+  </div>
+  <p class="bg-hint">玩法：A 台把五段代码点一遍——81 行每行都有来处。B 台先看「整包到达」再点「劈成碎片」：碎片模式下缓冲区长期滞留半截 JSON，这就是为什么不能「来一块解析一块」，必须攒到换行。C 台是真机：打字机上屏的同时，右侧直播原始事件流——灰色 reasoning_content 是模型的思考草稿，chat.ts 只取 content，但草稿照样计费，账单一栏见分晓。</p>
+        </div>
+      </details>
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.1</span><span class="foot-chip">🔍 考点 · 为什么每次请求都重发完整历史？代价是什么？</span></div>
     </article>
   </details>
@@ -632,7 +686,7 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
       <div class="ch-foot"><span class="foot-chip ver">交付 v0.2</span><span class="foot-chip">🔍 考点 · 循环的退出条件是什么？tool_result 放在消息数组哪里？</span></div>
     </article>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH4</span><span class="ch-title">工具解剖学</span><span class="badge" data-badge="ch:ch4"></span></div>
+      <div class="ch-top"><span class="ch-no">CH4</span><span class="ch-title">工具透视学</span><span class="badge" data-badge="ch:ch4"></span></div>
       <p class="ch-q">「同一个模型接上不同工具就判若两人——工具的『说明书』到底写给谁看？」</p>
       <ul class="ch-list" data-lessons="ch4">
       </ul>
@@ -718,11 +772,11 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
   </details>
 </section>
 
-<!-- ================= miniclaude 解剖 ================= -->
+<!-- ================= MiniClaude 剖析 ================= -->
 <section class="block" id="mc">
   <div class="sec-kicker">04 / MINICLAUDE</div>
-  <h2 class="sec">miniclaude 解剖</h2>
-  <p class="sec-sub">与 Transformer 拼图互为镜像:那边钉标本,这边摆实货——解剖台上只放当前真实长成的项目,课程表主线走到哪,这张图重画到哪,不预画路线。</p>
+  <h2 class="sec">MiniClaude 剖析</h2>
+  <p class="sec-sub">与 Transformer 拼图互为镜像:那边钉标本,这边摆实货——透视窗里只放当前真实长成的项目,课程表主线走到哪,这张图重画到哪,不预画路线。</p>
   <div data-card-body="mc-map"></div>
 </section>
 

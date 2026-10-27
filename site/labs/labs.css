@@ -105,7 +105,7 @@
 #lab3b7 .l7-ct tr.on td{border-color:rgba(247,103,7,.5);color:var(--text)}
 #lab3b7 .l7-cres{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--green);margin-top:12px}
 
-/* ---------- #ch1-lab CH1 素颜相见 + messages 解剖台 ---------- */
+/* ---------- #ch1-lab CH1 素颜相见 + messages 透视台 ---------- */
 #ch1-lab .c1-code{font-family:var(--mono);font-size:11.5px;line-height:1.75;background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:10px 12px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;margin:0}
 #ch1-lab .c1-sg{cursor:pointer;border-bottom:1px dashed rgba(6,111,209,.45);color:#0553a3;transition:background-color .15s}
 #ch1-lab .c1-sg:hover,#ch1-lab .c1-sg.on{background:rgba(6,111,209,.12);border-bottom-style:solid}
@@ -126,3 +126,37 @@
 .mlp-presets{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}
 .mlp-presets .arch-btn{padding:4px 10px;font-size:12px}
 .mlp-presets .arch-btn.is-on{border-color:var(--accent);color:var(--accent)}
+
+/* ---------- #chat-lab chat.ts 解剖台 ---------- */
+#chat-lab .cx-grid{grid-template-columns:1.15fr .85fr}
+#chat-lab .cx-bgrid{grid-template-columns:1fr 1fr}
+#chat-lab .cx-code{font-family:var(--mono);font-size:11.5px;line-height:1.6}
+#chat-lab .cx-seg{padding:7px 10px;border-radius:6px;cursor:pointer;border:1px solid transparent;white-space:pre;overflow-x:auto}
+#chat-lab .cx-seg+.cx-seg{margin-top:2px}
+#chat-lab .cx-seg:hover,#chat-lab .cx-seg.on{background:var(--tint-blue);border-color:var(--accent)}
+#chat-lab .cx-seg .cx-c{color:var(--muted);font-style:normal}
+#chat-lab .cx-seg .cx-s{color:var(--accent-2)}
+#chat-lab .cx-seg .cx-k{color:#0553a3;font-weight:600}
+#chat-lab .cx-seg .cx-n{color:var(--green)}
+#chat-lab .cx-seg .cx-tag{display:block;font-family:var(--mono);font-size:10.5px;color:var(--accent);margin:0 0 2px -2px;font-weight:500}
+#chat-lab .cx-exp{font-size:13px;line-height:1.9;min-height:120px}
+#chat-lab .cx-exp h4{margin:0 0 6px;font-size:13px;color:var(--accent)}
+#chat-lab .cx-exp pre{font-family:var(--mono);font-size:11.5px;background:var(--panel);border-radius:6px;padding:8px 10px;overflow-x:auto;margin:8px 0}
+#chat-lab .cx-exp .cx-go{display:inline-block;margin-top:10px;cursor:pointer}
+#chat-lab .cx-pre{font-family:var(--mono);font-size:11.5px;line-height:1.7;background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:10px 12px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;margin:0;min-height:44px}
+#chat-lab .cx-chunk{border-color:rgba(247,103,7,.4)}
+#chat-lab .cx-chunk.hot{background:rgba(247,103,7,.08)}
+#chat-lab .cx-buf .cx-pend{color:var(--accent-2)}
+#chat-lab .cx-evts{font-family:var(--mono);font-size:11px;line-height:1.5;max-height:150px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
+#chat-lab .cx-evt{padding:4px 8px;border-radius:6px;background:var(--panel);border:1px solid var(--border);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#chat-lab .cx-evt.evt-delta{color:var(--green);border-color:rgba(47,179,68,.35)}
+#chat-lab .cx-evt.evt-usage{color:#0553a3;border-color:rgba(6,111,209,.35)}
+#chat-lab .cx-evt.evt-done{color:var(--muted)}
+#chat-lab .cx-evt.evt-think{color:var(--muted)}
+#chat-lab .cx-type{color:var(--text)}
+#chat-lab .cx-type i{font-style:normal;color:var(--muted)}
+#chat-lab .cx-in{flex:1;min-width:0;padding:6px 10px;font-size:12.5px;border:1px solid var(--border);border-radius:6px;background:#fff}
+#chat-lab .cx-in:focus{outline:none;border-color:var(--accent)}
+#chat-lab #cx-send{padding:5px 14px}
+#chat-lab #cx-send.busy{opacity:.45;pointer-events:none}
+@media (max-width:900px){#chat-lab .cx-grid,#chat-lab .cx-bgrid{grid-template-columns:1fr}}
