@@ -174,7 +174,8 @@ window.LESSONS = {
           },
           {
             "label": "实践",
-            "text": "不写代码——用 curl 裸调一次 API，亲眼看请求与响应的原始 JSON"
+            "text": "不写代码——用 curl 裸调一次 API，亲眼看请求与响应的原始 JSON",
+            "done": "2026-10-27（素颜相见三连：裸调看 messages/usage 形状 → 不带历史问「刚才说了什么」一脸茫然 → 问答原文塞回数组立刻「记起」，17 → 40 prompt tokens，记忆按 token 收费）"
           }
         ]
       ]
