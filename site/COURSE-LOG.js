@@ -6,7 +6,7 @@
    · 新的一天       → 在 DAYS 头部插入 { date: 'YYYY-MM-DD', items: [ ... ] };
    · 一条记录最长 80–100 字（2026-10-27 学员立规）：只记事实与结论，过程细节进讲义/notes；
    · 渲染器自动保证：日期最新在顶、天数 / 条数统计、最新一天默认展开——数字全不用手改。
-   页面侧：COURSE.html 中 <div id="course-log"></div> + <script src="COURSE-LOG.js">。
+   页面侧：COURSE.html 中 <div id="course-log"></div>，由 main.js 挂载（无需单独引 script）。
    ============================================================================ */
 var DAYS = [
   {

@@ -3,8 +3,8 @@
    从 COURSE.html 内嵌 <script> 迁出;A 台 = 2-2-1 九旋钮 XOR 训练台(NN1 下坡循环
    + NN3 反向梯度,NN2 死区种子可复现),B 台 = softmax 试押台(拉分数看 p − y)。
    依赖 labs/shared.js;交互元素在 COURSE.html 的 #nn-lab 区块。 */
+import { $id, fmt, chips } from './shared.js';
 (function () {
-  var $id = Lab.$id, fmt = Lab.fmt;
 
   /* A 台:九旋钮 XOR 训练 */
   var DATA = [[0,0,0],[0,1,1],[1,0,1],[1,1,0]];
@@ -52,6 +52,6 @@
     $id('nnl-grads').textContent=t+'（p − y：答案格负=往上加，其余正=往下按）';
   }
   for(var k=0;k<3;k++)(function(k){$id('nnl-z'+k).oninput=function(){zs[k]=+this.value;renderS()}})(k);
-  Lab.chips(document.querySelectorAll('#nn-lab .nnl-chip'), 'a', function (a) { ans = +a; renderS(); });
+  chips(document.querySelectorAll('#nn-lab .nnl-chip'), 'a', function (a) { ans = +a; renderS(); });
   renderS();
 })();

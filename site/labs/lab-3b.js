@@ -3,8 +3,8 @@
    从 COURSE.html 内嵌 <script> 迁出;A = 神经元打分台(3B1,权重×输入 + 偏置门槛),
    B = loss 山小球场(3B2,负梯度下山 + SGD 噪声),C = 链式法则对表台(3B3/3B4,
    连乘 vs 数值梯度)。依赖 labs/shared.js;交互元素在 COURSE.html 的 #lab3b 区块。 */
+import { $id, fmt, chips } from './shared.js';
 (function () {
-  var $id = Lab.$id, fmt = Lab.fmt;
 
   /* A 台 */
   var N = 10, X = [], W = [], b0 = 0;
@@ -63,8 +63,8 @@
   }
   mesh($id('l3-xmesh'), X, false);
   mesh($id('l3-wmesh'), W, true);
-  Lab.chips(document.querySelectorAll('#lab3b [data-x]'), 'x', presetX);
-  Lab.chips(document.querySelectorAll('#lab3b [data-w]'), 'w', presetW);
+  chips(document.querySelectorAll('#lab3b [data-x]'), 'x', presetX);
+  chips(document.querySelectorAll('#lab3b [data-w]'), 'w', presetW);
   $id('l3-b').oninput = function () { b0 = +this.value; $id('l3-bv').textContent = fmt(b0, 1); renderA(); };
   presetX('vline'); presetW('v');
 

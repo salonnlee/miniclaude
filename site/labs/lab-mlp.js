@@ -5,9 +5,10 @@
    分布不是示意,是 12,739 个参数此刻的输出;
    temperature / top-k 旋钮与 minigpt sample.py 同构:
    logits ÷ T → 榜外 −∞ → softmax → 抽签,参数与考卷 loss 一概不动。
-   依赖 labs/shared.js、labs/mlp-params.js(先引入)。 */
+   依赖 labs/shared.js、labs/mlp-params.js。 */
+import { $id as $ } from './shared.js';
+import { MLP } from './mlp-params.js';
 (function () {
-  var $ = Lab.$id;
   var V = MLP.vocab.length, BLK = MLP.meta.block;
   var fmt = function (s) { return s === '\n' ? '⏎' : (s === ' ' ? '␣' : s); };
   var STOI = {}; MLP.vocab.forEach(function (c, i) { STOI[c] = i; });

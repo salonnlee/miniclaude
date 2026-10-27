@@ -8,9 +8,9 @@
    · 页头「更新于」= 全表最新完课日期(data 的 updated 可手动覆写)。
    新增/修改课次只动 content/lessons.js,本文件与 COURSE.html 都不用碰。
    ============================================================================ */
+import { LESSONS as L } from './content/lessons.js';
+import { CARDS as C } from './content/cards.js';
 (function () {
-  var L = window.LESSONS;
-  if (!L) return;
 
   // —— 行模板(改空格前先想清楚:这里与原手写 HTML 逐字对齐) ——
   function lessonLi(it) {
@@ -75,7 +75,6 @@
 
   // —— 填内容卡(全景卡/书单/T1 长文):content/cards.js → 空占位
   //     必须先于徽章替换:T1 正文里带着 ch:tf1 的徽章锚点,注入后才轮得到徽章逻辑找它 ——
-  var C = window.CARDS || {};
   Array.prototype.forEach.call(document.querySelectorAll('details.ch-recap[data-card]'), function (d) {
     var c = C[d.getAttribute('data-card')];
     if (!c) return;

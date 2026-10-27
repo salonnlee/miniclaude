@@ -5,8 +5,8 @@
    C = 大数乘法台(拆位→乘法表→对角线收账→进位清洗,收在 BigInt 对表)。
    依赖 labs/shared.js;交互元素在 COURSE.html 的 #lab3b7 区块。
    验收钩子:控制台 window.L7FAST = true 走快速时序(无头截图验收用)。 */
+import { $id, chips } from './shared.js';
 (function () {
-  var $id = Lab.$id;
   var FAST = function () { return !!window.L7FAST; };
   function st(fn, ms) { setTimeout(fn, FAST() ? 16 : ms); }
 
@@ -217,7 +217,7 @@
     cin = $id('l7b-cin'); cout = $id('l7b-cout');
     ctxIn = cin.getContext('2d'); ctxOut = cout.getContext('2d');
     buildImg();
-    kernChips = Lab.chips(document.querySelectorAll('#lab3b7 .lab-mini'), 'k', setPreset);
+    kernChips = chips(document.querySelectorAll('#lab3b7 .lab-mini'), 'k', setPreset);
     $id('l7b-scan').addEventListener('click', function () { if (KER) scanOutput(false); });
     $id('l7b-inst').addEventListener('click', function () { if (KER) scanOutput(true); });
     cin.addEventListener('click', function (e) {

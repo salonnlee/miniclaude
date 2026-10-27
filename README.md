@@ -56,7 +56,8 @@ npm run typecheck   # tsc --noEmit
 │   └── chat.ts               v0.1 聊天机器人(随 CH2 长出多轮循环/流式/记账)
 ├── site/                     课程表整树(内部全相对路径引用,整树挪目录不断链)
 │   ├── COURSE.html           课程总中枢·纯结构骨架:幕/章节容器 + 实验室骨架 +
-│   │                         全景架构图 / 里程碑 / 教学契约;页尾按序引 13 个脚本
+│   │                         全景架构图 / 里程碑 / 教学契约;页尾只引一个 module 入口
+│   ├── main.js               ESM 单入口:按序 import 六家实验室 + 渲染器 + 更新记录 + 页级行为
 │   ├── COURSE.css            课程页全局样式(Tabler 设计语言:浅灰蓝底 + 白卡 + tint 徽章)
 │   ├── COURSE-render.js      渲染器:课次 + 卡片,填进 COURSE.html 空容器
 │   ├── COURSE-LOG.js         更新记录(数据 + 渲染器):最新日期在顶,统计全自动
@@ -66,9 +67,9 @@ npm run typecheck   # tsc --noEmit
 │   ├── content/cards.js      卡片内容数据:全景卡/书单/T1 长文的 title+body,
 │   │                         COURSE-render.js 注入空占位(改卡文字只改这里)
 │   ├── svg/                  卡图独立文件(30 张,一卡一图或卡id-figN)——可单独点开预览
-│   ├── labs/                 实验室资产(新增实验室 = 这里加一对文件 + 页尾加一行引用)
+│   ├── labs/                 实验室资产(新增实验室 = 这里加一对文件 + main.js 挂一行 import)
 │   │   ├── labs.css          实验室通用底座(.lab-* 两栏网格/面板/滑条)+ 各台专属样式
-│   │   ├── shared.js         共用工具 Lab:$id 取元素 / fmt 定点数 / chips 芯片组开关
+│   │   ├── shared.js         共用工具(ESM 导出):$id 取元素 / fmt 定点数 / chips 芯片组开关
 │   │   └── lab-*.js          五家实验室:bigram 抽签台 / P0.4 MLP 调音台 / NN 内功合成台 /
 │   │                         3B 观影三台 / 3B7 卷积三台 / CH1 素颜相见 + messages 解剖台
 │   └── poster.svg / poster.png  3:4 极客风课程海报(SVG 里的光标会闪)

@@ -5,8 +5,8 @@
    B 台：四组开关组合 × 真机实测——不带历史问「我刚才说了什么」一脸茫然，
          问答原文塞回数组立刻「记起」；prompt_tokens 17 / 24 / 40 / 47 全部实测，
          不做估算器，「记忆按 token 收费」当场对账。 */
+import { $id } from './shared.js';
 (function () {
-  var $id = window.Lab.$id;
 
   /* ---------- A · 素颜相见台 ---------- */
   var EXP = {
