@@ -45,7 +45,9 @@ window.LESSONS = {
             "code": "P0.3",
             "name": "前文加长：击穿数数表",
             "done": "2026-10-27（一次开课；MLP 双杀数数表，学员快进连跳三题，考题挂账）"
-          },
+          }
+        ],
+        [
           {
             "code": "P0.4",
             "name": "temperature 调参",
