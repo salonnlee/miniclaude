@@ -189,17 +189,17 @@ window.LESSONS = {
       "groups": [
         [
           {
+            "code": "CH2.1",
+            "name": "v0.1 · 聊天机器人",
+            "mark": "⏭ 下一站"
+          },
+          {
             "label": "知识点",
             "text": "项目脚手架；API key 安全；维护 messages 历史；流式输出（SSE）为什么体验完全不同；token 与账单"
           },
           {
             "label": "实践",
             "text": "多轮对话 CLI：打字机效果、退出时报告花了多少钱"
-          },
-          {
-            "code": "CH2",
-            "name": "v0.1 · 聊天机器人",
-            "mark": "⏭ 下一站"
           }
         ]
       ]
