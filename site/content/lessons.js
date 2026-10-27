@@ -172,7 +172,7 @@ export const LESSONS = {
             "code": "CH1.1",
             "name": "素颜相见实验",
             "done": "2026-10-27（裸调看 messages/usage 形状 → 不带历史问「刚才说了什么」一脸茫然 → 问答原文塞回数组立刻「记起」，17 → 40 prompt tokens，记忆按 token 收费）",
-            "tail": "—— 实验室已解锁：curl 素颜相见 + messages 解剖台"
+            "tail": "—— 实验室已解锁：curl 素颜相见 + messages 透视台"
           },
           {
             "label": "知识点",
@@ -192,7 +192,7 @@ export const LESSONS = {
             "code": "CH2.1",
             "name": "v0.4 · 聊天机器人",
             "done": "2026-10-27（四步长成：脚手架 TS+Node → 非流式最小循环（记忆即 messages 数组）→ 流式 SSE（缓冲区攒换行才算一条事件，打字机逐词上屏）→ 记账（退出报 75+232 token≈¥0.0035））",
-            "tail": "—— npm run chat 可玩"
+            "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（81 行代码可点 × 透视卡 × 真机连线）"
           },
           {
             "label": "知识点",
@@ -338,7 +338,7 @@ export const LESSONS = {
           },
           {
             "code": "T3",
-            "name": "训练解剖：−ln、softmax、反向传播怎么落在 GPT 身上",
+            "name": "训练透视：−ln、softmax、反向传播怎么落在 GPT 身上",
             "mark": "⏳ 待拼"
           },
           {

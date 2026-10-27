@@ -12,6 +12,10 @@ var DAYS = [
   {
     "date": "2026-10-27",
     "items": [
+      "CH2 实验室·chat.ts 透视台：81 行代码五段可点、透视卡交代来处；B 台 SSE 缓冲实验（整包 vs 劈碎逐字演）；C 台真机连线走 /api/chat 流式代理，前端解析与 chat.ts 同款。",
+      "chat.ts 极致精简 95→81 行零行为变化：reader 循环换 for-await、记账并进 ask()。",
+      "serve.mjs 端口占用检查（学员手写）：起服务前探一下端口，被占就问一句，y 才杀掉重启——治反复踩的 EADDRINUSE。",
+      "专区与实验室去「解剖」比喻（学员反馈渗人）：#mc 更名「MiniClaude 剖析」，解剖台→透视窗，messages 解剖台→透视台，CH4 章名改「工具透视学」，全站换「透视」口径。",
       "CH2《聊天机器人》完课：src/chat.ts 四步长成 v0.4——非流式最小循环（记忆=messages 数组）→流式 SSE 打字机→退出记账（token×定价）；npm run chat 可玩，lessons/README 同步。",
       "course 服务器启动自动开浏览器：serve.mjs 按平台调 open/start/xdg-open，NO_OPEN=1 可跳过（排障/换端口用）。",
       "工程重构三连（CH2 开课前）：课程表整树迁 site/（git mv 保历史）；13 个全局 script 收成 main.js 单入口 ES Modules，加载顺序=import 顺序；服务端换装 Hono，守卫拦穿越与点文件——浏览器 DOM 与守卫双验，文档路径全同步。",

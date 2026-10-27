@@ -36,7 +36,7 @@ npm run typecheck   # tsc --noEmit
 | 你是谁 / 你想要 | 入口 |
 |---|---|
 | 从头系统学 | 本文件 → `npm run course` 打开 **site/COURSE.html** 看全景 → 按 `prologue/01 → 02 → …` 顺序逐个啃 py(有 JS 底子就把 `prologue/python-for-js.md` 放手边) |
-| 只想玩互动实验室(5 分钟) | `npm run course` 打开课程表,展开「🔬 实验室」抽屉:P0.1 抽签台(亲手抽字/贪心掉坑)、P0.4 MLP 调音台(真前向接龙,temperature/top-k 现场拧)、NN 内功合成台(XOR 训练 + softmax 试押)、3B 观影三台(神经元打分/loss 山小球/链式对表)、CH1 素颜相见台(curl 请求/响应解剖 + messages 历史 replay 对账,真机实测 token) |
+| 只想玩互动实验室(5 分钟) | `npm run course` 打开课程表,展开「🔬 实验室」抽屉:P0.1 抽签台(亲手抽字/贪心掉坑)、P0.4 MLP 调音台(真前向接龙,temperature/top-k 现场拧)、NN 内功合成台(XOR 训练 + softmax 试押)、3B 观影三台(神经元打分/loss 山小球/链式对表)、CH1 素颜相见台(curl 请求/响应透视 + messages 历史 replay 对账,真机实测 token)、CH2 chat.ts 透视台(81 行代码点段落出透视卡 + SSE 缓冲实验 + 真机流式连线) |
 | 只想看海报 | `site/poster.png`(1080×1440,3:4) |
 | 我是 AI,要给别人重讲这门课 | **LEARNER.md**(教师手册,先读它) |
 | 想看这门课怎么一步步长出来 | `git log --reverse --oneline`——提交信息按教学脉络写,倒放即教程 |
@@ -50,14 +50,14 @@ npm run typecheck   # tsc --noEmit
 ├── package.json / tsconfig.json  Node 工程:npm run course 起课程表服务 / chat 跑 v0.4 /
 │                             typecheck 类型检查(Node ≥ 23 原生跑 TS,零运行时依赖)
 ├── scripts/                  工程脚本
-│   ├── serve.mjs             课程表服务器(Hono):静态托管 site/、/ 直达 COURSE.html、守卫拦目录穿越与点文件;后续 API 路由从此挂
+│   ├── serve.mjs             课程表服务器(Hono):静态托管 site/、/ 直达 COURSE.html、守卫拦目录穿越与点文件;/api/chat 流式代理(key 只住服务端,实验室真机区用)
 │   └── git/pre-commit        提交前密钥扫描钩子(文件名 + 内容双保险)
 ├── src/                      🟠 正文 · 铸剑线主战场
 │   └── chat.ts               v0.4 聊天机器人(多轮循环+流式打字机+记账,npm run chat)
 ├── site/                     课程表整树(内部全相对路径引用,整树挪目录不断链)
 │   ├── COURSE.html           课程总中枢·纯结构骨架:幕/章节容器 + 实验室骨架 +
 │   │                         全景架构图 / 里程碑 / 教学契约;页尾只引一个 module 入口
-│   ├── main.js               ESM 单入口:按序 import 六家实验室 + 渲染器 + 更新记录 + 页级行为
+│   ├── main.js               ESM 单入口:按序 import 七家实验室 + 渲染器 + 更新记录 + 页级行为
 │   ├── COURSE.css            课程页全局样式(Tabler 设计语言:浅灰蓝底 + 白卡 + tint 徽章)
 │   ├── COURSE-render.js      渲染器:课次 + 卡片,填进 COURSE.html 空容器
 │   ├── COURSE-LOG.js         更新记录(数据 + 渲染器):最新日期在顶,统计全自动
@@ -70,8 +70,9 @@ npm run typecheck   # tsc --noEmit
 │   ├── labs/                 实验室资产(新增实验室 = 这里加一对文件 + main.js 挂一行 import)
 │   │   ├── labs.css          实验室通用底座(.lab-* 两栏网格/面板/滑条)+ 各台专属样式
 │   │   ├── shared.js         共用工具(ESM 导出):$id 取元素 / fmt 定点数 / chips 芯片组开关
-│   │   └── lab-*.js          五家实验室:bigram 抽签台 / P0.4 MLP 调音台 / NN 内功合成台 /
-│   │                         3B 观影三台 / 3B7 卷积三台 / CH1 素颜相见 + messages 解剖台
+│   │   └── lab-*.js          六家实验室:bigram 抽签台 / P0.4 MLP 调音台 / NN 内功合成台 /
+│   │                         3B 观影三台 / 3B7 卷积三台 / CH1 素颜相见 + messages 透视台 /
+│   │                         CH2 chat.ts 透视台(代码可点 × 透视卡 × 真机连线)
 │   └── poster.svg / poster.png  3:4 极客风课程海报(SVG 里的光标会闪)
 ├── requirements.txt          Python 依赖(目前仅 numpy)
 ├── .env.example              API key 模板(cp 成 .env 填真实 key;真实 .env 永不入库)
@@ -105,4 +106,4 @@ npm run typecheck   # tsc --noEmit
 
 ## 📈 当前进度
 
-序章 P0.1 ✅ · P0.2 ✅(2026-10-23 内功回填后通关)· P0.3 ✅(2026-10-27 一次开课,MLP dev 1.95 双杀数数表 2.54 与 bigram 2.49,插值修补底牌 1.79 与「死于斜率」定性入册)· mini-gpt 落包 minigpt/(2026-10-27 三课重组,MLP dev 1.9555 复现)· P0.4 temperature ✅(2026-10-27,v0.1 调温与限签)—— 序章全清 | 支线·内功 NN1–NN4 ✅ 全清(2026-10-22,附连读大全景 + 实验室) | 支线·观影 3B1–3B7 ✅(3B1–3B4 附连读全景 + 实验室三台,3B7 附卷积三台:骰子滑动 × 滤镜像机 × 大数乘法)· 3B8 ✅(2026-10-26)· 3B9 事实储存(加更) ✅(2026-10-26 伴读,七段×五图×对账表)—— 支线·观影全清收官 | 拼图·Transformer T1 ✅(2026-10-23 全貌长文 + 四图)· T2–T4 ⏳ | 待学清单:傅里叶变换 ⏳(只记录不开课) | 正文 CH1 ✅(2026-10-27,curl 素颜相见三连 + 实验室解锁)· CH2 ✅(2026-10-27,四步长出 src/chat.ts v0.4:非流式循环 → 流式 SSE 打字机 → 退出记账,npm run chat 可玩)· CH3 ⏭ 下一站 · CH4–CH10 未开课 —— 实时状态以 **site/COURSE.html** 页面为准(数据源 site/content/lessons.js)。
+序章 P0.1 ✅ · P0.2 ✅(2026-10-23 内功回填后通关)· P0.3 ✅(2026-10-27 一次开课,MLP dev 1.95 双杀数数表 2.54 与 bigram 2.49,插值修补底牌 1.79 与「死于斜率」定性入册)· mini-gpt 落包 minigpt/(2026-10-27 三课重组,MLP dev 1.9555 复现)· P0.4 temperature ✅(2026-10-27,v0.1 调温与限签)—— 序章全清 | 支线·内功 NN1–NN4 ✅ 全清(2026-10-22,附连读大全景 + 实验室) | 支线·观影 3B1–3B7 ✅(3B1–3B4 附连读全景 + 实验室三台,3B7 附卷积三台:骰子滑动 × 滤镜像机 × 大数乘法)· 3B8 ✅(2026-10-26)· 3B9 事实储存(加更) ✅(2026-10-26 伴读,七段×五图×对账表)—— 支线·观影全清收官 | 拼图·Transformer T1 ✅(2026-10-23 全貌长文 + 四图)· T2–T4 ⏳ | 待学清单:傅里叶变换 ⏳(只记录不开课) | 正文 CH1 ✅(2026-10-27,curl 素颜相见三连 + 实验室解锁)· CH2 ✅(2026-10-27,四步长出 src/chat.ts v0.4:非流式循环 → 流式 SSE 打字机 → 退出记账,npm run chat 可玩;精简至 81 行 + chat.ts 透视台 + /api/chat 流式代理)· CH3 ⏭ 下一站 · CH4–CH10 未开课 —— 实时状态以 **site/COURSE.html** 页面为准(数据源 site/content/lessons.js)。

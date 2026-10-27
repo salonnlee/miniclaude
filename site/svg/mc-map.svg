@@ -3,7 +3,7 @@
     <marker id="mcmg" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
   </defs>
 
-  <text x="24" y="28" font-size="13" font-weight="600" fill="#262626">① 双线全貌:解剖台上现在只有一件实货</text>
+  <text x="24" y="28" font-size="13" font-weight="600" fill="#262626">① 双线全貌:两条线各交出第一件实货</text>
 
   <text x="24" y="56" font-size="11" font-weight="700" fill="#066fd1">🔵 搓丹线 · Python(模型侧)</text>
   <rect x="24" y="66" width="180" height="44" rx="8" fill="#f8f9fc" stroke="#e6e7e9"/>
@@ -17,11 +17,11 @@
   <text x="480" y="98" font-size="10" fill="#667382">板书留在 prologue/,产品住进 minigpt/</text>
 
   <text x="24" y="134" font-size="11" font-weight="700" fill="#c2430c">🟠 铸剑线 · TypeScript(正文)</text>
-  <rect x="24" y="144" width="420" height="44" rx="8" fill="none" stroke="#e6e7e9" stroke-dasharray="5 4"/>
-  <text x="234" y="162" font-size="10.5" font-weight="600" fill="#667382" text-anchor="middle">正文 CH1–CH10 · 未开工</text>
-  <text x="234" y="178" font-size="9" fill="#667382" text-anchor="middle">agent 本体 · 开课时动工</text>
+  <rect x="24" y="144" width="420" height="44" rx="8" fill="rgba(247,103,7,.06)" stroke="rgba(247,103,7,.4)"/>
+  <text x="234" y="162" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">src/chat.ts · v0.4 ✅</text>
+  <text x="234" y="178" font-size="9" fill="#667382" text-anchor="middle">CH2 聊天机器人:多轮+流式+记账 · CH3 起长 agent</text>
   <text x="480" y="160" font-size="10" fill="#667382">全景架构图(01 区)画的每个方框,将来都长成这条线上的真实文件;</text>
-  <text x="480" y="176" font-size="10" fill="#667382">解剖台不预画——长出来什么,摆什么</text>
+  <text x="480" y="176" font-size="10" fill="#667382">透视窗不预画——长出来什么,摆什么</text>
 
   <line x1="24" y1="210" x2="856" y2="210" stroke="#e6e7e9" stroke-dasharray="4 4"/>
 
