@@ -1,10 +1,10 @@
-// 课程表静态服务器:跑在仓库根目录,COURSE.html 及其相对路径引用全部照常工作
-// npm run course → http://127.0.0.1:8080
+// 课程表静态服务器:静态根在 site/,COURSE.html 及其相对路径引用全部照常工作
+// npm run course → http://127.0.0.1:8080/COURSE.html
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 
-const ROOT = process.cwd();
+const ROOT = join(process.cwd(), 'site');
 const PORT = Number(process.env.PORT) || 8080;
 
 const MIME = {

@@ -1,6 +1,6 @@
 # 序章 0.1《复读机》· 讲义与追问实录
 
-> 对应代码:`prologue/01_bigram.py` | 互动实验室:COURSE.html 序章抽屉 | 状态:✅ 完成(2026-10-19)
+> 对应代码:`prologue/01_bigram.py` | 互动实验室:site/COURSE.html 序章抽屉 | 状态:✅ 完成(2026-10-19)
 
 ## 一句话
 
