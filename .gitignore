@@ -11,6 +11,8 @@ credentials*.json
 
 # ===== 语料与训练数据(可重新下载,不入库;课程内容数据 content/ 与卡图 svg/ 要入库)=====
 data/*
+# tinyshakespeare 语料(公共领域,4.4MB):课程必需,入库
+!data/input.txt
 
 # ===== Python(序章 · 搓丹线)=====
 __pycache__/

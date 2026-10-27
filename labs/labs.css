@@ -105,6 +105,23 @@
 #lab3b7 .l7-ct tr.on td{border-color:rgba(247,103,7,.5);color:var(--text)}
 #lab3b7 .l7-cres{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--green);margin-top:12px}
 
+/* ---------- #ch1-lab CH1 素颜相见 + messages 解剖台 ---------- */
+#ch1-lab .c1-code{font-family:var(--mono);font-size:11.5px;line-height:1.75;background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:10px 12px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;margin:0}
+#ch1-lab .c1-sg{cursor:pointer;border-bottom:1px dashed rgba(6,111,209,.45);color:#0553a3;transition:background-color .15s}
+#ch1-lab .c1-sg:hover,#ch1-lab .c1-sg.on{background:rgba(6,111,209,.12);border-bottom-style:solid}
+#ch1-lab .c1-exp{font-size:13px;line-height:1.9;min-height:120px}
+#ch1-lab .c1-exp h4{margin:0 0 6px;font-size:13px;color:var(--accent)}
+#ch1-lab .c1-exp pre{font-family:var(--mono);font-size:11.5px;background:var(--panel-2);border-radius:6px;padding:8px 10px;overflow-x:auto;margin:8px 0}
+#ch1-lab .c1-req-grid{grid-template-columns:1.4fr 1fr}
+#ch1-lab .c1-tgs{display:flex;gap:8px;flex-wrap:wrap}
+#ch1-lab .c1-fixed{opacity:.85;cursor:default}
+#ch1-lab .c1-reply{font-size:13px;line-height:1.9;border-left:3px solid var(--accent);padding:4px 12px;background:var(--panel);border-radius:0 6px 6px 0;min-height:48px}
+#ch1-lab .c1-reply i{font-style:normal;color:var(--muted);font-size:11.5px;display:block;margin-bottom:2px}
+#ch1-lab #c1-tok{color:var(--accent-2);font-size:15px}
+#ch1-lab .c1-r-user{color:#066fd1}
+#ch1-lab .c1-r-assistant{color:var(--green)}
+#ch1-lab .c1-r-system{color:var(--accent-2)}
+
 /* P0.4 MLP 调音台 */
 .mlp-presets{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}
 .mlp-presets .arch-btn{padding:4px 10px;font-size:12px}

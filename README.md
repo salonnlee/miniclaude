@@ -85,7 +85,7 @@ curl -fsSL -o data/input.txt https://cs.stanford.edu/people/karpathy/char-rnn/sh
 │   ├── 04_softmax.py            NN4 softmax + 交叉熵:grad = p − y 互证 + 下山实验
 │   └── *-notes.md              讲义与追问实录(与课次代码自动配对)
 ├── scripts/git/pre-commit    提交前密钥扫描钩子(文件名 + 内容双保险)
-└── data/input.txt            莎士比亚语料,457 万字符(gitignore,可重新下载)
+└── data/input.txt            莎士比亚语料,457 万字符(tinyshakespeare,已入库)
 ```
 
 ## 🧪 本仓库的环境事实(历史决策,勿踩坑)

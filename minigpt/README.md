@@ -12,7 +12,7 @@
 .venv/bin/python -m minigpt --temperature 0.8 --top-k 10   # P0.4 旋钮:调温 + 限签
 ```
 
-语料是 data/input.txt(不入库;缺了按根 README 的 curl 命令重新下载)。
+语料是 data/input.txt(tinyshakespeare,已随仓库附带;万一缺失按根 README 的 curl 命令补)。
 
 ## v0.0 成绩单(2026-10-27,seed 42 实测)
 

@@ -558,7 +558,61 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
       <ul class="ch-list" data-lessons="ch1">
       </ul>
       <div class="ch-foot"><span class="foot-chip">交付 · 素颜相见实验</span><span class="foot-chip">🔍 考点 · 为什么说模型是无状态的？</span></div>
-      <div class="ch-lab-soon">🔒 实验室建设中 · 第 1 章开课时解锁（curl 素颜相见 + messages 解剖台）</div>
+      <details class="ch-lab" id="ch1-lab">
+        <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · curl 素颜相见 + messages 解剖台<span class="ch-lab-hint">2026-10-27 真机实测数据，非示意</span></summary>
+        <div class="ch-lab-body">
+  <div class="lab-cap">A · curl 素颜相见台 —— CH1 实测的那次裸调，点任意色块看它是谁</div>
+  <div class="lab-grid c1-req-grid">
+    <div class="lab-box">
+      <div class="lab-cap">请求 · 终端里敲的那一行</div>
+  <pre class="c1-code" id="c1-req">curl <span class="c1-sg" data-exp="url">https://open.bigmodel.cn/api/paas/v4/chat/completions</span> \
+  -H <span class="c1-sg" data-exp="auth">"Authorization: Bearer $GLM_API_KEY"</span> \
+  -H <span class="c1-sg" data-exp="ctype">"Content-Type: application/json"</span> \
+  -d <span class="c1-sg" data-exp="body">'{"model":"glm-4.6","messages":[{"role":"user","content":"用一句话介绍你自己"}]}'</span></pre>
+      <div class="lab-cap">响应 · 服务器吐回的原始 JSON（思考草稿已折叠）</div>
+  <pre class="c1-code" id="c1-res">{
+  <span class="c1-sg" data-exp="choices">"choices"</span>: [{
+    "message": {
+      <span class="c1-sg" data-exp="content">"content"</span>: "我是一个致力于通过处理信息和生成创意来帮助你实现目标的人工智能助手。",
+      <span class="c1-sg" data-exp="reason">"reasoning_content"</span>: "…(思考草稿，1,204 个 token，此处折叠)…",
+      "role": "assistant"
+    },
+    "finish_reason": "stop"
+  }],
+  <span class="c1-sg" data-exp="usage">"usage"</span>: {
+    "prompt_tokens": <span class="c1-sg" data-exp="ptok">16</span>,
+    "completion_tokens": 1221,
+    "completion_tokens_details": { <span class="c1-sg" data-exp="rtok">"reasoning_tokens"</span>: 1204 }
+  }
+}</pre>
+    </div>
+    <div class="lab-box">
+      <div class="lab-cap">解剖卡</div>
+      <div class="c1-exp" id="c1-exp">点左侧任意色块，这里交代它从哪来、管什么。</div>
+    </div>
+  </div>
+  <div class="lab-cap" style="margin-top:18px">B · messages 解剖台 —— 「记忆」是历史重放，账单当场对账</div>
+  <div class="lab-grid">
+    <div class="lab-box">
+      <div class="lab-cap">塞进 messages 的货（点击开关）</div>
+      <div class="c1-tgs">
+        <span class="lab-mini c1-tg" data-k="system">system · 角色设定</span>
+        <span class="lab-mini c1-tg" data-k="turn1">第一轮问答 · user＋assistant</span>
+      </div>
+      <div class="lab-cap" style="margin-top:12px">最后一条永远在</div>
+      <pre class="c1-code c1-fixed">{"role":"user","content":"我刚才说了什么？"}</pre>
+      <div class="lab-stat" style="margin-top:12px">实测 prompt_tokens：<b id="c1-tok">17</b> <span id="c1-delta"></span></div>
+    </div>
+    <div class="lab-box">
+      <div class="lab-cap">发出去的 messages 数组（开关变，它就变）</div>
+      <pre class="c1-code" id="c1-msgs"></pre>
+      <div class="lab-cap">它怎么回（真机回复原文）</div>
+      <div class="c1-reply" id="c1-reply"></div>
+    </div>
+  </div>
+  <p class="bg-hint">玩法：A 台把请求行和响应 JSON 的每个色块点一遍——对话的全部形状就是「角色＋内容」的数组，账单在 <code>usage</code>。B 台先只留最后一条发出去：它一脸茫然（17 个 prompt tokens）；再把「第一轮问答」打开：它张口就答「你刚才让我用一句话介绍我自己」（40 个）——服务器什么都没记，多出的 23 个 token 就是你为「记忆」付的价。加上 system 看看角色设定怎么站位：它排在数组第 0 条，模型先读它再读对话（24 / 47 个，一样按 token 收费）。四组数字全部来自 2026-10-27 真机实测。</p>
+        </div>
+      </details>
     </article>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH2</span><span class="ch-title">v0.1 · 聊天机器人</span><span class="badge" data-badge="ch:ch2"></span></div>
@@ -742,6 +796,7 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
 <script src="labs/lab-nn.js"></script>
 <script src="labs/lab-3b.js"></script>
 <script src="labs/lab-3b7.js"></script>
+<script src="labs/lab-ch1.js"></script>
 <script src="content/lessons.js"></script>
 <script src="content/cards.js"></script>
 <script src="COURSE-render.js"></script>
