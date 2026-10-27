@@ -1,6 +1,8 @@
 // 课程表服务器(Hono):静态根 site/,/ 直达 COURSE.html
 // npm run course → http://127.0.0.1:8080
 import { exec } from 'node:child_process';
+import { createInterface } from 'node:readline/promises';
+import { connect } from 'node:net';
 import { serve } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { Hono } from 'hono';
@@ -8,6 +10,28 @@ import { Hono } from 'hono';
 try { process.loadEnvFile(); } catch {} // .env 有就读(没配 key 也能起服务看课)
 
 const PORT = Number(process.env.PORT) || 8080;
+
+// 端口占用检查:能连通就说明有人占着,问一句要不要杀
+const portBusy = (port) =>
+  new Promise((resolve) => {
+    const sock = connect(port, '127.0.0.1');
+    sock.once('connect', () => { sock.destroy(); resolve(true); });
+    sock.once('error', () => resolve(false));
+  });
+
+if (await portBusy(PORT)) {
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+  const ans = (await rl.question(`端口 ${PORT} 已被占用,杀掉占用进程并重启?(y/N) `)).trim().toLowerCase();
+  rl.close();
+  if (ans === 'y' || ans === 'yes') {
+    await new Promise((resolve, reject) =>
+      exec(`lsof -ti tcp:${PORT} | xargs kill -9`, (err) => (err ? reject(err) : resolve())));
+    await new Promise((r) => setTimeout(r, 300)); // 等端口真正释放
+  } else {
+    console.log('那就不动了,退出。');
+    process.exit(0);
+  }
+}
 
 const app = new Hono();
 
