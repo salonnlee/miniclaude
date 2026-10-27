@@ -1,8 +1,10 @@
 /* ============================================================================
    COURSE-render.js —— 课次渲染器(配 content/lessons.js)
    ----------------------------------------------------------------------------
-   职责只有三件:
-   · 把 content/lessons.js 的课次行填进 HTML 里的空容器 <ul data-lessons="key">;
+职责只有四件:
+  · 把 content/lessons.js 的课次行填进 HTML 里的空容器 <ul data-lessons="key">;
+  · 由 lessons.ships 点亮章交付 chip(foot-chip ver)与里程碑表——版本号单一事实源,
+    HTML 里只放空占位;
    · 由数据推导幕头/章头徽章(🔥 进行中 / ✅ 完课·日期 / 未开始,拼图区:已拼上)
      与幕的折叠态(进行中展开,其余折叠;data 里 open 可强制覆写);
    · 页头「更新于」= 全表最新完课日期(data 的 updated 可手动覆写)。
@@ -103,6 +105,23 @@ import { CARDS as C } from './content/cards.js';
     if (typeof cfg.open === 'boolean') act.open = cfg.open;
     else act.open = statusOf(cfg) === 'doing';
   });
+
+  // —— 版本交付 chip + 里程碑表(lessons.ships):HTML 只放空占位,
+  //    已交付的章 chip 填 chip 文本,未交付的占位整个移除——版本号永不手写 ——
+  var ships = L.ships || [];
+  Array.prototype.forEach.call(document.querySelectorAll('[data-ship]'), function (el) {
+    var s = null;
+    ships.forEach(function (t) { if (t.at === el.getAttribute('data-ship')) s = t; });
+    if (s && s.chip) el.textContent = s.chip;
+    else if (el.parentNode) el.parentNode.removeChild(el);
+  });
+  var mileBody = document.querySelector('[data-milestones]');
+  if (mileBody) {
+    mileBody.innerHTML = ships.map(function (s) {
+      return '<tr><td class="ver">' + (s.ver || '—') + '</td><td>' + s.what +
+        '</td><td class="range">' + s.range + '</td></tr>';
+    }).join('');
+  }
 
   // —— 页头「更新于」:全表最新完课日期(updated 可手动覆写) ——
   var upd = document.getElementById('hero-updated');

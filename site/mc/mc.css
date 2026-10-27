@@ -1,0 +1,129 @@
+/* mc/mc.css —— MiniClaude 网页对话框(v0.5)
+   ----------------------------------------------------------------------------
+   右下角 💬 气泡 + 展开面板(浮窗 dock / 满屏 max 两档)+ 会话抽屉。
+   变量在此兜底定义一遍(与 COURSE.css 同名同值):这对文件自成一体,
+   引到没有课程表皮肤的页面也能活;有皮肤时无缝贴合。
+   配对脚本 mc/mc.js(main.js 挂一行 import);流式走 /api/chat(serve.mjs 代理)。 */
+
+:root{
+  --bg:#f6f8fb; --panel:#f8f9fc; --panel-2:#eef1f6; --text:#262626; --muted:#667382;
+  --border:#e6e7e9; --accent:#066fd1; --green:#2fb344; --red:#d63939;
+  --tint-blue:#e7f1fb; --tint-grey:#eef1f5;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Courier New",monospace;
+}
+
+/* ---------- 气泡按钮 ---------- */
+#mc-fab{position:fixed;right:20px;bottom:20px;z-index:80;width:54px;height:54px;border-radius:50%;
+  border:none;cursor:pointer;background:var(--accent);color:#fff;font-size:23px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 20px rgba(6,111,209,.35);transition:transform .15s}
+#mc-fab:hover{transform:translateY(-2px)}
+#mc-fab:active{transform:scale(.93)}
+
+/* ---------- 面板骨架(dock 浮窗留空隙 / max 满屏)---------- */
+#mc-panel{position:fixed;z-index:81;display:none;flex-direction:column;background:#fff;
+  border:1px solid var(--border);border-radius:14px;overflow:hidden;
+  box-shadow:0 12px 48px rgba(16,24,40,.18);
+  transition:left .25s,right .25s,top .25s,bottom .25s,width .25s,height .25s}
+#mc-panel.open{display:flex}
+#mc-panel.dock{left:auto;top:auto;right:20px;bottom:20px;
+  width:min(420px,calc(100vw - 40px));height:min(620px,calc(100dvh - 96px))}
+#mc-panel.max{left:0;top:0;right:0;bottom:0;width:auto;height:auto;border:none;border-radius:0}
+
+/* ---------- 头部 ---------- */
+.mc-head{flex:none;display:flex;align-items:center;gap:8px;padding:9px 12px;
+  border-bottom:1px solid var(--border);background:var(--panel)}
+.mc-logo{flex:none;width:26px;height:26px;border-radius:8px;background:var(--accent);color:#fff;
+  font-size:13px;display:flex;align-items:center;justify-content:center}
+.mc-title{font-weight:600;font-size:14px;color:var(--text)}
+.mc-ver{font-family:var(--mono);font-size:10.5px;color:var(--accent);background:var(--tint-blue);
+  padding:1px 8px;border-radius:999px;flex:none}
+.mc-dot{width:7px;height:7px;border-radius:50%;background:var(--border);flex:none;transition:background .2s}
+#mc-panel.busy .mc-dot{background:var(--green);animation:mc-pulse 1.1s ease-in-out infinite}
+@keyframes mc-pulse{50%{opacity:.35}}
+.mc-head .mc-grow{flex:1}
+.mc-ico{flex:none;width:28px;height:28px;border-radius:6px;border:none;background:transparent;
+  color:var(--muted);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.mc-ico:hover{background:var(--panel-2);color:var(--text)}
+
+/* ---------- 消息区(滚动条常显:macOS 隐藏式滚动条看着像截断,课程表既有定式)---------- */
+#mc-msgs{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#c9d2dd transparent;
+  padding:16px 14px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
+#mc-msgs::-webkit-scrollbar{width:8px}
+#mc-msgs::-webkit-scrollbar-thumb{background:#c9d2dd;border-radius:4px}
+.mc-m{max-width:86%;padding:8px 12px;border-radius:12px;font-size:13.5px;line-height:1.65;
+  white-space:pre-wrap;word-break:break-word}
+.mc-user{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:4px}
+.mc-bot{align-self:flex-start;background:#fff;border:1px solid var(--border);border-bottom-left-radius:4px}
+.mc-bot pre{font-family:var(--mono);font-size:12px;line-height:1.6;background:var(--panel-2);
+  border-radius:6px;padding:8px 10px;margin:6px 0;overflow-x:auto;white-space:pre;scrollbar-width:thin}
+.mc-bot pre::-webkit-scrollbar{height:8px}
+.mc-bot pre::-webkit-scrollbar-thumb{background:#c9d2dd;border-radius:4px}
+.mc-bot code{font-family:var(--mono);font-size:12.5px;background:var(--panel-2);padding:1px 5px;border-radius:4px}
+.mc-bot pre code{padding:0;background:none}
+.mc-cur{display:inline-block;width:2px;height:1em;background:var(--accent);vertical-align:-2px;
+  margin-left:1px;animation:mc-blink 1s steps(2) infinite}
+@keyframes mc-blink{50%{opacity:0}}
+.mc-err{align-self:stretch;font-size:12.5px;color:var(--red);background:#fbeaea;
+  border:1px solid #f0c4c4;border-radius:8px;padding:7px 10px;word-break:break-all}
+.mc-note{align-self:stretch;font-size:12.5px;color:var(--muted);background:var(--tint-grey);
+  border:1px solid var(--border);border-radius:8px;padding:7px 10px}
+
+/* ---------- 空态 ---------- */
+.mc-hello{margin:auto;text-align:center;color:var(--muted);font-size:13px;padding:0 10px}
+.mc-hello h4{margin:0 0 6px;font-size:15px;color:var(--text)}
+.mc-hello p{margin:0 0 14px;line-height:1.7}
+.mc-chips{display:flex;flex-direction:column;gap:8px;align-items:center}
+.mc-chip{font-size:12.5px;color:var(--text);background:#fff;border:1px solid var(--border);
+  border-radius:999px;padding:6px 16px;cursor:pointer;max-width:100%}
+.mc-chip:hover{border-color:var(--accent);color:var(--accent);background:var(--tint-blue)}
+
+/* ---------- 记账条 + 输入区 ---------- */
+.mc-meter{flex:none;display:flex;justify-content:space-between;gap:8px;padding:5px 14px;
+  font-family:var(--mono);font-size:10.5px;color:var(--muted);
+  border-top:1px solid var(--border);background:var(--panel)}
+.mc-input{flex:none;display:flex;align-items:flex-end;gap:8px;padding:10px 12px;
+  border-top:1px solid var(--border);background:#fff}
+#mc-ta{flex:1;resize:none;border:1px solid var(--border);border-radius:8px;padding:8px 10px;
+  font-size:13.5px;font-family:inherit;line-height:1.5;max-height:132px;background:#fff;color:var(--text);
+  scrollbar-width:thin}
+#mc-ta:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(6,111,209,.14)}
+#mc-ta::placeholder{color:var(--muted)}
+#mc-send{flex:none;width:34px;height:34px;border-radius:8px;border:none;cursor:pointer;
+  background:var(--accent);color:#fff;font-size:14px;display:flex;align-items:center;justify-content:center}
+#mc-send:hover{background:#0553a3}
+#mc-send:disabled{opacity:.4;cursor:default}
+#mc-send.stop{background:var(--red)}
+#mc-send.stop:hover{background:#b32d2d}
+
+/* ---------- 会话抽屉(挂在面板内左侧,后续章节的能力面板也长在这里)---------- */
+.mc-veil{position:absolute;inset:0;z-index:2;display:none}
+#mc-panel.drawer .mc-veil{display:block}
+#mc-drawer{position:absolute;left:0;top:0;bottom:0;z-index:3;width:250px;background:#fff;
+  border-right:1px solid var(--border);display:none;flex-direction:column;
+  box-shadow:6px 0 18px rgba(16,24,40,.08)}
+#mc-panel.drawer #mc-drawer{display:flex}
+.mc-dhead{flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:10px 12px;border-bottom:1px solid var(--border);font-weight:600;font-size:13px}
+.mc-new{flex:none;margin:10px 12px 6px;padding:7px 0;border-radius:8px;border:1px dashed var(--border);
+  background:transparent;color:var(--muted);font-size:12.5px;cursor:pointer}
+.mc-new:hover{border-color:var(--accent);color:var(--accent);background:var(--tint-blue)}
+#mc-list{flex:1;overflow-y:auto;scrollbar-width:thin;padding:4px 8px;display:flex;flex-direction:column;gap:2px}
+.mc-item{display:flex;align-items:center;gap:6px;padding:8px 8px;border-radius:8px;cursor:pointer}
+.mc-item:hover{background:var(--panel-2)}
+.mc-item.on{background:var(--tint-blue)}
+.mc-item .mi-body{flex:1;min-width:0}
+.mi-title{font-size:12.5px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mi-sub{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.mi-del{flex:none;width:22px;height:22px;border:none;border-radius:6px;background:transparent;
+  color:var(--muted);cursor:pointer;font-size:11px;opacity:0}
+.mc-item:hover .mi-del{opacity:1}
+.mi-del:hover{color:var(--red);background:#fbeaea}
+.mc-dfoot{flex:none;padding:8px 12px;border-top:1px solid var(--border);font-size:11px;color:var(--muted)}
+
+/* ---------- 窄屏:浮窗本身就接近满屏 ---------- */
+@media (max-width:640px){
+  #mc-fab{right:14px;bottom:14px}
+  #mc-panel.dock{right:8px;bottom:8px;width:calc(100vw - 16px);height:calc(100dvh - 16px)}
+  .mc-m{max-width:92%}
+}

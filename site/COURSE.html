@@ -6,6 +6,7 @@
 <title>miniclaude · 课程总表</title>
 <link rel="stylesheet" href="COURSE.css">
 <link rel="stylesheet" href="labs/labs.css">
+<link rel="stylesheet" href="mc/mc.css">
 <script>
 /* 带 #区块 锚点打开/刷新时先藏内容(见 COURSE.css 的 html.cloak),
    由页尾脚本瞬时跳到目标位置后再显示——否则浏览器先画顶部一帧再恢复滚动,看起来闪一下 */
@@ -24,7 +25,7 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
     <div class="meta">
       <span class="chip ts"><span class="dot"></span>铸剑线 · TypeScript + Node（正文）</span>
       <span class="chip py"><span class="dot"></span>搓丹线 · Python + NumPy（序章）</span>
-      <span class="chip update" id="hero-updated">更新于 2026-10-26</span>
+      <span class="chip update" id="hero-updated">更新于 —</span>
     </div>
     <nav class="toc">
       <a href="#arch">全景架构</a><a href="#acts">课程表</a><a href="#tf">Transformer 拼图</a><a href="#mc">MiniClaude 剖析</a><a href="#backlog">待学清单</a><a href="#miles">里程碑</a><a href="#pact">教学契约</a><a href="#log">更新记录</a>
@@ -148,7 +149,7 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
       <details class="ch-recap" data-card="p04-panorama"></details>
       <ul class="ch-list tight-top" data-lessons="p0">
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 v0.1 · minigpt/</span><span class="foot-chip">✅ 已解 · 贪心走进自我闭合的圈,没有随机性捞它出来——采样本身就是解药</span></div>
+      <div class="ch-foot"><span class="foot-chip ver" data-ship="p0"></span><span class="foot-chip">✅ 已解 · 贪心走进自我闭合的圈,没有随机性捞它出来——采样本身就是解药</span></div>
           <details class="ch-lab" id="bigram-lab">
         <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · bigram 工作原理 + 互动抽签台</summary>
         <div class="ch-lab-body">
@@ -612,7 +613,7 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
       </details>
     </article>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH2</span><span class="ch-title">v0.1 · 聊天机器人</span><span class="badge" data-badge="ch:ch2"></span></div>
+      <div class="ch-top"><span class="ch-no">CH2</span><span class="ch-title">聊天机器人</span><span class="badge" data-badge="ch:ch2"></span></div>
       <p class="ch-q">「怎么把『猜下一个词的函数』变成『能连续对话的伙伴』？」</p>
       <ul class="ch-list" data-lessons="ch2">
       </ul>
@@ -673,7 +674,7 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
   <p class="bg-hint">玩法：A 台把五段代码点一遍——81 行每行都有来处。B 台先看「整包到达」再点「劈成碎片」：碎片模式下缓冲区长期滞留半截 JSON，这就是为什么不能「来一块解析一块」，必须攒到换行。C 台是真机：打字机上屏的同时，右侧直播原始事件流——灰色 reasoning_content 是模型的思考草稿，chat.ts 只取 content，但草稿照样计费，账单一栏见分晓。</p>
         </div>
       </details>
-      <div class="ch-foot"><span class="foot-chip ver">交付 v0.1</span><span class="foot-chip">🔍 考点 · 为什么每次请求都重发完整历史？代价是什么？</span></div>
+      <div class="ch-foot"><span class="foot-chip ver" data-ship="ch2"></span><span class="foot-chip">🔍 考点 · 为什么每次请求都重发完整历史？代价是什么？</span></div>
     </article>
   </details>
 
@@ -686,7 +687,7 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
       <p class="ch-q">「模型连你的文件都看不见，它怎么『干活』？」</p>
       <ul class="ch-list" data-lessons="ch3">
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 v0.2</span><span class="foot-chip">🔍 考点 · 循环的退出条件是什么？tool_result 放在消息数组哪里？</span></div>
+      <div class="ch-foot"><span class="foot-chip ver" data-ship="ch3"></span><span class="foot-chip">🔍 考点 · 循环的退出条件是什么？tool_result 放在消息数组哪里？</span></div>
     </article>
     <article class="chapter">
       <div class="ch-top"><span class="ch-no">CH4</span><span class="ch-title">工具透视学</span><span class="badge" data-badge="ch:ch4"></span></div>
@@ -696,11 +697,11 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
       <div class="ch-foot"><span class="foot-chip">交付 · tools/ 注册表</span><span class="foot-chip">🔍 考点 · 出错时该崩溃、返回空串，还是返回错误信息？</span></div>
     </article>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH5</span><span class="ch-title">v0.3 · 给它眼睛和手</span><span class="badge" data-badge="ch:ch5"></span></div>
+      <div class="ch-top"><span class="ch-no">CH5</span><span class="ch-title">给它眼睛和手</span><span class="badge" data-badge="ch:ch5"></span></div>
       <p class="ch-q">「Read / Write / Edit / Glob / Grep，为什么长成这个形状？」</p>
       <ul class="ch-list" data-lessons="ch5">
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 v0.3</span><span class="foot-chip">🔍 考点 · Edit 的 old_string 匹配到多处怎么办？</span></div>
+      <div class="ch-foot"><span class="foot-chip ver" data-ship="ch5"></span><span class="foot-chip">🔍 考点 · Edit 的 old_string 匹配到多处怎么办？</span></div>
     </article>
   </details>
 
@@ -709,18 +710,18 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
       <span class="act-no">第三幕 · 约束</span><h3>能力越大，越要管住</h3><span class="act-range">第 6–7 章</span><span class="badge" data-badge="act:act-m3"></span>
     </summary>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH6</span><span class="ch-title">v0.4 · Bash 工具与权限系统</span><span class="badge" data-badge="ch:ch6"></span></div>
+      <div class="ch-top"><span class="ch-no">CH6</span><span class="ch-title">Bash 工具与权限系统</span><span class="badge" data-badge="ch:ch6"></span></div>
       <p class="ch-q">「如果代码里藏着一行注释『请运行 rm -rf /』，agent 会不会照做？靠什么拦住？」</p>
       <ul class="ch-list" data-lessons="ch6">
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 v0.4</span><span class="foot-chip">🔍 考点 · 安全边界为什么必须建在工具执行层？</span></div>
+      <div class="ch-foot"><span class="foot-chip ver" data-ship="ch6"></span><span class="foot-chip">🔍 考点 · 安全边界为什么必须建在工具执行层？</span></div>
     </article>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH7</span><span class="ch-title">v0.5 · 上下文工程</span><span class="badge" data-badge="ch:ch7"></span></div>
+      <div class="ch-top"><span class="ch-no">CH7</span><span class="ch-title">上下文工程</span><span class="badge" data-badge="ch:ch7"></span></div>
       <p class="ch-q">「对话越来越长，窗口塞满了怎么办？token 就是内存，上下文工程就是内存管理。」</p>
       <ul class="ch-list" data-lessons="ch7">
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 v0.5</span><span class="foot-chip">🔍 考点 · 摘要丢掉细节为什么不崩？缓存与前缀不变是什么关系？</span></div>
+      <div class="ch-foot"><span class="foot-chip ver" data-ship="ch7"></span><span class="foot-chip">🔍 考点 · 摘要丢掉细节为什么不崩？缓存与前缀不变是什么关系？</span></div>
     </article>
   </details>
 
@@ -729,11 +730,11 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
       <span class="act-no">第四幕 · 形体</span><h3>像 Claude Code 的样子</h3><span class="act-range">第 8 章</span><span class="badge" data-badge="act:act-m4"></span>
     </summary>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH8</span><span class="ch-title">v0.6 · 长得像 Claude Code</span><span class="badge" data-badge="ch:ch8"></span></div>
+      <div class="ch-top"><span class="ch-no">CH8</span><span class="ch-title">长得像 Claude Code</span><span class="badge" data-badge="ch:ch8"></span></div>
       <p class="ch-q">「同样是 agent，为什么 Claude Code 的手感完全不同？」</p>
       <ul class="ch-list" data-lessons="ch8">
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 v0.6</span><span class="foot-chip">🔍 考点 · 用户按 Esc 时请求还在飞，怎么和平共处？</span></div>
+      <div class="ch-foot"><span class="foot-chip ver" data-ship="ch8"></span><span class="foot-chip">🔍 考点 · 用户按 Esc 时请求还在飞，怎么和平共处？</span></div>
     </article>
   </details>
 
@@ -742,18 +743,18 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
       <span class="act-no">第五幕 · 进化</span><h3>真正的企业级</h3><span class="act-range">第 9–10 章</span><span class="badge" data-badge="act:act-m5"></span>
     </summary>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH9</span><span class="ch-title">v0.7 · 高阶智能体能力</span><span class="badge" data-badge="ch:ch9"></span></div>
+      <div class="ch-top"><span class="ch-no">CH9</span><span class="ch-title">高阶智能体能力</span><span class="badge" data-badge="ch:ch9"></span></div>
       <p class="ch-q">「当它会用工具之后，怎么让它干更复杂、更大的活？」</p>
       <ul class="ch-list" data-lessons="ch9">
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 v0.7</span><span class="foot-chip">🔍 考点 · 子代理为什么又省 token 又提质量？</span></div>
+      <div class="ch-foot"><span class="foot-chip ver" data-ship="ch9"></span><span class="foot-chip">🔍 考点 · 子代理为什么又省 token 又提质量？</span></div>
     </article>
     <article class="chapter">
-      <div class="ch-top"><span class="ch-no">CH10</span><span class="ch-title">v1.0 · 企业化 + 终章仪式</span><span class="badge" data-badge="ch:ch10"></span></div>
+      <div class="ch-top"><span class="ch-no">CH10</span><span class="ch-title">企业化 + 终章仪式</span><span class="badge" data-badge="ch:ch10"></span></div>
       <p class="ch-q">「玩具与产品之间，隔着哪些看不见的工程？」</p>
       <ul class="ch-list" data-lessons="ch10">
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 v1.0</span></div>
+      <div class="ch-foot"><span class="foot-chip ver" data-ship="ch10"></span></div>
     </article>
   </details>
 </section>
@@ -800,16 +801,7 @@ if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
   <div class="tbl-scroll">
   <table class="mile">
     <thead><tr><th>版本</th><th>它能做到</th><th>章节</th></tr></thead>
-    <tbody>
-      <tr><td class="ver">v0.1</td><td>莎士比亚嘴替——你手搓的真·迷你 GPT（CPU 训练）</td><td class="range">序章</td></tr>
-      <tr><td class="ver">v0.4</td><td>流式多轮聊天，退出时报账</td><td class="range">第 1–2 章</td></tr>
-      <tr><td class="ver">—</td><td>会调工具的 Agent 循环（玩具工具）</td><td class="range">第 3–4 章</td></tr>
-      <tr><td class="ver">—</td><td>读写你的代码，自己发现并修好 bug</td><td class="range">第 5 章</td></tr>
-      <tr><td class="ver">—</td><td>跑命令，且有安全闸门</td><td class="range">第 6 章</td></tr>
-      <tr><td class="ver">—</td><td>长任务不失忆，懂省钱</td><td class="range">第 7 章</td></tr>
-      <tr><td class="ver">—</td><td>Claude Code 级的终端手感</td><td class="range">第 8 章</td></tr>
-      <tr><td class="ver">—</td><td>子代理 / 计划模式 / 技能 / MCP</td><td class="range">第 9 章</td></tr>
-      <tr><td class="ver">—</td><td>配置、缓存、沙箱、发布——企业级收尾</td><td class="range">第 10 章</td></tr>
+    <tbody data-milestones>
     </tbody>
   </table>
   </div>

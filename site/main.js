@@ -11,6 +11,7 @@ import './labs/lab-3b.js';
 import './labs/lab-3b7.js';
 import './labs/lab-ch1.js';
 import './labs/lab-chat.js';
+import './mc/mc.js'; // MiniClaude 对话框(右下角气泡,产品本体随章节长)
 import './COURSE-render.js';
 import './COURSE-LOG.js';
 import './COURSE-page.js';

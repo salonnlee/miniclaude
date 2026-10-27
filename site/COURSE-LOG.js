@@ -12,6 +12,10 @@ var DAYS = [
   {
     "date": "2026-10-27",
     "items": [
+      "v0.5 对话框补挂 mc.css：并行交付时样式文件漏了 link，💬 气泡漂在页面文档流里；COURSE.html head 补引后 fixed 钉回右下角（真机实测 right/bottom 20px）。",
+      "版本号单一事实源化（学员定规防再犯）：lessons.js 增 ships——章交付 chip 与里程碑表改由渲染器点亮，COURSE.html 手写版本号全清（CH2 章头滞留 v0.1、CH3–CH10 预填 v0.2–v1.0），CH6 v0.4 与 chat.ts 撞号消灭，v0.5 网页对话框一并入册。",
+      "全库说辞同步：LEARNER 骨架刷到 CH2 完课（原停在 CH1–CH10 未开课）、教师手册改挂 lessons.js 单一事实源；#mc 更名 MiniClaude 剖析；「壳」「解剖」清零；README 实验室六家改七家、待学清单补 SAE；package.json 撤 v0.1 描述、version 对齐交付。",
+      "MiniClaude v0.5 网页对话框上线：右下角 💬 气泡唤起，浮窗/满屏两档；流式打字机 + 多会话（localStorage）+ token 记账，前端 SSE 解析与 chat.ts 同款；后续章节的功能面板都长在这只对话框里。",
       "C 台原始 SSE 流改一行一事件（学员反馈挤成一团没法看）：撤 break-all 硬换行，事件行 white-space:pre 整行滑出，整列左右滑 + 限高 320 纵滑；真机发消息实测 14 行全单行、横滑可动。",
       "serve.mjs 静态资源全站禁缓存：浏览器会把旧 labs.css/lab-chat.js 钉在缓存里，URL 的 ?b= 破不了 import 的模块，改完刷新「看着没变」；改发 no-store 后刷新即所见。",
       "里程碑版本号统一（学员定规）：不再预填 v0.x——交付到哪章填那时的实际版本号。序章填 minigpt v0.1、CH1–2 填 chat.ts v0.4，其余置「—」待交付；README 快速开始里滞留的 v0.1 一并改 v0.4。",

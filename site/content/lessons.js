@@ -22,6 +22,22 @@
    ============================================================================ */
 export const LESSONS = {
   "updated": "",
+  // —— 版本交付表(单一事实源):渲染器据此点亮章交付 chip(foot-chip ver)
+  //    与里程碑表;COURSE.html 不再手写任何版本号。
+  //    交付新版本 = 对应条目填 ver + chip + at(chip 挂哪章);未交付条目
+  //    ver 置 null,页面显示「—」、章 chip 自动隐藏。
+  "ships": [
+    { "at": "p0",  "ver": "v0.1", "chip": "交付 v0.1 · minigpt/",    "what": "莎士比亚嘴替——你手搓的真·迷你 GPT(CPU 训练)", "range": "序章" },
+    { "at": "ch2", "ver": "v0.4", "chip": "交付 v0.4 · src/chat.ts", "what": "流式多轮聊天,退出时报账", "range": "第 1–2 章" },
+    { "ver": "v0.5", "what": "网页对话框——右下角气泡唤起,流式聊天 + 多会话 + 记账", "range": "主线间隙" },
+    { "ver": null, "what": "会调工具的 Agent 循环(玩具工具)", "range": "第 3–4 章" },
+    { "ver": null, "what": "读写你的代码,自己发现并修好 bug", "range": "第 5 章" },
+    { "ver": null, "what": "跑命令,且有安全闸门", "range": "第 6 章" },
+    { "ver": null, "what": "长任务不失忆,懂省钱", "range": "第 7 章" },
+    { "ver": null, "what": "Claude Code 级的终端手感", "range": "第 8 章" },
+    { "ver": null, "what": "子代理 / 计划模式 / 技能 / MCP", "range": "第 9 章" },
+    { "ver": null, "what": "配置、缓存、沙箱、发布——企业级收尾", "range": "第 10 章" }
+  ],
   "lists": {
     "p0": {
       "groups": [
@@ -61,7 +77,7 @@ export const LESSONS = {
           },
           {
             "label": "总结",
-            "text": "大模型与它的区别只是大了十万倍、吃了十万倍；它不会听话、不会工具调用——这正是「壳」存在的意义"
+            "text": "大模型与它的区别只是大了十万倍、吃了十万倍；它不会听话、不会工具调用——这正是正文要手写的 agent 程序存在的意义"
           }
         ]
       ]
