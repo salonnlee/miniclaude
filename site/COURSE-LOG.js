@@ -12,6 +12,7 @@ var DAYS = [
   {
     "date": "2026-10-27",
     "items": [
+      "一致性校验上线（scripts/consistency.mjs，pre-commit 第三道闸）：12 项机检——手写版本号残留、课次容器手写、ships 占位对位、实验室家数、chat.ts 行数声明、下一站指针、LEARNER 骨架过期、版本对齐、mc 配套资产、解剖/壳黑名单；负样本实测：塞回「交付 v0.9」当场拦下。",
       "v0.5 对话框补挂 mc.css：并行交付时样式文件漏了 link，💬 气泡漂在页面文档流里；COURSE.html head 补引后 fixed 钉回右下角（真机实测 right/bottom 20px）。",
       "版本号单一事实源化（学员定规防再犯）：lessons.js 增 ships——章交付 chip 与里程碑表改由渲染器点亮，COURSE.html 手写版本号全清（CH2 章头滞留 v0.1、CH3–CH10 预填 v0.2–v1.0），CH6 v0.4 与 chat.ts 撞号消灭，v0.5 网页对话框一并入册。",
       "全库说辞同步：LEARNER 骨架刷到 CH2 完课（原停在 CH1–CH10 未开课）、教师手册改挂 lessons.js 单一事实源；#mc 更名 MiniClaude 剖析；「壳」「解剖」清零；README 实验室六家改七家、待学清单补 SAE；package.json 撤 v0.1 描述、version 对齐交付。",

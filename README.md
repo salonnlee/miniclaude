@@ -51,7 +51,9 @@ npm run typecheck   # tsc --noEmit
 │                             typecheck 类型检查(Node ≥ 23 原生跑 TS,零运行时依赖)
 ├── scripts/                  工程脚本
 │   ├── serve.mjs             课程表服务器(Hono):静态托管 site/、/ 直达 COURSE.html、守卫拦目录穿越与点文件;/api/chat 流式代理(key 只住服务端,实验室真机区用)
-│   └── git/pre-commit        提交前密钥扫描钩子(文件名 + 内容双保险)
+│   ├── consistency.mjs       一致性校验(npm run check,pre-commit 自动跑):版本号单一源、实验室家数、
+│   │                         chat.ts 行数声明、下一站指针、LEARNER 骨架过期、口径黑名单
+│   └── git/pre-commit        提交前两道闸:密钥扫描(文件名 + 内容)+ 一致性校验
 ├── src/                      🟠 正文 · 铸剑线主战场
 │   └── chat.ts               v0.4 聊天机器人(多轮循环+流式打字机+记账,npm run chat)
 ├── site/                     课程表整树(内部全相对路径引用,整树挪目录不断链)

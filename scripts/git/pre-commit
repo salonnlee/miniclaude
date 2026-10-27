@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# 提交前密钥扫描:暂存内容里出现常见密钥形态 → 拦截提交
+# 提交前两道闸:密钥扫描 + 全库一致性校验
 # 确认是误报(比如教学示例)时:git commit --no-verify
 # ============================================================
 set -u
@@ -24,6 +24,13 @@ while IFS= read -r line; do
   echo "⛔ 疑似密钥泄露(已截断): ${line:0:60}..."
   fail=1
 done < <(git diff --cached | grep -E '^\+' | grep -Ev '^\+\+\+' | grep -E "$pat")
+
+# ---- 3) 全库一致性校验:版本/进度单一事实源 + 口径黑名单 ----
+if ! node scripts/consistency.mjs > /tmp/miniclaude-check.log 2>&1; then
+  cat /tmp/miniclaude-check.log
+  echo "⛔ 一致性校验未通过(细节重跑:npm run check)——版本/进度只改 site/content/lessons.js"
+  fail=1
+fi
 
 if [ "$fail" -eq 1 ]; then
   echo
