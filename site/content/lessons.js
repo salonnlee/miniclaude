@@ -30,6 +30,7 @@ export const LESSONS = {
     { "at": "p0",  "ver": "v0.1", "chip": "交付 v0.1 · minigpt/",    "what": "莎士比亚嘴替——你手搓的真·迷你 GPT(CPU 训练)", "range": "序章" },
     { "at": "ch2", "ver": "v0.4", "chip": "交付 v0.4 · src/chat.ts", "what": "流式多轮聊天,退出时报账", "range": "第 1–2 章" },
     { "ver": "v0.5", "what": "网页对话框——右下角气泡唤起,流式聊天 + 多会话 + 记账", "range": "主线间隙" },
+    { "ver": "v0.6", "what": "对话框升级——Markdown 真排版 + 问题库 100 条随机三问", "range": "主线间隙" },
     { "ver": null, "what": "会调工具的 Agent 循环(玩具工具)", "range": "第 3–4 章" },
     { "ver": null, "what": "读写你的代码,自己发现并修好 bug", "range": "第 5 章" },
     { "ver": null, "what": "跑命令,且有安全闸门", "range": "第 6 章" },

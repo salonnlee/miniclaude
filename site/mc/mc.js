@@ -1,11 +1,14 @@
-/* mc/mc.js —— MiniClaude v0.5 网页对话框
+/* mc/mc.js —— MiniClaude v0.6 网页对话框
    ----------------------------------------------------------------------------
    右下角气泡唤起的对话面板:流式打字机 + 多会话(localStorage 持久化)
-   + token 记账 + 轻量 markdown(围栏代码块 + 行内 code)。
+   + token 记账 + Markdown 真排版(markdown-it)+ 开场问题库随机三问。
    前端 SSE 解析与 src/chat.ts 逐行同款——攒到换行才算一条事件;
    流式走 POST /api/chat(scripts/serve.mjs 代理,key 只住服务端)。
    system 提示词不进会话存储,发送时现拼——存储里只有真实对话。
    后续章节的功能面板(工具、文件树……)都长在这只面板里。 */
+
+import mdit from '../vendor/markdown-it.esm.min.mjs'; // 官方浏览器 ESM 整包(v15,vendored 进 site/vendor/)
+import { QUESTIONS } from './questions.js';
 
 var SYSTEM = '你是 MiniClaude,简洁直接的中文助手。';
 var PRICE = { in: 4, out: 14 }; // 元 / 百万 token,与 chat.ts 同账本
@@ -53,7 +56,7 @@ function mount() {
       '<div id="mc-panel" class="dock" role="dialog" aria-label="MiniClaude 对话框">' +
       '  <div class="mc-head">' +
       '    <span class="mc-logo">💬</span><span class="mc-title">MiniClaude</span>' +
-      '    <span class="mc-ver">v0.5</span><span class="mc-dot"></span><span class="mc-grow"></span>' +
+      '    <span class="mc-ver">v0.6</span><span class="mc-dot"></span><span class="mc-grow"></span>' +
       '    <button class="mc-ico" id="mc-menu" aria-label="会话列表">☰</button>' +
       '    <button class="mc-ico" id="mc-max" aria-label="满屏 / 浮窗切换">⤢</button>' +
       '    <button class="mc-ico" id="mc-x" aria-label="收起">✕</button>' +
@@ -85,18 +88,11 @@ var esc = function (s) {
     return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
   });
 };
-/* 轻量 markdown:只认围栏代码块、行内 code、**加粗**,其余原样——先转义再替换,没进 innerHTML 的口子 */
-function rich(text) {
-  return esc(text)
-    .split('```')
-    .map(function (seg, i) {
-      if (i % 2) return '<pre><code>' + seg.replace(/^[^\n]*\n/, '') + '</code></pre>';
-      return seg
-        .replace(/`([^`\n]+)`/g, '<code>$1</code>')
-        .replace(/\*\*([^*\n]+)\*\*/g, '<b>$1</b>');
-    })
-    .join('');
-}
+/* markdown-it 真排版(v0.6):表格/列表/标题/链接/引用全认,替掉旧版手写 rich() 的三个正则。
+   html:false——模型输出的原始 HTML 一律按文字显示,防线语义与旧版「先转义」一脉相承;
+   breaks:true 单换行即换行(聊天手感);linkify 裸网址自动成链。 */
+var md = mdit({ html: false, breaks: true, linkify: true });
+function rich(text) { return md.render(text); }
 
 function bubble(role, html) {
   var m = el('<div class="mc-m ' + (role === 'user' ? 'mc-user' : 'mc-bot') + '"></div>');
@@ -105,21 +101,37 @@ function bubble(role, html) {
   return m;
 }
 
+/* 问题库随机抽 3 条不重复;🎲 换一批 = 当场重抽 */
+function pick3() {
+  var pool = QUESTIONS.slice(), out = [];
+  for (var i = 0; i < 3; i++) out.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+  return out;
+}
+
 function hello() {
   msgs.append(el(
     '<div class="mc-hello">' +
-    '  <h4>MiniClaude v0.5 · 上线</h4>' +
-    '  <p>铸剑线的网页分身——多轮记忆 + 流式打字机 + token 记账,<br>CH2 学的一切都在这儿落位,CH3 起在这里长工具。</p>' +
-    '  <div class="mc-chips">' +
-    '    <button class="mc-chip">用一句话说说你能干嘛?</button>' +
-    '    <button class="mc-chip">SSE 流式是怎么工作的?</button>' +
-    '    <button class="mc-chip">1M 输出 token 多少钱?</button>' +
-    '  </div>' +
+    '  <h4>MiniClaude v0.6</h4>' +
+    '  <p>铸剑线的网页分身——多轮记忆 + 流式打字机 + token 记账,<br>回复按完整 Markdown 排版,CH3 起在这里长工具。</p>' +
+    '  <div class="mc-chips"></div>' +
     '</div>'
   ));
-  msgs.querySelectorAll('.mc-chip').forEach(function (c) {
-    c.onclick = function () { openPanel(); ta.value = c.textContent; ta.focus(); fit(); };
+  drawChips();
+}
+
+function drawChips() {
+  var box = msgs.querySelector('.mc-chips');
+  if (!box) return; // 已开聊,hello 被撤了
+  box.innerHTML = '';
+  pick3().forEach(function (q) {
+    var c = el('<button class="mc-chip"></button>');
+    c.textContent = q;
+    c.onclick = function () { openPanel(); ta.value = q; ta.focus(); fit(); };
+    box.append(c);
   });
+  var dice = el('<button class="mc-chip dice">🎲 换一批</button>');
+  dice.onclick = drawChips;
+  box.append(dice);
 }
 
 /* 切会话 / 首开:全量重绘 */

@@ -93,6 +93,6 @@ export const CARDS = {
   },
   "mc-map": {
     "title": "🗺️ MiniClaude 剖析 · 当前实况",
-    "body": "<p class=\"s1-recap\">透视窗里只摆实货,不预画路线——课程表主线走到哪,这张图重画到哪。搓丹线 <b>minigpt v0.1</b>(序章全清);铸剑线两件:<b>src/chat.ts v0.4</b>(CH2 聊天机器人:多轮记忆 + 流式打字机 + 退出记账)+ 网页分身 <b>site/mc/ v0.5</b>(右下角 💬 气泡唤起的对话框:流式聊天 + 多会话 + 记账,CH3 起工具等功能面板长在里面);图下半仍是 minigpt 的五个文件与一生五幕。</p>\n      <img class=\"fig\" loading=\"lazy\" src=\"svg/mc-map.svg\" alt=\"miniclaude 当前全貌:搓丹线已交付 minigpt v0.1,铸剑线已交付 src/chat.ts v0.4;minigpt 五个文件分工与插头约定;python -m minigpt 一生五幕流水线与实测数字\">"
+    "body": "<p class=\"s1-recap\">透视窗里只摆实货,不预画路线——课程表主线走到哪,这张图重画到哪。搓丹线 <b>minigpt v0.1</b>(序章全清);铸剑线两件:<b>src/chat.ts v0.4</b>(CH2 聊天机器人:多轮记忆 + 流式打字机 + 退出记账)+ 网页分身 <b>site/mc/ v0.6</b>(右下角 💬 气泡唤起的对话框:流式聊天 + 多会话 + 记账 + Markdown 真排版,CH3 起工具等功能面板长在里面);图下半仍是 minigpt 的五个文件与一生五幕。</p>\n      <img class=\"fig\" loading=\"lazy\" src=\"svg/mc-map.svg\" alt=\"miniclaude 当前全貌:搓丹线已交付 minigpt v0.1,铸剑线已交付 src/chat.ts v0.4;minigpt 五个文件分工与插头约定;python -m minigpt 一生五幕流水线与实测数字\">"
   }
 }

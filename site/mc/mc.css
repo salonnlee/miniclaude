@@ -1,4 +1,4 @@
-/* mc/mc.css —— MiniClaude 网页对话框(v0.5)
+/* mc/mc.css —— MiniClaude 网页对话框(v0.6)
    ----------------------------------------------------------------------------
    右下角 💬 气泡 + 展开面板(浮窗 dock / 满屏 max 两档)+ 会话抽屉。
    变量在此兜底定义一遍(与 COURSE.css 同名同值):这对文件自成一体,
@@ -51,16 +51,39 @@
   padding:16px 14px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
 #mc-msgs::-webkit-scrollbar{width:8px}
 #mc-msgs::-webkit-scrollbar-thumb{background:#c9d2dd;border-radius:4px}
-.mc-m{max-width:86%;padding:8px 12px;border-radius:12px;font-size:13.5px;line-height:1.65;
+.mc-m{max-width:86%;padding:8px 12px;border-radius:12px;font-size:13.5px;line-height:1.65}
+.mc-user{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:4px;
   white-space:pre-wrap;word-break:break-word}
-.mc-user{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:4px}
-.mc-bot{align-self:flex-start;background:#fff;border:1px solid var(--border);border-bottom-left-radius:4px}
+.mc-bot{align-self:flex-start;background:#fff;border:1px solid var(--border);border-bottom-left-radius:4px;
+  overflow-wrap:break-word}
+/* 流式中的裸文本保持换行;完成后 markdown-it 出结构化 HTML,不再走 pre-wrap */
+.mc-bot .mc-txt{white-space:pre-wrap;word-break:break-word}
 .mc-bot pre{font-family:var(--mono);font-size:12px;line-height:1.6;background:var(--panel-2);
   border-radius:6px;padding:8px 10px;margin:6px 0;overflow-x:auto;white-space:pre;scrollbar-width:thin}
 .mc-bot pre::-webkit-scrollbar{height:8px}
 .mc-bot pre::-webkit-scrollbar-thumb{background:#c9d2dd;border-radius:4px}
 .mc-bot code{font-family:var(--mono);font-size:12.5px;background:var(--panel-2);padding:1px 5px;border-radius:4px}
 .mc-bot pre code{padding:0;background:none}
+/* ---------- markdown-it 渲染内容(v0.6):只作用于 bot 气泡 ---------- */
+.mc-bot p{margin:0 0 .5em}
+.mc-bot>*:last-child{margin-bottom:0}
+.mc-bot>*:first-child{margin-top:0}
+.mc-bot h1,.mc-bot h2,.mc-bot h3,.mc-bot h4,.mc-bot h5,.mc-bot h6{margin:.7em 0 .3em;line-height:1.4}
+.mc-bot h1{font-size:1.18em}
+.mc-bot h2{font-size:1.12em}
+.mc-bot h3{font-size:1.06em}
+.mc-bot h4,.mc-bot h5,.mc-bot h6{font-size:1em}
+.mc-bot ul,.mc-bot ol{margin:.4em 0;padding-left:1.4em}
+.mc-bot li{margin:.15em 0}
+.mc-bot table{display:block;border-collapse:collapse;margin:.55em 0;font-size:.95em;
+  max-width:100%;overflow-x:auto;scrollbar-width:thin}
+.mc-bot th,.mc-bot td{border:1px solid var(--border);padding:4px 9px;text-align:left;
+  white-space:nowrap} /* 不换行,宽表整表左右滑(与 C 台 SSE 一行一事件同款) */
+.mc-bot th{background:var(--tint-grey);font-weight:600}
+.mc-bot blockquote{margin:.5em 0;padding:.1em .9em;border-left:3px solid var(--border);color:var(--muted)}
+.mc-bot a{color:var(--accent)}
+.mc-bot hr{border:none;border-top:1px solid var(--border);margin:.8em 0}
+.mc-bot img{max-width:100%;border-radius:6px}
 .mc-cur{display:inline-block;width:2px;height:1em;background:var(--accent);vertical-align:-2px;
   margin-left:1px;animation:mc-blink 1s steps(2) infinite}
 @keyframes mc-blink{50%{opacity:0}}
@@ -77,6 +100,7 @@
 .mc-chip{font-size:12.5px;color:var(--text);background:#fff;border:1px solid var(--border);
   border-radius:999px;padding:6px 16px;cursor:pointer;max-width:100%}
 .mc-chip:hover{border-color:var(--accent);color:var(--accent);background:var(--tint-blue)}
+.mc-chip.dice{color:var(--muted);border-style:dashed}
 
 /* ---------- 记账条 + 输入区 ---------- */
 .mc-meter{flex:none;display:flex;justify-content:space-between;gap:8px;padding:5px 14px;
