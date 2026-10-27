@@ -1,8 +1,7 @@
-// v0.3 · 聊天机器人 —— CH2 实践第 3 步:流式 SSE
+// v0.4 · 聊天机器人 —— CH2 实践第 4 步:记账
 // 跑法:npm run chat(node 26 原生跑 TS,--env-file 读 .env,零运行时依赖)
-// 循环:读一行 → 连同全部历史发请求 → 打字机式打印回复 → 回复入历史。
-// 「记忆」仍是那个 messages 数组,变的只是回复怎么到屏幕上:
-// 非流式是等整封信寄到再读,流式是对方写一个词就念一个词。
+// 循环不变,新增:每轮从响应里捡 usage(输入/输出 token),退出时报总账。
+// 流式模式下 usage 挂在最后一个 chunk 的 usage 字段里,平时那些 chunk 没有。
 import * as readline from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
 
@@ -18,6 +17,12 @@ const messages: Array<{ role: string; content: string }> = [
 ];
 
 const API = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
+
+// 账本:整个会话累计的 token 数
+const usage = { prompt: 0, completion: 0 };
+
+// 智谱 GLM-4.6 定价(元 / 百万 token):https://open.bigmodel.cn — 2026-10 查
+const PRICE = { prompt: 4, completion: 14 };
 
 async function ask(history: Array<{ role: string; content: string }>) {
   const res = await fetch(API, {
@@ -42,6 +47,7 @@ async function ask(history: Array<{ role: string; content: string }>) {
   const decoder = new TextDecoder();
   let buf = '';
   let full = '';
+  let got = { prompt: 0, completion: 0 };
 
   while (true) {
     const { done, value } = await reader.read();
@@ -54,17 +60,20 @@ async function ask(history: Array<{ role: string; content: string }>) {
       buf = buf.slice(nl + 1);
       if (!line.startsWith('data:')) continue; // 注释行/空行,跳过
       const payload = line.slice(5).trim();
-      if (payload === '[DONE]') return full;
-      const delta = (JSON.parse(payload) as {
+      if (payload === '[DONE]') return { full, got };
+      const chunk = JSON.parse(payload) as {
         choices?: Array<{ delta?: { content?: string } }>;
-      }).choices?.[0]?.delta?.content;
+        usage?: { prompt_tokens?: number; completion_tokens?: number };
+      };
+      if (chunk.usage) got = { prompt: chunk.usage.prompt_tokens ?? 0, completion: chunk.usage.completion_tokens ?? 0 };
+      const delta = chunk.choices?.[0]?.delta?.content;
       if (delta) {
         full += delta;
         process.stdout.write(delta); // 打字机:来一个词念一个词
       }
     }
   }
-  return full; // 服务器没发 [DONE] 就断流,手上攒了多少算多少
+  return { full, got }; // 服务器没发 [DONE] 就断流,手上攒了多少算多少
 }
 
 const rl = readline.createInterface({ input, output });
@@ -83,8 +92,10 @@ while (true) {
   messages.push({ role: 'user', content: line });
   try {
     process.stdout.write('小c> ');
-    const reply = await ask(messages);
-    messages.push({ role: 'assistant', content: reply });
+    const { full, got } = await ask(messages);
+    messages.push({ role: 'assistant', content: full });
+    usage.prompt += got.prompt;
+    usage.completion += got.completion;
     process.stdout.write('\n\n');
   } catch (e) {
     console.error(`出错:${e instanceof Error ? e.message : e}\n`);
@@ -93,4 +104,5 @@ while (true) {
 }
 
 rl.close();
-console.log('再见。');
+const cost = (usage.prompt * PRICE.prompt + usage.completion * PRICE.completion) / 1_000_000;
+console.log(`再见。本场合计:输入 ${usage.prompt} + 输出 ${usage.completion} token,约 ¥${cost.toFixed(4)}`);
