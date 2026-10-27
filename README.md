@@ -15,10 +15,8 @@
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 
-# 2. 语料(data/ 不入库,可随时重新下载)
-mkdir -p data
-curl -fsSL -o data/input.txt https://cs.stanford.edu/people/karpathy/char-rnn/shakespeare_input.txt
-#   备用镜像:https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt
+# 2. 语料已随仓库附带(data/input.txt),无需任何下载;万一缺失再补:
+#    curl -fsSL -o data/input.txt https://cs.stanford.edu/people/karpathy/char-rnn/shakespeare_input.txt
 
 # 3. 听第一次心跳:一个只会查表的「复读机」
 .venv/bin/python prologue/01_bigram.py
