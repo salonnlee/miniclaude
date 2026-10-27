@@ -190,8 +190,9 @@ export const LESSONS = {
         [
           {
             "code": "CH2.1",
-            "name": "v0.1 · 聊天机器人",
-            "mark": "⏭ 下一站"
+            "name": "v0.4 · 聊天机器人",
+            "done": "2026-10-27（四步长成：脚手架 TS+Node → 非流式最小循环（记忆即 messages 数组）→ 流式 SSE（缓冲区攒换行才算一条事件，打字机逐词上屏）→ 记账（退出报 75+232 token≈¥0.0035））",
+            "tail": "—— npm run chat 可玩"
           },
           {
             "label": "知识点",
@@ -207,6 +208,11 @@ export const LESSONS = {
     "ch3": {
       "groups": [
         [
+          {
+            "code": "CH3.1",
+            "name": "工具调用",
+            "mark": "⏭ 下一站"
+          },
           {
             "label": "知识点",
             "text": "tool use 三步曲：声明工具（JSON Schema）→ 模型回 tool_use → 你执行后喂回 tool_result，循环到它不再要工具；附赠 ReAct 历史课"

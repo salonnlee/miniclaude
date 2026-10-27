@@ -12,6 +12,8 @@ var DAYS = [
   {
     "date": "2026-10-27",
     "items": [
+      "CH2《聊天机器人》完课：src/chat.ts 四步长成 v0.4——非流式最小循环（记忆=messages 数组）→流式 SSE 打字机→退出记账（token×定价）；npm run chat 可玩，lessons/README 同步。",
+      "course 服务器启动自动开浏览器：serve.mjs 按平台调 open/start/xdg-open，NO_OPEN=1 可跳过（排障/换端口用）。",
       "工程重构三连（CH2 开课前）：课程表整树迁 site/（git mv 保历史）；13 个全局 script 收成 main.js 单入口 ES Modules，加载顺序=import 顺序；服务端换装 Hono，守卫拦穿越与点文件——浏览器 DOM 与守卫双验，文档路径全同步。",
       "P0.4 全景卡入册：lessons.js 拆组（P0.4 单独一组）+ COURSE.html 补第四容器，卡位恢复「课次行→卡→知识点/总结」；七段正文×两图——抽签一步的旋钮图（分数→top-k 清场→÷T→softmax→抽签）+贪心死循环现场，温度三档小账对照。",
       "P0.4 完课状态全站同步：lessons.js P0.4 落 done、⏭下一站清零；mc-map 卡与 svg v0.0→v0.1；README/LEARNER 序章全清，P0.1 卡「P0.4 见」改「已验」。",
