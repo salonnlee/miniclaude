@@ -10,6 +10,38 @@ import { $id } from './shared.js';
 
 /* ================= A · 代码透视(段落与透视卡) ================= */
 
+/* 卡列跟随:幕折叠的 ::details-content 会劫持 sticky/fixed 的包含块(实测 fixed 钉到伪元素顶),
+   只剩绝对定位可靠——position:absolute 挂在网格上,滚动时重算 top */
+var pinSync = function () {};
+(function pin() {
+  var grid = document.querySelector('#chat-lab .cx-grid');
+  var card = grid.querySelector('.lab-box:last-child');
+  var code = grid.querySelector('.lab-box:first-child');
+  function sync() {
+    var wide = matchMedia('(min-width:900px)').matches;
+    var vh = innerHeight;
+    var gr = grid.getBoundingClientRect();
+    var cardH = card.offsetHeight;
+    /* 只有「网格比视口高、代码列比卡高」时才钉;其余时候各回各位 */
+    var need = wide && gr.height > vh && code.offsetHeight > cardH;
+    if (!need || gr.top > 12 || gr.bottom < 0) {
+      card.classList.remove('cx-stick');
+      card.style.width = card.style.left = card.style.top = '';
+      return;
+    }
+    var gridTop = gr.top + scrollY; /* 网格顶的文档坐标 */
+    var top = scrollY - gridTop + 12; /* 钉在视口顶 12px 处(网格坐标系) */
+    top = Math.min(top, grid.offsetHeight - cardH - 12); /* 网格快滚完时跟着往上滑 */
+    card.classList.add('cx-stick');
+    card.style.width = code.offsetWidth + 'px';
+    card.style.left = (code.getBoundingClientRect().right + 16 - gr.left) + 'px';
+    card.style.top = Math.max(0, top) + 'px';
+  }
+  pinSync = sync;
+  addEventListener('scroll', sync, { passive: true });
+  addEventListener('resize', sync);
+})();
+
 /* 五段代码与 src/chat.ts 逐字一致(精简版 v0.4,81 行) */
 var SEGS = [
   {
@@ -179,6 +211,7 @@ function hl(src) {
       if (r.top < 0 || r.bottom > innerHeight) {
         window.scrollTo(0, scrollY + r.top - (innerHeight - r.height) / 2);
       }
+      pinSync(); /* 卡高随段落变,钉住的位置要重算 */
     });
   });
   box.firstChild.click(); /* 默认展开第一段 */
@@ -188,6 +221,7 @@ function hl(src) {
     var full = $id('cx-code').classList.toggle('full');
     fold.classList.toggle('on', full);
     fold.textContent = full ? '⤡ 收起' : '⤢ 展开全部';
+    pinSync(); /* 代码列高变了,跟随模式可能要开关 */
   });
 })();
 

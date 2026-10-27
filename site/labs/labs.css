@@ -130,6 +130,10 @@
 /* ---------- #chat-lab chat.ts 透视台 ---------- */
 #chat-lab .cx-grid{grid-template-columns:1fr 1fr}
 #chat-lab .cx-grid>.lab-box{min-width:0} /* pre 代码 min-content 大,不压它会把卡列挤成窄条 */
+#chat-lab .cx-bgrid>.lab-box{min-width:0} /* B/C 台右栏 nowrap 事件同款坑 */
+#chat-lab .cx-grid .lab-box:last-child{max-height:calc(100vh - 32px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--accent) var(--panel)}
+#chat-lab .cx-grid{position:relative}
+#chat-lab .cx-stick{position:absolute;z-index:5;box-shadow:0 2px 12px rgba(0,0,0,.12)}
 #chat-lab .cx-code{font-family:var(--mono);font-size:11.5px;line-height:1.6;max-height:600px;overflow-y:auto;padding-right:4px;scrollbar-width:thin;scrollbar-color:var(--accent) var(--panel)}
 #chat-lab .cx-code.full{max-height:none}
 #chat-lab #cx-fold.on{border-color:var(--accent);color:var(--accent)}
@@ -150,7 +154,7 @@
 #chat-lab .cx-chunk{border-color:rgba(247,103,7,.4)}
 #chat-lab .cx-chunk.hot{background:rgba(247,103,7,.08)}
 #chat-lab .cx-buf .cx-pend{color:var(--accent-2)}
-#chat-lab .cx-evts{font-family:var(--mono);font-size:12px;line-height:1.5;max-height:150px;overflow-y:auto;display:flex;flex-direction:column;gap:4px}
+#chat-lab .cx-evts{font-family:var(--mono);font-size:12px;line-height:1.5;max-height:150px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;scrollbar-width:thin;scrollbar-color:var(--accent) var(--panel)}
 #chat-lab .cx-evt{padding:4px 8px;border-radius:6px;background:var(--panel);border:1px solid var(--border);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #chat-lab #cx-raw{max-height:320px}
 #chat-lab #cx-raw .cx-evt{white-space:normal;word-break:break-all;line-height:1.6;font-size:12.5px}
