@@ -12,6 +12,7 @@ var DAYS = [
   {
     "date": "2026-10-27",
     "items": [
+      "MiniClaude v0.7：流式实时排版——打字机每个增量过 markdown-it（rAF 节流一帧一渲），表格/代码块边流边成形；highlight.js（core+8 语言 esbuild 打 59KB 单文件 vendor）给围栏代码块上色，不认识的语言落回转义。",
       "MiniClaude v0.6：markdown-it v15 浏览器 ESM 整包 vendor 进 site/vendor/（html：false，模型吐的原始 HTML 按文字显示）替手写 rich()——表格/列表/标题真排版；开场问题库 100 条随机三问 + 🎲 换一批。",
       "一致性校验上线（scripts/consistency.mjs，pre-commit 第三道闸）：12 项机检——手写版本号残留、课次容器手写、ships 占位对位、实验室家数、chat.ts 行数声明、下一站指针、LEARNER 骨架过期、版本对齐、mc 配套资产、解剖/壳黑名单；负样本实测：塞回「交付 v0.9」当场拦下。",
       "v0.5 对话框补挂 mc.css：并行交付时样式文件漏了 link，💬 气泡漂在页面文档流里；COURSE.html head 补引后 fixed 钉回右下角（真机实测 right/bottom 20px）。",

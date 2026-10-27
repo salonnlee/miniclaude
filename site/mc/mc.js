@@ -1,13 +1,15 @@
-/* mc/mc.js —— MiniClaude v0.6 网页对话框
+/* mc/mc.js —— MiniClaude v0.7 网页对话框
    ----------------------------------------------------------------------------
    右下角气泡唤起的对话面板:流式打字机 + 多会话(localStorage 持久化)
-   + token 记账 + Markdown 真排版(markdown-it)+ 开场问题库随机三问。
+   + token 记账 + Markdown 真排版(markdown-it + highlight.js,流式中实时渲染)
+   + 开场问题库随机三问。
    前端 SSE 解析与 src/chat.ts 逐行同款——攒到换行才算一条事件;
    流式走 POST /api/chat(scripts/serve.mjs 代理,key 只住服务端)。
    system 提示词不进会话存储,发送时现拼——存储里只有真实对话。
    后续章节的功能面板(工具、文件树……)都长在这只面板里。 */
 
 import mdit from '../vendor/markdown-it.esm.min.mjs'; // 官方浏览器 ESM 整包(v15,vendored 进 site/vendor/)
+import hljs from '../vendor/hljs.esm.min.mjs'; // highlight.js(core+8 语言,同上 vendored)
 import { QUESTIONS } from './questions.js';
 
 var SYSTEM = '你是 MiniClaude,简洁直接的中文助手。';
@@ -56,7 +58,7 @@ function mount() {
       '<div id="mc-panel" class="dock" role="dialog" aria-label="MiniClaude 对话框">' +
       '  <div class="mc-head">' +
       '    <span class="mc-logo">💬</span><span class="mc-title">MiniClaude</span>' +
-      '    <span class="mc-ver">v0.6</span><span class="mc-dot"></span><span class="mc-grow"></span>' +
+      '    <span class="mc-ver">v0.7</span><span class="mc-dot"></span><span class="mc-grow"></span>' +
       '    <button class="mc-ico" id="mc-menu" aria-label="会话列表">☰</button>' +
       '    <button class="mc-ico" id="mc-max" aria-label="满屏 / 浮窗切换">⤢</button>' +
       '    <button class="mc-ico" id="mc-x" aria-label="收起">✕</button>' +
@@ -90,8 +92,19 @@ var esc = function (s) {
 };
 /* markdown-it 真排版(v0.6):表格/列表/标题/链接/引用全认,替掉旧版手写 rich() 的三个正则。
    html:false——模型输出的原始 HTML 一律按文字显示,防线语义与旧版「先转义」一脉相承;
-   breaks:true 单换行即换行(聊天手感);linkify 裸网址自动成链。 */
-var md = mdit({ html: false, breaks: true, linkify: true });
+   breaks:true 单换行即换行(聊天手感);linkify 裸网址自动成链;
+   highlight(v0.7):围栏代码块按语言交给 highlight.js,不认识的语言返回空串落回转义。 */
+var md = mdit({
+  html: false,
+  breaks: true,
+  linkify: true,
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try { return hljs.highlight(str, { language: lang }).value; } catch (e) { /* 高亮炸了就落回转义 */ }
+    }
+    return ''; // 空串 = markdown-it 自己转义
+  },
+});
 function rich(text) { return md.render(text); }
 
 function bubble(role, html) {
@@ -111,8 +124,8 @@ function pick3() {
 function hello() {
   msgs.append(el(
     '<div class="mc-hello">' +
-    '  <h4>MiniClaude v0.6</h4>' +
-    '  <p>铸剑线的网页分身——多轮记忆 + 流式打字机 + token 记账,<br>回复按完整 Markdown 排版,CH3 起在这里长工具。</p>' +
+    '  <h4>MiniClaude v0.7</h4>' +
+    '  <p>铸剑线的网页分身——多轮记忆 + 流式打字机 + token 记账,<br>回复边流边按 Markdown 排版、代码带高亮,CH3 起在这里长工具。</p>' +
     '  <div class="mc-chips"></div>' +
     '</div>'
   ));
@@ -145,17 +158,39 @@ function renderMsgs() {
   stick();
 }
 
-/* 流式中的 assistant 占位:纯 textContent 追加(天然防注入),完成后再换 rich 渲染 */
+/* 流式中的 assistant 占位:v0.7 起每个增量都过 md.render 实时排版——rAF 节流,
+   一帧最多渲一次;光标节点常驻内容尾部,done/fail 置 finished 让迟到的帧不再覆写 */
 function botStreaming() {
-  var m = el('<div class="mc-m mc-bot"><span class="mc-txt"></span><span class="mc-cur"></span></div>');
+  var m = el('<div class="mc-m mc-bot"></div>');
+  var cur = el('<span class="mc-cur"></span>');
+  m.append(cur);
   msgs.append(m);
   stick();
+  var pending = false;
   return {
     node: m,
     text: '',
-    update: function (t) { this.text = t; m.querySelector('.mc-txt').textContent = t; stick(); },
-    done: function (t) { m.querySelector('.mc-cur').remove(); m.innerHTML = rich(t); stick(); },
+    finished: false,
+    update: function (t) {
+      this.text = t;
+      if (pending || this.finished) return;
+      var self = this;
+      pending = true;
+      requestAnimationFrame(function () {
+        pending = false;
+        if (self.finished || !m.isConnected) return;
+        m.innerHTML = md.render(self.text);
+        m.append(cur);
+        stick();
+      });
+    },
+    done: function (t) {
+      this.finished = true;
+      m.innerHTML = md.render(t);
+      stick();
+    },
     fail: function (msg, note) {
+      this.finished = true;
       var e = el('<div class="' + (note ? 'mc-note' : 'mc-err') + '">' + esc(msg) + '</div>');
       m.replaceWith(e);
     },

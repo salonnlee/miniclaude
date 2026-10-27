@@ -56,14 +56,26 @@
   white-space:pre-wrap;word-break:break-word}
 .mc-bot{align-self:flex-start;background:#fff;border:1px solid var(--border);border-bottom-left-radius:4px;
   overflow-wrap:break-word}
-/* 流式中的裸文本保持换行;完成后 markdown-it 出结构化 HTML,不再走 pre-wrap */
-.mc-bot .mc-txt{white-space:pre-wrap;word-break:break-word}
 .mc-bot pre{font-family:var(--mono);font-size:12px;line-height:1.6;background:var(--panel-2);
   border-radius:6px;padding:8px 10px;margin:6px 0;overflow-x:auto;white-space:pre;scrollbar-width:thin}
 .mc-bot pre::-webkit-scrollbar{height:8px}
 .mc-bot pre::-webkit-scrollbar-thumb{background:#c9d2dd;border-radius:4px}
 .mc-bot code{font-family:var(--mono);font-size:12.5px;background:var(--panel-2);padding:1px 5px;border-radius:4px}
 .mc-bot pre code{padding:0;background:none}
+/* ---------- highlight.js 代码高亮(v0.7,github light 色系,作用域钉在 bot 气泡)---------- */
+.mc-bot pre code.hljs{display:block}
+.mc-bot .hljs-comment,.mc-bot .hljs-quote{color:#6e7781}
+.mc-bot .hljs-doctag,.mc-bot .hljs-keyword,.mc-bot .hljs-meta .hljs-keyword,.mc-bot .hljs-selector-tag,
+.mc-bot .hljs-template-tag,.mc-bot .hljs-template-variable,.mc-bot .hljs-type,.mc-bot .hljs-variable.language_{color:#cf222e}
+.mc-bot .hljs-title,.mc-bot .hljs-title.class_,.mc-bot .hljs-title.class_.inherited__,
+.mc-bot .hljs-title.function_{color:#8250df}
+.mc-bot .hljs-attr,.mc-bot .hljs-attribute,.mc-bot .hljs-literal,.mc-bot .hljs-meta,.mc-bot .hljs-number,
+.mc-bot .hljs-operator,.mc-bot .hljs-selector-attr,.mc-bot .hljs-selector-class,.mc-bot .hljs-selector-id,
+.mc-bot .hljs-variable{color:#0550ae}
+.mc-bot .hljs-meta .hljs-string,.mc-bot .hljs-regexp,.mc-bot .hljs-string{color:#0a3069}
+.mc-bot .hljs-built_in,.mc-bot .hljs-symbol{color:#e16f24}
+.mc-bot .hljs-addition{background:#dafbe1}
+.mc-bot .hljs-deletion{background:#ffebe9}
 /* ---------- markdown-it 渲染内容(v0.6):只作用于 bot 气泡 ---------- */
 .mc-bot p{margin:0 0 .5em}
 .mc-bot>*:last-child{margin-bottom:0}

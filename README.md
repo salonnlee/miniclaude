@@ -76,11 +76,12 @@ npm run typecheck   # tsc --noEmit
 │   │   └── lab-*.js          七家实验室:bigram 抽签台 / P0.4 MLP 调音台 / NN 内功合成台 /
 │   │                         3B 观影三台 / 3B7 卷积三台 / CH1 素颜相见 + messages 透视台 /
 │   │                         CH2 chat.ts 透视台(代码可点 × 透视卡 × 真机连线)
-│   ├── mc/                   MiniClaude 网页对话框(v0.6,产品本体):mc.js + mc.css +
+│   ├── mc/                   MiniClaude 网页对话框(v0.7,产品本体):mc.js + mc.css +
 │   │                         questions.js 开场问题库(100 条随机三问);右下角 💬 气泡唤起,
-│   │                         浮窗/满屏两档,流式 + 多会话 + token 记账 + markdown-it 真排版;
+│   │                         浮窗/满屏两档,流式实时 Markdown 排版 + 代码高亮 + 多会话 + token 记账;
 │   │                         自带变量兜底,引到任何页面都能活;CH3 起工具等功能面板长在这里
-│   ├── vendor/               第三方整包自管(无构建直 import):markdown-it v15 浏览器 ESM,MIT
+│   ├── vendor/               第三方整包自管(无构建直 import):markdown-it v15 浏览器 ESM(MIT)、
+│   │                         highlight.js v11 core+8 语言(BSD-3,esbuild 打 59KB 单文件)
 │   └── poster.svg / poster.png  3:4 极客风课程海报(SVG 里的光标会闪)
 ├── requirements.txt          Python 依赖(目前仅 numpy)
 ├── .env.example              API key 模板(cp 成 .env 填真实 key;真实 .env 永不入库)
@@ -114,4 +115,4 @@ npm run typecheck   # tsc --noEmit
 
 ## 📈 当前进度
 
-序章 P0.1 ✅ · P0.2 ✅(2026-10-23 内功回填后通关)· P0.3 ✅(2026-10-27 一次开课,MLP dev 1.95 双杀数数表 2.54 与 bigram 2.49,插值修补底牌 1.79 与「死于斜率」定性入册)· mini-gpt 落包 minigpt/(2026-10-27 三课重组,MLP dev 1.9555 复现)· P0.4 temperature ✅(2026-10-27,v0.1 调温与限签)—— 序章全清 | 支线·内功 NN1–NN4 ✅ 全清(2026-10-22,附连读大全景 + 实验室) | 支线·观影 3B1–3B7 ✅(3B1–3B4 附连读全景 + 实验室三台,3B7 附卷积三台:骰子滑动 × 滤镜像机 × 大数乘法)· 3B8 ✅(2026-10-26)· 3B9 事实储存(加更) ✅(2026-10-26 伴读,七段×五图×对账表)—— 支线·观影全清收官 | 拼图·Transformer T1 ✅(2026-10-23 全貌长文 + 四图)· T2–T4 ⏳ | 待学清单:傅里叶变换 ⏳ · 稀疏自编码器(SAE)⏳(只记录不开课) | 正文 CH1 ✅(2026-10-27,curl 素颜相见三连 + 实验室解锁)· CH2 ✅(2026-10-27,四步长出 src/chat.ts v0.4:非流式循环 → 流式 SSE 打字机 → 退出记账,npm run chat 可玩;精简至 81 行 + chat.ts 透视台 + /api/chat 流式代理)· MiniClaude v0.5 ✅(2026-10-27,主线间隙交付:右下角 💬 气泡网页对话框,流式 + 多会话 + 记账,后续章节功能长在这只面板里)· MiniClaude v0.6 ✅(2026-10-27,markdown-it 真排版 + 问题库 100 条随机三问)· CH3 ⏭ 下一站 · CH4–CH10 未开课 —— 实时状态以 **site/COURSE.html** 页面为准(数据源 site/content/lessons.js)。
+序章 P0.1 ✅ · P0.2 ✅(2026-10-23 内功回填后通关)· P0.3 ✅(2026-10-27 一次开课,MLP dev 1.95 双杀数数表 2.54 与 bigram 2.49,插值修补底牌 1.79 与「死于斜率」定性入册)· mini-gpt 落包 minigpt/(2026-10-27 三课重组,MLP dev 1.9555 复现)· P0.4 temperature ✅(2026-10-27,v0.1 调温与限签)—— 序章全清 | 支线·内功 NN1–NN4 ✅ 全清(2026-10-22,附连读大全景 + 实验室) | 支线·观影 3B1–3B7 ✅(3B1–3B4 附连读全景 + 实验室三台,3B7 附卷积三台:骰子滑动 × 滤镜像机 × 大数乘法)· 3B8 ✅(2026-10-26)· 3B9 事实储存(加更) ✅(2026-10-26 伴读,七段×五图×对账表)—— 支线·观影全清收官 | 拼图·Transformer T1 ✅(2026-10-23 全貌长文 + 四图)· T2–T4 ⏳ | 待学清单:傅里叶变换 ⏳ · 稀疏自编码器(SAE)⏳(只记录不开课) | 正文 CH1 ✅(2026-10-27,curl 素颜相见三连 + 实验室解锁)· CH2 ✅(2026-10-27,四步长出 src/chat.ts v0.4:非流式循环 → 流式 SSE 打字机 → 退出记账,npm run chat 可玩;精简至 81 行 + chat.ts 透视台 + /api/chat 流式代理)· MiniClaude v0.5 ✅(2026-10-27,主线间隙交付:右下角 💬 气泡网页对话框,流式 + 多会话 + 记账,后续章节功能长在这只面板里)· MiniClaude v0.6 ✅(2026-10-27,markdown-it 真排版 + 问题库 100 条随机三问)· MiniClaude v0.7 ✅(2026-10-27,流式实时排版 + highlight.js 代码高亮)· CH3 ⏭ 下一站 · CH4–CH10 未开课 —— 实时状态以 **site/COURSE.html** 页面为准(数据源 site/content/lessons.js)。
