@@ -27,6 +27,10 @@ def main():
     ap.add_argument("--model", choices=PRESETS, default="mlp", help="货架上的型号(默认 mlp)")
     ap.add_argument("--steps", type=int, default=None, help="训练步数(默认按型号出厂配方)")
     ap.add_argument("--chars", type=int, default=400, help="训练后采样的字符数")
+    ap.add_argument("--temperature", type=float, default=1.0,
+                    help="采样温度:<1 更稳,>1 更疯,0 = 贪心(默认 1.0 不调温)")
+    ap.add_argument("--top-k", type=int, default=0,
+                    help="只从分数前 k 名里抽签,0 = 不限(默认)")
     ap.add_argument("--seed", type=int, default=42, help="随机种子,换一个 = 换一次人生")
     args = ap.parse_args()
 
@@ -52,8 +56,10 @@ def main():
     dv = engine.evaluate(model, ds.ctx_dv, ds.tgt_dv, rng)
     print(f"\n[考卷] train {tr:.4f} | dev {dv:.4f}"
           f"  ← 对照 P0.3 实测:bigram dev 2.49 · MLP dev 1.95")
-    print(f"[训练后采样 {args.chars} 字] 嘴替成色:")
-    print(sample.generate(model, ds, args.chars))
+    print(f"[训练后采样 {args.chars} 字] 嘴替成色"
+          f"(T={args.temperature}{f', top-{args.top_k}' if args.top_k else ''}):")
+    print(sample.generate(model, ds, args.chars,
+                          temperature=args.temperature, top_k=args.top_k))
 
 
 if __name__ == "__main__":
