@@ -27,7 +27,7 @@ python3 -m venv .venv
 # 5. 铸剑线(Node ≥ 23,直接跑 TS,零运行时依赖):课程表本地起服务,不再裸开 html
 npm install
 npm run course      # → http://127.0.0.1:8080/
-npm run chat        # v0.1 聊天机器人(从 .env 读 GLM_API_KEY)
+npm run chat        # v0.4 聊天机器人(从 .env 读 GLM_API_KEY)
 npm run typecheck   # tsc --noEmit
 ```
 
