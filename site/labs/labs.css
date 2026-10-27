@@ -156,8 +156,8 @@
 #chat-lab .cx-buf .cx-pend{color:var(--accent-2)}
 #chat-lab .cx-evts{font-family:var(--mono);font-size:12px;line-height:1.5;max-height:150px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;scrollbar-width:thin;scrollbar-color:var(--accent) var(--panel)}
 #chat-lab .cx-evt{padding:4px 8px;border-radius:6px;background:var(--panel);border:1px solid var(--border);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#chat-lab #cx-raw{max-height:320px}
-#chat-lab #cx-raw .cx-evt{white-space:normal;word-break:break-all;line-height:1.6;font-size:12.5px}
+#chat-lab #cx-raw{max-height:320px;overflow:auto} /* 一行一事件,长行整列左右滑,不再 break-all 硬换行 */
+#chat-lab #cx-raw .cx-evt{white-space:pre;width:max-content;min-width:100%;box-sizing:border-box;font-size:12.5px;line-height:1.5}
 #chat-lab .cx-evt.evt-delta{color:var(--green);border-color:rgba(47,179,68,.35)}
 #chat-lab .cx-evt.evt-usage{color:#0553a3;border-color:rgba(6,111,209,.35)}
 #chat-lab .cx-evt.evt-done{color:var(--muted)}
