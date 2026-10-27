@@ -1,108 +1,81 @@
-// v0.4 · 聊天机器人 —— CH2 实践第 4 步:记账
-// 跑法:npm run chat(node 26 原生跑 TS,--env-file 读 .env,零运行时依赖)
-// 循环不变,新增:每轮从响应里捡 usage(输入/输出 token),退出时报总账。
-// 流式模式下 usage 挂在最后一个 chunk 的 usage 字段里,平时那些 chunk 没有。
+// v0.4 · 聊天机器人 —— 多轮记忆 + 流式打字机 + 退出记账
+// 跑法:npm run chat(node 26 原生跑 TS,key 住 .env 不进代码)
 import * as readline from 'node:readline/promises';
-import { stdin as input, stdout as output } from 'node:process';
 
 const KEY = process.env.GLM_API_KEY;
 if (!KEY) {
-  console.error('没读到 GLM_API_KEY —— 检查 .env 文件在不在、里面有没有这一行');
+  console.error('没读到 GLM_API_KEY —— 检查 .env');
   process.exit(1);
 }
 
-// 对话历史:整场对话的唯一状态。system 定人设,user/assistant 轮流长进来
-const messages: Array<{ role: string; content: string }> = [
-  { role: 'system', content: '你是小c,一个简洁、直接的中文助手。' },
-];
-
 const API = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
+const PRICE = { in: 4, out: 14 }; // 元 / 百万 token
+const messages = [{ role: 'system', content: '你是小c,简洁直接的中文助手。' }];
+const usage = { in: 0, out: 0 };
 
-// 账本:整个会话累计的 token 数
-const usage = { prompt: 0, completion: 0 };
-
-// 智谱 GLM-4.6 定价(元 / 百万 token):https://open.bigmodel.cn — 2026-10 查
-const PRICE = { prompt: 4, completion: 14 };
-
-async function ask(history: Array<{ role: string; content: string }>) {
+// 发全部历史,流式收回一段完整回复,顺手记账
+async function ask(): Promise<string> {
   const res = await fetch(API, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${KEY}` },
-    body: JSON.stringify({
-      model: 'glm-4.6',
-      messages: history,
-      max_tokens: 4096, // GLM-4.6 是思考型,给少了会被思考吃光导致空回复
-      stream: true,
-    }),
+    body: JSON.stringify({ model: 'glm-4.6', messages, max_tokens: 4096, stream: true }),
   });
-  if (!res.ok) {
-    throw new Error(`API ${res.status}:${await res.text()}`);
-  }
-  if (!res.body) throw new Error('响应没有 body');
+  if (!res.ok || !res.body) throw new Error(`API ${res.status}:${await res.text()}`);
 
-  // SSE 协议:服务器把事件一行行推,每行「data: {json}」,流结尾是「data: [DONE]」。
-  // 但网络分块(chunk)不守规矩——一个 chunk 可能半个事件、也可能仨事件,
-  // 所以先攒缓冲区,见到换行才算拿到一条完整事件
-  const reader = res.body.getReader();
-  const decoder = new TextDecoder();
-  let buf = '';
+  // SSE 分块不讲道理:一个 chunk 可能装半个事件、也可能仨——攒到换行才算拿到一条
+  const dec = new TextDecoder();
   let full = '';
-  let got = { prompt: 0, completion: 0 };
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    buf += decoder.decode(value, { stream: true });
-
-    let nl: number;
-    while ((nl = buf.indexOf('\n')) !== -1) {
+  let buf = '';
+  for await (const chunk of res.body) {
+    buf += dec.decode(chunk);
+    for (let nl = buf.indexOf('\n'); nl !== -1; nl = buf.indexOf('\n')) {
       const line = buf.slice(0, nl).trim();
       buf = buf.slice(nl + 1);
-      if (!line.startsWith('data:')) continue; // 注释行/空行,跳过
+      if (!line.startsWith('data:')) continue; // 空行,跳过
       const payload = line.slice(5).trim();
-      if (payload === '[DONE]') return { full, got };
-      const chunk = JSON.parse(payload) as {
-        choices?: Array<{ delta?: { content?: string } }>;
+      if (payload === '[DONE]') return full; // 流的终点
+      const c = JSON.parse(payload) as {
+        choices?: { delta?: { content?: string } }[];
         usage?: { prompt_tokens?: number; completion_tokens?: number };
       };
-      if (chunk.usage) got = { prompt: chunk.usage.prompt_tokens ?? 0, completion: chunk.usage.completion_tokens ?? 0 };
-      const delta = chunk.choices?.[0]?.delta?.content;
+      if (c.usage) {
+        usage.in += c.usage.prompt_tokens ?? 0; // 账单只挂在最后一个事件
+        usage.out += c.usage.completion_tokens ?? 0;
+      }
+      const delta = c.choices?.[0]?.delta?.content;
       if (delta) {
         full += delta;
         process.stdout.write(delta); // 打字机:来一个词念一个词
       }
     }
   }
-  return { full, got }; // 服务器没发 [DONE] 就断流,手上攒了多少算多少
+  return full; // 没等到 [DONE] 就断流:攒到多少算多少
 }
 
-const rl = readline.createInterface({ input, output });
-console.log('小c上线(exit 或 Ctrl-C 退出)');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+console.log('小c上线(exit 退出)');
 
 while (true) {
   let line: string;
   try {
     line = (await rl.question('你> ')).trim();
   } catch {
-    break; // stdin 关了(Ctrl-D / 管道 EOF),按退出处理
+    break; // Ctrl-D / 管道 EOF
   }
-  if (!line) continue;
   if (line === 'exit') break;
+  if (!line) continue;
 
   messages.push({ role: 'user', content: line });
   try {
     process.stdout.write('小c> ');
-    const { full, got } = await ask(messages);
-    messages.push({ role: 'assistant', content: full });
-    usage.prompt += got.prompt;
-    usage.completion += got.completion;
+    messages.push({ role: 'assistant', content: await ask() });
     process.stdout.write('\n\n');
   } catch (e) {
+    messages.pop(); // 失败这轮不入账,别留半截对话
     console.error(`出错:${e instanceof Error ? e.message : e}\n`);
-    messages.pop(); // 失败这轮不入账,历史别留半截对话
   }
 }
 
 rl.close();
-const cost = (usage.prompt * PRICE.prompt + usage.completion * PRICE.completion) / 1_000_000;
-console.log(`再见。本场合计:输入 ${usage.prompt} + 输出 ${usage.completion} token,约 ¥${cost.toFixed(4)}`);
+const cost = (usage.in * PRICE.in + usage.out * PRICE.out) / 1e6;
+console.log(`再见。合计输入 ${usage.in} + 输出 ${usage.out} token,约 ¥${cost.toFixed(4)}`);
