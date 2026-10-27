@@ -71,12 +71,12 @@ curl -fsSL -o data/input.txt https://cs.stanford.edu/people/karpathy/char-rnn/sh
 │   ├── 03_mlp.py             P0.3 前文加长:C 表 + MLP,dev 1.95 双杀数数表 2.54
 │   ├── 0X-notes.md           各课讲义 + 学员追问实录(01 / 02 / 03 已建,随课随写)
 │   └── python-for-js.md      JS 老手的 Python 速查卡(随课增补)
-├── minigpt/                  🔵 序章交付 · 迷你 GPT v0.0(散装三课重组落包,python -m minigpt
-│                             一条命令跑通一生;随课程演进:P0.4 接 temperature,T 区拼注意力)
+├── minigpt/                  🔵 序章交付 · 迷你 GPT v0.1(散装三课重组落包,python -m minigpt
+│                             一条命令跑通一生;随课程演进:T 区拼注意力)
 │   ├── data.py               语料 → 词表 → 窗口 → train/dev;窗口长度由模型报数,不再写死
 │   ├── models.py             模型货架:BigramLM / MLPLM——同一个插头,后续章节挂新货
 │   ├── engine.py             发动机:softmax + p − onehot 发令枪 + SGD,换模型不换发动机
-│   ├── sample.py             滑窗接龙采样(P0.4 的 temperature 将加在这里)
+│   ├── sample.py             滑窗接龙采样;temperature / top-k 旋钮拧在抽签一步(P0.4)
 │   └── __main__.py           CLI 入口:读语料 → 裸采样 → 训练 → 考试 → 采样
 ├── sidequest/                🧠 支线 · 内功(神经网络补课,应学员需求插班)
 │   ├── 01_learning_function.py  NN1 会学习的函数:旋钮 / loss / 数值梯度(纯标准库)
@@ -96,4 +96,4 @@ curl -fsSL -o data/input.txt https://cs.stanford.edu/people/karpathy/char-rnn/sh
 
 ## 📈 当前进度
 
-序章 P0.1 ✅ · P0.2 ✅(2026-10-23 内功回填后通关)· P0.3 ✅(2026-10-27 一次开课,MLP dev 1.95 双杀数数表 2.54 与 bigram 2.49,插值修补底牌 1.79 与「死于斜率」定性入册)· mini-gpt v0.0 落包 minigpt/(2026-10-27 三课重组,MLP dev 1.9555 复现,止步 temperature)· P0.4 ⏳ 下一站 | 支线·内功 NN1–NN4 ✅ 全清(2026-10-22,附连读大全景 + 实验室) | 支线·观影 3B1–3B7 ✅(3B1–3B4 附连读全景 + 实验室三台,3B7 附卷积三台:骰子滑动 × 滤镜像机 × 大数乘法)· 3B8 ✅(2026-10-26)· 3B9 事实储存(加更) ✅(2026-10-26 伴读,七段×五图×对账表)—— 支线·观影全清收官 | 拼图·Transformer T1 ✅(2026-10-23 全貌长文 + 四图)· T2–T4 ⏳ | 待学清单:傅里叶变换 ⏳(只记录不开课) | 正文 CH1–CH10 未开课 —— 实时状态以 **COURSE.html** 页面为准(数据源 content/lessons.js)。
+序章 P0.1 ✅ · P0.2 ✅(2026-10-23 内功回填后通关)· P0.3 ✅(2026-10-27 一次开课,MLP dev 1.95 双杀数数表 2.54 与 bigram 2.49,插值修补底牌 1.79 与「死于斜率」定性入册)· mini-gpt 落包 minigpt/(2026-10-27 三课重组,MLP dev 1.9555 复现)· P0.4 temperature ✅(2026-10-27,v0.1 调温与限签)—— 序章全清 | 支线·内功 NN1–NN4 ✅ 全清(2026-10-22,附连读大全景 + 实验室) | 支线·观影 3B1–3B7 ✅(3B1–3B4 附连读全景 + 实验室三台,3B7 附卷积三台:骰子滑动 × 滤镜像机 × 大数乘法)· 3B8 ✅(2026-10-26)· 3B9 事实储存(加更) ✅(2026-10-26 伴读,七段×五图×对账表)—— 支线·观影全清收官 | 拼图·Transformer T1 ✅(2026-10-23 全貌长文 + 四图)· T2–T4 ⏳ | 待学清单:傅里叶变换 ⏳(只记录不开课) | 正文 CH1–CH10 未开课 —— 实时状态以 **COURSE.html** 页面为准(数据源 content/lessons.js)。

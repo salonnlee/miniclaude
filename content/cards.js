@@ -14,7 +14,7 @@
 window.CARDS = {
   "b01-recap": {
     "title": "🧠 P0.1 全景（数数建表 × 查表抽签）",
-    "body": "          <p class=\"s1-recap\">P0.1 整课只干一件事：<b>用纯数数造出第一个会「说话」的模型</b>。bigram 的世界观：下一个字符只由当前这一个字符决定。训练 = 数数：把语料按相邻对配对 <code>zip(text, text[1:])</code>，<code>counts[prev][nxt] += 1</code> 记账，每行除以自己的总数归一化，得到 67 张概率表——真实语料里 <code>t</code> 后面接 <code>h</code> 的概率 33.5%、接空格 24.8%。</p>\n          <p class=\"s1-recap\">生成 = 查表抽签：从换行符开场，查 <code>probs[cur]</code>，<code>random.choices</code> 按概率抽下一个字符，追加并把 cur 换成它，循环 600 次，吐出满嘴莎翁味儿的胡话。</p>\n          <p class=\"s1-recap\">必修实验的教训：<b>贪心（每步只选概率最大的）会自锁</b>——要么掉进换行符自环坑（自环概率 18.6%，仍是 ⏎ 行的第一名），要么被 <code>␣→t→h→e</code> 循环圈吸走，这正是「temperature=0 时模型变复读机」的种子（P0.4 见）。</p>\n          <p class=\"s1-recap\">此刻的模型 = 无状态的查表函数，它「懂」的唯一东西是字符接续的频率——P0.2 要做的，就是把这张手工数出来的表，换成用梯度下降学出来的神经网络。</p>\n          <div class=\"s1-fig\">\n<img class=\"fig\" loading=\"lazy\" src=\"svg/b01-recap.svg\" alt=\"P0.1 知识点全景：左边是数数建表五步，右边是查表抽签循环与贪心自锁陷阱\">\n          </div>"
+    "body": "          <p class=\"s1-recap\">P0.1 整课只干一件事：<b>用纯数数造出第一个会「说话」的模型</b>。bigram 的世界观：下一个字符只由当前这一个字符决定。训练 = 数数：把语料按相邻对配对 <code>zip(text, text[1:])</code>，<code>counts[prev][nxt] += 1</code> 记账，每行除以自己的总数归一化，得到 67 张概率表——真实语料里 <code>t</code> 后面接 <code>h</code> 的概率 33.5%、接空格 24.8%。</p>\n          <p class=\"s1-recap\">生成 = 查表抽签：从换行符开场，查 <code>probs[cur]</code>，<code>random.choices</code> 按概率抽下一个字符，追加并把 cur 换成它，循环 600 次，吐出满嘴莎翁味儿的胡话。</p>\n          <p class=\"s1-recap\">必修实验的教训：<b>贪心（每步只选概率最大的）会自锁</b>——要么掉进换行符自环坑（自环概率 18.6%，仍是 ⏎ 行的第一名），要么被 <code>␣→t→h→e</code> 循环圈吸走，这正是「temperature=0 时模型变复读机」的种子（P0.4 已验：贪心死循环当场抓获）。</p>\n          <p class=\"s1-recap\">此刻的模型 = 无状态的查表函数，它「懂」的唯一东西是字符接续的频率——P0.2 要做的，就是把这张手工数出来的表，换成用梯度下降学出来的神经网络。</p>\n          <div class=\"s1-fig\">\n<img class=\"fig\" loading=\"lazy\" src=\"svg/b01-recap.svg\" alt=\"P0.1 知识点全景：左边是数数建表五步，右边是查表抽签循环与贪心自锁陷阱\">\n          </div>"
   },
   "p02-recap": {
     "title": "🧠 P0.2 全景（查表换成会学的函数 × 两行反传）",
@@ -89,6 +89,6 @@ window.CARDS = {
   },
   "mc-map": {
     "title": "🗺️ miniclaude 解剖 · 当前实况",
-    "body": "<p class=\"s1-recap\">解剖台只摆实货,不预画路线——课程表主线走到哪,这张图重画到哪。现在台上是序章交付的 <b>minigpt v0.0</b>:双线定位、五个文件、一生五幕,一张图看全;铸剑线(TypeScript 正文)开课之日,本图随交付长出第二块。</p>\n      <img class=\"fig\" loading=\"lazy\" src=\"svg/mc-map.svg\" alt=\"miniclaude 当前全貌:搓丹线已交付 minigpt v0.0,铸剑线未开工;minigpt 五个文件分工与插头约定;python -m minigpt 一生五幕流水线与实测数字\">"
+    "body": "<p class=\"s1-recap\">解剖台只摆实货,不预画路线——课程表主线走到哪,这张图重画到哪。现在台上是序章交付的 <b>minigpt v0.1</b>(序章全清):双线定位、五个文件、一生五幕,一张图看全;铸剑线(TypeScript 正文)开课之日,本图随交付长出第二块。</p>\n      <img class=\"fig\" loading=\"lazy\" src=\"svg/mc-map.svg\" alt=\"miniclaude 当前全貌:搓丹线已交付 minigpt v0.1,铸剑线未开工;minigpt 五个文件分工与插头约定;python -m minigpt 一生五幕流水线与实测数字\">"
   }
 }

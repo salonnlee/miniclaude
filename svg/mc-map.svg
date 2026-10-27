@@ -11,9 +11,9 @@
   <text x="114" y="100" font-size="9" fill="#667382" text-anchor="middle">三课板书:数数表→神经版→MLP</text>
   <line x1="204" y1="88" x2="226" y2="88" stroke="#667382" stroke-width="1.4" marker-end="url(#mcmg)"/>
   <rect x="228" y="66" width="216" height="44" rx="8" fill="rgba(6,111,209,.06)" stroke="rgba(6,111,209,.4)"/>
-  <text x="336" y="84" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">minigpt/ · v0.0 ✅</text>
+  <text x="336" y="84" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">minigpt/ · v0.1 ✅</text>
   <text x="336" y="100" font-size="9" fill="#667382" text-anchor="middle">模型侧交付物 · 2026-10-27</text>
-  <text x="480" y="82" font-size="10" fill="#667382">散装三课收拢成一个能继续长大的包:</text>
+  <text x="480" y="82" font-size="10" fill="#667382">散装三课收拢成一个能继续长大的包,序章全清:</text>
   <text x="480" y="98" font-size="10" fill="#667382">板书留在 prologue/,产品住进 minigpt/</text>
 
   <text x="24" y="134" font-size="11" font-weight="700" fill="#c2430c">🟠 铸剑线 · TypeScript(正文)</text>
@@ -45,7 +45,7 @@
   <rect x="535.5" y="252" width="150" height="64" rx="8" fill="#f8f9fc" stroke="#e6e7e9"/>
   <text x="610.5" y="270" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">sample.py</text>
   <text x="610.5" y="288" font-size="10" fill="#4b5158" text-anchor="middle">滑窗接龙采样</text>
-  <text x="610.5" y="304" font-size="9" fill="#667382" text-anchor="middle">抽签→拼窗→右移</text>
+  <text x="610.5" y="304" font-size="9" fill="#667382" text-anchor="middle">调温 T · 限签 top-k</text>
 
   <rect x="706" y="252" width="150" height="64" rx="8" fill="#f8f9fc" stroke="#e6e7e9"/>
   <text x="781" y="270" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">__main__.py</text>
@@ -80,7 +80,7 @@
 
   <rect x="706" y="406" width="150" height="56" rx="8" fill="rgba(6,111,209,.06)" stroke="rgba(6,111,209,.4)"/>
   <text x="781" y="428" font-size="10.5" font-weight="600" fill="#262626" text-anchor="middle">⑤ 采样</text>
-  <text x="781" y="446" font-size="9" fill="#667382" text-anchor="middle">400 字伪莎翁</text>
+  <text x="781" y="446" font-size="9" fill="#667382" text-anchor="middle">400 字 · 旋钮可调</text>
 
   <text x="24" y="496" font-size="10.5" font-weight="600" fill="#2fb344">一生一句话:dev 从 4.2048(均匀瞎猜的理论值 ln 67)走到 1.9555——P0.3 的 1.95 复现,12,739 个参数,全程 CPU</text>
   <text x="24" y="514" font-size="10" fill="#667382">同一台发动机换个插头:BigramLM 跑到 train 2.5022,与 P0.2 数数版 2.47 会师;采样从纯噪声进化到成形单词</text>
