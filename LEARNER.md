@@ -34,7 +34,7 @@
 
 - Intel Mac 无 GPU:**NumPy 手搓路线是定案,别试图装 PyTorch**;
 - 一律用 `.venv/bin/python` 运行(PEP 668 禁止直装系统 Python);
-- 语料 `data/input.txt` 不入库,README 有下载命令(斯坦佛镜像稳,GitHub raw 可能被重置);
+- 语料 `data/input.txt` 已入库(clone 即有);`.gitignore` 数据段已简化:data/ 默认入库,大件(超 ~10MB 或可重新下载/随机生成的)将来放 `assets/`;
 - API:key 在 `.env`(永不入库);`glm-4-flash` 不在套餐;GLM-4.6+ 思考型模型会吃 `max_tokens` 预算;
 - 每次提交前跑敏感扫描(hook 会自动拦,但手动再扫一遍是课程纪律)。
 
