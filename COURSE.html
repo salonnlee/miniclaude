@@ -9,7 +9,7 @@
 <script>
 /* 带 #区块 锚点打开/刷新时先藏内容(见 COURSE.css 的 html.cloak),
    由页尾脚本瞬时跳到目标位置后再显示——否则浏览器先画顶部一帧再恢复滚动,看起来闪一下 */
-if (/^#(arch|acts|miles|pact|tf|log)$/.test(location.hash)) {
+if (/^#(arch|acts|mc|miles|pact|tf|log)$/.test(location.hash)) {
   document.documentElement.classList.add('cloak');
   setTimeout(function () { document.documentElement.classList.remove('cloak'); }, 1500); // 保险:页尾脚本万一没跑也不至于白屏
 }
@@ -27,7 +27,7 @@ if (/^#(arch|acts|miles|pact|tf|log)$/.test(location.hash)) {
       <span class="chip update" id="hero-updated">更新于 2026-10-26</span>
     </div>
     <nav class="toc">
-      <a href="#arch">全景架构</a><a href="#acts">课程表</a><a href="#tf">Transformer 拼图</a><a href="#backlog">待学清单</a><a href="#miles">里程碑</a><a href="#pact">教学契约</a><a href="#log">更新记录</a>
+      <a href="#arch">全景架构</a><a href="#acts">课程表</a><a href="#tf">Transformer 拼图</a><a href="#mc">解剖 miniclaude</a><a href="#backlog">待学清单</a><a href="#miles">里程碑</a><a href="#pact">教学契约</a><a href="#log">更新记录</a>
     </nav>
   </div>
 </header>
@@ -145,7 +145,7 @@ if (/^#(arch|acts|miles|pact|tf|log)$/.test(location.hash)) {
       <details class="ch-recap" data-card="p03-panorama"></details>
       <ul class="ch-list tight-top" data-lessons="p0">
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver">交付 mini-gpt</span><span class="foot-chip">🔍 考点 · temperature=0 时它为什么变复读机？</span></div>
+      <div class="ch-foot"><span class="foot-chip ver">交付 v0.0 · minigpt/</span><span class="foot-chip">🔍 考点 · temperature=0 时它为什么变复读机？</span></div>
           <details class="ch-lab" id="bigram-lab">
         <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · bigram 工作原理 + 互动抽签台</summary>
         <div class="ch-lab-body">
@@ -619,9 +619,19 @@ if (/^#(arch|acts|miles|pact|tf|log)$/.test(location.hash)) {
   </details>
 </section>
 
+<!-- ================= 解剖 miniclaude ================= -->
+<section class="block" id="mc">
+  <div class="sec-kicker">04 / MINICLAUDE</div>
+  <h2 class="sec">解剖 miniclaude</h2>
+  <p class="sec-sub">与 Transformer 拼图互为镜像:那边把模型钉上拼图板,这边把正文要亲手写出的 miniclaude 钉上解剖台——项目结构一行一个器官,核心文件随各章交付逐块点亮、逐块挂代码走读。全景架构图(01 区)里的每个方框,落到这里都是一个真实文件。</p>
+  <ul class="ch-list" data-lessons="mc">
+  </ul>
+  <p class="tf-note">器官清单是路标:文件名与分工以各章开课定案为准,交付一版点亮一行,行内挂代码走读;⏳ = 还在图纸上。src/ 是正文 TypeScript 项目的家,铸剑线开工(第 2 章)那天起打地基。</p>
+</section>
+
 <!-- ================= 待学清单 ================= -->
 <section class="block" id="backlog">
-  <div class="sec-kicker">04 / BACKLOG</div>
+  <div class="sec-kicker">05 / BACKLOG</div>
   <h2 class="sec">待学清单</h2>
   <p class="sec-sub">不开课、不排期——想到什么记什么，一行一个知识点；哪条喊开课，哪条再立项挂卡。</p>
   <ul class="ch-list" data-lessons="backlog">
@@ -630,7 +640,7 @@ if (/^#(arch|acts|miles|pact|tf|log)$/.test(location.hash)) {
 
 <!-- ================= 里程碑 ================= -->
 <section class="block" id="miles">
-  <div class="sec-kicker">05 / MILESTONES</div>
+  <div class="sec-kicker">06 / MILESTONES</div>
   <h2 class="sec">里程碑</h2>
   <p class="sec-sub">每章一次 git commit，课程结束时 git log 就是你的学习编年史。</p>
   <div class="tbl-scroll">
@@ -653,7 +663,7 @@ if (/^#(arch|acts|miles|pact|tf|log)$/.test(location.hash)) {
 
 <!-- ================= 教学契约 ================= -->
 <section class="block pact" id="pact">
-  <div class="sec-kicker">06 / PACT</div>
+  <div class="sec-kicker">07 / PACT</div>
   <h2 class="sec">教学契约</h2>
   <p class="sec-sub">每章固定节奏：先教，后考，绝不突袭。</p>
   <ol>
@@ -667,7 +677,7 @@ if (/^#(arch|acts|miles|pact|tf|log)$/.test(location.hash)) {
 
 <!-- ================= 更新记录 ================= -->
 <section class="block" id="log">
-  <div class="sec-kicker">07 / LOG</div>
+  <div class="sec-kicker">08 / LOG</div>
   <h2 class="sec">更新记录</h2>
   <p class="sec-sub">一天不落，攒成这门课的编年史——天数与条数自动统计，最新一天默认展开。</p>
   <div id="course-log"></div>

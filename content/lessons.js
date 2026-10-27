@@ -12,6 +12,7 @@
    · 加课次      → 往对应章最后一组(或新起一组,新组需在 HTML 加一个空容器)末尾加一条。
    · 加待学条目  → backlog 组加一条,写法同课次行。
    · 拼图(T 区)  → done 即「已拼上」(sem: 'puzzle')。
+   · 解剖区(#mc) → 器官行:对应章交付即 done(备注记版本);文件名是路标,开课时定案。
 
    行字段:
    · done      'YYYY-MM-DD',可带全角括号备注;有 done 不写 mark
@@ -326,6 +327,78 @@ window.LESSONS = {
             "code": "T4",
             "name": "采样与温度：贪心、抽签与「创意」旋钮",
             "mark": "⏳ 待拼"
+          }
+        ]
+      ]
+    },
+    "mc": {
+      "groups": [
+        [
+          {
+            "code": "src/api.ts",
+            "name": "LLM 客户端:messages 历史、SSE 流式、token 计账",
+            "mark": "⏳",
+            "tail": "—— 第 1–2 章 · v0.1"
+          },
+          {
+            "code": "src/cli.ts",
+            "name": "入口:脚手架、API key 安全、多轮对话主循环",
+            "mark": "⏳",
+            "tail": "—— 第 2 章 · v0.1"
+          },
+          {
+            "code": "src/loop.ts",
+            "name": "Agent 循环:tool_use → 执行 → tool_result,转到它不再要工具",
+            "mark": "⏳",
+            "tail": "—— 第 3 章 · v0.2 · 心脏"
+          },
+          {
+            "code": "src/tools/registry.ts",
+            "name": "工具注册表:name + description + JSON Schema + execute,错误当结果返回",
+            "mark": "⏳",
+            "tail": "—— 第 4 章 · v0.2"
+          },
+          {
+            "code": "src/tools/fs.ts",
+            "name": "Read / Write / Edit / Glob / Grep——给它眼睛和手",
+            "mark": "⏳",
+            "tail": "—— 第 5 章 · v0.3"
+          },
+          {
+            "code": "src/tools/bash.ts",
+            "name": "child_process、超时截断、后台任务",
+            "mark": "⏳",
+            "tail": "—— 第 6 章 · v0.4"
+          },
+          {
+            "code": "src/permission.ts",
+            "name": "权限闸门:deny / ask / allow——提示词不是安全边界",
+            "mark": "⏳",
+            "tail": "—— 第 6 章 · v0.4"
+          },
+          {
+            "code": "src/context.ts",
+            "name": "上下文管理:system prompt 组装、自动压缩、项目记忆、prompt caching",
+            "mark": "⏳",
+            "tail": "—— 第 7 章 · v0.5"
+          },
+          {
+            "code": "src/ui.tsx",
+            "name": "Ink 终端 UI:流式 markdown、工具可视化、Esc 打断、diff 高亮",
+            "mark": "⏳",
+            "tail": "—— 第 8 章 · v0.6"
+          },
+          {
+            "code": "src/subagent.ts",
+            "name": "TodoWrite 外部化、子代理、Plan mode、slash commands、MCP",
+            "mark": "⏳",
+            "tail": "—— 第 9 章 · v0.7"
+          },
+          {
+            "code": "src/config.ts 等",
+            "name": "多模型路由与降级、成本遥测、hooks、沙箱、evals、打包发布",
+            "mark": "⏳",
+            "tail": "—— 第 10 章 · v1.0"
           }
         ]
       ]

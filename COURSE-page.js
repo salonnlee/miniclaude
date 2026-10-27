@@ -52,7 +52,7 @@
 })();
 
 (function () {
-  var secs = ['arch', 'acts', 'tf', 'miles', 'pact']
+  var secs = ['arch', 'acts', 'tf', 'mc', 'miles', 'pact']
     .map(function (id) { return document.getElementById(id); })
     .filter(Boolean);
   var ticking = false;
