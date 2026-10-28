@@ -20,7 +20,7 @@
     { a: ['tools', 'loop'], l: ['loop-tools'], t: 'tool_result 喂回循环——结果是给模型看的,不是给你看的' },
     { a: ['loop', 'llm'], l: ['loop-llm'], t: '带着新结果再问 LLM……循环往复,直到它不再要工具' },
     { a: ['ui', 'user'], l: ['ui-loop', 'user-ui'], t: '最终回答流式渲染——这一整套,就是第 3 章的 Agent 循环' },
-    { a: ['plugin'], l: [], t: '最底独立一件:📦 plugin 插件——集装箱(发行单位),把 skill/斜杠命令/hook/MCP 配置打包分发,不新增关系' }
+    { a: ['plugin'], l: [], t: '最底独立一件:📦 Plugin 插件——集装箱(发行单位),把 skill/斜杠命令/hook/MCP 配置打包分发,不新增关系' }
   ];
   var btn = document.getElementById('arch-btn');
   var ic = document.getElementById('arch-btn-ic');
