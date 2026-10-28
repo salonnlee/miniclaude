@@ -102,9 +102,12 @@ import { CARDS as C } from './content/cards.js';
           theme: 'base',
           themeVariables: {
             primaryColor: '#f8f9fc', primaryBorderColor: '#066fd1', primaryTextColor: '#262626',
-            lineColor: '#667382', fontSize: '13px', fontFamily: 'inherit'
+            lineColor: '#667382', fontSize: '13px',
+            fontFamily: '-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif'
           },
-          flowchart: { curve: 'basis' }
+          /* htmlLabels:false → 纯 SVG <text> 标签:foreignObject 里的 HTML 标签
+             会被页面全局 CSS(宽度/overflow 约束)裁字,SVG 文本不受牵连 */
+          flowchart: { curve: 'basis', htmlLabels: false, padding: 12 }
         });
         window.mermaid.run({ nodes: [el] });
       };
