@@ -253,7 +253,7 @@ export const LESSONS = {
             "code": "CH4.1",
             "name": "工具注册表与说明书工程",
             "done": "2026-10-28（闸门三件套一次落齐：validate.ts 手写迷你 Schema 校验——错误当结果喂回让模型自己改；eval 换 tokenizer+递归下降——恶意输入不是被拦，是无法表达，攻击样本 16/16 倒在门口；tools/index.ts 统一注册表——加工具零改主循环。AB 实验跳过：说明书改成「无论难易必须调用」则 10+3 必触发，共识免验）",
-            "tail": "—— npm run chat 可玩 · 说明书 A/B 玩法留作自选实验 · 全景卡已上：Tool 四件套逐件透视"
+            "tail": "—— npm run chat 可玩 · 说明书 A/B 玩法留作自选实验 · 全景卡已上：Tool 四件套逐件透视 · 加餐卡已上：tool → MCP 演化全景（execute 搬家，名片不变）"
           },
           {
             "label": "知识点",

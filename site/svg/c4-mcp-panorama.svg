@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 780">
+  <defs>
+    <marker id="c4mp" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#667382"/></marker>
+  </defs>
+
+  <text x="60" y="32" font-size="13" font-weight="600" fill="#262626">① 调 tool 与调 MCP：模型那段是同一条路</text>
+
+  <rect x="310" y="46" width="260" height="46" rx="10" fill="#fdf1e8" stroke="#f76707"/>
+  <text x="440" y="66" font-size="12.5" font-weight="600" fill="#f76707" text-anchor="middle">🎲 模型：只看得见名片</text>
+  <text x="440" y="84" font-size="10.5" fill="#667382" text-anchor="middle">name · description · 参数 schema</text>
+
+  <line x1="400" y1="92" x2="250" y2="126" stroke="#667382" stroke-width="1.6" marker-end="url(#c4mp)"/>
+  <line x1="480" y1="92" x2="630" y2="126" stroke="#667382" stroke-width="1.6" marker-end="url(#c4mp)"/>
+  <text x="285" y="108" font-size="9.5" fill="#667382" text-anchor="middle">{name, arguments}</text>
+  <text x="595" y="108" font-size="9.5" fill="#667382" text-anchor="middle">{name, arguments}</text>
+
+  <rect x="50" y="130" width="380" height="112" rx="10" fill="rgba(6,111,209,.05)" stroke="#066fd1"/>
+  <text x="240" y="158" font-size="12.5" font-weight="600" fill="#066fd1" text-anchor="middle">🖥 本地路：execute 与宿主同进程</text>
+  <text x="240" y="184" font-size="10.5" fill="#667382" text-anchor="middle">宿主查 TOOLS 注册表 → 直接函数调用</text>
+  <text x="240" y="204" font-size="10.5" fill="#667382" text-anchor="middle">同进程同语言，import 就能用——同步返回</text>
+  <text x="240" y="228" font-size="10" fill="#066fd1" text-anchor="middle">返回值包成 tool result 喂回上下文</text>
+
+  <rect x="450" y="130" width="380" height="112" rx="10" fill="rgba(47,179,68,.05)" stroke="rgba(47,179,68,.6)"/>
+  <text x="640" y="158" font-size="12.5" font-weight="600" fill="#2b8a3e" text-anchor="middle">🔌 MCP 路：execute 住别的进程</text>
+  <text x="640" y="184" font-size="10.5" fill="#667382" text-anchor="middle">握手 initialize → 要清单 tools/list → 递参数 tools/call</text>
+  <text x="640" y="204" font-size="10.5" fill="#667382" text-anchor="middle">JSON-RPC 2.0 信封：jsonrpc · id · method · params</text>
+  <text x="640" y="228" font-size="10" fill="#2b8a3e" text-anchor="middle">传输 stdio（子进程）或 HTTP（远端）；回信伪装成本地返回喂回</text>
+
+  <text x="440" y="264" font-size="10.5" fill="#667382" text-anchor="middle"><tspan fill="#f76707" font-weight="600">MCP 换掉的不是 tool，是 execute 住哪、怎么被调到</tspan>——模型到今天不知道 MCP 存在：协议怎么换，模型不用重新训练</text>
+  <text x="440" y="284" font-size="10.5" fill="#667382" text-anchor="middle">MCP 规格三角色：Host＝宿主（跑循环、管权限的 agent 程序）· client（宿主里管连接的部件，一连多）· server（工具进程）</text>
+
+  <text x="60" y="322" font-size="13" font-weight="600" fill="#262626">② 决策树：判据不是通不通用，是和宿主的信任模型绑多深</text>
+  <text x="440" y="346" font-size="10.5" fill="#667382" text-anchor="middle">工具的价值一半在执行逻辑、一半在权限判断——「要不要问用户」这套判断必须和宿主的权限模式长在一起，抽不出去</text>
+
+  <rect x="50" y="360" width="250" height="158" rx="10" fill="rgba(214,69,69,.05)" stroke="rgba(214,69,69,.5)"/>
+  <text x="175" y="386" font-size="12" font-weight="600" fill="#d64545" text-anchor="middle">⛔ 强耦合 → 留在进程内</text>
+  <text x="175" y="410" font-size="10.5" fill="#667382" text-anchor="middle">文件、命令、权限确认——宿主的命根子</text>
+  <text x="175" y="430" font-size="10.5" fill="#667382" text-anchor="middle">例 edit_file：价值一半在「改前要不要问」</text>
+  <text x="175" y="450" font-size="10.5" fill="#667382" text-anchor="middle">抽成 MCP 两条死路：权限搬进 server，</text>
+  <text x="175" y="470" font-size="10.5" fill="#667382" text-anchor="middle">宿主失控；留在 server 裸执行、每次回</text>
+  <text x="175" y="490" font-size="10.5" fill="#667382" text-anchor="middle">宿主确认，协议来回贵一个数量级</text>
+  <text x="175" y="510" font-size="10" fill="#f76707" text-anchor="middle">Read / Write / Bash 各家自造——骨架抄同一原型</text>
+
+  <rect x="315" y="360" width="250" height="158" rx="10" fill="rgba(47,179,68,.05)" stroke="rgba(47,179,68,.5)"/>
+  <text x="440" y="386" font-size="12" font-weight="600" fill="#2b8a3e" text-anchor="middle">✅ 纯领域功能 → 独立成 MCP</text>
+  <text x="440" y="410" font-size="10.5" fill="#667382" text-anchor="middle">例 GitHub server：查 issue、连数据库、</text>
+  <text x="440" y="430" font-size="10.5" fill="#667382" text-anchor="middle">操作 SaaS——宿主不可能也不该内置</text>
+  <text x="440" y="450" font-size="10.5" fill="#667382" text-anchor="middle">写一遍，Claude Code/Cursor/Zed 处处能接</text>
+  <text x="440" y="470" font-size="10.5" fill="#667382" text-anchor="middle">白送一道安全边界：server 自持凭证，</text>
+  <text x="440" y="490" font-size="10.5" fill="#667382" text-anchor="middle">宿主被攻破也拿不到 server 里存的 token</text>
+  <text x="440" y="510" font-size="10" fill="#f76707" text-anchor="middle">很多团队图的不只是复用，是这道墙</text>
+
+  <rect x="580" y="360" width="250" height="158" rx="10" fill="rgba(247,103,7,.05)" stroke="rgba(247,103,7,.5)"/>
+  <text x="705" y="386" font-size="12" font-weight="600" fill="#f76707" text-anchor="middle">⚖️ 中间地带 → 两头都有人做</text>
+  <text x="705" y="410" font-size="10.5" fill="#667382" text-anchor="middle">例 web 搜索：逻辑纯通用，但要花 key</text>
+  <text x="705" y="430" font-size="10.5" fill="#667382" text-anchor="middle">做成 server：key 住 server 里，宿主只管连</text>
+  <text x="705" y="450" font-size="10.5" fill="#667382" text-anchor="middle">同构小版：mc 实验室调真模型 API</text>
+  <text x="705" y="470" font-size="10.5" fill="#667382" text-anchor="middle">走服务端流式代理——key 只住服务端，</text>
+  <text x="705" y="490" font-size="10.5" fill="#667382" text-anchor="middle">页面代码永不碰</text>
+  <text x="705" y="510" font-size="10" fill="#f76707" text-anchor="middle">想不想自己管 key，决定它站哪头</text>
+
+  <text x="60" y="552" font-size="13" font-weight="600" fill="#262626">③ 演化四步 × 商店长在协议层</text>
+
+  <rect x="50" y="572" width="182" height="92" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="141" y="598" font-size="11" font-weight="600" fill="#262626" text-anchor="middle">2023 · 各家自造</text>
+  <text x="141" y="620" font-size="10" fill="#667382" text-anchor="middle">tool calling 消息格式统一，</text>
+  <text x="141" y="638" font-size="10" fill="#667382" text-anchor="middle">但工具互不通用</text>
+
+  <line x1="232" y1="618" x2="247" y2="618" stroke="#667382" stroke-width="1.6" marker-end="url(#c4mp)"/>
+
+  <rect x="249" y="572" width="182" height="92" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="340" y="598" font-size="11" font-weight="600" fill="#262626" text-anchor="middle">想接外部系统？</text>
+  <text x="340" y="620" font-size="10" fill="#667382" text-anchor="middle">唯一出路＝给宿主提 PR——外部</text>
+  <text x="340" y="638" font-size="10" fill="#667382" text-anchor="middle">需求驱动宿主迭代，架构拧了</text>
+
+  <line x1="431" y1="618" x2="446" y2="618" stroke="#667382" stroke-width="1.6" marker-end="url(#c4mp)"/>
+
+  <rect x="448" y="572" width="182" height="92" rx="10" fill="rgba(6,111,209,.05)" stroke="#066fd1"/>
+  <text x="539" y="598" font-size="11" font-weight="600" fill="#066fd1" text-anchor="middle">2024 末 · MCP</text>
+  <text x="539" y="620" font-size="10" fill="#667382" text-anchor="middle">「工具住哪、怎么连」标准化：</text>
+  <text x="539" y="638" font-size="10" fill="#667382" text-anchor="middle">execute 外包成协议</text>
+
+  <line x1="630" y1="618" x2="645" y2="618" stroke="#667382" stroke-width="1.6" marker-end="url(#c4mp)"/>
+
+  <rect x="647" y="572" width="183" height="92" rx="10" fill="rgba(47,179,68,.05)" stroke="rgba(47,179,68,.6)"/>
+  <text x="738" y="598" font-size="11" font-weight="600" fill="#2b8a3e" text-anchor="middle">分发层补最后一环</text>
+  <text x="738" y="620" font-size="10" fill="#667382" text-anchor="middle">MCP 服务器目录（商店形态）</text>
+  <text x="738" y="638" font-size="10" fill="#667382" text-anchor="middle">plugin 打包 skills/hooks/MCP</text>
+
+  <rect x="50" y="684" width="780" height="86" rx="10" fill="#f8f9fc" stroke="#e6e7e9"/>
+  <text x="440" y="710" font-size="10.5" fill="#667382" text-anchor="middle">商店形态：skill 是提示词，复制零风险 → 文件级商店；tool 是代码，装进谁家带谁家的安全责任 → 商店只能长在协议层</text>
+  <text x="440" y="732" font-size="10.5" fill="#667382" text-anchor="middle">名片对照：server 经 tools/list 递上来的，与本地 TOOLS 数组一字不差——模型看到的都是 JSON schema</text>
+  <text x="440" y="756" font-size="10.5" fill="#f76707" text-anchor="middle">挂向 CH6：spawn 执行没几行，难的全在「这条命令要不要先问用户」——那部分谁也替你写不了</text>
+</svg>
