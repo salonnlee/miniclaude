@@ -88,6 +88,36 @@ import { CARDS as C } from './content/cards.js';
     if (c) el.innerHTML = c.body;
   });
 
+  // —— mermaid 流程图懒渲染:卡 body 里的 <pre class="mermaid"> 在所在卡首次
+  //     展开时才动态加载 vendor/mermaid.umd.min.js(3.4MB 自包含,不进首屏)就地渲染;
+  //     主题钉课程表配色(蓝 #066fd1 代码侧 / 橙 #f76707 模型侧由 classDef 分色) ——
+  Array.prototype.forEach.call(document.querySelectorAll('.mermaid'), function (el) {
+    var host = el.closest('details');
+    var render = function () {
+      var s = document.createElement('script');
+      s.src = 'vendor/mermaid.umd.min.js';
+      s.onload = function () {
+        window.mermaid.initialize({
+          startOnLoad: false,
+          theme: 'base',
+          themeVariables: {
+            primaryColor: '#f8f9fc', primaryBorderColor: '#066fd1', primaryTextColor: '#262626',
+            lineColor: '#667382', fontSize: '13px', fontFamily: 'inherit'
+          },
+          flowchart: { curve: 'basis' }
+        });
+        window.mermaid.run({ nodes: [el] });
+      };
+      document.head.appendChild(s);
+    };
+    if (host && !host.open) {
+      host.addEventListener('toggle', function once() {
+        host.removeEventListener('toggle', once);
+        render();
+      }, { once: true });
+    } else render();
+  });
+
   // —— 章头徽章:<span data-badge="ch:key"></span> ——
   Object.keys(L.chBadges || {}).forEach(function (k) {
     Array.prototype.forEach.call(document.querySelectorAll('[data-badge="ch:' + k + '"]'), function (el) {

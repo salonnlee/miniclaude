@@ -70,7 +70,7 @@ npm run typecheck   # tsc --noEmit
 │   │   │                         加课次/交付版本只改这里
 │   ├── content/cards.js      卡片内容数据:全景卡/书单/T1 长文的 title+body,
 │   │                         COURSE-render.js 注入空占位(改卡文字只改这里)
-│   ├── svg/                  卡图独立文件(32 张,一卡一图或卡id-figN)——可单独点开预览
+│   ├── svg/                  卡图独立文件(37 张,一卡一图或卡id-figN)——可单独点开预览
 │   ├── labs/                 实验室资产(新增实验室 = 这里加一对文件 + main.js 挂一行 import)
 │   │   ├── labs.css          实验室通用底座(.lab-* 两栏网格/面板/滑条)+ 各台专属样式
 │   │   ├── shared.js         共用工具(ESM 导出):$id 取元素 / fmt 定点数 / chips 芯片组开关
@@ -82,7 +82,8 @@ npm run typecheck   # tsc --noEmit
 │   │                         浮窗/满屏两档,流式实时 Markdown 排版 + 代码高亮 + 多会话 + token 记账;
 │   │                         自带变量兜底,引到任何页面都能活;CH3 起工具等功能面板长在这里
 │   ├── vendor/               第三方整包自管(无构建直 import):markdown-it v15 浏览器 ESM(MIT)、
-│   │                         highlight.js v11 core+8 语言(BSD-3,esbuild 打 59KB 单文件)
+│   │                         highlight.js v11 core+8 语言(BSD-3,esbuild 打 59KB 单文件)、
+│   │                         mermaid v11 UMD(MIT,3.4MB,卡内流程图懒加载不进首屏)
 │   └── poster.svg / poster.png  3:4 极客风课程海报(SVG 里的光标会闪)
 ├── requirements.txt          Python 依赖(目前仅 numpy)
 ├── .env.example              API key 模板(cp 成 .env 填真实 key;真实 .env 永不入库)
