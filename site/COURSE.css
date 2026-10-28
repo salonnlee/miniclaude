@@ -136,6 +136,28 @@
   .hot.h-blue{background:var(--tint-blue)} .hot.h-blue b{color:var(--accent-deep)}
   .hot.h-org{background:var(--tint-orange)} .hot.h-org b{color:var(--accent-2-deep)}
   .layer.is-active .hot{border-color:rgba(6,111,209,.4)}
+  /* mod 徽章:热词卡上的「用户可写扩展件」标识 */
+  .hot .mod{align-self:flex-start;margin-top:3px;padding:1px 8px;border:1px dashed var(--accent);
+    border-radius:999px;font-size:10.5px;font-weight:600;color:var(--accent);background:#fff}
+  .layer-name .mod{display:inline-block;margin-left:6px;padding:1px 8px;border:1px dashed var(--accent);
+    border-radius:999px;font-size:10.5px;font-weight:600;color:var(--accent);background:#fff;vertical-align:1px}
+  /* 循环内五环节流程图:flex 换行,窄屏不裂版 */
+  .loop-flow{display:flex;flex-direction:column;gap:5px;margin-top:8px;padding:8px 10px;
+    border:1px solid var(--border);border-radius:var(--radius-s);background:#fff}
+  .lf-line{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px}
+  .lf-node{padding:4px 10px;border:1px solid var(--border);border-radius:var(--radius-s);
+    font-size:12px;font-weight:600;background:#fff;display:flex;flex-direction:column;gap:2px;
+    transition:border-color .25s,box-shadow .25s,background-color .25s}
+  .lf-node .lf-tag{font-size:10.5px;font-weight:400;color:var(--muted)}
+  .lf-arr{color:var(--muted);font-size:13px}
+  .lf-arr.lf-no{color:var(--accent-2-deep)}
+  .lf-node.lf-ask{border-color:rgba(247,103,7,.5)}
+  .lf-node.lf-exit{border-color:rgba(43,138,62,.55)}
+  .lf-node.lf-gate{border-color:rgba(214,69,69,.5)}
+  .lf-back{font-size:11px;color:var(--muted);padding:3px 10px;border:1px dashed var(--border);
+    border-radius:var(--radius-s);align-self:flex-start;transition:border-color .25s,color .25s}
+  .lf-node.is-active{border-color:rgba(6,111,209,.6);box-shadow:var(--ring);background:var(--tint-blue)}
+  .lf-back.is-active{border-color:rgba(6,111,209,.5);color:var(--accent)}
   .arch-plugin{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:22px;
     padding:10px 14px;border:1.5px dashed var(--border);border-radius:var(--radius-s);background:#fff;
     transition:border-color .25s,box-shadow .25s}

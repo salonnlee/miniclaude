@@ -12,6 +12,8 @@ var DAYS = [
   {
     "date": "2026-10-28",
     "items": [
+      "全景架构图 mod 体系定稿（课间讨论收册）：循环层新画五环节流程图（①组装→②问LLM→③要工具→④权限→⑤执行，tool_result 喂回①），workflow/subagent 进门点标在⑤、hook 挂点标在④与出口——hook 卡挪进循环层，斜杠命令新卡进上下文层，工具层 MCP 独守；七卡＋plugin 各挂🧩 mod 徽章（modification：官方留口子用户自己写）。播放器仍 11 步流程节点随步点亮；390px 无溢出；check 全绿。",
+      "CH7.1《上下文管理与压缩》完课：v1.2 context.ts 上线——system prompt 拼装（人设+环境快照+CLAUDE.md 项目记忆）、自动压缩（水位看 prompt token、老历史换摘要保尾部、切点撞 tool 边界推进）、cached_tokens 记账（智谱前缀缓存命中约五折计费）。压缩提示词摊在自己代码里，真实产品内置改不了。",
       "CH4 加餐全景卡 c4-mcp-panorama 上线（课间讨论收册）：tool → MCP——MCP 换掉的不是 tool，是 execute 住哪、怎么被调到，模型只见名片；决策树按「与宿主信任模型绑多深」分三档（强耦合留进程内、纯领域功能独立成 server、带 key 的中间地带两头都有人做）；演化四步（各家自造 → 提 PR 拧了 → MCP 标准化 → 目录与 plugin 分发）；顺手给「宿主」正名——MCP 规格书自己就叫 Host。",
       "CH6 全景卡 c6-panorama 上线：一条命令进门先过闸门（deny/allow/ask 三扇门＋判定顺序＋子命令粒度）、真机两幕（自建坏脚本自己修好——CH1 画的循环头一回完整转起来；evil.md 注入演练——模型层防御是概率，闸门才是保证）、三个真坑（整词边界被斜杠绕过、两个 readline 抢 stdin、「总是允许」只记逐字同条）。",
       "CH6.1《命令执行与安全闸门》完课：v1.1 bash 工具上线——spawn＋超时强杀 120s＋输出截断 30KB＋退出码如实报；permissions.ts 三扇门 deny/ask/allow，粒度到子命令（git status:* 放行、git push 要问），「本会话总是允许」只记逐字同条。确认流复用 chat.ts 的 rl——两个 readline 抢 stdin 会互吞输入行（管道测试当场撞见）。真机两幕：agent 自建语法错误的 count.mjs 自己跑出报错自己修好退出码 0；注入演练模型自认恶意注释并拒绝——模型层防御与闸门各守各的。后台任务留 CH8。",
