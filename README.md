@@ -56,7 +56,7 @@ npm run typecheck   # tsc --noEmit
 │   └── git/pre-commit        提交前两道闸:密钥扫描(文件名 + 内容)+ 一致性校验
 ├── src/                      🟠 正文 · 铸剑线主战场
 │   ├── chat.ts               v0.8 agent 循环(多轮+流式打字机+记账+工具调用三步曲,npm run chat)
-│   └── tools/                玩具工具注册表(get_time / calculator + Tool 统一形状 + validate 校验闸门)
+│   └── tools/                注册表出口(单一事实源在 site/mc/tools.js:改一处,CLI 与网页同时生效)
 ├── site/                     课程表整树(内部全相对路径引用,整树挪目录不断链)
 │   ├── COURSE.html           课程总中枢·纯结构骨架:幕/章节容器 + 实验室骨架 +
 │   │                         全景架构图 / 里程碑 / 教学契约;页尾只引一个 module 入口

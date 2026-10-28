@@ -3,8 +3,9 @@
    右下角气泡唤起的对话面板:流式打字机 + 多会话(localStorage 持久化)
    + token 记账 + Markdown 真排版(markdown-it + highlight.js,流式中实时渲染)
    + 开场问题库随机三问。
-   v0.9 起长出 agent 循环(与 src/chat.ts 同款):浏览器端工具注册表(mc/tools.js,
-   与 src/tools/ 同一张图纸)→ 模型回 tool_calls → 本地执行喂回 → 循环到它不再要;
+   v0.9 起长出 agent 循环(与 src/chat.ts 同款):工具柜(mc/tools.js,全项目
+   单一事实源,src/tools/index.ts 也 re-export 它)→ 模型回 tool_calls →
+   本地执行喂回 → 循环到它不再要;
    🔧 气泡直播每次工具调用。CLI 长什么能力,这只分身跟着长。
    前端 SSE 解析与 src/chat.ts 逐行同款——攒到换行才算一条事件;
    流式走 POST /api/chat(scripts/serve.mjs 代理,key 只住服务端,tools 字段只透传)。

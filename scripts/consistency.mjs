@@ -129,12 +129,25 @@ const tracked = execFileSync('git', ['ls-files'], { cwd: ROOT }).toString().trim
   .filter((f) => /\.(md|js|mjs|html|css|ts)$/.test(f) && !/^(site\/COURSE-LOG\.js|AGENTS\.md|scripts\/consistency\.mjs)$/.test(f));
 const banned = [];
 tracked.forEach((f) => {
+  if (!exists(f)) return; // 索引里的文件已被删但未 stage 时,跳过而不是炸(pre-commit 在 stage 后跑,此处兜底)
   const t = read(f);
   /解剖/.test(t) && banned.push(`${f}:「解剖」(全站口径用「透视」)`);
   // 「壳」只拦代称用法(带引号/agent 前缀);「卡壳」「神经元之壳」等正常词语放行
   /(「壳」|『壳』|“壳”|agent\s*壳)/.test(t) && banned.push(`${f}:「壳」代称(已弃用,直说 agent 程序)`);
 });
 check('口径黑名单(解剖/壳)零残留', banned.length === 0, banned.join('; '));
+
+// 12. 工具柜单一事实源(v0.9 后定规):实现只许住 site/mc/tools.js 一处,
+//     src/tools/ 只剩 re-export 出口——改一处,CLI 与网页分身同时生效
+{
+  const srcTools = execFileSync('git', ['ls-files', 'src/tools'], { cwd: ROOT }).toString().trim().split('\n').filter(Boolean);
+  const badSrc = srcTools.filter((f) => f !== 'src/tools/index.ts');
+  const reexportOk = srcTools.includes('src/tools/index.ts') && read('src/tools/index.ts').includes('site/mc/tools.js');
+  check('工具柜单一事实源(src/tools 只剩 re-export 出口,实现在 site/mc/tools.js)',
+    badSrc.length === 0 && reexportOk && read('site/mc/mc.js').includes("from './tools.js'"),
+    [badSrc.length ? `src/tools/ 里混入实现文件:${badSrc.join(', ')}(挪去 site/mc/tools.js)` : '',
+     reexportOk ? '' : 'src/tools/index.ts 必须 re-export site/mc/tools.js'].filter(Boolean).join('; '));
+}
 
 // —— 汇总 ——
 oks.forEach((n) => console.log('  ✓ ' + n));

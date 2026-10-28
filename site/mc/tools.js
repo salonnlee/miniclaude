@@ -1,9 +1,10 @@
-/* mc/tools.js —— MiniClaude v0.9 浏览器端工具注册表
+/* mc/tools.js —— 工具柜 · 单一事实源(v0.9 后定规)
    ----------------------------------------------------------------------------
-   与 src/tools/ 同一张图纸、两端开工:Tool 形状(name/description/parameters
-   发给模型,execute 留在本地)一样,校验器和安全求值器一比一手抄——
-   CLI 端长出什么能力,这只网页分身跟着长什么(一起演进的落点)。
-   区别只在执行地:src/ 在 Node,mobile 这里在浏览器沙箱里,谁也碰不到谁。 */
+   全项目的工具只此一份:裸 ESM、零平台依赖(只用 Date 和纯计算),
+   浏览器(mc.js)与 Node(src/tools/index.ts re-export 给 chat.ts)都 import 这里。
+   教学演进改这一处,CLI 与网页分身同时生效——不是约定,是 import 的保证。
+   Tool 形状:name/description/parameters 发给模型,execute 留在本地。
+   新工具 = 本文件加一个定义 + TOOLS 数组添一行,两端的壳一行不用动。 */
 
 var getTime = {
   name: 'get_time',
