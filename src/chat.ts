@@ -1,7 +1,7 @@
 // v0.8 · agent 循环 —— 聊天 + 工具调用(声明 → tool_use → 执行喂回 → 循环到它不再要)
 // 跑法:npm run chat(node 26 原生跑 TS,key 住 .env 不进代码)
 import * as readline from 'node:readline/promises';
-import { TOOLS } from './tools/index.ts';
+import { TOOLS, validate } from './tools/index.ts';
 
 const KEY = process.env.GLM_API_KEY;
 if (!KEY) {

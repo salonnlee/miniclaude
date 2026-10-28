@@ -34,6 +34,7 @@ export const LESSONS = {
     { "ver": "v0.7", "what": "对话框再升级——流式实时排版 + 代码高亮", "range": "主线间隙" },
     { "at": "ch3", "ver": "v0.8", "chip": "交付 v0.8 · src/chat.ts + tools/", "what": "会调工具的 Agent 循环(玩具工具)", "range": "第 3–4 章" },
     { "ver": "v0.9", "what": "对话框长出工具调用——浏览器端 agent 循环 + 🔧 工具气泡,与 CLI 同一张图纸", "range": "主线间隙" },
+  { "at": "ch5", "ver": "v1.0", "chip": "交付 v1.0 · src/tools/fs.ts", "what": "文件读写三件——agent 开始碰真文件(截断/二进制检测/精确替换)", "range": "第 5 章" },
     { "ver": null, "what": "读写你的代码,自己发现并修好 bug", "range": "第 5 章" },
     { "ver": null, "what": "跑命令,且有安全闸门", "range": "第 6 章" },
     { "ver": null, "what": "长任务不失忆,懂省钱", "range": "第 7 章" },
@@ -270,7 +271,8 @@ export const LESSONS = {
           {
             "code": "CH5.1",
             "name": "文件读写工具",
-            "mark": "⏭ 下一站"
+            "done": "2026-10-28（三件一次落齐：read_file 截断 2000 行+二进制魔数检测+行号输出；write_file 自动建目录带落盘回报；edit_file 精确字符串替换——零处/多处都当结果喂回。平台分层定规：浏览器碰不了文件系统，共享底座照旧 site/mc/tools.js，文件三件住 Node 侧 fs.ts push 进 TOOLS，浏览器视角纯净已验。真机验收：agent 自建 todo.md+count.mjs 分毫不差，如实报告「没有跑命令的工具」——闭环差的那环正是 CH6 的 Bash）",
+            "tail": "—— npm run chat 可玩 · 顺手逮住 v0.9 重构漏 import validate 的真 bug（验收仪式充当了免费测试）"
           },
           {
             "label": "知识点",
@@ -286,6 +288,11 @@ export const LESSONS = {
     "ch6": {
       "groups": [
         [
+          {
+            "code": "CH6.1",
+            "name": "命令执行与安全闸门",
+            "mark": "⏭ 下一站"
+          },
           {
             "label": "知识点",
             "text": "child_process、超时与输出截断、后台任务；prompt injection 攻击面；deny / ask / allow 与 Bash(git:*) 规则；提示词不是安全边界"

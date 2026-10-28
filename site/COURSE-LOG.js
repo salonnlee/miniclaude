@@ -12,6 +12,8 @@ var DAYS = [
   {
     "date": "2026-10-28",
     "items": [
+      "CH5.1《文件读写工具》完课：v1.0 文件三件（read/write/edit）上线——截断 2000 行＋二进制魔数检测＋行号输出、精确字符串替换零处/多处都当结果喂回；平台分层定规：浏览器碰不了文件系统，共享底座照旧 mc/tools.js，文件三件住 Node 侧 fs.ts push 进 TOOLS（浏览器视角纯净已验）。",
+      "验收仪式立功：agent 首跑工具全报「validate is not defined」，顺藤逮住 v0.9 单一事实源重构漏改 chat.ts import 的真 bug——修一行重跑，agent 自建 todo.md＋count.mjs 分毫不差，还如实报告「没有跑命令的工具」（那正是 CH6 的 Bash）；lesson 知识点「搜索而非通读」留作 grep 工具的后续课时。",
       "架构图热词定稿（学员五点＋一改）：撤插槽排与壳带，热词卡片直接长进老位置——workflow/subagent 进循环体内、skill/memory 进上下文、MCP/hook 进工具层（保留 emoji＋名字＋描述的卡片样式）；plugin 独立成最底一条虚线集装箱带（只打包分发不新增关系）；#mc 剖析区热词对号表撤下。播放器十二步收十一步。",
       "全景架构图吃下热词总关系图（学员令）：主板下沿新增插槽排七件——MCP/plugin/workflow/subagent/hook（蓝·代码侧）＋skill/memory（橙·内容侧），最底壳带三副（Claude Code/OpenClaw/WorkBuddy，心脏一颗壳三副）；播放器十步扩成十二步，词是新的，插的位置全是老位置。",
       "架构定规（学员令：只改一处，两边生效）：工具柜单一事实源 = site/mc/tools.js（裸 ESM 零平台依赖），src/tools/ 只剩 index.ts re-export；agent 循环两端的壳不合并（stdout 与 DOM 各薄各的），会长的是工具柜。consistency.mjs 增第 13 项机检防倒退。",

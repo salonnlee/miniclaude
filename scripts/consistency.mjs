@@ -137,16 +137,20 @@ tracked.forEach((f) => {
 });
 check('口径黑名单(解剖/壳)零残留', banned.length === 0, banned.join('; '));
 
-// 12. 工具柜单一事实源(v0.9 后定规):实现只许住 site/mc/tools.js 一处,
-//     src/tools/ 只剩 re-export 出口——改一处,CLI 与网页分身同时生效
+// 12. 工具柜单一事实源(v0.9 后定规,CH5 放宽平台专属例外):
+//     平台无关的实现只许住 site/mc/tools.js 一处——改一处,CLI 与网页分身同时生效;
+//     src/tools/ 允许 index.ts(re-export 出口)+ fs.ts(Node 专属文件三件,push 进 TOOLS 注册)
 {
   const srcTools = execFileSync('git', ['ls-files', 'src/tools'], { cwd: ROOT }).toString().trim().split('\n').filter(Boolean);
-  const badSrc = srcTools.filter((f) => f !== 'src/tools/index.ts');
+  const badSrc = srcTools.filter((f) => !['src/tools/index.ts', 'src/tools/fs.ts'].includes(f));
   const reexportOk = srcTools.includes('src/tools/index.ts') && read('src/tools/index.ts').includes('site/mc/tools.js');
-  check('工具柜单一事实源(src/tools 只剩 re-export 出口,实现在 site/mc/tools.js)',
-    badSrc.length === 0 && reexportOk && read('site/mc/mc.js').includes("from './tools.js'"),
-    [badSrc.length ? `src/tools/ 里混入实现文件:${badSrc.join(', ')}(挪去 site/mc/tools.js)` : '',
-     reexportOk ? '' : 'src/tools/index.ts 必须 re-export site/mc/tools.js'].filter(Boolean).join('; '));
+  const fsOk = !srcTools.includes('src/tools/fs.ts')
+    || (read('src/tools/fs.ts').includes("from '../../site/mc/tools.js'") && read('src/tools/index.ts').includes('registerFsTools'));
+  check('工具柜单一事实源(共享实现在 site/mc/tools.js;src/tools 只许出口+fs.ts 例外)',
+    badSrc.length === 0 && reexportOk && fsOk && read('site/mc/mc.js').includes("from './tools.js'"),
+    [badSrc.length ? `src/tools/ 里混入实现文件:${badSrc.join(', ')}(挪去 site/mc/tools.js;平台专属住 fs.ts)` : '',
+     reexportOk ? '' : 'src/tools/index.ts 必须 re-export site/mc/tools.js',
+     fsOk ? '' : 'fs.ts 必须 import 底座 TOOLS 并由 index.ts 调 registerFsTools() 注册'].filter(Boolean).join('; '));
 }
 
 // —— 汇总 ——
