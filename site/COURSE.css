@@ -80,7 +80,7 @@
     transition:background-color .15s}
   .arch-btn:hover{background:var(--accent-deep)}
   .arch-cap{flex:1 1 240px;min-width:0;font-size:14px;color:var(--text)}
-  .arch-stack{max-width:640px;margin:0 auto}
+  .arch-stack{max-width:860px;margin:0 auto}
   .layer{display:flex;align-items:center;gap:12px;padding:10px 14px;border:1px solid var(--border);
     border-radius:var(--radius-s);background:#fff;transition:border-color .25s,background-color .25s,box-shadow .25s}
   .icon-box{flex:0 0 auto;width:34px;height:34px;border-radius:var(--radius-s);display:flex;align-items:center;
@@ -107,7 +107,7 @@
   .row-loop{display:flex;align-items:stretch}
   .row-loop .grow{flex:1 1 auto}
   .hlink{flex:0 0 auto;width:16px;align-self:center;height:2px;background:var(--border)}
-  .row-loop .side{flex:0 0 190px}
+  .row-loop .side{flex:0 0 260px}
   .branch{position:relative;height:46px}
   .stub-top{position:absolute;left:calc(50% - 1px);top:0;height:15px;width:2px;background:var(--border)}
   .branch-h{position:absolute;top:15px;left:calc(25% - 1px);width:50%;height:2px;background:var(--border)}
@@ -127,37 +127,31 @@
     font-size:12px;transition:border-color .25s,color .25s}
   .gate.is-active{border-color:rgba(6,111,209,.55);color:var(--accent)}
 
-  /* ---------- architecture · 插槽排与壳带(热词总关系图整合) ---------- */
-  .arch-slots{margin-top:26px}
-  .slots-rail{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;border-top:2px solid var(--border);
-    transition:border-color .25s}
-  .slot{position:relative;display:flex;flex-direction:column;gap:1px;margin-top:12px;padding:6px 10px;
-    border-radius:var(--radius-s);border:1px solid var(--border);background:#fff;
-    transition:border-color .25s,background-color .25s,box-shadow .25s}
-  .slot::before{content:"";position:absolute;top:-13px;left:16px;width:2px;height:11px;background:var(--border);
-    transition:background-color .25s}
-  .slot b{font-weight:600;font-size:12.5px}
-  .slot > span{font-size:11.5px;color:var(--muted)}
-  .slot.s-blue{background:var(--tint-blue)} .slot.s-blue b{color:var(--accent-deep)}
-  .slot.s-org{background:var(--tint-orange)} .slot.s-org b{color:var(--accent-2-deep)}
-  .arch-slots.is-active .slots-rail{border-top-color:var(--accent)}
-  .arch-slots.is-active .slot{border-color:rgba(6,111,209,.45);box-shadow:var(--ring)}
-  .arch-slots.is-active .slot::before{background:var(--accent)}
-  .slots-note{margin-top:8px;font-size:12px;color:var(--muted)}
-  .arch-shells{margin-top:24px}
-  .shells-bracket{text-align:center;font-size:12px;color:var(--muted);padding-bottom:8px}
-  .shells-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-  .shell{display:flex;flex-direction:column;gap:1px;padding:6px 12px;border-radius:var(--radius-s);
+  /* ---------- architecture · 热词胶囊入层与 plugin 集装箱(热词总关系图整合) ---------- */
+  .hot-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .hot{display:flex;flex-direction:column;gap:1px;flex:1 1 130px;padding:6px 10px;border-radius:var(--radius-s);
     border:1px solid var(--border);background:#fff;transition:border-color .25s,background-color .25s,box-shadow .25s}
-  .shell b{font-weight:600;font-size:12.5px}
-  .shell span{font-size:11.5px;color:var(--muted)}
-  .shell.is-home{border-color:rgba(6,111,209,.55);background:var(--tint-blue)}
-  .shell.is-home b{color:var(--accent-deep)}
-  .arch-shells.is-active .shell{border-color:rgba(6,111,209,.45);box-shadow:var(--ring)}
+  .hot b{font-weight:600;font-size:12px}
+  .hot > span{font-size:11px;color:var(--muted)}
+  .hot.h-blue{background:var(--tint-blue)} .hot.h-blue b{color:var(--accent-deep)}
+  .hot.h-org{background:var(--tint-orange)} .hot.h-org b{color:var(--accent-2-deep)}
+  .layer.is-active .hot{border-color:rgba(6,111,209,.4)}
+  .arch-plugin{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:22px;
+    padding:10px 14px;border:1.5px dashed var(--border);border-radius:var(--radius-s);background:#fff;
+    transition:border-color .25s,box-shadow .25s}
+  .plugin-head{display:flex;align-items:center;gap:12px}
+  .plugin-items{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}
+  .p-item{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border:1px solid var(--border);
+    border-radius:999px;font-size:11.5px;background:#fff}
+  .p-item .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+  .d-blue{background:var(--accent)} .d-org{background:var(--accent-2)}
+  .arch-plugin.is-active{border-color:rgba(6,111,209,.5);box-shadow:var(--ring)}
+  .arch-plugin.is-active .icon-box{color:var(--accent)}
   @media (max-width:620px){
     .row-loop{flex-wrap:wrap} .hlink{display:none}
     .row-loop .side{flex:1 1 100%;margin-top:6px}
-    .slot{flex:1 1 calc(50% - 6px)} .shell{flex:1 1 100%}
+    .cols{grid-template-columns:1fr}
+    .plugin-items{margin-left:0}
     .hero h1{font-size:30px} .chip.update{margin-left:0}
     section.block{padding:20px 18px 18px}
   }

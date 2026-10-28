@@ -1,7 +1,7 @@
 /* COURSE-page.js —— 课程总表页级行为(与 COURSE.html 同目录,相对路径引入)
    ----------------------------------------------------------------------------
    两段互不相关:
-   ① 全景架构图播放器——#arch 区「播放:一次请求的旅程」按钮,十二步点亮:Agent 循环 + 热词插槽排 + 三副壳;
+   ① 全景架构图播放器——#arch 区「播放:一次请求的旅程」按钮,十一步点亮:Agent 循环(热词长在层里) + plugin 集装箱;
    ② 锚点滚动联动——URL 的 #锚点 随滚动实时同步(replaceState,不写历史记录),
      刷新即可回到当前区块;滚回顶部自动清掉锚点。
      ③ 右上角快捷导航——hero 滚出视口后浮现,链接与当前区块哈希联动高亮,↑ 回顶部。
@@ -20,8 +20,7 @@
     { a: ['tools', 'loop'], l: ['loop-tools'], t: 'tool_result 喂回循环——结果是给模型看的,不是给你看的' },
     { a: ['loop', 'llm'], l: ['loop-llm'], t: '带着新结果再问 LLM……循环往复,直到它不再要工具' },
     { a: ['ui', 'user'], l: ['ui-loop', 'user-ui'], t: '最终回答流式渲染——这一整套,就是第 3 章的 Agent 循环' },
-    { a: ['slots'], l: [], t: '插槽排插满热词:MCP 给手、skill 给章法、subagent 派分身、hook 把门——插的全是这台循环' },
-    { a: ['shells'], l: [], t: '最后换壳:终端是 Claude Code(你在造)、聊天软件是 OpenClaw、工作台是 WorkBuddy——心脏一颗,壳三副' }
+    { a: ['plugin'], l: [], t: '最底独立一件:📦 plugin 插件——集装箱(发行单位),把 skill/斜杠命令/hook/MCP 配置打包分发,不新增关系' }
   ];
   var btn = document.getElementById('arch-btn');
   var ic = document.getElementById('arch-btn-ic');

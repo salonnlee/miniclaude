@@ -45,14 +45,14 @@ if (/^#(arch|acts|mc|backlog|miles|pact|tf|log)$/.test(location.hash)) {
 <section class="block" id="arch">
   <div class="sec-kicker">01 / MAP</div>
   <h2 class="sec">全景架构</h2>
-  <p class="sec-sub">这张图就是 Claude Code 的骨架：Agent 循环居中调度——左边把问题交给模型去想，右边过权限闸门让工具去做；想完的交给做，做完的喂回想，一轮一轮，转到活干完。热词也钉进来了：底下一排插槽是全网的扩展件，最底一条壳带是全网的产品——词是新的，插的位置全是老位置。</p>
+  <p class="sec-sub">这张图就是 Claude Code 的骨架：Agent 循环居中调度——左边把问题交给模型去想，右边过权限闸门让工具去做；想完的交给做，做完的喂回想，一轮一轮，转到活干完。全网热词就长在各自的老位置上：workflow、subagent 在循环体内，skill、memory 进上下文，MCP、hook 进工具层；最底一条 plugin 集装箱独立在流程外，只打包分发——词是新的，位置全是老的。</p>
 
   <div class="arch-tools">
     <button class="arch-btn" id="arch-btn" type="button"><span id="arch-btn-ic">▶</span><span id="arch-btn-label">播放：一次请求的旅程</span></button>
     <span class="arch-cap" id="arch-cap" aria-live="polite">点「播放」，看一条消息怎么走完一整轮 Agent 循环</span>
   </div>
 
-  <div class="arch-stack" role="img" aria-label="分层架构：你、终端 UI、Agent 循环（旁挂上下文管理），向下分两路——一路通向 LLM API，一路经权限系统通向工具层，再连到文件系统与终端；主板下沿一排扩展插槽（MCP、plugin、skill、memory、workflow、subagent、hook），最底三副产品壳（Claude Code、OpenClaw、WorkBuddy）装的是同一颗心脏">
+  <div class="arch-stack" role="img" aria-label="分层架构：你、终端 UI、Agent 循环（旁挂上下文管理），向下分两路——一路通向 LLM API，一路经权限系统通向工具层，再连到文件系统与终端；热词长在老位置——workflow 与 subagent 在循环体内编排它、skill 与 memory 进上下文喂给它、MCP 与 hook 在工具层长出手；最底 plugin 集装箱独立于流程，只打包分发">
     <div class="layer" data-layer="user">
       <span class="icon-box">👤</span>
       <div><div class="layer-name">你<span class="ch-tag">· 主角</span></div>
@@ -71,13 +71,15 @@ if (/^#(arch|acts|mc|backlog|miles|pact|tf|log)$/.test(location.hash)) {
       <div class="layer grow" data-layer="loop">
         <span class="icon-box">🔄</span>
         <div><div class="layer-name">Agent 循环<span class="ch-tag">· 第 3 章 · 心脏</span></div>
-        <div class="layer-sub">模型要工具 → 执行 → 喂回结果，直到给出最终回答</div></div>
+        <div class="layer-sub">模型要工具 → 执行 → 喂回结果，直到给出最终回答</div>
+        <div class="hot-row"><span class="hot h-blue"><b>🔀 workflow 工作流</b><span>编排 · 流程写死在代码，节点内才是模型</span></span><span class="hot h-blue"><b>👥 subagent 子代理</b><span>分身 · 再开一台同款循环，只回结论</span></span></div></div>
       </div>
       <span class="hlink" aria-hidden="true"></span>
       <div class="layer side" data-layer="ctx">
         <span class="icon-box">🗃️</span>
         <div><div class="layer-name">上下文管理<span class="ch-tag">· 第 7 章</span></div>
-        <div class="layer-sub">system prompt 组装、自动压缩、项目记忆</div></div>
+        <div class="layer-sub">system prompt 组装、自动压缩、项目记忆</div>
+        <div class="hot-row"><span class="hot h-org"><b>📖 skill 技能</b><span>章法 · SOP，触发才展开全文</span></span><span class="hot h-org"><b>🗂️ memory 记忆</b><span>知识 · 跨会话的档案柜</span></span></div></div>
       </div>
     </div>
 
@@ -100,7 +102,8 @@ if (/^#(arch|acts|mc|backlog|miles|pact|tf|log)$/.test(location.hash)) {
         <div class="layer" data-layer="tools">
           <span class="icon-box">🔧</span>
           <div><div class="layer-name">工具层<span class="ch-tag">· 第 4–5 章</span></div>
-          <div class="layer-sub">Read · Write · Edit · Glob · Grep · Bash…</div></div>
+          <div class="layer-sub">Read · Write · Edit · Glob · Grep · Bash…</div>
+          <div class="hot-row"><span class="hot h-blue"><b>🔌 MCP server</b><span>插座 · 标准协议，写一次家家能插</span></span><span class="hot h-blue"><b>🪝 hook 钩子</b><span>门禁 · 事件挂脚本，调用前拦一道</span></span></div></div>
         </div>
         <div class="link link-s" data-link="tools-sys"><span class="link-label">读写 ⇅ 执行</span></div>
         <div class="layer" data-layer="sys">
@@ -111,26 +114,17 @@ if (/^#(arch|acts|mc|backlog|miles|pact|tf|log)$/.test(location.hash)) {
       </div>
     </div>
 
-    <div class="arch-slots" data-layer="slots">
-      <div class="layer-name">扩展插槽<span class="ch-tag">· 第 9 章 · 全网热词都插在这台循环上</span></div>
-      <div class="slots-rail">
-        <span class="slot s-blue"><b>🔌 MCP server</b><span>手 · 工具层的标准插座，写一次家家能插</span></span>
-        <span class="slot s-blue"><b>📦 plugin 插件</b><span>集装箱 · 装着 skill＋命令＋hook＋MCP</span></span>
-        <span class="slot s-org"><b>📖 skill 技能</b><span>章法 · 教它这类活怎么干，触发才展开</span></span>
-        <span class="slot s-org"><b>🗃️ memory 记忆</b><span>知识 · 跨会话的档案柜</span></span>
-        <span class="slot s-blue"><b>🔀 workflow 工作流</b><span>编制 · 流程写死在代码，节点内才是模型</span></span>
-        <span class="slot s-blue"><b>👥 subagent 子代理</b><span>分身 · 独立上下文，干完只回结论</span></span>
-        <span class="slot s-blue"><b>🪝 hook 钩子</b><span>纪律 · 事件上挂脚本，门口先拦一道</span></span>
+    <div class="arch-plugin" data-layer="plugin">
+      <div class="plugin-head">
+        <span class="icon-box">📦</span>
+        <div><div class="layer-name">plugin 插件<span class="ch-tag">· 集装箱（发行单位）</span></div>
+        <div class="layer-sub">独立于上面整条流程：不新增关系，只把各层的件打包分发</div></div>
       </div>
-      <div class="slots-note">🔵 代码侧加手（确定） · 🟠 喂给模型的内容（概率）——词是新的，插的位置全是老位置</div>
-    </div>
-
-    <div class="arch-shells" data-layer="shells">
-      <div class="shells-bracket">↑ 上面整台机器＝心脏，换的只是壳</div>
-      <div class="shells-row">
-        <span class="shell is-home"><b>⌨️ Claude Code</b><span>终端壳 · 第 8 章 · 你正在造</span></span>
-        <span class="shell"><b>💬 OpenClaw</b><span>聊天壳 · 开源 · 模型随便换</span></span>
-        <span class="shell"><b>🏢 WorkBuddy</b><span>工作台壳 · 腾讯 · 企业管控</span></span>
+      <div class="plugin-items">
+        <span class="p-item"><span class="dot d-org"></span>skill</span>
+        <span class="p-item"><span class="dot d-blue"></span>斜杠命令</span>
+        <span class="p-item"><span class="dot d-blue"></span>hook</span>
+        <span class="p-item"><span class="dot d-blue"></span>MCP 配置</span>
       </div>
     </div>
   </div>

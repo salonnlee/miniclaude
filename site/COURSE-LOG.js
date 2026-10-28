@@ -12,6 +12,7 @@ var DAYS = [
   {
     "date": "2026-10-28",
     "items": [
+      "架构图热词定稿（学员五点＋一改）：撤插槽排与壳带，热词卡片直接长进老位置——workflow/subagent 进循环体内、skill/memory 进上下文、MCP/hook 进工具层（保留 emoji＋名字＋描述的卡片样式）；plugin 独立成最底一条虚线集装箱带（只打包分发不新增关系）；#mc 剖析区热词对号表撤下。播放器十二步收十一步。",
       "全景架构图吃下热词总关系图（学员令）：主板下沿新增插槽排七件——MCP/plugin/workflow/subagent/hook（蓝·代码侧）＋skill/memory（橙·内容侧），最底壳带三副（Claude Code/OpenClaw/WorkBuddy，心脏一颗壳三副）；播放器十步扩成十二步，词是新的，插的位置全是老位置。",
       "架构定规（学员令：只改一处，两边生效）：工具柜单一事实源 = site/mc/tools.js（裸 ESM 零平台依赖），src/tools/ 只剩 index.ts re-export；agent 循环两端的壳不合并（stdout 与 DOM 各薄各的），会长的是工具柜。consistency.mjs 增第 13 项机检防倒退。",
       "MiniClaude v0.9：对话框长出工具调用——浏览器端工具注册表 mc/tools.js（与 src/tools/ 同一张图纸：Tool 形状/校验器/安全求值器一比一）+ agent 循环 + 🔧 工具气泡；serve.mjs 只透传 tools 字段，key 不出服务端。真机实录 get_time 与 calculator 双触发、停止/重载重放全过；mc-map 剖析图重画，双端同图纸入册。",
