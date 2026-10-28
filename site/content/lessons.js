@@ -33,6 +33,7 @@ export const LESSONS = {
     { "ver": "v0.6", "what": "对话框升级——Markdown 真排版 + 问题库 100 条随机三问", "range": "主线间隙" },
     { "ver": "v0.7", "what": "对话框再升级——流式实时排版 + 代码高亮", "range": "主线间隙" },
     { "at": "ch3", "ver": "v0.8", "chip": "交付 v0.8 · src/chat.ts + tools/", "what": "会调工具的 Agent 循环(玩具工具)", "range": "第 3–4 章" },
+    { "ver": "v0.9", "what": "对话框长出工具调用——浏览器端 agent 循环 + 🔧 工具气泡,与 CLI 同一张图纸", "range": "主线间隙" },
     { "ver": null, "what": "读写你的代码,自己发现并修好 bug", "range": "第 5 章" },
     { "ver": null, "what": "跑命令,且有安全闸门", "range": "第 6 章" },
     { "ver": null, "what": "长任务不失忆,懂省钱", "range": "第 7 章" },

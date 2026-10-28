@@ -163,3 +163,13 @@
   #mc-panel.dock{right:8px;bottom:8px;width:calc(100vw - 16px);height:calc(100dvh - 16px)}
   .mc-m{max-width:92%}
 }
+
+/* ---------- 🔧 工具气泡(v0.9 agent 循环)---------- */
+.mc-tool{align-self:stretch;max-width:100%;background:var(--tint-grey);
+  border:1px solid var(--border);border-radius:10px;padding:6px 10px;
+  font-size:12.5px;line-height:1.55;color:var(--text)}
+.mc-tool-call{font-family:var(--mono);font-size:12px;color:var(--accent);word-break:break-all}
+.mc-tool-call code{background:none;padding:0}
+.mc-tool-res{color:var(--muted);font-family:var(--mono);word-break:break-all;
+  border-top:1px dashed var(--border);margin-top:4px;padding-top:4px}
+.mc-tool.err .mc-tool-res{color:var(--red)}

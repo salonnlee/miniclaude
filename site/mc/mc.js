@@ -1,16 +1,19 @@
-/* mc/mc.js —— MiniClaude v0.7 网页对话框
+/* mc/mc.js —— MiniClaude v0.9 网页对话框
    ----------------------------------------------------------------------------
    右下角气泡唤起的对话面板:流式打字机 + 多会话(localStorage 持久化)
    + token 记账 + Markdown 真排版(markdown-it + highlight.js,流式中实时渲染)
    + 开场问题库随机三问。
+   v0.9 起长出 agent 循环(与 src/chat.ts 同款):浏览器端工具注册表(mc/tools.js,
+   与 src/tools/ 同一张图纸)→ 模型回 tool_calls → 本地执行喂回 → 循环到它不再要;
+   🔧 气泡直播每次工具调用。CLI 长什么能力,这只分身跟着长。
    前端 SSE 解析与 src/chat.ts 逐行同款——攒到换行才算一条事件;
-   流式走 POST /api/chat(scripts/serve.mjs 代理,key 只住服务端)。
-   system 提示词不进会话存储,发送时现拼——存储里只有真实对话。
-   后续章节的功能面板(工具、文件树……)都长在这只面板里。 */
+   流式走 POST /api/chat(scripts/serve.mjs 代理,key 只住服务端,tools 字段只透传)。
+   system 提示词不进会话存储,发送时现拼——存储里只有真实对话。 */
 
 import mdit from '../vendor/markdown-it.esm.min.mjs'; // 官方浏览器 ESM 整包(v15,vendored 进 site/vendor/)
 import hljs from '../vendor/hljs.esm.min.mjs'; // highlight.js(core+8 语言,同上 vendored)
 import { QUESTIONS } from './questions.js';
+import { TOOLS, runTool } from './tools.js'; // 浏览器端工具柜 + 四道兜底的执行口
 
 var SYSTEM = '你是 MiniClaude,简洁直接的中文助手。';
 var PRICE = { in: 4, out: 14 }; // 元 / 百万 token,与 chat.ts 同账本
@@ -58,7 +61,7 @@ function mount() {
       '<div id="mc-panel" class="dock" role="dialog" aria-label="MiniClaude 对话框">' +
       '  <div class="mc-head">' +
       '    <span class="mc-logo">💬</span><span class="mc-title">MiniClaude</span>' +
-      '    <span class="mc-ver">v0.7</span><span class="mc-dot"></span><span class="mc-grow"></span>' +
+      '    <span class="mc-ver">v0.9</span><span class="mc-dot"></span><span class="mc-grow"></span>' +
       '    <button class="mc-ico" id="mc-menu" aria-label="会话列表">☰</button>' +
       '    <button class="mc-ico" id="mc-max" aria-label="满屏 / 浮窗切换">⤢</button>' +
       '    <button class="mc-ico" id="mc-x" aria-label="收起">✕</button>' +
@@ -124,8 +127,8 @@ function pick3() {
 function hello() {
   msgs.append(el(
     '<div class="mc-hello">' +
-    '  <h4>MiniClaude v0.7</h4>' +
-    '  <p>铸剑线的网页分身——多轮记忆 + 流式打字机 + token 记账,<br>回复边流边按 Markdown 排版、代码带高亮,CH3 起在这里长工具。</p>' +
+    '  <h4>MiniClaude v0.9</h4>' +
+    '  <p>铸剑线的网页分身——多轮记忆 + 流式打字机 + token 记账 + Markdown 排版,<br>已长出 agent 循环:🔧 调工具(get_time / calculator)、自己决定要不要、要不要再来一轮。</p>' +
     '  <div class="mc-chips"></div>' +
     '</div>'
   ));
@@ -147,12 +150,27 @@ function drawChips() {
   box.append(dice);
 }
 
-/* 切会话 / 首开:全量重绘 */
+/* 切会话 / 首开:全量重绘。tool 消息按 tool_call_id 回前面 assistant 的
+   tool_calls 里找名字与参数,重放出同款 🔧 气泡 */
 function renderMsgs() {
   msgs.innerHTML = '';
   var s = cur();
   if (!s || !s.msgs.length) { hello(); return; }
-  s.msgs.forEach(function (m) {
+  s.msgs.forEach(function (m, i) {
+    if (m.role === 'tool') {
+      var call = null;
+      for (var k = i - 1; k >= 0 && !call; k--) {
+        var a = s.msgs[k];
+        if (a.role === 'assistant' && a.tool_calls) {
+          a.tool_calls.forEach(function (tc) { if (tc.id === m.tool_call_id) call = tc; });
+        }
+      }
+      var tb = toolBubble(call ? call.function.name : '?', call ? call.function.arguments : '');
+      m.content.charAt(0) === '⚠' || /^(未知工具|参数校验不过|工具执行出错)/.test(m.content)
+        ? tb.fail(m.content) : tb.done(m.content);
+      return;
+    }
+    if (m.role === 'assistant' && m.tool_calls && !m.content) return; // 纯开口要工具,不占气泡
     bubble(m.role, m.role === 'user' ? esc(m.content) : rich(m.content));
   });
   stick();
@@ -233,19 +251,26 @@ function renderMeter() {
 function nearBottom() { return msgs.scrollHeight - msgs.scrollTop - msgs.clientHeight < 60; }
 function stick() { if (autoScroll) msgs.scrollTop = msgs.scrollHeight; }
 
-/* ================= 流式请求(解析与 chat.ts 同款)================= */
-
+/* ================= 流式请求(解析与 chat.ts 同款)=================
+   v0.9:请求带 tools(浏览器注册表的说明书),响应多解析一路 tool_calls 分片——
+   按 index 开槽、name/arguments 一片片挤出来,攒到 [DONE] 才算收齐申请清单 */
 async function ask(history, onDelta, signal) {
   var res = await fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ messages: [{ role: 'system', content: SYSTEM }].concat(history) }),
+    body: JSON.stringify({
+      messages: [{ role: 'system', content: SYSTEM }].concat(history),
+      tools: TOOLS.map(function (t) {
+        return { type: 'function', function: { name: t.name, description: t.description, parameters: t.parameters } };
+      }),
+    }),
     signal: signal,
   });
   if (!res.ok || !res.body) throw new Error('API ' + res.status + ':' + (await res.text()).slice(0, 120));
 
   var dec = new TextDecoder();
   var full = '', buf = '', uIn = 0, uOut = 0;
+  var toolAcc = []; // 流式下 arguments 按 index 分片挤出来,攒!
   for await (var chunk of res.body) {
     buf += dec.decode(chunk);
     for (var nl = buf.indexOf('\n'); nl !== -1; nl = buf.indexOf('\n')) {
@@ -253,14 +278,44 @@ async function ask(history, onDelta, signal) {
       buf = buf.slice(nl + 1);
       if (!line.startsWith('data:')) continue; // 空行,跳过
       var payload = line.slice(5).trim();
-      if (payload === '[DONE]') return { full: full, usage: { in: uIn, out: uOut } };
+      if (payload === '[DONE]') return doneAsk(full, toolAcc, uIn, uOut);
       var c = JSON.parse(payload);
       if (c.usage) { uIn = c.usage.prompt_tokens ?? 0; uOut = c.usage.completion_tokens ?? 0; } // 账单只挂最后一个事件
-      var d = c.choices && c.choices[0] && c.choices[0].delta && c.choices[0].delta.content;
-      if (d) { full += d; onDelta(full); }
+      var d = c.choices && c.choices[0] && c.choices[0].delta;
+      if (!d) continue;
+      if (d.content) { full += d.content; onDelta(full); }
+      (d.tool_calls || []).forEach(function (tc) {
+        var slot = toolAcc[tc.index] || (toolAcc[tc.index] = { id: '', name: '', args: '' });
+        if (tc.id) slot.id = tc.id; // id 整块只来一次;name/arguments 是增量
+        if (tc.function && tc.function.name) slot.name += tc.function.name;
+        if (tc.function && tc.function.arguments) slot.args += tc.function.arguments;
+      });
     }
   }
-  return { full: full, usage: { in: uIn, out: uOut } }; // 断流:攒到多少算多少
+  return doneAsk(full, toolAcc, uIn, uOut); // 断流:攒到多少算多少
+}
+function doneAsk(full, toolAcc, uIn, uOut) {
+  var calls = toolAcc.filter(function (c) { return c && c.name; });
+  return { full: full, toolCalls: calls, usage: { in: uIn, out: uOut } };
+}
+
+/* 🔧 工具气泡:调用一行 + 结果一行,失败染红 */
+function toolBubble(name, args) {
+  var t = el(
+    '<div class="mc-m mc-tool"><div class="mc-tool-call">🔧 <code></code></div>' +
+    '<div class="mc-tool-res">…</div></div>'
+  );
+  t.querySelector('code').textContent = name + '(' + args + ')';
+  msgs.append(t);
+  stick();
+  return {
+    done: function (res) { t.querySelector('.mc-tool-res').textContent = res; },
+    fail: function (err) {
+      var r = t.querySelector('.mc-tool-res');
+      r.textContent = '⚠ ' + err;
+      t.classList.add('err');
+    },
+  };
 }
 
 function setBusy(b) {
@@ -287,23 +342,49 @@ async function sendMsg() {
   var node = botStreaming();
   setBusy(true);
   aborter = new AbortController();
+  var rollback = s.msgs.length - 1; // 失败回滚到这轮 user 消息之前(与 chat.ts 同款)
   try {
-    var r = await ask(
-      s.msgs, // 含刚 push 的这条 user——上一版照 chat.ts 抄了个 slice(0,-1),把唯一的话切没了,上游 1214
-      function (t) { node.update(t); },
-      aborter.signal
-    );
-    if (r.full) { s.msgs.push({ role: 'assistant', content: r.full }); node.done(r.full); }
-    else { s.msgs.pop(); node.fail('空回复'); }
-    s.usage.in += r.usage.in;
-    s.usage.out += r.usage.out;
+    while (true) { // agent 循环:ask 一轮 → 执行它要的工具 → 再 ask,直到它不再要
+      var r = await ask(
+        s.msgs, // 含刚 push 的这条 user——上一版照 chat.ts 抄了个 slice(0,-1),把唯一的话切没了,上游 1214
+        function (t) { node.update(t); },
+        aborter.signal
+      );
+      s.usage.in += r.usage.in;
+      s.usage.out += r.usage.out;
+      if (!r.toolCalls.length) { // 退出条件 = 这一轮没有 tool_calls,它只想说话
+        if (r.full) { s.msgs.push({ role: 'assistant', content: r.full }); node.done(r.full); }
+        else { s.msgs.length = rollback; node.fail('空回复'); }
+        break;
+      }
+      // 它要了工具:先把它「开口要」这条原样入史,再逐个执行、逐条喂回
+      s.msgs.push({
+        role: 'assistant',
+        content: r.full,
+        tool_calls: r.toolCalls.map(function (c) {
+          return { id: c.id, type: 'function', function: { name: c.name, arguments: c.args } };
+        }),
+      });
+      if (r.full) node.done(r.full);
+      else node.node.remove(); // 纯开口要工具,不留空占位
+      for (var i = 0; i < r.toolCalls.length; i++) {
+        var c = r.toolCalls[i];
+        var tb = toolBubble(c.name, c.args);
+        var out = await runTool(c); // 执行在浏览器本地,四道兜底全当结果
+        out.ok ? tb.done(out.res) : tb.fail(out.res);
+        s.msgs.push({ role: 'tool', tool_call_id: c.id, content: out.res });
+      }
+      node = botStreaming(); // 喂回完毕,新开一轮占位
+    }
   } catch (e) {
     if (e.name === 'AbortError') {
-      // 主动停止:半截回复照入账,与 chat.ts「断流攒到多少算多少」同语义
+      // 主动停止:半截回复照入账,与 chat.ts「断流攒到多少算多少」同语义;
+      // 已完成的工具调用与喂回也保留——那是真花过钱的动作
       if (node.text) { s.msgs.push({ role: 'assistant', content: node.text }); node.done(node.text); }
+      else if (!node.node.isConnected) { /* 纯占位已被撤 */ }
       else node.fail('已停止——还没等到第一个字,这轮没入账', true);
     } else {
-      s.msgs.pop(); // 失败这轮不入账,别留半截对话
+      s.msgs.length = rollback; // 失败这轮不入账,别留半截对话
       node.fail('出错:' + (e instanceof Error ? e.message : String(e)) + '(这轮没入账,重发一次)');
     }
   } finally {

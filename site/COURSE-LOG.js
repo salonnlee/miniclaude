@@ -12,6 +12,7 @@ var DAYS = [
   {
     "date": "2026-10-28",
     "items": [
+      "MiniClaude v0.9：对话框长出工具调用——浏览器端工具注册表 mc/tools.js（与 src/tools/ 同一张图纸：Tool 形状/校验器/安全求值器一比一）+ agent 循环 + 🔧 工具气泡；serve.mjs 只透传 tools 字段，key 不出服务端。真机实录 get_time 与 calculator 双触发、停止/重载重放全过；mc-map 剖析图重画，双端同图纸入册。",
       "CH4.1《工具注册表与说明书工程》完课：闸门三件套——validate.ts 手写迷你 Schema 校验（错误当结果喂回，模型自己改）、calculator 弃 eval 换 tokenizer+递归下降（恶意输入无法表达，攻击样本 16/16 倒门口）、tools/index.ts 统一注册表（加工具零改主循环）；chat.ts 154→150 行，SEGS/行数声明同步；说明书 A/B 实验共识免验。",
       "CH3.1《工具调用》完课：v0.8 agent 循环上线——tools 声明随行 → 流式按 index 攒 tool_calls 分片 → 执行喂回循环到它不再要；真机三圈实录 get_time → 10+3 心算没用 calculator → 纯文本退出。",
       "学员透悟入册：agent 的「智能」拆开看——概率的一半住模型（要不要工具/参数填什么，全是接龙的切面，description 塑形），确定的一半住代码（execute/Schema/循环全写死，模型只能申请不能执行）；全景卡 c31-panorama 两图上线。",

@@ -1,6 +1,6 @@
 {
   "name": "miniclaude",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "private": true,
   "type": "module",
   "description": "从零搓一个 Claude Code 克隆:教学课程仓库(序章迷你 GPT + 正文 agent)",

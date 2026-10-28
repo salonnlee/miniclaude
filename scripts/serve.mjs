@@ -45,15 +45,18 @@ app.use('*', async (c, next) => {
   return next();
 });
 
-// 流式代理:浏览器 → 这里 → 智谱,key 只住服务端,永远不进前端代码
+// 流式代理:浏览器 → 这里 → 智谱,key 只住服务端,永远不进前端代码。
+// tools 字段(v0.9)只透传不执行——那是浏览器端注册表的说明书,执行权在客户端
 app.post('/api/chat', async (c) => {
   const key = process.env.GLM_API_KEY;
   if (!key) return c.json({ error: '服务器没读到 GLM_API_KEY(项目根 .env 配一下)' }, 500);
-  const { messages } = await c.req.json();
+  const { messages, tools } = await c.req.json();
+  const body = { model: 'glm-4.6', messages, max_tokens: 4096, stream: true };
+  if (Array.isArray(tools) && tools.length) body.tools = tools;
   const res = await fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
-    body: JSON.stringify({ model: 'glm-4.6', messages, max_tokens: 4096, stream: true }),
+    body: JSON.stringify(body),
   });
   if (!res.ok || !res.body) return c.text(await res.text(), res.status || 502);
   return new Response(res.body, { // 上游 SSE 原样透传,别攒——攒了就不是流式了
