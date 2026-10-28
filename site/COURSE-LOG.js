@@ -12,6 +12,7 @@ var DAYS = [
   {
     "date": "2026-10-28",
     "items": [
+      "CH6 全景卡 c6-panorama 上线：一条命令进门先过闸门（deny/allow/ask 三扇门＋判定顺序＋子命令粒度）、真机两幕（自建坏脚本自己修好——CH1 画的循环头一回完整转起来；evil.md 注入演练——模型层防御是概率，闸门才是保证）、三个真坑（整词边界被斜杠绕过、两个 readline 抢 stdin、「总是允许」只记逐字同条）。",
       "CH6.1《命令执行与安全闸门》完课：v1.1 bash 工具上线——spawn＋超时强杀 120s＋输出截断 30KB＋退出码如实报；permissions.ts 三扇门 deny/ask/allow，粒度到子命令（git status:* 放行、git push 要问），「本会话总是允许」只记逐字同条。确认流复用 chat.ts 的 rl——两个 readline 抢 stdin 会互吞输入行（管道测试当场撞见）。真机两幕：agent 自建语法错误的 count.mjs 自己跑出报错自己修好退出码 0；注入演练模型自认恶意注释并拒绝——模型层防御与闸门各守各的。后台任务留 CH8。",
       "CH4 全景卡 c41-panorama 上线：Tool = name + description + JSON Schema + execute 逐件讲透（说明书三件寄给模型、execute 独住本地，安全模型压在这条线）；calculator 真代码五段可点、点开透视卡——命名是被接出来的概率、description 是唯一的提示词工程、Schema 一份合同两头用、错误当结果喂回；外加装配线五站与「为什么恰是这四件」对照智能两半。",
       "CH5 全景卡 c5-panorama 上线：文件五件讲成一条流水线三段（Glob/Grep 定位→Read 读取→Write/Edit 修改），用 v1.0 验收的 validate bug 当一单生意走完整条链，外加「为什么不等 Bash 一把梭」（结构化输出＋不过 shell）与平台边界两笔账。",
