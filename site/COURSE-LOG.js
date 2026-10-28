@@ -12,6 +12,7 @@ var DAYS = [
   {
     "date": "2026-10-28",
     "items": [
+      "CH7 全景卡 c7-panorama 上线：四味药核心代码六段可点、点开透视卡（system 拼装/CLAUDE.md/cached_tokens 记账/水位/COMPACT_PROMPT/压缩器本体），非核心以 … 省略；一条线串住四味——前两味稳前缀给缓存打底，后两味管长度与账单。",
       "mod 口径收严（学员定规）：能独立插拔才算——memory 是自己攒的档案、没有上传下载，hook 只能随 plugin 集装箱发行，双双撤下 🧩 徽章；workflow/subagent/skill/斜杠命令/MCP 各有独立装卸通道，五张保有；sec-sub、aria-label、流程图 hook 节点同步。",
       "循环流程图改版（学员判 HTML 假流程图「大失败」：③的「是」路没画、回边没画、循环感没有）：撤节点胶囊，改 mermaid 真图收进「🔍 点击展开」卡（挂主板内 plugin 之上，主题与 CH3.1 同款）——③是/否两路、tool_result 喂回回边、workflow/subagent 从⑤进门与结论回家、hook 三条虚线挂④/⑤/出口，连线 6 标签 9 节点全渲染；390px 无溢出。",
       "全景架构图 mod 体系定稿（课间讨论收册）：循环层新画五环节流程图（①组装→②问LLM→③要工具→④权限→⑤执行，tool_result 喂回①），workflow/subagent 进门点标在⑤、hook 挂点标在④与出口——hook 卡挪进循环层，斜杠命令新卡进上下文层，工具层 MCP 独守；七卡＋plugin 各挂🧩 mod 徽章（modification：官方留口子用户自己写）。播放器仍 11 步流程节点随步点亮；390px 无溢出；check 全绿。",

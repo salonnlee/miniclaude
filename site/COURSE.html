@@ -141,18 +141,18 @@ flowchart TD
   STOP -.- HK
   EXEC -->|"从这进门"| MOD
   MOD -->|"结论当 tool_result 回家"| CTX
-  classDef code fill:#eaf2fd,stroke:#066fd1,color:#262626
-  classDef model fill:#fdf1e8,stroke:#f76707,color:#262626
-  classDef exitn fill:#e9f7ee,stroke:#2fb344,color:#262626
-  classDef modn fill:#fff,stroke:#066fd1,stroke-dasharray:5 4,color:#262626
-  classDef hkn fill:#fff,stroke:#667382,stroke-dasharray:5 4,color:#262626
+  classDef code fill:#e7f1fb,stroke:#a3c8ee,color:#0553a3
+  classDef model fill:#fdeee0,stroke:#f6c096,color:#c25708
+  classDef exitn fill:#dcf3e1,stroke:#a8ddb8,color:#157a34
+  classDef modn fill:#fff,stroke:#066fd1,color:#0553a3
+  classDef hkn fill:#fff,stroke:#667382,color:#667382
   class CTX,PERM,EXEC code
   class LLM,ASK model
   class STOP exitn
   class MOD modn
   class HK hkn
-  style LOOP fill:#f8f9fc,stroke:#066fd1,stroke-width:1.5px
-  style U fill:#fff,stroke:#667382
+  style LOOP fill:#f8f9fc,stroke:#9bbde4,color:#262626
+  style U fill:#fff,stroke:#667382,color:#667382
 </pre>
       </div>
     </details>
@@ -792,6 +792,7 @@ flowchart TD
       <p class="ch-q">「对话越来越长，窗口塞满了怎么办？token 就是内存，上下文工程就是内存管理。」</p>
       <ul class="ch-list" data-lessons="ch7">
       </ul>
+      <details class="ch-recap" data-card="c7-panorama"></details>
       <div class="ch-foot"><span class="foot-chip ver" data-ship="ch7"></span><span class="foot-chip">🔍 考点 · 摘要丢掉细节为什么不崩？缓存与前缀不变是什么关系？</span></div>
     </article>
   </details>
