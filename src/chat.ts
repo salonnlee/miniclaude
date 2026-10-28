@@ -1,7 +1,7 @@
-// v1.2 · agent 循环 + 上下文管理 —— 聊天 + 工具调用 + 记忆不再无限长(压缩) + 缓存记账
+// v1.3 · agent 循环 + 上下文管理 + 子代理 —— 聊天 + 工具调用 + 记忆不再无限长(压缩) + 缓存记账 + 循环里再开循环
 // 跑法:npm run chat(node 26 原生跑 TS,key 住 .env 不进代码)
 import * as readline from 'node:readline/promises';
-import { TOOLS, validate, setConfirm } from './tools/index.ts';
+import { TOOLS, validate, setConfirm, setAskOnce } from './tools/index.ts';
 import { buildSystemPrompt, shouldCompact, compactHistory, COMPACT_AT, type Msg, type ToolCall, type ApiToolCall } from './context.ts';
 
 const KEY = process.env.GLM_API_KEY;
@@ -18,16 +18,18 @@ const usage = { in: 0, out: 0, cached: 0, lastPrompt: 0 };
 // v1.2 形状与拼装搬进 context.ts:system prompt 不再是裸一句人设,而是人设+环境快照+CLAUDE.md
 const messages: Msg[] = [{ role: 'system', content: buildSystemPrompt() }];
 
-// 发全部历史,流式收回「这一轮发生了什么」(说话了还是要工具了),顺手记账
-async function ask(): Promise<{ text: string; toolCalls: ToolCall[] }> {
+// 发全部历史,流式收回「这一轮发生了什么」(说话了还是要工具了),顺手记账。
+// v1.3 泛化两参:hist 默认主对话的 messages,allow 收窄工具柜——
+// 子代理借同一扇门问模型,只是拎自己的历史、逛缩水的柜台
+async function ask(hist: Msg[] = messages, allow?: string[]): Promise<{ text: string; toolCalls: ToolCall[] }> {
   const res = await fetch(API, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${KEY}` },
     body: JSON.stringify({
-      model: 'glm-4.6', messages,
+      model: 'glm-4.6', messages: hist,
       max_tokens: 4096,
       stream: true,
-      tools: TOOLS.map(t => ({
+      tools: (allow ? TOOLS.filter(t => allow.includes(t.name)) : TOOLS).map(t => ({
         type: 'function' as const,
         function: { name: t.name, description: t.description, parameters: t.parameters },
       })),
@@ -122,6 +124,9 @@ setConfirm(async (cmd) => {
     return 'n'; // EOF / 管道断流:没人点头 = 不放行
   }
 });
+// 子代理的腿(v1.3):复用同一个 ask——子会话的 token 自动记进总账,
+// 收窄的工具柜在 ask 里过滤;两套循环跑在同一个进程里
+setAskOnce((msgs, allow) => ask(msgs, allow));
 console.log('小c上线(exit 退出)');
 
 while (true) {

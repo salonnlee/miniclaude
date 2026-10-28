@@ -12,6 +12,9 @@ var DAYS = [
   {
     "date": "2026-10-28",
     "items": [
+      "第二幕附加章上线（课间四连问催生：subagent 与 workflow 差在哪→谁懂异步→本质是不是 tool 调用→最小实现）：附.1《子代理与工作流》完课，v1.3 src/tools/agents.ts——agent 工具 execute 里再开 agent 循环（自己的 messages、只读柜台、只交结论＝上下文隔离），workflow 按写死计划按序派兵、carry 传产出；chat.ts 仅动三处（ask(hist,allow) 泛化/setAskOnce 挂腿/import），子会话 token 自动进总账；SUB_TOOLS 不含 agent——孩子不能再生孩子。真机两幕全过，一场 ¥0.03。",
+      "附加章全景卡 c3b-panorama 上线：核心代码五段可点×透视卡（收窄柜台/上下文隔离/计划是参数/名片·模型不知情/接线·同一本账）；课间结论入册——嵌套的是执行环节不是模型调用，异步的是宿主不是模型，并行与类型化返回全是宿主循环上的器官。",
+      "顺手治 typecheck 老红：tsconfig 补 allowJs、共享底座 tools.js 给 TOOLS 补 Tool 形状 JSDoc——src/tools 引 JS 底座的 TS7016 与窄联合 push 两案全清，npm run typecheck 重回全绿。",
       "mermaid 换装 Tabler（学员判太简陋）：共享渲染升级 look:neo——圆角节点+投影贴站内白卡质感，themeVariables 换全套 token；两图 classDef 改 tint 底+深色字+细边（坑：classDef 里 rgba()/stroke-width 是 SVG 属性，直接 Syntax error，换近似纯色）；css 补 cluster 标题白 halo，修子图边框穿脸；flash 真机视觉验收两图过。",
       "CH7 全景卡 c7-panorama 上线：四味药核心代码六段可点、点开透视卡（system 拼装/CLAUDE.md/cached_tokens 记账/水位/COMPACT_PROMPT/压缩器本体），非核心以 … 省略；一条线串住四味——前两味稳前缀给缓存打底，后两味管长度与账单。",
       "mod 口径收严（学员定规）：能独立插拔才算——memory 是自己攒的档案、没有上传下载，hook 只能随 plugin 集装箱发行，双双撤下 🧩 徽章；workflow/subagent/skill/斜杠命令/MCP 各有独立装卸通道，五张保有；sec-sub、aria-label、流程图 hook 节点同步。",

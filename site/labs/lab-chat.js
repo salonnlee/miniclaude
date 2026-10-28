@@ -42,15 +42,15 @@ var pinSync = function () {};
   addEventListener('resize', sync);
 })();
 
-/* 八段代码与 src/chat.ts 逐字一致(v1.2 上下文管理与压缩,178 行) */
+/* 八段代码与 src/chat.ts 逐字一致(v1.3 子代理与工作流,183 行) */
 var SEGS = [
   {
     id: 'gear',
     tag: '① 装备区',
-    code: "// v1.2 · agent 循环 + 上下文管理 —— 聊天 + 工具调用 + 记忆不再无限长(压缩) + 缓存记账\n" +
+    code: "// v1.3 · agent 循环 + 上下文管理 + 子代理 —— 聊天 + 工具调用 + 记忆不再无限长(压缩) + 缓存记账 + 循环里再开循环\n" +
       "// 跑法:npm run chat(node 26 原生跑 TS,key 住 .env 不进代码)\n" +
       "import * as readline from 'node:readline/promises';\n" +
-      "import { TOOLS, validate, setConfirm } from './tools/index.ts';\n" +
+      "import { TOOLS, validate, setConfirm, setAskOnce } from './tools/index.ts';\n" +
       "import { buildSystemPrompt, shouldCompact, compactHistory, COMPACT_AT, type Msg, type ToolCall, type ApiToolCall } from './context.ts';\n" +
       "\n" +
       "const KEY = process.env.GLM_API_KEY;\n" +
@@ -63,7 +63,7 @@ var SEGS = [
       "const PRICE = { in: 4, out: 14 }; // 元 / 百万 token\n" +
       "const usage = { in: 0, out: 0, cached: 0, lastPrompt: 0 };\n",
     card: ['装备区:开战前的五样东西',
-      '工具从哪来?从 <b>注册表</b>——tools/index.ts 统一出口:tools/ 目录一件一个文件,统一的 <b>Tool</b> 形状(名字/说明书/参数表/execute)住在 types.ts,加工具 = 加文件 + 注册表添一行,主循环一行不用改(Claude Code 上百个工具背后就是这么一张表)。<b>KEY</b>——从环境变量来(.env),不写死在代码里;<b>API</b> 换厂商就是换域名;<b>PRICE</b> 价目表(输入 4 元、输出 14 元,每百万 token);<b>usage</b> 从 0 记账——v1.2 多了两栏:<b>cached</b>(缓存命中的 token,约五折计)和 <b>lastPrompt</b>(当前上下文水位,压缩器看它)。']
+      '工具从哪来?从 <b>注册表</b>——tools/index.ts 统一出口:tools/ 目录一件一个文件,统一的 <b>Tool</b> 形状(名字/说明书/参数表/execute)住在 types.ts,加工具 = 加文件 + 注册表添一行,主循环一行不用改(Claude Code 上百个工具背后就是这么一张表)。<b>KEY</b>——从环境变量来(.env),不写死在代码里;<b>API</b> 换厂商就是换域名;<b>PRICE</b> 价目表(输入 4 元、输出 14 元,每百万 token);<b>usage</b> 从 0 记账——v1.2 多了两栏:<b>cached</b>(缓存命中的 token,约五折计)和 <b>lastPrompt</b>(当前上下文水位,压缩器看它)。v1.3 再挂一个钩子 <b>setAskOnce</b>:子代理「问一轮模型」的腿,由这里递进去(附加章讲)。']
   },
   {
     id: 'types',
@@ -77,16 +77,18 @@ var SEGS = [
   {
     id: 'req',
     tag: '③ ask·发请求',
-    code: "// 发全部历史,流式收回「这一轮发生了什么」(说话了还是要工具了),顺手记账\n" +
-      "async function ask(): Promise<{ text: string; toolCalls: ToolCall[] }> {\n" +
+    code: "// 发全部历史,流式收回「这一轮发生了什么」(说话了还是要工具了),顺手记账。\n" +
+      "// v1.3 泛化两参:hist 默认主对话的 messages,allow 收窄工具柜——\n" +
+      "// 子代理借同一扇门问模型,只是拎自己的历史、逛缩水的柜台\n" +
+      "async function ask(hist: Msg[] = messages, allow?: string[]): Promise<{ text: string; toolCalls: ToolCall[] }> {\n" +
       "  const res = await fetch(API, {\n" +
       "    method: 'POST',\n" +
       "    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${KEY}` },\n" +
       "    body: JSON.stringify({\n" +
-      "      model: 'glm-4.6', messages,\n" +
+      "      model: 'glm-4.6', messages: hist,\n" +
       "      max_tokens: 4096,\n" +
       "      stream: true,\n" +
-      "      tools: TOOLS.map(t => ({\n" +
+      "      tools: (allow ? TOOLS.filter(t => allow.includes(t.name)) : TOOLS).map(t => ({\n" +
       "        type: 'function' as const,\n" +
       "        function: { name: t.name, description: t.description, parameters: t.parameters },\n" +
       "      })),\n" +
@@ -95,7 +97,7 @@ var SEGS = [
       "  if (!res.ok || !res.body) throw new Error(`API ${res.status}:${await res.text()}`);\n" +
       "\n",
     card: ['ask·说明书随行一起寄',
-      '比 v0.4 多一个 <b>tools</b> 字段:把工具柜每层的三张标签(name/description/parameters)随消息一起寄出去——模型「知道有工具可调」全靠这一眼。坑在形状:OpenAI 口径要<b>套一层 function 壳</b>(type:“function” 包着本体),拍扁直接发,回你 tools[0].function 不能为空(真机踩过)。返回值也从「一段话」变成 <b>Turn</b>:这一轮它说了什么、要了哪些工具,两头都收。']
+      '比 v0.4 多一个 <b>tools</b> 字段:把工具柜每层的三张标签(name/description/parameters)随消息一起寄出去——模型「知道有工具可调」全靠这一眼。坑在形状:OpenAI 口径要<b>套一层 function 壳</b>(type:“function” 包着本体),拍扁直接发,回你 tools[0].function 不能为空(真机踩过)。返回值也从「一段话」变成 <b>Turn</b>:这一轮它说了什么、要了哪些工具,两头都收。v1.3 把它泛化成两参:<b>hist</b> 默认还是主对话的 messages、<b>allow</b> 收窄工具柜——子代理借同一扇门问模型(附加章)。']
   },
   {
     id: 'sse',
@@ -203,6 +205,9 @@ var SEGS = [
       "    return 'n'; // EOF / 管道断流:没人点头 = 不放行\n" +
       "  }\n" +
       "});\n" +
+      "// 子代理的腿(v1.3):复用同一个 ask——子会话的 token 自动记进总账,\n" +
+      "// 收窄的工具柜在 ask 里过滤;两套循环跑在同一个进程里\n" +
+      "setAskOnce((msgs, allow) => ask(msgs, allow));\n" +
       "console.log('小c上线(exit 退出)');\n" +
       "\n" +
       "while (true) {\n" +
@@ -253,7 +258,7 @@ var SEGS = [
       "  }\n" +
       "}\n",
     card: ['双层循环:外圈读人,内圈跑 agent,出口看水位',
-      'v0.8 套的 <b>agent 循环</b>:ask 一轮 → 它要工具就执行、喂回、再 ask,直到某轮 <b>toolCalls 为空</b>(考点 1:退出条件 = 它不再要,不是调够 N 次)。动作要亮出来——🔧 一行让人看得见「它决定了什么」。回滚记 <b>rollback 深度</b>一刀切平——失败这轮彻底不入账。v1.1 循环门口挂了 <b>确认流</b>(ask 档命令借这个 rl 问 y/n/a)。v1.2 循环出口多了一环 <b>压缩触发</b>:每轮收尾看 lastPrompt 水位,超线就把老历史交给压缩器换摘要——水位看 token 不看消息条数,token 才是要花钱的那个单位。']
+      'v0.8 套的 <b>agent 循环</b>:ask 一轮 → 它要工具就执行、喂回、再 ask,直到某轮 <b>toolCalls 为空</b>(考点 1:退出条件 = 它不再要,不是调够 N 次)。动作要亮出来——🔧 一行让人看得见「它决定了什么」。回滚记 <b>rollback 深度</b>一刀切平——失败这轮彻底不入账。v1.1 循环门口挂了 <b>确认流</b>(ask 档命令借这个 rl 问 y/n/a)。v1.2 循环出口多了一环 <b>压缩触发</b>:每轮收尾看 lastPrompt 水位,超线就把老历史交给压缩器换摘要——水位看 token 不看消息条数,token 才是要花钱的那个单位。v1.3 确认流下面再挂一条 <b>setAskOnce</b>(子代理的腿):execute 里再开的那套循环,借同一个 ask 问模型、token 进同一本账(附加章)。']
   },
   {
     id: 'bill',

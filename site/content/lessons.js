@@ -39,6 +39,7 @@ export const LESSONS = {
     { "ver": null, "what": "读写你的代码,自己发现并修好 bug", "range": "第 5 章" },
     { "ver": null, "what": "跑命令,且有安全闸门", "range": "第 6 章" },
     { "at": "ch7", "ver": "v1.2", "chip": "交付 v1.2 · src/context.ts", "what": "上下文管理——system 拼装 + CLAUDE.md 记忆 + 自动压缩 + 缓存记账", "range": "第 7 章" },
+    { "at": "ch3b", "ver": "v1.3", "chip": "交付 v1.3 · src/tools/agents.ts", "what": "子代理与工作流——agent 工具 execute 里再开循环(上下文隔离),workflow 按写死计划按序派兵", "range": "第二幕附加章" },
     { "ver": null, "what": "Claude Code 级的终端手感", "range": "第 8 章" },
     { "ver": null, "what": "子代理 / 计划模式 / 技能 / MCP", "range": "第 9 章" },
     { "ver": null, "what": "配置、缓存、沙箱、发布——企业级收尾", "range": "第 10 章" }
@@ -213,7 +214,7 @@ export const LESSONS = {
             "code": "CH2.1",
             "name": "v0.4 · 聊天机器人",
             "done": "2026-10-27（四步长成：脚手架 TS+Node → 非流式最小循环（记忆即 messages 数组）→ 流式 SSE（缓冲区攒换行才算一条事件，打字机逐词上屏）→ 记账（退出报 75+232 token≈¥0.0035））",
-            "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（178 行代码可点 × 透视卡 × 真机连线）"
+            "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（183 行代码可点 × 透视卡 × 真机连线）"
           },
           {
             "label": "知识点",
@@ -322,6 +323,26 @@ export const LESSONS = {
           {
             "label": "实践",
             "text": "上下文管理器 + 压缩器，agent 从此能干长活不失忆"
+          }
+        ]
+      ]
+    },
+    "ch3b": {
+      "groups": [
+        [
+          {
+            "code": "附.1",
+            "name": "v1.3 · 子代理与工作流",
+            "done": "2026-10-28(课间四连问直接催生:subagent 与 workflow 差在哪 → 父 agent 只吐字,谁懂异步(宿主) → 子 agent 本质是不是 tool 调用(是,重的是 execute) → 最小实现长什么样。src/tools/agents.ts 一次落齐:agent 工具 execute 里再开一个 agent 循环——自己的 messages 从零攒、只读工具柜、出口只带最后一段话回家,中间过程不进主对话=上下文隔离;workflow=写死的步骤计划按序派兵,上一步产出传下一步,控制流在代码不在模型;SUB_TOOLS 不含 agent——孩子不能再生孩子。chat.ts 只动三处:ask(hist,allow) 泛化、setAskOnce 挂腿、import 一行,子会话 token 自动进总账。真机两幕:派子代理读 package.json 只报 name/version;workflow 两步读 README 首行再概括,carry 传递全程可见,一场 ¥0.03)",
+            "tail": "—— npm run chat 可玩 · 全景卡已上:循环里再开循环(核心代码五段可点 × 透视卡)"
+          },
+          {
+            "label": "知识点",
+            "text": "子代理=一次性小 agent:自己的 messages、收窄的工具柜、只交回结论(上下文隔离);工作流=宿主写死的控制流:计划是参数、执行是代码;两者对主对话都只是一次 tool 调用;异步=宿主注入通知重新唤醒,模型自始至终只吐字"
+          },
+          {
+            "label": "总结",
+            "text": "嵌套的是执行环节,不是模型调用——模型到今天只见过「吐申请、收文本」,并行与类型化返回是宿主循环上长的器官"
           }
         ]
       ]
@@ -439,7 +460,8 @@ export const LESSONS = {
       "from": [
         "ch3",
         "ch4",
-        "ch5"
+        "ch5",
+        "ch3b"
       ]
     },
     "act-m3": {
@@ -489,6 +511,9 @@ export const LESSONS = {
     },
     "ch5": {
       "from": "ch5"
+    },
+    "ch3b": {
+      "from": "ch3b"
     },
     "ch6": {
       "from": "ch6"

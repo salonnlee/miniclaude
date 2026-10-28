@@ -7,11 +7,16 @@
 // (y 允许/n 拒绝/a 本会话总是允许),chat.ts 对此零感知、一行不用改。
 export { TOOLS, runTool, validate } from '../../site/mc/tools.js';
 export { setConfirm } from './bash.ts';
+export { setAskOnce } from './agents.ts';
 import { registerFsTools } from './fs.ts';
 import { registerBashTools } from './bash.ts';
+import { registerAgentTools } from './agents.ts';
 
 registerFsTools();
 registerBashTools();
+registerAgentTools();
+// 子代理/工作流(v1.3)住 agents.ts:execute 里再开一个 agent 循环,
+// 「问一轮模型」的腿由 chat.ts 以 setAskOnce 注入(它才有 key 与记账)。
 // 确认钩子(ask 档弹 y/n/a)由 chat.ts 挂——必须复用它自己那个 readline:
 // 两个 readline 实例抢同一个 stdin 会互吞输入行,全进程只能有一个 stdin 读者。
 

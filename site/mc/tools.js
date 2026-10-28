@@ -96,6 +96,8 @@ var calculator = {
 };
 
 // 统一注册表:CLI 端加工具时这里跟着添一行,对话框的能力面就同步长
+/** @typedef {{name:string,description:string,parameters:object,execute:(args:any)=>Promise<string>}} Tool Tool 形状:前三件发给模型,execute 留在本地 */
+/** @type {Tool[]} */
 export var TOOLS = [getTime, calculator];
 
 // 执行一个工具调用:名字没见过、参数不是 JSON、校验不过、执行抛错——都当结果喂回

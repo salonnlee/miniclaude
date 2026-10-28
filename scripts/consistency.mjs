@@ -137,11 +137,11 @@ tracked.forEach((f) => {
 });
 check('口径黑名单(解剖/壳)零残留', banned.length === 0, banned.join('; '));
 
-// 12. 工具柜单一事实源(v0.9 后定规,CH5/CH6 两次放宽平台专属例外):
+// 12. 工具柜单一事实源(v0.9 后定规,CH5/CH6/附加章三次放宽平台专属例外):
 //     平台无关的实现只许住 site/mc/tools.js 一处——改一处,CLI 与网页分身同时生效;
-//     src/tools/ 允许 index.ts(出口)+ fs.ts/bash.ts/permissions.ts(Node 专属,push 进 TOOLS 注册)
+//     src/tools/ 允许 index.ts(出口)+ fs.ts/bash.ts/permissions.ts/agents.ts(Node 专属,push 进 TOOLS 注册)
 {
-  const allow = ['src/tools/index.ts', 'src/tools/fs.ts', 'src/tools/bash.ts', 'src/tools/permissions.ts'];
+  const allow = ['src/tools/index.ts', 'src/tools/fs.ts', 'src/tools/bash.ts', 'src/tools/permissions.ts', 'src/tools/agents.ts'];
   const srcTools = execFileSync('git', ['ls-files', 'src/tools'], { cwd: ROOT }).toString().trim().split('\n').filter(Boolean);
   const badSrc = srcTools.filter((f) => !allow.includes(f));
   const reexportOk = srcTools.includes('src/tools/index.ts') && read('src/tools/index.ts').includes('site/mc/tools.js');
@@ -149,12 +149,15 @@ check('口径黑名单(解剖/壳)零残留', banned.length === 0, banned.join('
     || (read('src/tools/fs.ts').includes("from '../../site/mc/tools.js'") && read('src/tools/index.ts').includes('registerFsTools'));
   const bashOk = !srcTools.includes('src/tools/bash.ts')
     || (read('src/tools/bash.ts').includes("from './permissions.ts'") && read('src/tools/index.ts').includes('registerBashTools'));
-  check('工具柜单一事实源(共享实现在 site/mc/tools.js;src/tools 只许出口+fs/bash/permissions 例外)',
-    badSrc.length === 0 && reexportOk && fsOk && bashOk && read('site/mc/mc.js').includes("from './tools.js'"),
-    [badSrc.length ? `src/tools/ 里混入实现文件:${badSrc.join(', ')}(挪去 site/mc/tools.js;平台专属住 fs.ts/bash.ts)` : '',
+  const agentsOk = !srcTools.includes('src/tools/agents.ts')
+    || (read('src/tools/agents.ts').includes("from '../../site/mc/tools.js'") && read('src/tools/index.ts').includes('registerAgentTools'));
+  check('工具柜单一事实源(共享实现在 site/mc/tools.js;src/tools 只许出口+fs/bash/permissions/agents 例外)',
+    badSrc.length === 0 && reexportOk && fsOk && bashOk && agentsOk && read('site/mc/mc.js').includes("from './tools.js'"),
+    [badSrc.length ? `src/tools/ 里混入实现文件:${badSrc.join(', ')}(挪去 site/mc/tools.js;平台专属住 fs.ts/bash.ts/agents.ts)` : '',
      reexportOk ? '' : 'src/tools/index.ts 必须 re-export site/mc/tools.js',
      fsOk ? '' : 'fs.ts 必须 import 底座 TOOLS 并由 index.ts 调 registerFsTools() 注册',
-     bashOk ? '' : 'bash.ts 必须 import permissions.ts 并由 index.ts 调 registerBashTools() 注册'].filter(Boolean).join('; '));
+     bashOk ? '' : 'bash.ts 必须 import permissions.ts 并由 index.ts 调 registerBashTools() 注册',
+     agentsOk ? '' : 'agents.ts 必须 import 底座 TOOLS 并由 index.ts 调 registerAgentTools() 注册'].filter(Boolean).join('; '));
 }
 
 // —— 汇总 ——
