@@ -12,6 +12,7 @@ var DAYS = [
   {
     "date": "2026-10-28",
     "items": [
+      "mermaid 换装 Tabler（学员判太简陋）：共享渲染升级 look:neo——圆角节点+投影贴站内白卡质感，themeVariables 换全套 token；两图 classDef 改 tint 底+深色字+细边（坑：classDef 里 rgba()/stroke-width 是 SVG 属性，直接 Syntax error，换近似纯色）；css 补 cluster 标题白 halo，修子图边框穿脸；flash 真机视觉验收两图过。",
       "CH7 全景卡 c7-panorama 上线：四味药核心代码六段可点、点开透视卡（system 拼装/CLAUDE.md/cached_tokens 记账/水位/COMPACT_PROMPT/压缩器本体），非核心以 … 省略；一条线串住四味——前两味稳前缀给缓存打底，后两味管长度与账单。",
       "mod 口径收严（学员定规）：能独立插拔才算——memory 是自己攒的档案、没有上传下载，hook 只能随 plugin 集装箱发行，双双撤下 🧩 徽章；workflow/subagent/skill/斜杠命令/MCP 各有独立装卸通道，五张保有；sec-sub、aria-label、流程图 hook 节点同步。",
       "循环流程图改版（学员判 HTML 假流程图「大失败」：③的「是」路没画、回边没画、循环感没有）：撤节点胶囊，改 mermaid 真图收进「🔍 点击展开」卡（挂主板内 plugin 之上，主题与 CH3.1 同款）——③是/否两路、tool_result 喂回回边、workflow/subagent 从⑤进门与结论回家、hook 三条虚线挂④/⑤/出口，连线 6 标签 9 节点全渲染；390px 无溢出。",

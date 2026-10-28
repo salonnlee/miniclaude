@@ -163,6 +163,9 @@
   .d-blue{background:var(--accent)} .d-org{background:var(--accent-2)}
   .arch-plugin.is-active{border-color:rgba(6,111,209,.5);box-shadow:var(--ring)}
   .arch-plugin.is-active .icon-box{color:var(--accent)}
+
+  /* mermaid 子图标题压在子图边框横线上(htmlLabels:false 无文字垫片)——白色描边 halo 把线垫开 */
+  .mermaid svg .cluster-label text{paint-order:stroke;stroke:#fff;stroke-width:6px;stroke-linejoin:round}
   @media (max-width:620px){
     .row-loop{flex-wrap:wrap} .hlink{display:none}
     .row-loop .side{flex:1 1 100%;margin-top:6px}

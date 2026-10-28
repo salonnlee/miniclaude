@@ -100,14 +100,20 @@ import { CARDS as C } from './content/cards.js';
         window.mermaid.initialize({
           startOnLoad: false,
           theme: 'base',
+          /* look:neo = 圆角+卡片投影,贴站内 Tabler 白卡质感;
+             色板取 COURSE.css 的 token(蓝 #066fd1 / 橙 #f76707 / tint 底 / 边 #e6e7e9),
+             classDef 再按代码侧蓝、模型侧橙分色 */
+          look: 'neo',
           themeVariables: {
-            primaryColor: '#f8f9fc', primaryBorderColor: '#066fd1', primaryTextColor: '#262626',
-            lineColor: '#667382', fontSize: '13px',
+            primaryColor: '#ffffff', primaryBorderColor: '#e6e7e9', primaryTextColor: '#262626',
+            lineColor: '#667382', edgeLabelBackground: '#ffffff',
+            clusterBkg: '#f8f9fc', clusterBorder: 'rgba(6,111,209,.4)',
+            fontSize: '13px',
             fontFamily: '-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif'
           },
           /* htmlLabels:false → 纯 SVG <text> 标签:foreignObject 里的 HTML 标签
              会被页面全局 CSS(宽度/overflow 约束)裁字,SVG 文本不受牵连 */
-          flowchart: { curve: 'basis', htmlLabels: false, padding: 12 }
+          flowchart: { curve: 'basis', htmlLabels: false, padding: 14 }
         });
         window.mermaid.run({ nodes: [el] });
       };
