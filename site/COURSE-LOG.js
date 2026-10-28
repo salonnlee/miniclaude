@@ -12,6 +12,7 @@ var DAYS = [
   {
     "date": "2026-10-28",
     "items": [
+      "循环流程图改版（学员判 HTML 假流程图「大失败」：③的「是」路没画、回边没画、循环感没有）：撤节点胶囊，改 mermaid 真图收进「🔍 点击展开」卡（挂主板内 plugin 之上，主题与 CH3.1 同款）——③是/否两路、tool_result 喂回回边、workflow/subagent 从⑤进门与结论回家、hook 三条虚线挂④/⑤/出口，连线 6 标签 9 节点全渲染；390px 无溢出。",
       "全景架构图 mod 体系定稿（课间讨论收册）：循环层新画五环节流程图（①组装→②问LLM→③要工具→④权限→⑤执行，tool_result 喂回①），workflow/subagent 进门点标在⑤、hook 挂点标在④与出口——hook 卡挪进循环层，斜杠命令新卡进上下文层，工具层 MCP 独守；七卡＋plugin 各挂🧩 mod 徽章（modification：官方留口子用户自己写）。播放器仍 11 步流程节点随步点亮；390px 无溢出；check 全绿。",
       "CH7.1《上下文管理与压缩》完课：v1.2 context.ts 上线——system prompt 拼装（人设+环境快照+CLAUDE.md 项目记忆）、自动压缩（水位看 prompt token、老历史换摘要保尾部、切点撞 tool 边界推进）、cached_tokens 记账（智谱前缀缓存命中约五折计费）。压缩提示词摊在自己代码里，真实产品内置改不了。",
       "CH4 加餐全景卡 c4-mcp-panorama 上线（课间讨论收册）：tool → MCP——MCP 换掉的不是 tool，是 execute 住哪、怎么被调到，模型只见名片；决策树按「与宿主信任模型绑多深」分三档（强耦合留进程内、纯领域功能独立成 server、带 key 的中间地带两头都有人做）；演化四步（各家自造 → 提 PR 拧了 → MCP 标准化 → 目录与 plugin 分发）；顺手给「宿主」正名——MCP 规格书自己就叫 Host。",

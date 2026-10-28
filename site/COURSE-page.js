@@ -12,12 +12,12 @@
   var steps = [
     { a: ['user'], l: [], t: '你输入:「帮我修掉 bug.py 里的报错」' },
     { a: ['ui'], l: ['user-ui'], t: 'UI 把消息塞进对话历史,交给 Agent 循环' },
-    { a: ['loop', 'ctx', 'fl-ctx'], l: ['ui-loop'], t: '循环组装完整上下文:全部历史 + system prompt,上下文管理随时记账' },
-    { a: ['loop', 'llm', 'fl-llm'], l: ['loop-llm'], t: '发给 LLM——它是无状态的,每次都带上全部历史' },
+    { a: ['loop', 'ctx'], l: ['ui-loop'], t: '循环组装完整上下文:全部历史 + system prompt,上下文管理随时记账' },
+    { a: ['loop', 'llm'], l: ['loop-llm'], t: '发给 LLM——它是无状态的,每次都带上全部历史' },
     { a: ['llm'], l: ['loop-llm'], t: '模型吐回 tool_use:「我要 Read 一下 bug.py」' },
-    { a: ['perm', 'loop', 'fl-perm'], l: ['loop-tools'], t: '权限系统过问:Read 在允许清单里,放行' },
-    { a: ['tools', 'sys', 'fl-exec'], l: ['tools-sys'], t: '工具层真的去读文件,拿到带行号的内容' },
-    { a: ['tools', 'loop', 'fl-back'], l: ['loop-tools'], t: 'tool_result 喂回循环——结果是给模型看的,不是给你看的' },
+    { a: ['perm', 'loop'], l: ['loop-tools'], t: '权限系统过问:Read 在允许清单里,放行' },
+    { a: ['tools', 'sys'], l: ['tools-sys'], t: '工具层真的去读文件,拿到带行号的内容' },
+    { a: ['tools', 'loop'], l: ['loop-tools'], t: 'tool_result 喂回循环——结果是给模型看的,不是给你看的' },
     { a: ['loop', 'llm'], l: ['loop-llm'], t: '带着新结果再问 LLM……循环往复,直到它不再要工具' },
     { a: ['ui', 'user', 'fl-exit'], l: ['ui-loop', 'user-ui'], t: '最终回答流式渲染——这一整套,就是第 3 章的 Agent 循环' },
     { a: ['plugin'], l: [], t: '最底独立一件:📦 Plugin 插件——集装箱(发行单位),把 skill/斜杠命令/hook/MCP 配置打包分发,不新增关系' }

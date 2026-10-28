@@ -52,7 +52,7 @@ if (/^#(arch|acts|mc|backlog|miles|pact|tf|log)$/.test(location.hash)) {
     <span class="arch-cap" id="arch-cap" aria-live="polite">点「播放」，看一条消息怎么走完一整轮 Agent 循环</span>
   </div>
 
-  <div class="arch-stack" role="img" aria-label="分层架构：你、终端 UI、Agent 循环（旁挂上下文管理），向下分两路——一路通向 LLM API，一路经权限系统通向工具层，再连到文件系统与终端；循环体内画着五环节流程：组装上下文、问 LLM、要工具吗、权限把关、执行工具，tool_result 喂回组装环节，不要工具则走出口给最终回答；热词长在老位置——workflow、subagent 与 hook 挂在循环关节上，skill、斜杠命令与 memory 进上下文喂给它，MCP 在工具层长出手；最底 plugin 集装箱独立于流程，只打包分发；带拼图标的卡片都是 mod——用户自己写的扩展件">
+  <div class="arch-stack" role="img" aria-label="分层架构：你、终端 UI、Agent 循环（旁挂上下文管理），向下分两路——一路通向 LLM API，一路经权限系统通向工具层，再连到文件系统与终端；热词长在老位置——workflow、subagent 与 hook 挂在循环关节上，skill、斜杠命令与 memory 进上下文喂给它，MCP 在工具层长出手；循环下方有展开卡：五环节流程图（组装上下文、问 LLM、要工具吗、权限把关、执行工具，tool_result 喂回组装环节，不要工具走出口），mod 的进门与回家连线全在图里；最底 plugin 集装箱独立于流程，只打包分发；带拼图标的卡片都是 mod——用户自己写的扩展件">
     <div class="layer" data-layer="user">
       <span class="icon-box">👤</span>
       <div><div class="layer-name">你<span class="ch-tag">· 主角</span></div>
@@ -72,23 +72,6 @@ if (/^#(arch|acts|mc|backlog|miles|pact|tf|log)$/.test(location.hash)) {
         <span class="icon-box">🔄</span>
         <div><div class="layer-name">Agent 循环<span class="ch-tag">· 第 3 章 · 心脏</span></div>
         <div class="layer-sub">模型要工具 → 执行 → 喂回结果，直到给出最终回答</div>
-        <div class="loop-flow">
-          <div class="lf-line">
-            <span class="lf-node" data-layer="fl-ctx">① 组装上下文</span>
-            <span class="lf-arr" aria-hidden="true">→</span>
-            <span class="lf-node" data-layer="fl-llm">② 问 LLM</span>
-            <span class="lf-arr" aria-hidden="true">→</span>
-            <span class="lf-node lf-ask" data-layer="fl-ask">③ 要工具？</span>
-            <span class="lf-arr lf-no" aria-hidden="true">—否→</span>
-            <span class="lf-node lf-exit" data-layer="fl-exit">出口 · 最终回答<span class="lf-tag">🪝 Stop</span></span>
-          </div>
-          <div class="lf-line">
-            <span class="lf-node lf-gate" data-layer="fl-perm">④ 权限把关<span class="lf-tag">🪝 调用前拦一道</span></span>
-            <span class="lf-arr" aria-hidden="true">→</span>
-            <span class="lf-node" data-layer="fl-exec">⑤ 执行工具<span class="lf-tag">🔀 workflow · 👥 subagent 伪装成工具，从这进门</span></span>
-          </div>
-          <div class="lf-back" data-layer="fl-back">↩ tool_result 喂回 ①——分身的结论从这条边回家</div>
-        </div>
         <div class="hot-row"><span class="hot h-blue"><b>🔀 workflow 工作流</b><span>编排 · 流程写死在代码，节点内才是模型</span><span class="mod">🧩 mod</span></span><span class="hot h-blue"><b>👥 subagent 子代理</b><span>分身 · 再开一台同款循环，只回结论</span><span class="mod">🧩 mod</span></span><span class="hot h-blue"><b>🪝 hook 钩子</b><span>门禁 · 事件挂脚本：调用前/后、出口</span><span class="mod">🧩 mod</span></span></div></div>
       </div>
       <span class="hlink" aria-hidden="true"></span>
@@ -130,6 +113,49 @@ if (/^#(arch|acts|mc|backlog|miles|pact|tf|log)$/.test(location.hash)) {
         </div>
       </div>
     </div>
+
+    <details class="arch-fig">
+      <summary><span class="icon-box">🔍</span><span>Agent 循环内部 · 五环节流程图——③的「是/否」两路、tool_result 回边、mod 的进门与回家，连线全在图里</span><span class="af-hint">点击展开</span></summary>
+      <div class="af-body">
+<pre class="mermaid">
+flowchart TD
+  U(["👤 你"]) -->|"打字"| CTX
+  subgraph LOOP["🔄 Agent 循环 · 心脏——一圈又一圈，直到不再要工具"]
+    CTX["① 组装上下文&lt;br/&gt;📖 skill · 📣 斜杠命令 · 🗂️ memory 从这进"]
+    LLM["② 问 LLM&lt;br/&gt;无状态 · 每次带全部历史"]
+    ASK{"③ 要工具？"}
+    PERM["④ 权限把关"]
+    EXEC["⑤ 执行工具"]
+    STOP(["出口 · 最终回答&lt;br/&gt;流式渲染给你"])
+    CTX --> LLM
+    LLM --> ASK
+    ASK -->|"是"| PERM
+    ASK -->|"否，不再要了"| STOP
+    PERM --> EXEC
+    EXEC -->|"tool_result 喂回 ①·每要一次就多转一圈"| CTX
+  end
+  HK["🧩 🪝 hook 门禁&lt;br/&gt;调用前 · 执行后 · Stop——挂在事件上，不进数据流"]
+  MOD["🧩 🔀 workflow · 👥 subagent&lt;br/&gt;伪装成工具，execute = 再开嵌套循环"]
+  PERM -.- HK
+  EXEC -.- HK
+  STOP -.- HK
+  EXEC -->|"从这进门"| MOD
+  MOD -->|"结论当 tool_result 回家"| CTX
+  classDef code fill:#eaf2fd,stroke:#066fd1,color:#262626
+  classDef model fill:#fdf1e8,stroke:#f76707,color:#262626
+  classDef exitn fill:#e9f7ee,stroke:#2fb344,color:#262626
+  classDef modn fill:#fff,stroke:#066fd1,stroke-dasharray:5 4,color:#262626
+  classDef hkn fill:#fff,stroke:#667382,stroke-dasharray:5 4,color:#262626
+  class CTX,PERM,EXEC code
+  class LLM,ASK model
+  class STOP exitn
+  class MOD modn
+  class HK hkn
+  style LOOP fill:#f8f9fc,stroke:#066fd1,stroke-width:1.5px
+  style U fill:#fff,stroke:#667382
+</pre>
+      </div>
+    </details>
 
     <div class="arch-plugin" data-layer="plugin">
       <div class="plugin-head">
