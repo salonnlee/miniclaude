@@ -624,13 +624,13 @@ if (/^#(arch|acts|mc|backlog|miles|pact|tf|log)$/.test(location.hash)) {
       <ul class="ch-list" data-lessons="ch2">
       </ul>
       <details class="ch-lab" id="chat-lab">
-        <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · chat.ts 透视台（整份代码可点 × 透视卡 × 真机连线）<span class="ch-lab-hint">src/chat.ts 154 行真代码，SSE 流式当场拆、工具申请现场攒</span></summary>
+        <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · chat.ts 透视台（整份代码可点 × 透视卡 × 真机连线）<span class="ch-lab-hint">src/chat.ts 150 行真代码，SSE 流式当场拆、工具申请现场攒</span></summary>
         <div class="ch-lab-body">
   <div class="lab-cap">A · 代码透视 —— 左边是 src/chat.ts 全文（七段），点任意段落，右边透视卡交代它干什么、数据什么形状</div>
   <div class="lab-grid cx-grid">
     <div class="lab-box">
       <div class="lab-row" style="margin:0 0 8px">
-        <span class="lab-cap" style="margin:0">src/chat.ts · 154 行（点击段落 · 滚轮看全文）</span>
+        <span class="lab-cap" style="margin:0">src/chat.ts · 150 行（点击段落 · 滚轮看全文）</span>
         <span class="lab-mini" id="cx-fold">⤢ 展开全部</span>
       </div>
       <div class="cx-code" id="cx-code"></div>
@@ -677,7 +677,7 @@ if (/^#(arch|acts|mc|backlog|miles|pact|tf|log)$/.test(location.hash)) {
       <div class="cx-evts" id="cx-raw">发一条消息，这里直播服务器吐的每一行</div>
     </div>
   </div>
-  <p class="bg-hint">玩法：A 台把七段代码点一遍——154 行每行都有来处,⑥ 段看 agent 循环怎么转。B 台先看「整包到达」再点「劈成碎片」：碎片模式下缓冲区长期滞留半截 JSON，这就是为什么不能「来一块解析一块」，必须攒到换行。C 台是真机：打字机上屏的同时，右侧直播原始事件流——灰色 reasoning_content 是模型的思考草稿，chat.ts 只取 content，但草稿照样计费，账单一栏见分晓。</p>
+  <p class="bg-hint">玩法：A 台把七段代码点一遍——150 行每行都有来处,⑥ 段看 agent 循环怎么转。B 台先看「整包到达」再点「劈成碎片」：碎片模式下缓冲区长期滞留半截 JSON，这就是为什么不能「来一块解析一块」，必须攒到换行。C 台是真机：打字机上屏的同时，右侧直播原始事件流——灰色 reasoning_content 是模型的思考草稿，chat.ts 只取 content，但草稿照样计费，账单一栏见分晓。</p>
         </div>
       </details>
       <div class="ch-foot"><span class="foot-chip ver" data-ship="ch2"></span><span class="foot-chip">🔍 考点 · 为什么每次请求都重发完整历史？代价是什么？</span></div>

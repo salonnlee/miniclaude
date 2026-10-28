@@ -1,9 +1,7 @@
 // v0.8 · agent 循环 —— 聊天 + 工具调用(声明 → tool_use → 执行喂回 → 循环到它不再要)
 // 跑法:npm run chat(node 26 原生跑 TS,key 住 .env 不进代码)
 import * as readline from 'node:readline/promises';
-import { calculator } from './tools/calculator.ts';
-import { getTime } from './tools/get_time.ts';
-import type { Tool } from './tools/types.ts';
+import { TOOLS } from './tools/index.ts';
 
 const KEY = process.env.GLM_API_KEY;
 if (!KEY) {
@@ -11,7 +9,6 @@ if (!KEY) {
   process.exit(1);
 }
 
-const TOOLS: Tool[] = [getTime, calculator];
 const API = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
 const PRICE = { in: 4, out: 14 }; // 元 / 百万 token
 const usage = { in: 0, out: 0 };
@@ -88,12 +85,16 @@ function done(text: string, acc: (ToolCall | undefined)[]): { text: string; tool
   return { text, toolCalls: acc.filter((c): c is ToolCall => !!c?.name) };
 }
 
-// 执行一个工具调用:找不到工具、参数不是合法 JSON、执行抛错,都当结果喂回而不是崩溃(CH4 预告)
+// 执行一个工具调用:名字没见过、参数不是合法 JSON、校验不过、执行抛错——
+// 都当结果喂回而不是崩溃,模型看着错误自己改(CH4 的头号秘密)
 async function run(call: ToolCall): Promise<string> {
   const tool = TOOLS.find(t => t.name === call.name);
   if (!tool) return `未知工具:${call.name}`;
   try {
-    return await tool.execute(JSON.parse(call.args || '{}'));
+    const args = JSON.parse(call.args || '{}');
+    const errs = validate(args, tool.parameters); // 说明书不只发给模型看,还反过来约束进门的参数
+    if (errs.length) return `参数校验不过:${errs.join(';')}`;
+    return await tool.execute(args);
   } catch (e) {
     return `工具执行出错:${e instanceof Error ? e.message : e}`;
   }

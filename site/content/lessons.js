@@ -210,7 +210,7 @@ export const LESSONS = {
             "code": "CH2.1",
             "name": "v0.4 · 聊天机器人",
             "done": "2026-10-27（四步长成：脚手架 TS+Node → 非流式最小循环（记忆即 messages 数组）→ 流式 SSE（缓冲区攒换行才算一条事件，打字机逐词上屏）→ 记账（退出报 75+232 token≈¥0.0035））",
-            "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（149 行代码可点 × 透视卡 × 真机连线）"
+            "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（150 行代码可点 × 透视卡 × 真机连线）"
           },
           {
             "label": "知识点",
@@ -249,7 +249,8 @@ export const LESSONS = {
           {
             "code": "CH4.1",
             "name": "工具注册表与说明书工程",
-            "mark": "⏭ 下一站"
+            "done": "2026-10-28（闸门三件套一次落齐：validate.ts 手写迷你 Schema 校验——错误当结果喂回让模型自己改；eval 换 tokenizer+递归下降——恶意输入不是被拦，是无法表达，攻击样本 16/16 倒在门口；tools/index.ts 统一注册表——加工具零改主循环。AB 实验跳过：说明书改成「无论难易必须调用」则 10+3 必触发，共识免验）",
+            "tail": "—— npm run chat 可玩 · 说明书 A/B 玩法留作自选实验"
           },
           {
             "label": "知识点",
@@ -265,6 +266,11 @@ export const LESSONS = {
     "ch5": {
       "groups": [
         [
+          {
+            "code": "CH5.1",
+            "name": "文件读写工具",
+            "mark": "⏭ 下一站"
+          },
           {
             "label": "知识点",
             "text": "行号、截断、二进制检测——全是上下文经济学；Edit 用精确字符串替换而非行号（模型记的行号会过期）；搜索而非通读"

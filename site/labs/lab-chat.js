@@ -42,15 +42,13 @@ var pinSync = function () {};
   addEventListener('resize', sync);
 })();
 
-/* 七段代码与 src/chat.ts 逐字一致(v0.8 agent 循环,149 行) */
+/* 七段代码与 src/chat.ts 逐字一致(v0.8 agent 循环 + CH4 闸门注册表,150 行) */
 var SEGS = [
   {
     id: 'gear',
     tag: '① 装备区',
     code: "import * as readline from 'node:readline/promises';\n" +
-      "import { calculator } from './tools/calculator.ts';\n" +
-      "import { getTime } from './tools/get_time.ts';\n" +
-      "import type { Tool } from './tools/types.ts';\n" +
+      "import { TOOLS } from './tools/index.ts';\n" +
       "\n" +
       "const KEY = process.env.GLM_API_KEY;\n" +
       "if (!KEY) {\n" +
@@ -58,13 +56,12 @@ var SEGS = [
       "  process.exit(1);\n" +
       "}\n" +
       "\n" +
-      "const TOOLS: Tool[] = [getTime, calculator];\n" +
       "const API = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';\n" +
       "const PRICE = { in: 4, out: 14 }; // 元 / 百万 token\n" +
       "const usage = { in: 0, out: 0 };",
     card: ['装备区:开战前的五样东西',
-      '<b>三个 import</b>——工具不再写死在主文件:tools/ 目录一件一个文件,统一的 <b>Tool</b> 形状(名字/说明书/参数表/execute)住在 types.ts。' +
-      '<b>TOOLS</b> 数组就是工具柜,往里添一行 = 柜里多一层,主循环一行不用改(CH4 注册表伏笔)。<b>KEY</b>——从环境变量来(.env),不写死在代码里;' +
+      '工具从哪来?从 <b>注册表</b>——tools/index.ts 统一出口:tools/ 目录一件一个文件,统一的 <b>Tool</b> 形状(名字/说明书/参数表/execute)住在 types.ts,' +
+      '加工具 = 加文件 + 注册表添一行,主循环一行不用改(Claude Code 上百个工具背后就是这么一张表)。<b>KEY</b>——从环境变量来(.env),不写死在代码里;' +
       '<b>API</b> 换厂商就是换域名;<b>PRICE</b> 价目表(输入 4 元、输出 14 元,每百万 token);<b>usage</b> 从 0 记账。']
   },
   {
@@ -163,20 +160,25 @@ var SEGS = [
       "  return { text, toolCalls: acc.filter((c): c is ToolCall => !!c?.name) };\n" +
       "}\n" +
       "\n" +
-      "// 执行一个工具调用:找不到工具、参数不是合法 JSON、执行抛错,都当结果喂回而不是崩溃(CH4 预告)\n" +
+      "// 执行一个工具调用:名字没见过、参数不是合法 JSON、校验不过、执行抛错——\n" +
+      "// 都当结果喂回而不是崩溃,模型看着错误自己改(CH4 的头号秘密)\n" +
       "async function run(call: ToolCall): Promise<string> {\n" +
       "  const tool = TOOLS.find(t => t.name === call.name);\n" +
       "  if (!tool) return `未知工具:${call.name}`;\n" +
       "  try {\n" +
-      "    return await tool.execute(JSON.parse(call.args || '{}'));\n" +
+      "    const args = JSON.parse(call.args || '{}');\n" +
+      "    const errs = validate(args, tool.parameters); // 说明书不只发给模型看,还反过来约束进门的参数\n" +
+      "    if (errs.length) return `参数校验不过:${errs.join(';')}`;\n" +
+      "    return await tool.execute(args);\n" +
       "  } catch (e) {\n" +
       "    return `工具执行出错:${e instanceof Error ? e.message : e}`;\n" +
       "  }\n" +
       "}",
     card: ['run·执行在代码,错误当结果',
-      '执行权在谁手里?在 <b>你的代码</b>——模型只递申请单,execute 是柜子里你写的函数。三道兜底一个不崩:' +
-      '名字没见过、arguments 不是合法 JSON、执行抛异常——统统<b>当字符串结果喂回去</b>,让模型看着错误自己改(它真会:' +
-      '参数写错一次,下一轮它自己修)。agent 鲁棒性的头号秘密,CH4 正课展开。done() 是收尾小工:把攒的槽位滤成清单。']
+      '执行权在谁手里?在 <b>你的代码</b>——模型只递申请单,execute 是柜子里你写的函数。四道兜底一个不崩:' +
+      '名字没见过、arguments 不是合法 JSON、<b>参数校验不过</b>(说明书不只发给模型看,还反过来约束进门的参数——' +
+      'validate.ts 手写的迷你 JSON Schema 校验器)、执行抛异常——统统<b>当字符串结果喂回去</b>,让模型看着错误自己改(它真会:' +
+      '参数写错一次,下一轮它自己修)。agent 鲁棒性的头号秘密。done() 是收尾小工:把攒的槽位滤成清单。']
   },
   {
     id: 'loop',
