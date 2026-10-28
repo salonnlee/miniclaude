@@ -126,9 +126,38 @@
     border-radius:999px;border:1px solid var(--border);background:#fff;color:var(--muted);
     font-size:12px;transition:border-color .25s,color .25s}
   .gate.is-active{border-color:rgba(6,111,209,.55);color:var(--accent)}
+
+  /* ---------- architecture · 插槽排与壳带(热词总关系图整合) ---------- */
+  .arch-slots{margin-top:26px}
+  .slots-rail{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;border-top:2px solid var(--border);
+    transition:border-color .25s}
+  .slot{position:relative;display:flex;flex-direction:column;gap:1px;margin-top:12px;padding:6px 10px;
+    border-radius:var(--radius-s);border:1px solid var(--border);background:#fff;
+    transition:border-color .25s,background-color .25s,box-shadow .25s}
+  .slot::before{content:"";position:absolute;top:-13px;left:16px;width:2px;height:11px;background:var(--border);
+    transition:background-color .25s}
+  .slot b{font-weight:600;font-size:12.5px}
+  .slot > span{font-size:11.5px;color:var(--muted)}
+  .slot.s-blue{background:var(--tint-blue)} .slot.s-blue b{color:var(--accent-deep)}
+  .slot.s-org{background:var(--tint-orange)} .slot.s-org b{color:var(--accent-2-deep)}
+  .arch-slots.is-active .slots-rail{border-top-color:var(--accent)}
+  .arch-slots.is-active .slot{border-color:rgba(6,111,209,.45);box-shadow:var(--ring)}
+  .arch-slots.is-active .slot::before{background:var(--accent)}
+  .slots-note{margin-top:8px;font-size:12px;color:var(--muted)}
+  .arch-shells{margin-top:24px}
+  .shells-bracket{text-align:center;font-size:12px;color:var(--muted);padding-bottom:8px}
+  .shells-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .shell{display:flex;flex-direction:column;gap:1px;padding:6px 12px;border-radius:var(--radius-s);
+    border:1px solid var(--border);background:#fff;transition:border-color .25s,background-color .25s,box-shadow .25s}
+  .shell b{font-weight:600;font-size:12.5px}
+  .shell span{font-size:11.5px;color:var(--muted)}
+  .shell.is-home{border-color:rgba(6,111,209,.55);background:var(--tint-blue)}
+  .shell.is-home b{color:var(--accent-deep)}
+  .arch-shells.is-active .shell{border-color:rgba(6,111,209,.45);box-shadow:var(--ring)}
   @media (max-width:620px){
     .row-loop{flex-wrap:wrap} .hlink{display:none}
     .row-loop .side{flex:1 1 100%;margin-top:6px}
+    .slot{flex:1 1 calc(50% - 6px)} .shell{flex:1 1 100%}
     .hero h1{font-size:30px} .chip.update{margin-left:0}
     section.block{padding:20px 18px 18px}
   }

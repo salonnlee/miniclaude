@@ -45,14 +45,14 @@ if (/^#(arch|acts|mc|backlog|miles|pact|tf|log)$/.test(location.hash)) {
 <section class="block" id="arch">
   <div class="sec-kicker">01 / MAP</div>
   <h2 class="sec">全景架构</h2>
-  <p class="sec-sub">这张图就是 Claude Code 的骨架：Agent 循环居中调度——左边把问题交给模型去想，右边过权限闸门让工具去做；想完的交给做，做完的喂回想，一轮一轮，转到活干完。</p>
+  <p class="sec-sub">这张图就是 Claude Code 的骨架：Agent 循环居中调度——左边把问题交给模型去想，右边过权限闸门让工具去做；想完的交给做，做完的喂回想，一轮一轮，转到活干完。热词也钉进来了：底下一排插槽是全网的扩展件，最底一条壳带是全网的产品——词是新的，插的位置全是老位置。</p>
 
   <div class="arch-tools">
     <button class="arch-btn" id="arch-btn" type="button"><span id="arch-btn-ic">▶</span><span id="arch-btn-label">播放：一次请求的旅程</span></button>
     <span class="arch-cap" id="arch-cap" aria-live="polite">点「播放」，看一条消息怎么走完一整轮 Agent 循环</span>
   </div>
 
-  <div class="arch-stack" role="img" aria-label="分层架构：你、终端 UI、Agent 循环（旁挂上下文管理），向下分两路——一路通向 LLM API，一路经权限系统通向工具层，再连到文件系统与终端">
+  <div class="arch-stack" role="img" aria-label="分层架构：你、终端 UI、Agent 循环（旁挂上下文管理），向下分两路——一路通向 LLM API，一路经权限系统通向工具层，再连到文件系统与终端；主板下沿一排扩展插槽（MCP、plugin、skill、memory、workflow、subagent、hook），最底三副产品壳（Claude Code、OpenClaw、WorkBuddy）装的是同一颗心脏">
     <div class="layer" data-layer="user">
       <span class="icon-box">👤</span>
       <div><div class="layer-name">你<span class="ch-tag">· 主角</span></div>
@@ -108,6 +108,29 @@ if (/^#(arch|acts|mc|backlog|miles|pact|tf|log)$/.test(location.hash)) {
           <div><div class="layer-name">文件系统 · 终端 · 网络<span class="ch-tag">· 真实世界</span></div>
           <div class="layer-sub">你的代码、你的命令、你的机器</div></div>
         </div>
+      </div>
+    </div>
+
+    <div class="arch-slots" data-layer="slots">
+      <div class="layer-name">扩展插槽<span class="ch-tag">· 第 9 章 · 全网热词都插在这台循环上</span></div>
+      <div class="slots-rail">
+        <span class="slot s-blue"><b>🔌 MCP server</b><span>手 · 工具层的标准插座，写一次家家能插</span></span>
+        <span class="slot s-blue"><b>📦 plugin 插件</b><span>集装箱 · 装着 skill＋命令＋hook＋MCP</span></span>
+        <span class="slot s-org"><b>📖 skill 技能</b><span>章法 · 教它这类活怎么干，触发才展开</span></span>
+        <span class="slot s-org"><b>🗃️ memory 记忆</b><span>知识 · 跨会话的档案柜</span></span>
+        <span class="slot s-blue"><b>🔀 workflow 工作流</b><span>编制 · 流程写死在代码，节点内才是模型</span></span>
+        <span class="slot s-blue"><b>👥 subagent 子代理</b><span>分身 · 独立上下文，干完只回结论</span></span>
+        <span class="slot s-blue"><b>🪝 hook 钩子</b><span>纪律 · 事件上挂脚本，门口先拦一道</span></span>
+      </div>
+      <div class="slots-note">🔵 代码侧加手（确定） · 🟠 喂给模型的内容（概率）——词是新的，插的位置全是老位置</div>
+    </div>
+
+    <div class="arch-shells" data-layer="shells">
+      <div class="shells-bracket">↑ 上面整台机器＝心脏，换的只是壳</div>
+      <div class="shells-row">
+        <span class="shell is-home"><b>⌨️ Claude Code</b><span>终端壳 · 第 8 章 · 你正在造</span></span>
+        <span class="shell"><b>💬 OpenClaw</b><span>聊天壳 · 开源 · 模型随便换</span></span>
+        <span class="shell"><b>🏢 WorkBuddy</b><span>工作台壳 · 腾讯 · 企业管控</span></span>
       </div>
     </div>
   </div>
