@@ -1,7 +1,8 @@
-// v0.8 · agent 循环 —— 聊天 + 工具调用(声明 → tool_use → 执行喂回 → 循环到它不再要)
+// v1.2 · agent 循环 + 上下文管理 —— 聊天 + 工具调用 + 记忆不再无限长(压缩) + 缓存记账
 // 跑法:npm run chat(node 26 原生跑 TS,key 住 .env 不进代码)
 import * as readline from 'node:readline/promises';
 import { TOOLS, validate, setConfirm } from './tools/index.ts';
+import { buildSystemPrompt, shouldCompact, compactHistory, COMPACT_AT, type Msg, type ToolCall, type ApiToolCall } from './context.ts';
 
 const KEY = process.env.GLM_API_KEY;
 if (!KEY) {
@@ -11,16 +12,11 @@ if (!KEY) {
 
 const API = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
 const PRICE = { in: 4, out: 14 }; // 元 / 百万 token
-const usage = { in: 0, out: 0 };
+const usage = { in: 0, out: 0, cached: 0, lastPrompt: 0 };
 
 // 消息数组就是记忆:system/user/assistant/tool 四种角色,tool 消息必须绑 tool_call_id
-type ToolCall = { id: string; name: string; args: string };
-type ApiToolCall = { id: string; type: 'function'; function: { name: string; arguments: string } };
-type Msg =
-  | { role: 'system' | 'user'; content: string }
-  | { role: 'assistant'; content: string; tool_calls?: ApiToolCall[] }
-  | { role: 'tool'; tool_call_id: string; content: string };
-const messages: Msg[] = [{ role: 'system', content: '你是小c,简洁直接的中文助手。' }];
+// v1.2 形状与拼装搬进 context.ts:system prompt 不再是裸一句人设,而是人设+环境快照+CLAUDE.md
+const messages: Msg[] = [{ role: 'system', content: buildSystemPrompt() }];
 
 // 发全部历史,流式收回「这一轮发生了什么」(说话了还是要工具了),顺手记账
 async function ask(): Promise<{ text: string; toolCalls: ToolCall[] }> {
@@ -59,11 +55,13 @@ async function ask(): Promise<{ text: string; toolCalls: ToolCall[] }> {
             tool_calls?: { index: number; id?: string; function?: { name?: string; arguments?: string } }[];
           };
         }[];
-        usage?: { prompt_tokens?: number; completion_tokens?: number };
+        usage?: { prompt_tokens?: number; completion_tokens?: number; prompt_tokens_details?: { cached_tokens?: number } };
       };
       if (c.usage) {
         usage.in += c.usage.prompt_tokens ?? 0; // 账单只挂在最后一个事件
         usage.out += c.usage.completion_tokens ?? 0;
+        usage.cached += c.usage.prompt_tokens_details?.cached_tokens ?? 0; // 前缀缓存命中:命中部分约五折计费
+        usage.lastPrompt = c.usage.prompt_tokens ?? usage.lastPrompt; // 当前上下文水位,压缩看它
       }
       const d = c.choices?.[0]?.delta;
       if (d?.content) {
@@ -79,6 +77,20 @@ async function ask(): Promise<{ text: string; toolCalls: ToolCall[] }> {
     }
   }
   return done(text, toolAcc); // 没等到 [DONE] 就断流:攒到多少算多少
+}
+
+// 素请求:不带 tools、直接收整段文本——压缩器要的就是它(总结历史不需要工具)
+async function askPlain(msgs: Msg[]): Promise<string> {
+  const res = await fetch(API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${KEY}` },
+    body: JSON.stringify({ model: 'glm-4.6', messages: msgs, max_tokens: 4096, stream: false }),
+  });
+  if (!res.ok) throw new Error(`API ${res.status}:${await res.text()}`);
+  const data = (await res.json()) as { choices?: { message?: { content?: string } }[] };
+  const text = data.choices?.[0]?.message?.content ?? '';
+  if (text) process.stdout.write(text); // 压缩摘要当场亮出来,压了什么看得见
+  return text;
 }
 
 function done(text: string, acc: (ToolCall | undefined)[]): { text: string; toolCalls: ToolCall[] } {
@@ -148,6 +160,12 @@ while (true) {
       }
     }
     process.stdout.write('\n\n');
+    // 上下文水位:超线就把老历史压成摘要(水位看的是最后一次请求的 prompt token,
+    // 而不是消息条数——token 才是要花钱的那个单位)
+    if (shouldCompact(usage.lastPrompt)) {
+      console.log(`  🗜 上下文 ${usage.lastPrompt} token 超过水位 ${COMPACT_AT},压缩老历史…`);
+      if (await compactHistory(messages, askPlain)) console.log('  🗜 已压缩:老历史换摘要,尾部原文保留');
+    }
   } catch (e) {
     messages.length = rollback; // 失败这轮不入账,别留半截对话
     console.error(`出错:${e instanceof Error ? e.message : e}\n`);
@@ -155,5 +173,6 @@ while (true) {
 }
 
 rl.close();
-const cost = (usage.in * PRICE.in + usage.out * PRICE.out) / 1e6;
-console.log(`再见。合计输入 ${usage.in} + 输出 ${usage.out} token,约 ¥${cost.toFixed(4)}`);
+// 缓存命中的 token 约五折计费(智谱上下文缓存),折算进总账看真便宜
+const cost = ((usage.in - usage.cached) * PRICE.in + usage.cached * PRICE.in * 0.5 + usage.out * PRICE.out) / 1e6;
+console.log(`再见。输入 ${usage.in}(缓存命中 ${usage.cached},五折计)+ 输出 ${usage.out} token,约 ¥${cost.toFixed(4)}`);

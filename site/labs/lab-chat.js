@@ -1,6 +1,6 @@
 /* labs/lab-chat.js —— CH2 实验室:chat.ts 透视台
    ----------------------------------------------------------------------------
-   A 台:src/chat.ts 全文七段,点击段落 → 透视卡交代它干什么、数据什么形状
+   A 台:src/chat.ts 全文八段,点击段落 → 透视卡交代它干什么、数据什么形状
         (透视卡机制同 CH1 素颜相见台,升格为整份代码可透视——代码分析标配)。
    B 台:SSE 缓冲实验——同一段流两种到达方式(整包 vs 劈成碎片),
         逐字进缓冲区、见换行切事件,亲眼看半截 JSON 为什么不能解析。
@@ -42,13 +42,16 @@ var pinSync = function () {};
   addEventListener('resize', sync);
 })();
 
-/* 七段代码与 src/chat.ts 逐字一致(v1.1 命令执行 + 安全闸门,159 行) */
+/* 八段代码与 src/chat.ts 逐字一致(v1.2 上下文管理与压缩,178 行) */
 var SEGS = [
   {
     id: 'gear',
     tag: '① 装备区',
-    code: "import * as readline from 'node:readline/promises';\n" +
+    code: "// v1.2 · agent 循环 + 上下文管理 —— 聊天 + 工具调用 + 记忆不再无限长(压缩) + 缓存记账\n" +
+      "// 跑法:npm run chat(node 26 原生跑 TS,key 住 .env 不进代码)\n" +
+      "import * as readline from 'node:readline/promises';\n" +
       "import { TOOLS, validate, setConfirm } from './tools/index.ts';\n" +
+      "import { buildSystemPrompt, shouldCompact, compactHistory, COMPACT_AT, type Msg, type ToolCall, type ApiToolCall } from './context.ts';\n" +
       "\n" +
       "const KEY = process.env.GLM_API_KEY;\n" +
       "if (!KEY) {\n" +
@@ -58,32 +61,24 @@ var SEGS = [
       "\n" +
       "const API = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';\n" +
       "const PRICE = { in: 4, out: 14 }; // 元 / 百万 token\n" +
-      "const usage = { in: 0, out: 0 };",
+      "const usage = { in: 0, out: 0, cached: 0, lastPrompt: 0 };\n",
     card: ['装备区:开战前的五样东西',
-      '工具从哪来?从 <b>注册表</b>——tools/index.ts 统一出口:tools/ 目录一件一个文件,统一的 <b>Tool</b> 形状(名字/说明书/参数表/execute)住在 types.ts,' +
-      '加工具 = 加文件 + 注册表添一行,主循环一行不用改(Claude Code 上百个工具背后就是这么一张表)。<b>KEY</b>——从环境变量来(.env),不写死在代码里;' +
-      '<b>API</b> 换厂商就是换域名;<b>PRICE</b> 价目表(输入 4 元、输出 14 元,每百万 token);<b>usage</b> 从 0 记账。']
+      '工具从哪来?从 <b>注册表</b>——tools/index.ts 统一出口:tools/ 目录一件一个文件,统一的 <b>Tool</b> 形状(名字/说明书/参数表/execute)住在 types.ts,加工具 = 加文件 + 注册表添一行,主循环一行不用改(Claude Code 上百个工具背后就是这么一张表)。<b>KEY</b>——从环境变量来(.env),不写死在代码里;<b>API</b> 换厂商就是换域名;<b>PRICE</b> 价目表(输入 4 元、输出 14 元,每百万 token);<b>usage</b> 从 0 记账——v1.2 多了两栏:<b>cached</b>(缓存命中的 token,约五折计)和 <b>lastPrompt</b>(当前上下文水位,压缩器看它)。']
   },
   {
     id: 'types',
     tag: '② 记忆与形状',
     code: "// 消息数组就是记忆:system/user/assistant/tool 四种角色,tool 消息必须绑 tool_call_id\n" +
-      "type ToolCall = { id: string; name: string; args: string };\n" +
-      "type ApiToolCall = { id: string; type: 'function'; function: { name: string; arguments: string } };\n" +
-      "type Msg =\n" +
-      "  | { role: 'system' | 'user'; content: string }\n" +
-      "  | { role: 'assistant'; content: string; tool_calls?: ApiToolCall[] }\n" +
-      "  | { role: 'tool'; tool_call_id: string; content: string };\n" +
-      "const messages: Msg[] = [{ role: 'system', content: '你是小c,简洁直接的中文助手。' }];",
-    card: ['记忆的四种族谱(TS 联合类型)',
-      'v0.4 的记忆只有三种角色,v0.8 添了第四种:<b>tool</b>——而且它<b>必须绑 tool_call_id</b>,指认自己回答的是哪一次申请;' +
-      'assistant 那条也多了可选的 tool_calls 字段,记下「它开口要过什么」。这正是考点 2:tool 消息必须追在带 tool_calls 的 assistant 记录之后,' +
-      '没有开口记录直接塞,API 当场 400。注意 TS 类型只活在编译期——发上线的还是 JSON,类型是给自己(和模型协议)立的规矩。']
+      "// v1.2 形状与拼装搬进 context.ts:system prompt 不再是裸一句人设,而是人设+环境快照+CLAUDE.md\n" +
+      "const messages: Msg[] = [{ role: 'system', content: buildSystemPrompt() }];\n",
+    card: ['记忆:形状搬走,拼装升级',
+      '四种角色(system/user/assistant/tool)的形状定义 v1.2 搬进了 <b>context.ts</b>——上下文的账本和记账的笔住一处。messages 初始化那一行也换了血:不再是裸一句人设,而是 <b>buildSystemPrompt()</b> 拼出来的三段——人设 + 环境快照(工作目录/会话始于) + CLAUDE.md 项目记忆。关键在「快照」二字:环境信息取启动那一刻定格,整会话一字不改——前缀缓存从第一个字开始匹配,system prompt 改一个字、缓存全部作废。']
   },
   {
     id: 'req',
     tag: '③ ask·发请求',
-    code: "async function ask(): Promise<{ text: string; toolCalls: ToolCall[] }> {\n" +
+    code: "// 发全部历史,流式收回「这一轮发生了什么」(说话了还是要工具了),顺手记账\n" +
+      "async function ask(): Promise<{ text: string; toolCalls: ToolCall[] }> {\n" +
       "  const res = await fetch(API, {\n" +
       "    method: 'POST',\n" +
       "    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${KEY}` },\n" +
@@ -97,11 +92,10 @@ var SEGS = [
       "      })),\n" +
       "    }),\n" +
       "  });\n" +
-      "  if (!res.ok || !res.body) throw new Error(`API ${res.status}:${await res.text()}`);",
+      "  if (!res.ok || !res.body) throw new Error(`API ${res.status}:${await res.text()}`);\n" +
+      "\n",
     card: ['ask·说明书随行一起寄',
-      '比 v0.4 多一个 <b>tools</b> 字段:把工具柜每层的三张标签(name/description/parameters)随消息一起寄出去——' +
-      '模型「知道有工具可调」全靠这一眼。坑在形状:OpenAI 口径要<b>套一层 function 壳</b>(type:“function” 包着本体),' +
-      '拍扁直接发,回你 tools[0].function 不能为空(真机踩过)。返回值也从「一段话」变成 <b>Turn</b>:这一轮它说了什么、要了哪些工具,两头都收。']
+      '比 v0.4 多一个 <b>tools</b> 字段:把工具柜每层的三张标签(name/description/parameters)随消息一起寄出去——模型「知道有工具可调」全靠这一眼。坑在形状:OpenAI 口径要<b>套一层 function 壳</b>(type:“function” 包着本体),拍扁直接发,回你 tools[0].function 不能为空(真机踩过)。返回值也从「一段话」变成 <b>Turn</b>:这一轮它说了什么、要了哪些工具,两头都收。']
   },
   {
     id: 'sse',
@@ -126,11 +120,13 @@ var SEGS = [
       "            tool_calls?: { index: number; id?: string; function?: { name?: string; arguments?: string } }[];\n" +
       "          };\n" +
       "        }[];\n" +
-      "        usage?: { prompt_tokens?: number; completion_tokens?: number };\n" +
+      "        usage?: { prompt_tokens?: number; completion_tokens?: number; prompt_tokens_details?: { cached_tokens?: number } };\n" +
       "      };\n" +
       "      if (c.usage) {\n" +
       "        usage.in += c.usage.prompt_tokens ?? 0; // 账单只挂在最后一个事件\n" +
       "        usage.out += c.usage.completion_tokens ?? 0;\n" +
+      "        usage.cached += c.usage.prompt_tokens_details?.cached_tokens ?? 0; // 前缀缓存命中:命中部分约五折计费\n" +
+      "        usage.lastPrompt = c.usage.prompt_tokens ?? usage.lastPrompt; // 当前上下文水位,压缩看它\n" +
       "      }\n" +
       "      const d = c.choices?.[0]?.delta;\n" +
       "      if (d?.content) {\n" +
@@ -146,16 +142,33 @@ var SEGS = [
       "    }\n" +
       "  }\n" +
       "  return done(text, toolAcc); // 没等到 [DONE] 就断流:攒到多少算多少\n" +
-      "}",
+      "}\n",
     card: ['拆流:老三样之外,工具申请也要攒',
-      '攒→切→解析还是 v0.4 那三步(下方 B 台亲手玩),新活是 <b>toolAcc</b>:流式下模型回的工具调用不是整块,' +
-      '是按 <b>index</b> 开槽、name 和 arguments 一片一片挤出来的——所以逐片 <b>+=</b> 拼,id 却是整块赋值(只来一次)。' +
-      '攒到 [DONE] 才算收齐一份完整申请清单。没攒这一步,toolCalls 永远是空的——「输出为空」的第一嫌疑现场。',
+      '攒→切→解析还是 v0.4 那三步(下方 B 台亲手玩),新活是 <b>toolAcc</b>:流式下模型回的工具调用不是整块,是按 <b>index</b> 开槽、name 和 arguments 一片一片挤出来的——所以逐片 <b>+=</b> 拼,id 却是整块赋值(只来一次)。v1.2 记账多了两笔:<b>cached_tokens</b> 藏在 prompt_tokens_details 里——前缀缓存命中了多少,一目了然;lastPrompt 记下当前水位,出了这个循环压缩器就要看它。',
       'sse']
   },
   {
+    id: 'plain',
+    tag: '⑤ askPlain·素请求',
+    code: "// 素请求:不带 tools、直接收整段文本——压缩器要的就是它(总结历史不需要工具)\n" +
+      "async function askPlain(msgs: Msg[]): Promise<string> {\n" +
+      "  const res = await fetch(API, {\n" +
+      "    method: 'POST',\n" +
+      "    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${KEY}` },\n" +
+      "    body: JSON.stringify({ model: 'glm-4.6', messages: msgs, max_tokens: 4096, stream: false }),\n" +
+      "  });\n" +
+      "  if (!res.ok) throw new Error(`API ${res.status}:${await res.text()}`);\n" +
+      "  const data = (await res.json()) as { choices?: { message?: { content?: string } }[] };\n" +
+      "  const text = data.choices?.[0]?.message?.content ?? '';\n" +
+      "  if (text) process.stdout.write(text); // 压缩摘要当场亮出来,压了什么看得见\n" +
+      "  return text;\n" +
+      "}\n",
+    card: ['askPlain·压缩器的腿',
+      'v1.2 新增:不带 tools、不流式、发什么收什么的一段素请求。为什么单独造?因为<b>压缩历史这个活不需要工具</b>——总结对话是纯语言任务,给模型递工具清单反而引它分心。ask() 与 askPlain() 一浓一淡:前者是 agent 的嘴(带说明书、流式、攒申请),后者是干活的腿(轻装、整块收)。依赖注入的思路:context.ts 的压缩器收一个 askPlain 参数,由 chat.ts 注入——context.ts 只管记忆的账,不碰 key 与网络。']
+  },
+  {
     id: 'run',
-    tag: '⑤ 工具执行',
+    tag: '⑥ 工具执行',
     code: "function done(text: string, acc: (ToolCall | undefined)[]): { text: string; toolCalls: ToolCall[] } {\n" +
       "  return { text, toolCalls: acc.filter((c): c is ToolCall => !!c?.name) };\n" +
       "}\n" +
@@ -173,16 +186,13 @@ var SEGS = [
       "  } catch (e) {\n" +
       "    return `工具执行出错:${e instanceof Error ? e.message : e}`;\n" +
       "  }\n" +
-      "}",
+      "}\n",
     card: ['run·执行在代码,错误当结果',
-      '执行权在谁手里?在 <b>你的代码</b>——模型只递申请单,execute 是柜子里你写的函数。四道兜底一个不崩:' +
-      '名字没见过、arguments 不是合法 JSON、<b>参数校验不过</b>(说明书不只发给模型看,还反过来约束进门的参数——' +
-      'validate.ts 手写的迷你 JSON Schema 校验器)、执行抛异常——统统<b>当字符串结果喂回去</b>,让模型看着错误自己改(它真会:' +
-      '参数写错一次,下一轮它自己修)。agent 鲁棒性的头号秘密。done() 是收尾小工:把攒的槽位滤成清单。']
+      '执行权在谁手里?在 <b>你的代码</b>——模型只递申请单,execute 是柜子里你写的函数。四道兜底一个不崩:名字没见过、arguments 不是合法 JSON、<b>参数校验不过</b>(说明书不只发给模型看,还反过来约束进门的参数——validate.ts 手写的迷你 JSON Schema 校验器)、执行抛异常——统统<b>当字符串结果喂回去</b>,让模型看着错误自己改(它真会:参数写错一次,下一轮它自己修)。agent 鲁棒性的头号秘密。done() 是收尾小工:把攒的槽位滤成清单。']
   },
   {
     id: 'loop',
-    tag: '⑥ agent 主循环',
+    tag: '⑦ agent 主循环',
     code: "const rl = readline.createInterface({ input: process.stdin, output: process.stdout });\n" +
       "// ask 档命令的确认流:必须复用同一个 rl——两个 readline 抢 stdin 会互吞输入行\n" +
       "setConfirm(async (cmd) => {\n" +
@@ -231,27 +241,30 @@ var SEGS = [
       "      }\n" +
       "    }\n" +
       "    process.stdout.write('\\n\\n');\n" +
+      "    // 上下文水位:超线就把老历史压成摘要(水位看的是最后一次请求的 prompt token,\n" +
+      "    // 而不是消息条数——token 才是要花钱的那个单位)\n" +
+      "    if (shouldCompact(usage.lastPrompt)) {\n" +
+      "      console.log(`  🗜 上下文 ${usage.lastPrompt} token 超过水位 ${COMPACT_AT},压缩老历史…`);\n" +
+      "      if (await compactHistory(messages, askPlain)) console.log('  🗜 已压缩:老历史换摘要,尾部原文保留');\n" +
+      "    }\n" +
       "  } catch (e) {\n" +
       "    messages.length = rollback; // 失败这轮不入账,别留半截对话\n" +
       "    console.error(`出错:${e instanceof Error ? e.message : e}\\n`);\n" +
       "  }\n" +
-      "}",
-    card: ['双层循环:外圈读人,内圈跑 agent',
-      'v0.4 只有一层;v0.8 在里面套了 <b>agent 循环</b>:ask 一轮 → 它要工具就执行、喂回、再 ask,直到某轮 <b>toolCalls 为空</b>(考点 1:' +
-      '退出条件 = 它不再要,不是调够 N 次)。动作要亮出来——🔧 一行让人看得见「它决定了什么」。' +
-      '回滚也升级了:v0.4 的 pop 只撤一条,现在一轮可能 push 了四五条,改记 <b>rollback 深度</b>一刀切平——失败这轮彻底不入账。' +
-      'v1.1 循环门口多挂了一环 <b>确认流</b>:bash 工具遇 ask 档命令时借这个 rl 问你 y/n/a——必须复用同一个 rl,两个 readline 抢 stdin 会互吞输入行。']
+      "}\n",
+    card: ['双层循环:外圈读人,内圈跑 agent,出口看水位',
+      'v0.8 套的 <b>agent 循环</b>:ask 一轮 → 它要工具就执行、喂回、再 ask,直到某轮 <b>toolCalls 为空</b>(考点 1:退出条件 = 它不再要,不是调够 N 次)。动作要亮出来——🔧 一行让人看得见「它决定了什么」。回滚记 <b>rollback 深度</b>一刀切平——失败这轮彻底不入账。v1.1 循环门口挂了 <b>确认流</b>(ask 档命令借这个 rl 问 y/n/a)。v1.2 循环出口多了一环 <b>压缩触发</b>:每轮收尾看 lastPrompt 水位,超线就把老历史交给压缩器换摘要——水位看 token 不看消息条数,token 才是要花钱的那个单位。']
   },
   {
     id: 'bill',
-    tag: '⑦ 记账收尾',
+    tag: '⑧ 记账收尾',
     code: "rl.close();\n" +
-      "const cost = (usage.in * PRICE.in + usage.out * PRICE.out) / 1e6;\n" +
-      "console.log(`再见。合计输入 ${usage.in} + 输出 ${usage.out} token,约 ¥${cost.toFixed(4)}`);",
-    card: ['记账:退出时把账算了',
-      '每轮 ask() 顺手记账,退出时一条公式结账:<code>cost =(输入×4 + 输出×14)÷ 100 万</code>。' +
-      'v0.8 工具三圈实测:输入 775 + 输出 168 ≈ ¥0.0055——比 v0.4 一轮贵七倍,因为<b>每一圈都重寄全部历史</b>,' +
-      '工具的申请、结果全都躺在 messages 里按 token 交钱。贵不在单价,在历史越滚越厚——CH7 上下文管理就来治这个。']
+      "// 缓存命中的 token 约五折计费(智谱上下文缓存),折算进总账看真便宜\n" +
+      "const cost = ((usage.in - usage.cached) * PRICE.in + usage.cached * PRICE.in * 0.5 + usage.out * PRICE.out) / 1e6;\n" +
+      "console.log(`再见。输入 ${usage.in}(缓存命中 ${usage.cached},五折计)+ 输出 ${usage.out} token,约 ¥${cost.toFixed(4)}`);\n",
+    card: ['记账:退出时把账算了——缓存命中五折',
+      '每轮 ask() 顺手记账,退出时一条公式结账——v1.2 的公式长了半截:<code>(输入−命中)×4 + 命中×4×0.5 + 输出×14 ÷ 100万</code>。前缀缓存命中的 token 约五折计费,同一段 system prompt 与老历史每轮原样重发,<b>第二轮起就该在 cached_tokens 里涨起来</b>——这正是 CH7 的落点:省钱的功夫不在少发,在「发一样的」。',
+      'bill']
   }
 ];
 /* 迷你高亮:一次正则分词(注释/字符串/关键字/数字),避免「注释里的引号」互相污染 */

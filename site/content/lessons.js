@@ -38,7 +38,7 @@ export const LESSONS = {
   { "at": "ch6", "ver": "v1.1", "chip": "交付 v1.1 · src/tools/bash.ts + permissions.ts", "what": "跑命令且有安全闸门(deny/ask/allow 三扇门 + 确认流)", "range": "第 6 章" },
     { "ver": null, "what": "读写你的代码,自己发现并修好 bug", "range": "第 5 章" },
     { "ver": null, "what": "跑命令,且有安全闸门", "range": "第 6 章" },
-    { "ver": null, "what": "长任务不失忆,懂省钱", "range": "第 7 章" },
+    { "at": "ch7", "ver": "v1.2", "chip": "交付 v1.2 · src/context.ts", "what": "上下文管理——system 拼装 + CLAUDE.md 记忆 + 自动压缩 + 缓存记账", "range": "第 7 章" },
     { "ver": null, "what": "Claude Code 级的终端手感", "range": "第 8 章" },
     { "ver": null, "what": "子代理 / 计划模式 / 技能 / MCP", "range": "第 9 章" },
     { "ver": null, "what": "配置、缓存、沙箱、发布——企业级收尾", "range": "第 10 章" }
@@ -213,7 +213,7 @@ export const LESSONS = {
             "code": "CH2.1",
             "name": "v0.4 · 聊天机器人",
             "done": "2026-10-27（四步长成：脚手架 TS+Node → 非流式最小循环（记忆即 messages 数组）→ 流式 SSE（缓冲区攒换行才算一条事件，打字机逐词上屏）→ 记账（退出报 75+232 token≈¥0.0035））",
-            "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（159 行代码可点 × 透视卡 × 真机连线）"
+            "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（178 行代码可点 × 透视卡 × 真机连线）"
           },
           {
             "label": "知识点",
@@ -312,7 +312,8 @@ export const LESSONS = {
           {
             "code": "CH7.1",
             "name": "上下文管理与压缩",
-            "mark": "⏭ 下一站"
+            "done": "2026-10-28（v1.2 四味药一次落齐：context.ts——system prompt 拼装＝人设＋环境快照（启动时定格，整会话不变护前缀缓存）＋CLAUDE.md 项目记忆（启动读一次，跨会话记忆住文件不住数组）；压缩器——水位看最后一次请求的 prompt token 而非消息条数，超线老历史请模型自己总结成摘要、尾部保留近 8 条原文、切点撞 tool 消息推进到合法边界；cached_tokens 记账——前缀缓存命中约五折计费，退出账单折算；压缩提示词摊在自己代码里，想调就调——真实产品内置改不了，这是自己造轮子的红利）",
+            "tail": "—— npm run chat 可玩 · COMPACT_AT 环境变量可调低水位看压缩触发"
           },
           {
             "label": "知识点",
@@ -328,6 +329,11 @@ export const LESSONS = {
     "ch8": {
       "groups": [
         [
+          {
+            "code": "CH8.1",
+            "name": "终端界面重构",
+            "mark": "⏭ 下一站"
+          },
           {
             "label": "知识点",
             "text": "为什么它用 Ink（React 渲染终端）；流式 markdown；工具调用可视化；Esc 打断与竞态处理；diff 高亮"
