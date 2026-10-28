@@ -36,7 +36,7 @@ npm run typecheck   # tsc --noEmit
 | 你是谁 / 你想要 | 入口 |
 |---|---|
 | 从头系统学 | 本文件 → `npm run course` 打开 **site/COURSE.html** 看全景 → 按 `prologue/01 → 02 → …` 顺序逐个啃 py(有 JS 底子就把 `prologue/python-for-js.md` 放手边) |
-| 只想玩互动实验室(5 分钟) | `npm run course` 打开课程表,展开「🔬 实验室」抽屉:P0.1 抽签台(亲手抽字/贪心掉坑)、P0.4 MLP 调音台(真前向接龙,temperature/top-k 现场拧)、NN 内功合成台(XOR 训练 + softmax 试押)、3B 观影三台(神经元打分/loss 山小球/链式对表)、CH1 素颜相见台(curl 请求/响应透视 + messages 历史 replay 对账,真机实测 token)、CH2 chat.ts 透视台(81 行代码点段落出透视卡 + SSE 缓冲实验 + 真机流式连线) |
+| 只想玩互动实验室(5 分钟) | `npm run course` 打开课程表,展开「🔬 实验室」抽屉:P0.1 抽签台(亲手抽字/贪心掉坑)、P0.4 MLP 调音台(真前向接龙,temperature/top-k 现场拧)、NN 内功合成台(XOR 训练 + softmax 试押)、3B 观影三台(神经元打分/loss 山小球/链式对表)、CH1 素颜相见台(curl 请求/响应透视 + messages 历史 replay 对账,真机实测 token)、CH2 chat.ts 透视台(149 行代码点段落出透视卡 + SSE 缓冲实验 + 真机流式连线) |
 | 只想看海报 | `site/poster.png`(1080×1440,3:4) |
 | 我是 AI,要给别人重讲这门课 | **LEARNER.md**(教师手册,先读它) |
 | 想看这门课怎么一步步长出来 | `git log --reverse --oneline`——提交信息按教学脉络写,倒放即教程 |
@@ -47,7 +47,7 @@ npm run typecheck   # tsc --noEmit
 ├── README.md                 你在这里:入口门户
 ├── AGENTS.md                 协作规矩(写作八规 + 对外科普加码 + 命名与文件宪法)
 ├── LEARNER.md                AI 教师手册:给「想用本仓库重讲这门课」的 AI 或人类
-├── package.json / tsconfig.json  Node 工程:npm run course 起课程表服务 / chat 跑 v0.4 /
+├── package.json / tsconfig.json  Node 工程:npm run course 起课程表服务 / chat 跑 v0.8 /
 │                             typecheck 类型检查(Node ≥ 23 原生跑 TS,零运行时依赖)
 ├── scripts/                  工程脚本
 │   ├── serve.mjs             课程表服务器(Hono):静态托管 site/、/ 直达 COURSE.html、守卫拦目录穿越与点文件;/api/chat 流式代理(key 只住服务端,实验室真机区用)
@@ -55,7 +55,8 @@ npm run typecheck   # tsc --noEmit
 │   │                         chat.ts 行数声明、下一站指针、LEARNER 骨架过期、口径黑名单
 │   └── git/pre-commit        提交前两道闸:密钥扫描(文件名 + 内容)+ 一致性校验
 ├── src/                      🟠 正文 · 铸剑线主战场
-│   └── chat.ts               v0.4 聊天机器人(多轮循环+流式打字机+记账,npm run chat)
+│   ├── chat.ts               v0.8 agent 循环(多轮+流式打字机+记账+工具调用三步曲,npm run chat)
+│   └── tools/                玩具工具注册表(get_time / calculator + Tool 统一形状)
 ├── site/                     课程表整树(内部全相对路径引用,整树挪目录不断链)
 │   ├── COURSE.html           课程总中枢·纯结构骨架:幕/章节容器 + 实验室骨架 +
 │   │                         全景架构图 / 里程碑 / 教学契约;页尾只引一个 module 入口
@@ -69,7 +70,7 @@ npm run typecheck   # tsc --noEmit
 │   │   │                         加课次/交付版本只改这里
 │   ├── content/cards.js      卡片内容数据:全景卡/书单/T1 长文的 title+body,
 │   │                         COURSE-render.js 注入空占位(改卡文字只改这里)
-│   ├── svg/                  卡图独立文件(30 张,一卡一图或卡id-figN)——可单独点开预览
+│   ├── svg/                  卡图独立文件(32 张,一卡一图或卡id-figN)——可单独点开预览
 │   ├── labs/                 实验室资产(新增实验室 = 这里加一对文件 + main.js 挂一行 import)
 │   │   ├── labs.css          实验室通用底座(.lab-* 两栏网格/面板/滑条)+ 各台专属样式
 │   │   ├── shared.js         共用工具(ESM 导出):$id 取元素 / fmt 定点数 / chips 芯片组开关
@@ -115,4 +116,4 @@ npm run typecheck   # tsc --noEmit
 
 ## 📈 当前进度
 
-序章 P0.1 ✅ · P0.2 ✅(2026-10-23 内功回填后通关)· P0.3 ✅(2026-10-27 一次开课,MLP dev 1.95 双杀数数表 2.54 与 bigram 2.49,插值修补底牌 1.79 与「死于斜率」定性入册)· mini-gpt 落包 minigpt/(2026-10-27 三课重组,MLP dev 1.9555 复现)· P0.4 temperature ✅(2026-10-27,v0.1 调温与限签)—— 序章全清 | 支线·内功 NN1–NN4 ✅ 全清(2026-10-22,附连读大全景 + 实验室) | 支线·观影 3B1–3B7 ✅(3B1–3B4 附连读全景 + 实验室三台,3B7 附卷积三台:骰子滑动 × 滤镜像机 × 大数乘法)· 3B8 ✅(2026-10-26)· 3B9 事实储存(加更) ✅(2026-10-26 伴读,七段×五图×对账表)—— 支线·观影全清收官 | 拼图·Transformer T1 ✅(2026-10-23 全貌长文 + 四图)· T2–T4 ⏳ | 待学清单:傅里叶变换 ⏳ · 稀疏自编码器(SAE)⏳(只记录不开课) | 正文 CH1 ✅(2026-10-27,curl 素颜相见三连 + 实验室解锁)· CH2 ✅(2026-10-27,四步长出 src/chat.ts v0.4:非流式循环 → 流式 SSE 打字机 → 退出记账,npm run chat 可玩;精简至 81 行 + chat.ts 透视台 + /api/chat 流式代理)· MiniClaude v0.5 ✅(2026-10-27,主线间隙交付:右下角 💬 气泡网页对话框,流式 + 多会话 + 记账,后续章节功能长在这只面板里)· MiniClaude v0.6 ✅(2026-10-27,markdown-it 真排版 + 问题库 100 条随机三问)· MiniClaude v0.7 ✅(2026-10-27,流式实时排版 + highlight.js 代码高亮)· CH3 ⏭ 下一站 · CH4–CH10 未开课 —— 实时状态以 **site/COURSE.html** 页面为准(数据源 site/content/lessons.js)。
+序章 P0.1 ✅ · P0.2 ✅(2026-10-23 内功回填后通关)· P0.3 ✅(2026-10-27 一次开课,MLP dev 1.95 双杀数数表 2.54 与 bigram 2.49,插值修补底牌 1.79 与「死于斜率」定性入册)· mini-gpt 落包 minigpt/(2026-10-27 三课重组,MLP dev 1.9555 复现)· P0.4 temperature ✅(2026-10-27,v0.1 调温与限签)—— 序章全清 | 支线·内功 NN1–NN4 ✅ 全清(2026-10-22,附连读大全景 + 实验室) | 支线·观影 3B1–3B7 ✅(3B1–3B4 附连读全景 + 实验室三台,3B7 附卷积三台:骰子滑动 × 滤镜像机 × 大数乘法)· 3B8 ✅(2026-10-26)· 3B9 事实储存(加更) ✅(2026-10-26 伴读,七段×五图×对账表)—— 支线·观影全清收官 | 拼图·Transformer T1 ✅(2026-10-23 全貌长文 + 四图)· T2–T4 ⏳ | 待学清单:傅里叶变换 ⏳ · 稀疏自编码器(SAE)⏳(只记录不开课) | 正文 CH1 ✅(2026-10-27,curl 素颜相见三连 + 实验室解锁)· CH2 ✅(2026-10-27,四步长出 src/chat.ts v0.4:非流式循环 → 流式 SSE 打字机 → 退出记账,npm run chat 可玩;精简交付 + chat.ts 透视台 + /api/chat 流式代理)· MiniClaude v0.5 ✅(2026-10-27,主线间隙交付:右下角 💬 气泡网页对话框,流式 + 多会话 + 记账,后续章节功能长在这只面板里)· MiniClaude v0.6 ✅(2026-10-27,markdown-it 真排版 + 问题库 100 条随机三问)· MiniClaude v0.7 ✅(2026-10-27,流式实时排版 + highlight.js 代码高亮)· CH3.1 ✅(2026-10-28,v0.8 agent 循环:tools 声明随行 → 流式攒 tool_calls 分片 → 执行喂回循环到它不再要,src/chat.ts 149 行 + tools/ 玩具两件,真机三圈实录 get_time→心算 10+3→纯文本退出;全景卡「agent 的『智能』拆开看」上线)· CH4 ⏭ 下一站 · CH5–CH10 未开课 —— 实时状态以 **site/COURSE.html** 页面为准(数据源 site/content/lessons.js)。

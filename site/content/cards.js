@@ -8,7 +8,7 @@
      <details class="ch-recap" data-card="卡id"></details>;act 级长文(如 T1)用
      <div data-card-body="id"></div> 占位,body 写整段 <article>;
    · svg 文件名:一卡一图 = 卡id.svg,一卡多图 = 卡id-fig1.svg、卡id-fig2.svg…。
-   已入库卡:b01-recap b1b-01-recap b1b-02-recap b1b-03-recap b1b-04-recap b1b-05-recap b1b-06-recap b1b-07-recap b1b-09-recap b1b-arc-recap nn-all-panorama p02-recap s1-recap s2-panorama s2-recap s3-panorama s4-panorama
+   已入库卡:b01-recap c31-panorama b1b-01-recap b1b-02-recap b1b-03-recap b1b-04-recap b1b-05-recap b1b-06-recap b1b-07-recap b1b-09-recap b1b-arc-recap nn-all-panorama p02-recap s1-recap s2-panorama s2-recap s3-panorama s4-panorama
 
  */
 export const CARDS = {
@@ -47,6 +47,10 @@ export const CARDS = {
   "nn-all-panorama": {
     "title": "🧠 内功支线连读大全景（NN1–NN4：带走了什么 · 后面在哪用）",
     "body": "        <div class=\"recap-body\">\n          <p class=\"s1-recap\">四站其实是一条问题链：<br>\n          函数怎么学会？——NN1 答「loss 量错、梯度指坡、LR 定步长，循环下坡」，同时留下万能查账工具（数值梯度）。<br>\n          单个神经元为什么不够？——NN2 答「加权和 + 激活是全部零件，单层切不开 XOR，叠一层把空间折叠后就一刀开」，顺带踩了死区和种子坑。<br>\n          梯度算太贵怎么办？——NN3 答「前向记账、反向查账，链式法则两规矩（一路连乘、岔口相加）一次算齐全部旋钮」，手推梯度靠数值梯度对表验明。<br>\n          输出怎么变概率、罚多重？——NN4 答「softmax 归一、−ln 只看押对那格，配对抵消后梯度裸成 p − y」。</p>\n          <p class=\"s1-recap\">拼回主线 02_neural_bigram.py，每一行都有出处：嵌入查表 = NN2 的加权和（权重就是嵌入向量），matmul 出 logits = NN1 的「网络是带旋钮的函数」，softmax + −ln = NN4 的输出与损失，<code>probs − y</code> = NN4 的裸梯度，backward = NN3 的反向查账，SGD 更新 = NN1 的下坡循环。P0.3 的 mini-GPT 还是同一套，只多注意力。训不动时：先查 loss 卡不卡（NN2 死区）、换种子、拿数值梯度对表（NN3）——三招全从这条支线来。</p>\n          <div class=\"svg-wrap\">\n<img class=\"fig\" loading=\"lazy\" src=\"svg/nn-all-panorama.svg\" alt=\"\">\n          </div>\n        </div>"
+  },
+  "c31-panorama": {
+    "title": "🧠 CH3.1 全景（agent 的「智能」拆开看 × 工具调用三步循环）",
+    "body": "          <p class=\"s1-recap\">CH3.1 从一个翻车现场开场：v0.4 问「现在几点」，它一本正经编时间——它的全部世界就是 messages 数组里那几段文字，墙上没有钟。解法不是给它装手，是<b>发一张工具柜说明书</b>：请求里多带一个 tools 数组，每层贴三张标签——叫什么（name）、干什么（description）、参数什么形状（JSON Schema，CH1 没用上的老朋友在这里上岗）。模型没换脑子，还是接龙；只是从「只能接答话」变成「还能接一段特殊文字：我要查 get_time」。</p>\n          <p class=\"s1-recap\">三步曲的真机实录一句一句话看下图——「现在几点？3 小时后呢？」转了三圈：第一圈它接出 tool_use 要 get_time；代码执行、把 <code>\"2026/10/28 10:39:17\"</code> 以 role:'tool' 喂回再问；第二圈它直接接出答案文本——<b>10+3 它心算了，calculator 在柜里它权衡后没用</b>。两个考点的答案也钉在图底：退出条件 = 这一轮没有 tool_calls；tool 消息必须绑 tool_call_id、追在它「开口要」的记录之后——没有开口记录直接塞，API 当场 400。</p>\n          <div class=\"s1-fig\">\n<img class=\"fig\" loading=\"lazy\" src=\"svg/c31-panorama-fig2.svg\" alt=\"CH3.1 图一：工具调用三步曲流程图——左泳道你的代码（确定）、右泳道模型（概率），①声明 ②申请 ③喂回逐圈走真机实录，底部钉两个考点与错误喂回直觉\">\n          </div>\n          <p class=\"s1-recap\"><b>把「智能」拆开看，是全课最重要的一刀。</b>agent 是普通程序，print 出来人能逐行看懂；它的特别之处只是把「判断」外包给一个洞，洞里就是序章手搓的那个接龙机器——进一段文字，出「下一个 token 的概率分布」。智能分两半：<b>概率的一半住模型</b>——要不要工具、用哪个、参数填什么，全是「接龙接什么」的不同切面；没有一行 <code>if ('几点' in 消息)</code> 的触发规则，description 在塑形概率（「必须调用」四个字就是砝码）。<b>确定的一半住代码</b>——执行永远是你写的 execute（模型碰不到），参数形状 Schema 钉死，循环、喂回、退出全是写死的规矩；模型只能申请、不能执行，Claude Code 的安全模型就压在这条线上（第三幕展开）。</p>\n          <p class=\"s1-recap\">推论值钱：<b>分界线不在「AI 程序」与「普通程序」之间，在每个 agent 程序的内部</b>；而 agent 的上限只卡两处——预测器接得准不准（换模型才有解）、你摆什么到它面前（description 怎么写、工具结果喂多少、历史怎么裁——CH4 工具设计、CH7 上下文管理全在第二处下功夫）。所以调教 agent 从来不是改它，是<b>改它看见的东西</b>。</p>\n          <div class=\"s1-fig\">\n<img class=\"fig\" loading=\"lazy\" src=\"svg/c31-panorama-fig1.svg\" alt=\"CH3.1 图二：agent 的智能拆开看——左边 agent 程序剖面（普通代码四块包着橙色接龙机器的洞），右边概率的一半与确定的一半对照清单，底部分界线与上限两处结论条\">\n          </div>\n          <p class=\"s1-recap\">历史课一句：2022 年 ReAct 论文靠提示词硬凑这套行为（「请按 Thought→Action→Observation 格式回答」），如今 tool_use 是 API 原生能力——当年靠骗，现在靠接线。挂向 CH4：说明书怎么写更准（description 就是提示词工程）、工具报错不要崩溃——把错误当结果喂回，让模型看着错误自我修复（agent 鲁棒性的头号秘密）。</p>"
   },
   "b1b-01-recap": {
     "title": "🧠 3B1 全景（网络结构 × 神经元传动）",

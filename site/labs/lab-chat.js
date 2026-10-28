@@ -1,6 +1,6 @@
 /* labs/lab-chat.js —— CH2 实验室:chat.ts 透视台
    ----------------------------------------------------------------------------
-   A 台:src/chat.ts 全文五段,点击段落 → 透视卡交代它干什么、数据什么形状
+   A 台:src/chat.ts 全文七段,点击段落 → 透视卡交代它干什么、数据什么形状
         (透视卡机制同 CH1 素颜相见台,升格为整份代码可透视——代码分析标配)。
    B 台:SSE 缓冲实验——同一段流两种到达方式(整包 vs 劈成碎片),
         逐字进缓冲区、见换行切事件,亲眼看半截 JSON 为什么不能解析。
@@ -42,49 +42,77 @@ var pinSync = function () {};
   addEventListener('resize', sync);
 })();
 
-/* 五段代码与 src/chat.ts 逐字一致(精简版 v0.4,81 行) */
+/* 七段代码与 src/chat.ts 逐字一致(v0.8 agent 循环,149 行) */
 var SEGS = [
   {
     id: 'gear',
     tag: '① 装备区',
-    code: "const KEY = process.env.GLM_API_KEY;\n" +
+    code: "import * as readline from 'node:readline/promises';\n" +
+      "import { calculator } from './tools/calculator.ts';\n" +
+      "import { getTime } from './tools/get_time.ts';\n" +
+      "import type { Tool } from './tools/types.ts';\n" +
+      "\n" +
+      "const KEY = process.env.GLM_API_KEY;\n" +
       "if (!KEY) {\n" +
       "  console.error('没读到 GLM_API_KEY —— 检查 .env');\n" +
       "  process.exit(1);\n" +
       "}\n" +
       "\n" +
+      "const TOOLS: Tool[] = [getTime, calculator];\n" +
       "const API = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';\n" +
       "const PRICE = { in: 4, out: 14 }; // 元 / 百万 token\n" +
-      "const messages = [{ role: 'system', content: '你是小c,简洁直接的中文助手。' }];\n" +
       "const usage = { in: 0, out: 0 };",
     card: ['装备区:开战前的五样东西',
-      '<b>KEY</b>——钥匙从环境变量来(.env 文件),不写死在代码里:进了 git 等于把家门钥匙发到朋友圈。' +
-      '<b>API</b>——端点地址,换厂商就是换个域名,形状不变(CH1 见过)。<b>PRICE</b>——价目表,' +
-      '智谱按百万 token 计价:输入 4 元、输出 14 元。<b>messages</b>——对话账本,出生自带一条 system 立人设,' +
-      '后面每轮往里长。<b>usage</b>——本会话的账,从 0 记起。']
+      '<b>三个 import</b>——工具不再写死在主文件:tools/ 目录一件一个文件,统一的 <b>Tool</b> 形状(名字/说明书/参数表/execute)住在 types.ts。' +
+      '<b>TOOLS</b> 数组就是工具柜,往里添一行 = 柜里多一层,主循环一行不用改(CH4 注册表伏笔)。<b>KEY</b>——从环境变量来(.env),不写死在代码里;' +
+      '<b>API</b> 换厂商就是换域名;<b>PRICE</b> 价目表(输入 4 元、输出 14 元,每百万 token);<b>usage</b> 从 0 记账。']
+  },
+  {
+    id: 'types',
+    tag: '② 记忆与形状',
+    code: "// 消息数组就是记忆:system/user/assistant/tool 四种角色,tool 消息必须绑 tool_call_id\n" +
+      "type ToolCall = { id: string; name: string; args: string };\n" +
+      "type ApiToolCall = { id: string; type: 'function'; function: { name: string; arguments: string } };\n" +
+      "type Msg =\n" +
+      "  | { role: 'system' | 'user'; content: string }\n" +
+      "  | { role: 'assistant'; content: string; tool_calls?: ApiToolCall[] }\n" +
+      "  | { role: 'tool'; tool_call_id: string; content: string };\n" +
+      "const messages: Msg[] = [{ role: 'system', content: '你是小c,简洁直接的中文助手。' }];",
+    card: ['记忆的四种族谱(TS 联合类型)',
+      'v0.4 的记忆只有三种角色,v0.8 添了第四种:<b>tool</b>——而且它<b>必须绑 tool_call_id</b>,指认自己回答的是哪一次申请;' +
+      'assistant 那条也多了可选的 tool_calls 字段,记下「它开口要过什么」。这正是考点 2:tool 消息必须追在带 tool_calls 的 assistant 记录之后,' +
+      '没有开口记录直接塞,API 当场 400。注意 TS 类型只活在编译期——发上线的还是 JSON,类型是给自己(和模型协议)立的规矩。']
   },
   {
     id: 'req',
-    tag: '② ask·发请求',
-    code: "async function ask(): Promise<string> {\n" +
+    tag: '③ ask·发请求',
+    code: "async function ask(): Promise<{ text: string; toolCalls: ToolCall[] }> {\n" +
       "  const res = await fetch(API, {\n" +
       "    method: 'POST',\n" +
       "    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${KEY}` },\n" +
-      "    body: JSON.stringify({ model: 'glm-4.6', messages, max_tokens: 4096, stream: true }),\n" +
+      "    body: JSON.stringify({\n" +
+      "      model: 'glm-4.6', messages,\n" +
+      "      max_tokens: 4096,\n" +
+      "      stream: true,\n" +
+      "      tools: TOOLS.map(t => ({\n" +
+      "        type: 'function' as const,\n" +
+      "        function: { name: t.name, description: t.description, parameters: t.parameters },\n" +
+      "      })),\n" +
+      "    }),\n" +
       "  });\n" +
       "  if (!res.ok || !res.body) throw new Error(`API ${res.status}:${await res.text()}`);",
-    card: ['ask·把整个账本寄出去',
-      '一次 POST 寄四样:<b>model</b> 点型号;<b>messages</b> 是整个数组——CH1 实测过,' +
-      '「记忆」不是服务器存了什么,是每次把全部历史<b>原样重寄</b>,聊得越久寄得越厚;' +
-      '<b>max_tokens: 4096</b>——glm-4.6 是思考型,先打草稿再说话,给小了草稿吃光预算、正文一个字不出;' +
-      '<b>stream: true</b> 一个字之差,回复从「一整封信」变成「一个词一个词往外蹦」——下一段代码就接这个蹦法。']
+    card: ['ask·说明书随行一起寄',
+      '比 v0.4 多一个 <b>tools</b> 字段:把工具柜每层的三张标签(name/description/parameters)随消息一起寄出去——' +
+      '模型「知道有工具可调」全靠这一眼。坑在形状:OpenAI 口径要<b>套一层 function 壳</b>(type:“function” 包着本体),' +
+      '拍扁直接发,回你 tools[0].function 不能为空(真机踩过)。返回值也从「一段话」变成 <b>Turn</b>:这一轮它说了什么、要了哪些工具,两头都收。']
   },
   {
     id: 'sse',
-    tag: '③ ask·SSE 拆流',
+    tag: '④ ask·拆流攒申请',
     code: "  // SSE 分块不讲道理:一个 chunk 可能装半个事件、也可能仨——攒到换行才算拿到一条\n" +
       "  const dec = new TextDecoder();\n" +
-      "  let full = '';\n" +
+      "  let text = '';\n" +
+      "  const toolAcc: (ToolCall | undefined)[] = []; // 流式下 arguments 按 index 分片挤出来,攒!\n" +
       "  let buf = '';\n" +
       "  for await (const chunk of res.body) {\n" +
       "    buf += dec.decode(chunk);\n" +
@@ -93,32 +121,66 @@ var SEGS = [
       "      buf = buf.slice(nl + 1);\n" +
       "      if (!line.startsWith('data:')) continue; // 空行,跳过\n" +
       "      const payload = line.slice(5).trim();\n" +
-      "      if (payload === '[DONE]') return full; // 流的终点\n" +
-      "      const c = JSON.parse(payload);\n" +
+      "      if (payload === '[DONE]') return done(text, toolAcc); // 流的终点\n" +
+      "      const c = JSON.parse(payload) as {\n" +
+      "        choices?: {\n" +
+      "          delta?: {\n" +
+      "            content?: string;\n" +
+      "            tool_calls?: { index: number; id?: string; function?: { name?: string; arguments?: string } }[];\n" +
+      "          };\n" +
+      "        }[];\n" +
+      "        usage?: { prompt_tokens?: number; completion_tokens?: number };\n" +
+      "      };\n" +
       "      if (c.usage) {\n" +
       "        usage.in += c.usage.prompt_tokens ?? 0; // 账单只挂在最后一个事件\n" +
       "        usage.out += c.usage.completion_tokens ?? 0;\n" +
       "      }\n" +
-      "      const delta = c.choices?.[0]?.delta?.content;\n" +
-      "      if (delta) {\n" +
-      "        full += delta;\n" +
-      "        process.stdout.write(delta); // 打字机:来一个词念一个词\n" +
+      "      const d = c.choices?.[0]?.delta;\n" +
+      "      if (d?.content) {\n" +
+      "        text += d.content;\n" +
+      "        process.stdout.write(d.content); // 打字机:来一个词念一个词\n" +
+      "      }\n" +
+      "      for (const tc of d?.tool_calls ?? []) {\n" +
+      "        const slot = (toolAcc[tc.index] ??= { id: '', name: '', args: '' });\n" +
+      "        if (tc.id) slot.id = tc.id; // id 整块只来一次;name/arguments 是增量\n" +
+      "        if (tc.function?.name) slot.name += tc.function.name;\n" +
+      "        if (tc.function?.arguments) slot.args += tc.function.arguments;\n" +
       "      }\n" +
       "    }\n" +
       "  }\n" +
-      "  return full; // 没等到 [DONE] 就断流:攒到多少算多少\n" +
+      "  return done(text, toolAcc); // 没等到 [DONE] 就断流:攒到多少算多少\n" +
       "}",
-    card: ['ask·拆流:攒 → 切 → 解析',
-      '网络分块(chunk)不讲道理——一个 chunk 可能装半个事件,也可能仨事件挤一块,' +
-      '直接对 chunk 做 JSON.parse 当场噎死。所以三步:<b>攒</b>——chunk 解码后先拼进 buf 缓冲区;' +
-      '<b>切</b>——见到换行才算一条完整事件,切出来;<b>解析</b>——剥掉 data: 前缀,[DONE] 是流的终点,' +
-      '其余 JSON.parse。<b>delta.content</b> 来一个词念一个词(write 不换行,打字机就是它),' +
-      'full 同时攒整段——屏幕上是流的,账本里是整的。账单 usage 只挂在流的<b>最后一个</b>事件上,顺手捡走。',
+    card: ['拆流:老三样之外,工具申请也要攒',
+      '攒→切→解析还是 v0.4 那三步(下方 B 台亲手玩),新活是 <b>toolAcc</b>:流式下模型回的工具调用不是整块,' +
+      '是按 <b>index</b> 开槽、name 和 arguments 一片一片挤出来的——所以逐片 <b>+=</b> 拼,id 却是整块赋值(只来一次)。' +
+      '攒到 [DONE] 才算收齐一份完整申请清单。没攒这一步,toolCalls 永远是空的——「输出为空」的第一嫌疑现场。',
       'sse']
   },
   {
+    id: 'run',
+    tag: '⑤ 工具执行',
+    code: "function done(text: string, acc: (ToolCall | undefined)[]): { text: string; toolCalls: ToolCall[] } {\n" +
+      "  return { text, toolCalls: acc.filter((c): c is ToolCall => !!c?.name) };\n" +
+      "}\n" +
+      "\n" +
+      "// 执行一个工具调用:找不到工具、参数不是合法 JSON、执行抛错,都当结果喂回而不是崩溃(CH4 预告)\n" +
+      "async function run(call: ToolCall): Promise<string> {\n" +
+      "  const tool = TOOLS.find(t => t.name === call.name);\n" +
+      "  if (!tool) return `未知工具:${call.name}`;\n" +
+      "  try {\n" +
+      "    return await tool.execute(JSON.parse(call.args || '{}'));\n" +
+      "  } catch (e) {\n" +
+      "    return `工具执行出错:${e instanceof Error ? e.message : e}`;\n" +
+      "  }\n" +
+      "}",
+    card: ['run·执行在代码,错误当结果',
+      '执行权在谁手里?在 <b>你的代码</b>——模型只递申请单,execute 是柜子里你写的函数。三道兜底一个不崩:' +
+      '名字没见过、arguments 不是合法 JSON、执行抛异常——统统<b>当字符串结果喂回去</b>,让模型看着错误自己改(它真会:' +
+      '参数写错一次,下一轮它自己修)。agent 鲁棒性的头号秘密,CH4 正课展开。done() 是收尾小工:把攒的槽位滤成清单。']
+  },
+  {
     id: 'loop',
-    tag: '④ 主循环',
+    tag: '⑥ agent 主循环',
     code: "const rl = readline.createInterface({ input: process.stdin, output: process.stdout });\n" +
       "console.log('小c上线(exit 退出)');\n" +
       "\n" +
@@ -133,41 +195,59 @@ var SEGS = [
       "  if (!line) continue;\n" +
       "\n" +
       "  messages.push({ role: 'user', content: line });\n" +
+      "  const rollback = messages.length - 1; // 失败回滚到这轮 user 消息之前\n" +
       "  try {\n" +
-      "    process.stdout.write('小c> ');\n" +
-      "    messages.push({ role: 'assistant', content: await ask() });\n" +
+      "    while (true) { // agent 循环:ask 一轮 → 执行它要的工具 → 再 ask,直到它不再要\n" +
+      "      process.stdout.write('小c> ');\n" +
+      "      const { text, toolCalls } = await ask();\n" +
+      "      if (toolCalls.length === 0) { // 退出条件 = 这一轮没有 tool_calls,它只想说话\n" +
+      "        messages.push({ role: 'assistant', content: text });\n" +
+      "        break;\n" +
+      "      }\n" +
+      "      // 它要了工具:先把它「开口要」这条原样入史,再逐个执行、逐条喂回\n" +
+      "      messages.push({\n" +
+      "        role: 'assistant',\n" +
+      "        content: text,\n" +
+      "        tool_calls: toolCalls.map(c => ({\n" +
+      "          id: c.id, type: 'function' as const,\n" +
+      "          function: { name: c.name, arguments: c.args },\n" +
+      "        })),\n" +
+      "      });\n" +
+      "      for (const c of toolCalls) {\n" +
+      "        const result = await run(c);\n" +
+      "        messages.push({ role: 'tool', tool_call_id: c.id, content: result });\n" +
+      "        console.log(`\\n  🔧 ${c.name}(${c.args}) → ${result}`); // 动作要亮出来\n" +
+      "      }\n" +
+      "    }\n" +
       "    process.stdout.write('\\n\\n');\n" +
       "  } catch (e) {\n" +
-      "    messages.pop(); // 失败这轮不入账,别留半截对话\n" +
+      "    messages.length = rollback; // 失败这轮不入账,别留半截对话\n" +
       "    console.error(`出错:${e instanceof Error ? e.message : e}\\n`);\n" +
       "  }\n" +
       "}",
-    card: ['主循环:一问一答的账本纪律',
-      '循环体干四件事:读一行(question 顺带打「你> 」提示符)→ push 进账本当 user → ' +
-      '<b>await ask()</b> 拿整段回复 push 成 assistant → 回到下一轮。两处纪律:' +
-      'Ctrl-D / 管道 EOF 直接收工;ask() 抛错时 <b>messages.pop()</b> 把刚 push 的 user 撤回——' +
-      '失败这轮不入账,不然账本里躺着一条没人回答的提问,下次整个寄出去,模型会以为自己在自言自语。']
+    card: ['双层循环:外圈读人,内圈跑 agent',
+      'v0.4 只有一层;v0.8 在里面套了 <b>agent 循环</b>:ask 一轮 → 它要工具就执行、喂回、再 ask,直到某轮 <b>toolCalls 为空</b>(考点 1:' +
+      '退出条件 = 它不再要,不是调够 N 次)。动作要亮出来——🔧 一行让人看得见「它决定了什么」。' +
+      '回滚也升级了:v0.4 的 pop 只撤一条,现在一轮可能 push 了四五条,改记 <b>rollback 深度</b>一刀切平——失败这轮彻底不入账。']
   },
   {
     id: 'bill',
-    tag: '⑤ 记账收尾',
+    tag: '⑦ 记账收尾',
     code: "rl.close();\n" +
       "const cost = (usage.in * PRICE.in + usage.out * PRICE.out) / 1e6;\n" +
       "console.log(`再见。合计输入 ${usage.in} + 输出 ${usage.out} token,约 ¥${cost.toFixed(4)}`);",
     card: ['记账:退出时把账算了',
-      '每轮 ask() 顺手把 usage 加进会话账。退出时一条公式结账:' +
-      '<code>cost =(输入×4 + 输出×14)÷ 100 万</code>。CH2 实测那场:输入 75 + 输出 232 token ≈ ¥0.0035——' +
-      '跟大模型聊天,一杯奶茶钱够聊几万轮。贵不在单价,在<b>历史越滚越厚</b>:每一轮都重寄全部前文,' +
-      '聊到第一千轮,第一句话还在按 token 交钱。']
+      '每轮 ask() 顺手记账,退出时一条公式结账:<code>cost =(输入×4 + 输出×14)÷ 100 万</code>。' +
+      'v0.8 工具三圈实测:输入 775 + 输出 168 ≈ ¥0.0055——比 v0.4 一轮贵七倍,因为<b>每一圈都重寄全部历史</b>,' +
+      '工具的申请、结果全都躺在 messages 里按 token 交钱。贵不在单价,在历史越滚越厚——CH7 上下文管理就来治这个。']
   }
 ];
-
 /* 迷你高亮:一次正则分词(注释/字符串/关键字/数字),避免「注释里的引号」互相污染 */
 function hl(src) {
   var esc = function (s) {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   };
-  var re = /(\/\/[^\n]*)|('(?:[^'\\\n]|\\.)*'|`(?:[^`\\]|\\.)*`|"(?:[^"\\\n]|\\.)*")|\b(const|let|var|async|await|function|return|if|else|for|while|try|catch|throw|new|import|from|break|continue|of|in|as)\b|\b(\d[\d_]*(?:\.\d+)?)\b/g;
+  var re = /(\/\/[^\n]*)|('(?:[^'\\\n]|\\.)*'|`(?:[^`\\]|\\.)*`|"(?:[^"\\\n]|\\.)*")|\b(const|let|var|async|await|function|return|if|else|for|while|try|catch|throw|new|import|from|break|continue|of|in|as|export|type|interface)\b|\b(\d[\d_]*(?:\.\d+)?)\b/g;
   var out = '', m, last = 0, piece;
   while ((m = re.exec(src))) {
     out += esc(src.slice(last, m.index));

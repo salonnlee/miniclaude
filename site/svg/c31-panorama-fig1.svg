@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 530">
+  <defs>
+    <marker id="c31a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#066fd1"/></marker>
+    <marker id="c31o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#f76707"/></marker>
+    <marker id="c31g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2fb344"/></marker>
+  </defs>
+
+  <text x="440" y="30" font-size="14" font-weight="600" fill="#262626" text-anchor="middle">agent 的「智能」拆开看：普通程序，包着一个把判断外包出去的洞</text>
+
+  <!-- 左:agent 程序剖面 -->
+  <rect x="20" y="52" width="440" height="344" rx="10" fill="#f8f9fc" stroke="rgba(37,99,235,.5)"/>
+  <text x="240" y="74" font-size="12.5" font-weight="600" fill="#066fd1" text-anchor="middle">agent 程序 —— 普通代码，逐行看得懂</text>
+
+  <rect x="40" y="92" width="190" height="48" rx="7" fill="#fff" stroke="rgba(37,99,235,.4)"/>
+  <text x="135" y="111" font-size="10.5" fill="#262626" text-anchor="middle" font-weight="600">while 循环</text>
+  <text x="135" y="127" font-size="9" fill="#667382" text-anchor="middle">读输入 · 发请求 · 收结果</text>
+
+  <rect x="40" y="150" width="190" height="48" rx="7" fill="#fff" stroke="rgba(37,99,235,.4)"/>
+  <text x="135" y="169" font-size="10.5" fill="#262626" text-anchor="middle" font-weight="600">execute() —— 你写的函数</text>
+  <text x="135" y="185" font-size="9" fill="#667382" text-anchor="middle">真的去拿时间、真的去算数</text>
+
+  <rect x="40" y="208" width="190" height="48" rx="7" fill="#fff" stroke="rgba(37,99,235,.4)"/>
+  <text x="135" y="227" font-size="10.5" fill="#262626" text-anchor="middle" font-weight="600">喂回与入史</text>
+  <text x="135" y="243" font-size="9" fill="#667382" text-anchor="middle">role:'tool' 绑 tool_call_id 塞回 messages</text>
+
+  <rect x="40" y="266" width="190" height="48" rx="7" fill="#fff" stroke="rgba(37,99,235,.4)"/>
+  <text x="135" y="285" font-size="10.5" fill="#262626" text-anchor="middle" font-weight="600">退出判定</text>
+  <text x="135" y="301" font-size="9" fill="#667382" text-anchor="middle">这一轮没有 tool_calls？→ 说完了</text>
+
+  <!-- 洞:接龙机器 -->
+  <rect x="262" y="118" width="180" height="196" rx="9" fill="rgba(247,103,7,.08)" stroke="rgba(247,103,7,.6)" stroke-width="1.4"/>
+  <text x="352" y="140" font-size="11.5" font-weight="600" fill="#f76707" text-anchor="middle">接龙机器</text>
+  <text x="352" y="156" font-size="9.5" fill="#f76707" text-anchor="middle">（序章手搓的那个 Transformer）</text>
+  <text x="352" y="180" font-size="9.5" fill="#667382" text-anchor="middle">进：messages + 工具说明书</text>
+  <text x="352" y="198" font-size="9.5" fill="#667382" text-anchor="middle">出：下一个 token 的概率分布</text>
+  <line x1="278" y1="216" x2="426" y2="216" stroke="rgba(247,103,7,.35)" stroke-width="1"/>
+  <text x="352" y="236" font-size="9.5" fill="#262626" text-anchor="middle">接出文字 = 说话</text>
+  <text x="352" y="254" font-size="9.5" fill="#262626" text-anchor="middle">接出 tool_use = 申请工具</text>
+  <text x="352" y="278" font-size="9" fill="#f76707" text-anchor="middle">没有目标、没有计划、</text>
+  <text x="352" y="293" font-size="9" fill="#f76707" text-anchor="middle">不知道自己在循环里跑</text>
+
+  <!-- 代码⇄洞 双向箭头 -->
+  <line x1="232" y1="132" x2="258" y2="152" stroke="#066fd1" stroke-width="1.6" marker-end="url(#c31a)"/>
+  <text x="228" y="120" font-size="8.5" fill="#066fd1" text-anchor="end">递进去</text>
+  <line x1="262" y1="270" x2="236" y2="290" stroke="#f76707" stroke-width="1.6" marker-end="url(#c31o)"/>
+  <text x="272" y="297" font-size="8.5" fill="#f76707">接出来</text>
+
+  <rect x="40" y="326" width="400" height="58" rx="7" fill="rgba(21,128,61,.07)" stroke="rgba(21,128,61,.4)"/>
+  <text x="240" y="345" font-size="10" fill="#2fb344" text-anchor="middle" font-weight="600">模型只能「申请」，不能「执行」</text>
+  <text x="240" y="362" font-size="9" fill="#2fb344" text-anchor="middle">判断「该跑危险命令吗」不可信（概率的）</text>
+  <text x="240" y="377" font-size="9" fill="#2fb344" text-anchor="middle">执行权永远留在带确认闸门的代码侧（第三幕展开）</text>
+
+  <!-- 右:两半对照 -->
+  <rect x="480" y="52" width="380" height="168" rx="9" fill="rgba(247,103,7,.06)" stroke="rgba(247,103,7,.5)"/>
+  <text x="670" y="74" font-size="12" font-weight="600" fill="#f76707" text-anchor="middle">概率的一半 · 模型说了算</text>
+  <text x="498" y="97" font-size="9.8" fill="#262626">· 要不要调工具 · 用哪个 · 参数填什么</text>
+  <text x="498" y="116" font-size="9.8" fill="#262626">—— 全是「接龙接什么」的不同切面</text>
+  <text x="498" y="139" font-size="9.8" fill="#262626">· 没有一行 if（'几点' in 消息） 的触发规则</text>
+  <text x="498" y="158" font-size="9.8" fill="#262626">· description 塑形概率——「必须调用」</text>
+  <text x="506" y="175" font-size="9.8" fill="#262626">四个字就是砝码；可调可不调的场景它自己权衡</text>
+  <text x="498" y="200" font-size="9" fill="#f76707" text-anchor="start">证据：10+3 它心算了，calculator 在柜里没动</text>
+
+  <rect x="480" y="232" width="380" height="118" rx="9" fill="#f8f9fc" stroke="rgba(37,99,235,.5)"/>
+  <text x="670" y="254" font-size="12" font-weight="600" fill="#066fd1" text-anchor="middle">确定的一半 · 代码说了算</text>
+  <text x="498" y="277" font-size="9.8" fill="#262626">· 执行永远是你写的 execute（模型碰不到）</text>
+  <text x="498" y="296" font-size="9.8" fill="#262626">· 参数形状 JSON Schema 钉死</text>
+  <text x="498" y="315" font-size="9.8" fill="#262626">· 循环 · 喂回 · 退出，全是写死的规矩</text>
+  <text x="498" y="338" font-size="9" fill="#066fd1">错误也当结果喂回，让模型自己修（CH4）</text>
+
+  <!-- 底部结论条 -->
+  <rect x="20" y="466" width="840" height="50" rx="9" fill="#fffbea" stroke="rgba(194,65,12,.4)"/>
+  <text x="440" y="486" font-size="10.5" fill="#262626" text-anchor="middle" font-weight="600">分界线不在「AI 程序」与「普通程序」之间，在每个 agent 程序的内部</text>
+  <text x="440" y="504" font-size="9.5" fill="#667382" text-anchor="middle">上限只卡两处：预测器接得准不准（换模型才有解）｜ 摆什么到它面前（description · 工具结果 · 历史 —— CH4 / CH7 主战场）</text>
+</svg>

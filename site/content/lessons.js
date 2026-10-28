@@ -32,7 +32,7 @@ export const LESSONS = {
     { "ver": "v0.5", "what": "网页对话框——右下角气泡唤起,流式聊天 + 多会话 + 记账", "range": "主线间隙" },
     { "ver": "v0.6", "what": "对话框升级——Markdown 真排版 + 问题库 100 条随机三问", "range": "主线间隙" },
     { "ver": "v0.7", "what": "对话框再升级——流式实时排版 + 代码高亮", "range": "主线间隙" },
-    { "ver": null, "what": "会调工具的 Agent 循环(玩具工具)", "range": "第 3–4 章" },
+    { "at": "ch3", "ver": "v0.8", "chip": "交付 v0.8 · src/chat.ts + tools/", "what": "会调工具的 Agent 循环(玩具工具)", "range": "第 3–4 章" },
     { "ver": null, "what": "读写你的代码,自己发现并修好 bug", "range": "第 5 章" },
     { "ver": null, "what": "跑命令,且有安全闸门", "range": "第 6 章" },
     { "ver": null, "what": "长任务不失忆,懂省钱", "range": "第 7 章" },
@@ -210,7 +210,7 @@ export const LESSONS = {
             "code": "CH2.1",
             "name": "v0.4 · 聊天机器人",
             "done": "2026-10-27（四步长成：脚手架 TS+Node → 非流式最小循环（记忆即 messages 数组）→ 流式 SSE（缓冲区攒换行才算一条事件，打字机逐词上屏）→ 记账（退出报 75+232 token≈¥0.0035））",
-            "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（81 行代码可点 × 透视卡 × 真机连线）"
+            "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（149 行代码可点 × 透视卡 × 真机连线）"
           },
           {
             "label": "知识点",
@@ -229,7 +229,8 @@ export const LESSONS = {
           {
             "code": "CH3.1",
             "name": "工具调用",
-            "mark": "⏭ 下一站"
+            "done": "2026-10-28（v0.8 三步曲长成：tools 声明随行 → 流式攒 tool_calls 分片 → 执行喂回循环到它不再要；真机三圈实录 get_time → 10+3 心算没用 calculator → 纯文本退出——触发是概率的不是规则的，description 塑形）",
+            "tail": "—— npm run chat 可玩 · 全景卡已上：agent 的「智能」拆开看"
           },
           {
             "label": "知识点",
@@ -245,6 +246,11 @@ export const LESSONS = {
     "ch4": {
       "groups": [
         [
+          {
+            "code": "CH4.1",
+            "name": "工具注册表与说明书工程",
+            "mark": "⏭ 下一站"
+          },
           {
             "label": "知识点",
             "text": "Tool = name + description + JSON Schema + execute;description 就是提示词工程；统一注册表；参数校验"

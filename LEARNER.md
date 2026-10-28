@@ -46,7 +46,7 @@
 每节课后,把**讲义 + 学员追问及解答**沉淀为 `prologue/0X-notes.md`(与同课次代码 `0X_*.py` 在文件列表里自动配对;01–03 已建,随课随写)。
 学员的追问是全仓库最值钱的部分——那正是未来学员会卡住的地方。
 
-## 5. 课程骨架(截至 2026-10-27)
+## 5. 课程骨架(截至 2026-10-28)
 
 - **序章 · 搓丹线**(Python):P0.1 数数表 ✅ / P0.2 神经版 + 梯度 ✅(2026-10-23 内功回填后一次通关)/ P0.3 前文加长·击穿数数表 ✅(2026-10-27 一次开课,C 表 + 隐藏层 MLP,dev 1.95 双杀)/ P0.4 temperature 调参 ✅(2026-10-27,minigpt v0.1:调温与限签)——序章全清;
 - **minigpt/**(序章交付,现 v0.1):三课散装脚本重组为 data / models / engine / sample 四件 + CLI(`python -m minigpt`);同一个插头(forward / backward / update),换模型不换发动机——后续 T 区拼注意力只往 models.py 挂新货;v0.1 采样旋钮(--temperature / --top-k)已接;
@@ -55,4 +55,4 @@
 - **拼图 · Transformer**(#tf 专区):T1 全貌 ✅(2026-10-23 全貌长文 + 四图);T2–T4 ⏳ 待拼;
 - **待学清单**(#backlog 专区):傅里叶变换 ⏳ · 稀疏自编码器(SAE)⏳ —— 不开课只记录,哪条喊开课哪条立项挂卡;
 - **MiniClaude 剖析**(#mc 专区,2026-10-27 上线,同日两轮学员反馈改版):只摆实货、不预画路线——当前全貌一张图(site/content/cards.js 的 mc-map 卡 + site/svg/mc-map.svg):双线定位 + minigpt/ 五文件 + 一生五幕;课程表主线交付到哪,图重画到哪;
-- **正文 · 铸剑线**(TS,src/):CH1 ✅(2026-10-27,curl 素颜相见三连 + 实验室)/ CH2 ✅(2026-10-27,src/chat.ts **v0.4**:多轮记忆 + 流式 SSE 打字机 + 退出记账,npm run chat 可玩;81 行 + chat.ts 透视台 + /api/chat 流式代理)—— **下一站 CH3.1 工具调用**(tool use 三步曲);CH4–CH10 未开课,大纲与考点见 site/COURSE.html;从 CH1 起需要学员自备 API key。
+- **正文 · 铸剑线**(TS,src/):CH1 ✅(2026-10-27,curl 素颜相见三连 + 实验室)/ CH2 ✅(2026-10-27,src/chat.ts **v0.4**:多轮记忆 + 流式 SSE 打字机 + 退出记账,npm run chat 可玩;透视台 + /api/chat 流式代理)/ CH3.1 ✅(2026-10-28,**v0.8** agent 循环:tools 声明随行 → 流式攒 tool_calls 分片 → 执行喂回循环到它不再要;src/chat.ts 149 行 + tools/ 玩具两件,真机三圈实录;全景卡「agent 的『智能』拆开看」上线)—— **下一站 CH4.1 工具注册表与说明书工程**(description 就是提示词工程);CH5–CH10 未开课,大纲与考点见 site/COURSE.html;从 CH1 起需要学员自备 API key。

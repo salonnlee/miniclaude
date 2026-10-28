@@ -10,6 +10,15 @@
    ============================================================================ */
 var DAYS = [
   {
+    "date": "2026-10-28",
+    "items": [
+      "CH3.1《工具调用》完课：v0.8 agent 循环上线——tools 声明随行 → 流式按 index 攒 tool_calls 分片 → 执行喂回循环到它不再要；真机三圈实录 get_time → 10+3 心算没用 calculator → 纯文本退出。",
+      "学员透悟入册：agent 的「智能」拆开看——概率的一半住模型（要不要工具/参数填什么，全是接龙的切面，description 塑形），确定的一半住代码（execute/Schema/循环全写死，模型只能申请不能执行）；全景卡 c31-panorama 两图上线。",
+      "chat.ts 升 v0.8（81→149 行）：agent 主循环回滚按深度、工具执行错误当结果喂回；tools/ 三件（get_time/calculator/Tool 形状）；透视台 SEGS 同步换血、行数声明四处对齐。",
+      "网页整合定调（学员）：mc/ 气泡随章节长——agent 循环放浏览器端、serve.mjs 只透传 tools 字段，工具调用气泡 UI 后续交付。",
+    ]
+  },
+  {
     "date": "2026-10-27",
     "items": [
       "MiniClaude v0.7：流式实时排版——打字机每个增量过 markdown-it（rAF 节流一帧一渲），表格/代码块边流边成形；highlight.js（core+8 语言 esbuild 打 59KB 单文件 vendor）给围栏代码块上色，不认识的语言落回转义。",
