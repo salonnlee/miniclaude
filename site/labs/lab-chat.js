@@ -42,13 +42,13 @@ var pinSync = function () {};
   addEventListener('resize', sync);
 })();
 
-/* 七段代码与 src/chat.ts 逐字一致(v0.8 agent 循环 + CH4 闸门注册表,150 行) */
+/* 七段代码与 src/chat.ts 逐字一致(v1.1 命令执行 + 安全闸门,159 行) */
 var SEGS = [
   {
     id: 'gear',
     tag: '① 装备区',
     code: "import * as readline from 'node:readline/promises';\n" +
-      "import { TOOLS } from './tools/index.ts';\n" +
+      "import { TOOLS, validate, setConfirm } from './tools/index.ts';\n" +
       "\n" +
       "const KEY = process.env.GLM_API_KEY;\n" +
       "if (!KEY) {\n" +
@@ -184,6 +184,15 @@ var SEGS = [
     id: 'loop',
     tag: '⑥ agent 主循环',
     code: "const rl = readline.createInterface({ input: process.stdin, output: process.stdout });\n" +
+      "// ask 档命令的确认流:必须复用同一个 rl——两个 readline 抢 stdin 会互吞输入行\n" +
+      "setConfirm(async (cmd) => {\n" +
+      "  try {\n" +
+      "    const ans = (await rl.question(`  ⚠️ 命令确认:${cmd}\\n  允许?(y=允许 n=拒绝 a=本会话总是允许) `)).trim().toLowerCase();\n" +
+      "    return ans === 'a' ? 'a' : ans === 'y' ? 'y' : 'n'; // 含糊的输入一律当拒绝,安全侧倒\n" +
+      "  } catch {\n" +
+      "    return 'n'; // EOF / 管道断流:没人点头 = 不放行\n" +
+      "  }\n" +
+      "});\n" +
       "console.log('小c上线(exit 退出)');\n" +
       "\n" +
       "while (true) {\n" +
@@ -230,7 +239,8 @@ var SEGS = [
     card: ['双层循环:外圈读人,内圈跑 agent',
       'v0.4 只有一层;v0.8 在里面套了 <b>agent 循环</b>:ask 一轮 → 它要工具就执行、喂回、再 ask,直到某轮 <b>toolCalls 为空</b>(考点 1:' +
       '退出条件 = 它不再要,不是调够 N 次)。动作要亮出来——🔧 一行让人看得见「它决定了什么」。' +
-      '回滚也升级了:v0.4 的 pop 只撤一条,现在一轮可能 push 了四五条,改记 <b>rollback 深度</b>一刀切平——失败这轮彻底不入账。']
+      '回滚也升级了:v0.4 的 pop 只撤一条,现在一轮可能 push 了四五条,改记 <b>rollback 深度</b>一刀切平——失败这轮彻底不入账。' +
+      'v1.1 循环门口多挂了一环 <b>确认流</b>:bash 工具遇 ask 档命令时借这个 rl 问你 y/n/a——必须复用同一个 rl,两个 readline 抢 stdin 会互吞输入行。']
   },
   {
     id: 'bill',

@@ -319,6 +319,22 @@
   .ch-recap .ch-lab-body{margin-top:12px}
   .ch-list.tight-top{margin-top:12px}
 
+  /* ---------- Tool 四件套透视(c41 卡内可点代码段,details 原生交互零 JS)---------- */
+  .ch-recap .tx-cap{margin:14px 0 6px;font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.5px}
+  .ch-recap details.tx{border:1px solid var(--border);border-radius:8px;background:#fbfcfd;overflow:hidden}
+  .ch-recap details.tx+details.tx{margin-top:6px}
+  .ch-recap details.tx summary{cursor:pointer;list-style:none;user-select:none;display:block;position:relative}
+  .ch-recap details.tx summary::-webkit-details-marker{display:none}
+  .ch-recap details.tx summary pre{margin:0;padding:10px 44px 10px 12px;font-family:var(--mono);font-size:11.5px;line-height:1.75;white-space:pre;overflow-x:auto;color:#3a4048}
+  .ch-recap details.tx:hover summary pre{background:var(--tint-blue)}
+  .ch-recap details.tx[open] summary pre{border-bottom:1px dashed var(--border);background:var(--tint-blue)}
+  .ch-recap details.tx .tx-hint{position:absolute;right:10px;top:8px;font-size:11px;color:var(--accent);font-family:var(--mono);background:var(--tint-blue);border-radius:4px;padding:1px 7px;pointer-events:none}
+  .ch-recap details.tx[open] .tx-hint{visibility:hidden}
+  .ch-recap details.tx .tx-card{padding:10px 14px 12px;font-size:12.5px;line-height:1.9;color:var(--muted)}
+  .ch-recap details.tx .tx-card b{color:var(--text)}
+  .ch-recap details.tx .tx-card code{font-family:var(--mono);font-size:11.5px;background:var(--tint-blue);border-radius:4px;padding:0 5px}
+  .ch-recap details.tx .tx-tag{display:inline-block;font-family:var(--mono);font-size:10.5px;color:var(--accent);border:1px solid rgba(6,111,209,.35);border-radius:4px;padding:0 6px;margin-right:8px;vertical-align:1px;background:#fff}
+
   /* ---------- reading list(暂停期书单,支线观影系 = 橙)---------- */
   .res-sec{margin:16px 0 0;font-size:13px;font-weight:700;color:var(--accent-2);letter-spacing:1px}
   .res-list{margin:4px 0 0;padding-left:0;list-style:none}

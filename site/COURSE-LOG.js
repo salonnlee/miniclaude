@@ -12,6 +12,9 @@ var DAYS = [
   {
     "date": "2026-10-28",
     "items": [
+      "CH6.1《命令执行与安全闸门》完课：v1.1 bash 工具上线——spawn＋超时强杀 120s＋输出截断 30KB＋退出码如实报；permissions.ts 三扇门 deny/ask/allow，粒度到子命令（git status:* 放行、git push 要问），「本会话总是允许」只记逐字同条。确认流复用 chat.ts 的 rl——两个 readline 抢 stdin 会互吞输入行（管道测试当场撞见）。真机两幕：agent 自建语法错误的 count.mjs 自己跑出报错自己修好退出码 0；注入演练模型自认恶意注释并拒绝——模型层防御与闸门各守各的。后台任务留 CH8。",
+      "CH4 全景卡 c41-panorama 上线：Tool = name + description + JSON Schema + execute 逐件讲透（说明书三件寄给模型、execute 独住本地，安全模型压在这条线）；calculator 真代码五段可点、点开透视卡——命名是被接出来的概率、description 是唯一的提示词工程、Schema 一份合同两头用、错误当结果喂回；外加装配线五站与「为什么恰是这四件」对照智能两半。",
+      "CH5 全景卡 c5-panorama 上线：文件五件讲成一条流水线三段（Glob/Grep 定位→Read 读取→Write/Edit 修改），用 v1.0 验收的 validate bug 当一单生意走完整条链，外加「为什么不等 Bash 一把梭」（结构化输出＋不过 shell）与平台边界两笔账。",
       "CH5.1《文件读写工具》完课：v1.0 文件三件（read/write/edit）上线——截断 2000 行＋二进制魔数检测＋行号输出、精确字符串替换零处/多处都当结果喂回；平台分层定规：浏览器碰不了文件系统，共享底座照旧 mc/tools.js，文件三件住 Node 侧 fs.ts push 进 TOOLS（浏览器视角纯净已验）。",
       "验收仪式立功：agent 首跑工具全报「validate is not defined」，顺藤逮住 v0.9 单一事实源重构漏改 chat.ts import 的真 bug——修一行重跑，agent 自建 todo.md＋count.mjs 分毫不差，还如实报告「没有跑命令的工具」（那正是 CH6 的 Bash）；lesson 知识点「搜索而非通读」留作 grep 工具的后续课时。",
       "架构图热词定稿（学员五点＋一改）：撤插槽排与壳带，热词卡片直接长进老位置——workflow/subagent 进循环体内、skill/memory 进上下文、MCP/hook 进工具层（保留 emoji＋名字＋描述的卡片样式）；plugin 独立成最底一条虚线集装箱带（只打包分发不新增关系）；#mc 剖析区热词对号表撤下。播放器十二步收十一步。",

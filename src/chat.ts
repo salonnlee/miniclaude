@@ -1,7 +1,7 @@
 // v0.8 · agent 循环 —— 聊天 + 工具调用(声明 → tool_use → 执行喂回 → 循环到它不再要)
 // 跑法:npm run chat(node 26 原生跑 TS,key 住 .env 不进代码)
 import * as readline from 'node:readline/promises';
-import { TOOLS, validate } from './tools/index.ts';
+import { TOOLS, validate, setConfirm } from './tools/index.ts';
 
 const KEY = process.env.GLM_API_KEY;
 if (!KEY) {
@@ -101,6 +101,15 @@ async function run(call: ToolCall): Promise<string> {
 }
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+// ask 档命令的确认流:必须复用同一个 rl——两个 readline 抢 stdin 会互吞输入行
+setConfirm(async (cmd) => {
+  try {
+    const ans = (await rl.question(`  ⚠️ 命令确认:${cmd}\n  允许?(y=允许 n=拒绝 a=本会话总是允许) `)).trim().toLowerCase();
+    return ans === 'a' ? 'a' : ans === 'y' ? 'y' : 'n'; // 含糊的输入一律当拒绝,安全侧倒
+  } catch {
+    return 'n'; // EOF / 管道断流:没人点头 = 不放行
+  }
+});
 console.log('小c上线(exit 退出)');
 
 while (true) {

@@ -35,6 +35,7 @@ export const LESSONS = {
     { "at": "ch3", "ver": "v0.8", "chip": "交付 v0.8 · src/chat.ts + tools/", "what": "会调工具的 Agent 循环(玩具工具)", "range": "第 3–4 章" },
     { "ver": "v0.9", "what": "对话框长出工具调用——浏览器端 agent 循环 + 🔧 工具气泡,与 CLI 同一张图纸", "range": "主线间隙" },
   { "at": "ch5", "ver": "v1.0", "chip": "交付 v1.0 · src/tools/fs.ts", "what": "文件读写三件——agent 开始碰真文件(截断/二进制检测/精确替换)", "range": "第 5 章" },
+  { "at": "ch6", "ver": "v1.1", "chip": "交付 v1.1 · src/tools/bash.ts + permissions.ts", "what": "跑命令且有安全闸门(deny/ask/allow 三扇门 + 确认流)", "range": "第 6 章" },
     { "ver": null, "what": "读写你的代码,自己发现并修好 bug", "range": "第 5 章" },
     { "ver": null, "what": "跑命令,且有安全闸门", "range": "第 6 章" },
     { "ver": null, "what": "长任务不失忆,懂省钱", "range": "第 7 章" },
@@ -212,7 +213,7 @@ export const LESSONS = {
             "code": "CH2.1",
             "name": "v0.4 · 聊天机器人",
             "done": "2026-10-27（四步长成：脚手架 TS+Node → 非流式最小循环（记忆即 messages 数组）→ 流式 SSE（缓冲区攒换行才算一条事件，打字机逐词上屏）→ 记账（退出报 75+232 token≈¥0.0035））",
-            "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（150 行代码可点 × 透视卡 × 真机连线）"
+            "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（159 行代码可点 × 透视卡 × 真机连线）"
           },
           {
             "label": "知识点",
@@ -252,7 +253,7 @@ export const LESSONS = {
             "code": "CH4.1",
             "name": "工具注册表与说明书工程",
             "done": "2026-10-28（闸门三件套一次落齐：validate.ts 手写迷你 Schema 校验——错误当结果喂回让模型自己改；eval 换 tokenizer+递归下降——恶意输入不是被拦，是无法表达，攻击样本 16/16 倒在门口；tools/index.ts 统一注册表——加工具零改主循环。AB 实验跳过：说明书改成「无论难易必须调用」则 10+3 必触发，共识免验）",
-            "tail": "—— npm run chat 可玩 · 说明书 A/B 玩法留作自选实验"
+            "tail": "—— npm run chat 可玩 · 说明书 A/B 玩法留作自选实验 · 全景卡已上：Tool 四件套逐件透视"
           },
           {
             "label": "知识点",
@@ -291,7 +292,8 @@ export const LESSONS = {
           {
             "code": "CH6.1",
             "name": "命令执行与安全闸门",
-            "mark": "⏭ 下一站"
+            "done": "2026-10-28（bash.ts spawn+超时强杀(120s)+输出截断 30KB+退出码如实报；permissions.ts 三扇门——deny 黑名单管道进 shell/rm -rf、allow 白名单只读命令、ask 弹 y/n/a 确认且「本会话总是允许」只记逐字同条；粒度到子命令：git status:* 放行而 git push 要问。真机两幕：自建带语法错误的 count.mjs 自己跑出报错自己修好退出码 0；注入演练模型自认 HTML 注释里的恶意指令并拒绝——模型层防御与闸门各守各的）",
+            "tail": "—— npm run chat 可玩 · 后台任务(不杀/记 PID/回头查)留 CH8"
           },
           {
             "label": "知识点",
@@ -307,6 +309,11 @@ export const LESSONS = {
     "ch7": {
       "groups": [
         [
+          {
+            "code": "CH7.1",
+            "name": "上下文管理与压缩",
+            "mark": "⏭ 下一站"
+          },
           {
             "label": "知识点",
             "text": "system prompt 组装；自动压缩（compaction）;CLAUDE.md 项目记忆；prompt caching——前缀稳定省一大半钱"
