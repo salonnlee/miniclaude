@@ -45,14 +45,14 @@ if (/^#(arch|acts|mc|backlog|miles|pact|tf|log)$/.test(location.hash)) {
 <section class="block" id="arch">
   <div class="sec-kicker">01 / MAP</div>
   <h2 class="sec">全景架构</h2>
-  <p class="sec-sub">这张图就是 Claude Code 的骨架：Agent 循环居中调度——左边把问题交给模型去想，右边过权限闸门让工具去做；想完的交给做，做完的喂回想，一轮一轮，转到活干完。全网热词就长在各自的老位置上：workflow、subagent、hook 进循环的关节，skill、斜杠命令、memory 进上下文，MCP 在工具层长出手；最底一条 plugin 集装箱独立在流程外，只打包分发——词是新的，位置全是老的。带 🧩 标的卡片都是 mod：官方留口子，用户自己写的扩展件。</p>
+  <p class="sec-sub">这张图就是 Claude Code 的骨架：Agent 循环居中调度——左边把问题交给模型去想，右边过权限闸门让工具去做；想完的交给做，做完的喂回想，一轮一轮，转到活干完。全网热词就长在各自的老位置上：workflow、subagent、hook 进循环的关节，skill、斜杠命令、memory 进上下文，MCP 在工具层长出手；最底一条 plugin 集装箱独立在流程外，只打包分发——词是新的，位置全是老的。带 🧩 标的卡片都是 mod：官方留口子、能独立装卸的扩展件——memory 是自己攒的档案，没有上传下载；hook 不能独立插拔，只能跟着 plugin 集装箱走——这两张不算。</p>
 
   <div class="arch-tools">
     <button class="arch-btn" id="arch-btn" type="button"><span id="arch-btn-ic">▶</span><span id="arch-btn-label">播放：一次请求的旅程</span></button>
     <span class="arch-cap" id="arch-cap" aria-live="polite">点「播放」，看一条消息怎么走完一整轮 Agent 循环</span>
   </div>
 
-  <div class="arch-stack" role="img" aria-label="分层架构：你、终端 UI、Agent 循环（旁挂上下文管理），向下分两路——一路通向 LLM API，一路经权限系统通向工具层，再连到文件系统与终端；热词长在老位置——workflow、subagent 与 hook 挂在循环关节上，skill、斜杠命令与 memory 进上下文喂给它，MCP 在工具层长出手；循环下方有展开卡：五环节流程图（组装上下文、问 LLM、要工具吗、权限把关、执行工具，tool_result 喂回组装环节，不要工具走出口），mod 的进门与回家连线全在图里；最底 plugin 集装箱独立于流程，只打包分发；带拼图标的卡片都是 mod——用户自己写的扩展件">
+  <div class="arch-stack" role="img" aria-label="分层架构：你、终端 UI、Agent 循环（旁挂上下文管理），向下分两路——一路通向 LLM API，一路经权限系统通向工具层，再连到文件系统与终端；热词长在老位置——workflow、subagent 与 hook 挂在循环关节上，skill、斜杠命令与 memory 进上下文喂给它，MCP 在工具层长出手；循环下方有展开卡：五环节流程图（组装上下文、问 LLM、要工具吗、权限把关、执行工具，tool_result 喂回组装环节，不要工具走出口），mod 的进门与回家连线全在图里；最底 plugin 集装箱独立于流程，只打包分发；带拼图标的卡片都是 mod——能独立装卸的扩展件；memory 与 hook 不带标：前者没有上传下载，后者只能跟着 plugin 集装箱走">
     <div class="layer" data-layer="user">
       <span class="icon-box">👤</span>
       <div><div class="layer-name">你<span class="ch-tag">· 主角</span></div>
@@ -72,14 +72,14 @@ if (/^#(arch|acts|mc|backlog|miles|pact|tf|log)$/.test(location.hash)) {
         <span class="icon-box">🔄</span>
         <div><div class="layer-name">Agent 循环<span class="ch-tag">· 第 3 章 · 心脏</span></div>
         <div class="layer-sub">模型要工具 → 执行 → 喂回结果，直到给出最终回答</div>
-        <div class="hot-row"><span class="hot h-blue"><b>🔀 workflow 工作流</b><span>编排 · 流程写死在代码，节点内才是模型</span><span class="mod">🧩 mod</span></span><span class="hot h-blue"><b>👥 subagent 子代理</b><span>分身 · 再开一台同款循环，只回结论</span><span class="mod">🧩 mod</span></span><span class="hot h-blue"><b>🪝 hook 钩子</b><span>门禁 · 事件挂脚本：调用前/后、出口</span><span class="mod">🧩 mod</span></span></div></div>
+        <div class="hot-row"><span class="hot h-blue"><b>🔀 workflow 工作流</b><span>编排 · 流程写死在代码，节点内才是模型</span><span class="mod">🧩 mod</span></span><span class="hot h-blue"><b>👥 subagent 子代理</b><span>分身 · 再开一台同款循环，只回结论</span><span class="mod">🧩 mod</span></span><span class="hot h-blue"><b>🪝 hook 钩子</b><span>门禁 · 事件挂脚本：调用前/后、出口</span></span></div></div>
       </div>
       <span class="hlink" aria-hidden="true"></span>
       <div class="layer side" data-layer="ctx">
         <span class="icon-box">🗃️</span>
         <div><div class="layer-name">上下文管理<span class="ch-tag">· 第 7 章</span></div>
         <div class="layer-sub">system prompt 组装、自动压缩、项目记忆</div>
-        <div class="hot-row"><span class="hot h-org"><b>📖 skill 技能</b><span>章法 · SOP，触发才展开全文</span><span class="mod">🧩 mod</span></span><span class="hot h-org"><b>📣 斜杠命令</b><span>点播 · /名字 触发，整段指令塞进上下文</span><span class="mod">🧩 mod</span></span><span class="hot h-org"><b>🗂️ memory 记忆</b><span>知识 · 跨会话的档案柜</span><span class="mod">🧩 mod</span></span></div></div>
+        <div class="hot-row"><span class="hot h-org"><b>📖 skill 技能</b><span>章法 · SOP，触发才展开全文</span><span class="mod">🧩 mod</span></span><span class="hot h-org"><b>📣 斜杠命令</b><span>点播 · /名字 触发，整段指令塞进上下文</span><span class="mod">🧩 mod</span></span><span class="hot h-org"><b>🗂️ memory 记忆</b><span>知识 · 跨会话的档案柜</span></span></div></div>
       </div>
     </div>
 
@@ -134,7 +134,7 @@ flowchart TD
     PERM --> EXEC
     EXEC -->|"tool_result 喂回 ①·每要一次就多转一圈"| CTX
   end
-  HK["🧩 🪝 hook 门禁&lt;br/&gt;调用前 · 执行后 · Stop——挂在事件上，不进数据流"]
+  HK["🪝 hook 门禁&lt;br/&gt;调用前 · 执行后 · Stop——挂在事件上，不进数据流"]
   MOD["🧩 🔀 workflow · 👥 subagent&lt;br/&gt;伪装成工具，execute = 再开嵌套循环"]
   PERM -.- HK
   EXEC -.- HK
