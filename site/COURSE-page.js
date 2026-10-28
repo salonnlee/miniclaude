@@ -4,6 +4,7 @@
    ① 全景架构图播放器——#arch 区「播放:一次请求的旅程」按钮,十步点亮 Agent 循环;
    ② 锚点滚动联动——URL 的 #锚点 随滚动实时同步(replaceState,不写历史记录),
      刷新即可回到当前区块;滚回顶部自动清掉锚点。
+     ③ 右上角快捷导航——hero 滚出视口后浮现,链接与当前区块哈希联动高亮,↑ 回顶部。
      带锚点加载的 cloak 配合逻辑见 COURSE.html 的 head 内联脚本与 COURSE.css 的 html.cloak。 */
 (function () {
   var root = document.querySelector('.arch-stack');
@@ -52,7 +53,7 @@
 })();
 
 (function () {
-  var secs = ['arch', 'acts', 'tf', 'mc', 'miles', 'pact']
+  var secs = ['arch', 'acts', 'tf', 'mc', 'backlog', 'miles', 'pact', 'log']
     .map(function (id) { return document.getElementById(id); })
     .filter(Boolean);
   var ticking = false;
@@ -88,9 +89,26 @@
     }
     return cur;
   }
+  // 右上角快捷导航:hero 滚出视口后浮现,当前区块高亮(哈希来自 currentHash,与 URL 锚点同源)
+  var fly = document.getElementById('fly-nav');
+  var flyLinks = fly ? fly.querySelectorAll('a[href^="#"]') : [];
+  function syncFly(h) {
+    if (!fly) return;
+    fly.classList.toggle('is-on', window.scrollY > document.querySelector('.hero').offsetHeight);
+    var cur = h && h !== '#' ? h.slice(1) : '';
+    flyLinks.forEach(function (a) {
+      a.classList.toggle('is-cur', a.getAttribute('href') === '#' + cur);
+    });
+  }
+  if (fly) fly.querySelector('.fly-top').addEventListener('click', function (e) {
+    e.preventDefault();
+    window.scrollTo({ top: 0 });
+  });
+
   function sync() {
     ticking = false;
     var h = currentHash();
+    syncFly(h);
     if (h === window.location.hash) return;
     history.replaceState(null, '', h || window.location.pathname + window.location.search);
   }

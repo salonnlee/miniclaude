@@ -42,6 +42,25 @@
     border-radius:var(--radius-s);transition:background-color .15s,color .15s}
   nav.toc a:hover{color:var(--text);background:var(--tint-grey)}
 
+  /* ---------- 快捷导航(右上角跟随视窗,hero 滚出后浮现) ---------- */
+  .fly-nav{position:fixed;top:14px;right:16px;z-index:70;display:flex;align-items:center;gap:1px;
+    max-width:calc(100vw - 32px);padding:4px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:999px;
+    box-shadow:0 4px 16px rgba(16,24,40,.10);overflow-x:auto;scrollbar-width:none;
+    opacity:0;transform:translateY(-8px);pointer-events:none;visibility:hidden;
+    transition:opacity .2s,transform .2s,visibility .2s}
+  .fly-nav::-webkit-scrollbar{display:none}
+  .fly-nav.is-on{opacity:1;transform:none;pointer-events:auto;visibility:visible}
+  .fly-nav a{flex:none;color:var(--muted);text-decoration:none;font-size:12.5px;padding:5px 10px;
+    border-radius:999px;transition:background-color .15s,color .15s}
+  .fly-nav a:hover{color:var(--text);background:var(--tint-grey)}
+  .fly-nav a.is-cur{color:var(--accent-deep);background:var(--tint-blue);font-weight:600}
+  .fly-nav .fly-top{margin-left:2px;color:var(--accent);font-weight:700;padding:5px 9px}
+  @media (max-width:620px){
+    .fly-nav{top:8px;right:8px;max-width:calc(100vw - 16px)}
+    .fly-nav a{font-size:12px;padding:4px 8px}
+  }
+
   /* ---------- section(Tabler 白卡) ---------- */
   section.block{margin:20px 0;padding:26px 28px 30px;background:#fff;
     border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
