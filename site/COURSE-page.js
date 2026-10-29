@@ -5,8 +5,8 @@
    ② 锚点滚动联动——URL 的 #锚点 随滚动实时同步(replaceState，不写历史记录),
      刷新即可回到当前区块；滚回顶部自动清掉锚点。
      ③ 右上角快捷导航——hero 滚出视口后浮现，链接与当前区块哈希联动高亮，↑ 回顶部。
-     ④ 章节互引跳转——文案里提到别章（如「正是 CH6 的 Bash」）时 CHn 自动变成跳转钮，
-       点了跳过去并浮出「↩ 返回」钮；用户的滚动/点击别处/按键任一出现即视为不回去，钮隐、交互结束。
+     ④ 章节互引跳转——文案里提到别章（如「正是 CH6 的 Bash」）时 CHn 自动变成跳转钮（同章自引不导），
+       点了跳过去并浮出「↩ 返回」钮；用户上下滚离落点超过 120px 才算「不回去」，钮隐、交互结束。
      带锚点加载的 cloak 配合逻辑见 COURSE.html 的 head 内联脚本与 COURSE.css 的 html.cloak。 */
 (function () {
   var root = document.querySelector('.arch-stack');
@@ -147,10 +147,14 @@
   );
 
   function linkify(node) {
+    var home = node.parentElement.closest('article.chapter');
+    var homeNo = home && home.querySelector('.ch-no');
+    homeNo = homeNo ? homeNo.textContent.trim() : '';
     var frag = document.createDocumentFragment();
     var re = /CH([1-9]|10)(?![\w.\d])/g, last = 0, m;
     while ((m = re.exec(node.nodeValue))) {
       if (!chapters['CH' + m[1]]) continue;
+      if (homeNo === 'CH' + m[1]) continue; // 本小节引自己，不导航
       frag.appendChild(document.createTextNode(node.nodeValue.slice(last, m.index)));
       var a = document.createElement('a');
       a.className = 'ch-ref';
@@ -168,35 +172,43 @@
   while ((n = walker.nextNode())) nodes.push(n);
   nodes.forEach(linkify);
 
-  // 返回钮：跳转后出现；用户滚动(wheel/touchmove)、点击别处、按键任一发生即隐
+  // 返回钮：跳转后出现；只在用户上下滚动离锚点超过阈值后隐（点击/按键不算「不回去」）
   var back = document.createElement('button');
   back.className = 'ref-back';
   back.type = 'button';
   document.body.appendChild(back);
-  var from = null;
+  var from = null, baseY = null;
 
   function openUp(el) {
     for (var d = el.closest('details'); d; d = d.parentElement && d.parentElement.closest('details'))
       d.open = true;
   }
   var settle = null; // 落点上方懒加载图片撑高版面会把目标推走，落定后再校一次位
+  function snap(el) {
+    // 用户首动后全局 scroll-behavior 会变 smooth，互引跳转必须瞬跳——
+    // 平滑滚动是动画，基点记在动画前、落点在动画后，一偏就误杀返回钮
+    var de = document.documentElement, prev = de.style.scrollBehavior;
+    de.style.scrollBehavior = 'auto';
+    el.scrollIntoView({ block: 'start' });
+    de.style.scrollBehavior = prev;
+    if (from) baseY = window.scrollY; // scroll 事件异步派发，同步记基点不会误杀跳转自身
+  }
   function jumpTo(el) {
     openUp(el);
-    el.scrollIntoView({ block: 'start' }); // 瞬跳：展开幕会改布局，平滑滚动易被打断停在半路
+    snap(el); // 瞬跳：展开幕会改布局，平滑滚动易被打断停在半路
     clearTimeout(settle);
     settle = setTimeout(function () {
       settle = null;
-      el.scrollIntoView({ block: 'start' });
+      snap(el);
     }, 350);
   }
-  function dismiss() { clearTimeout(settle); settle = null; back.classList.remove('is-on'); from = null; disarm(); }
-  function onAct(e) {
-    if (e.type === 'pointerdown' && e.target.closest('.ref-back')) return;
-    dismiss();
+  function dismiss() { clearTimeout(settle); settle = null; back.classList.remove('is-on'); from = null; baseY = null; disarm(); }
+  function onScroll() {
+    if (!from || baseY === null) return;
+    if (Math.abs(window.scrollY - baseY) > 120) dismiss(); // 上下滚离落点超过 120px 才算「不回去」
   }
-  var EVTS = ['wheel', 'touchmove', 'keydown', 'pointerdown'];
-  function arm() { EVTS.forEach(function (ev) { window.addEventListener(ev, onAct, { passive: true, capture: true }); }); }
-  function disarm() { EVTS.forEach(function (ev) { window.removeEventListener(ev, onAct, { passive: true, capture: true }); }); }
+  function arm() { window.addEventListener('scroll', onScroll, { passive: true }); }
+  function disarm() { window.removeEventListener('scroll', onScroll, { passive: true }); }
 
   document.addEventListener('click', function (e) {
     var a = e.target.closest('.ch-ref');
@@ -213,7 +225,7 @@
     jumpTo(target);
     back.textContent = '↩ 返回 ' + from.label;
     back.classList.add('is-on');
-    setTimeout(arm, 600); // 缓一口气，别让触发点击自己把钮掐灭
+    arm();
   });
 
   back.addEventListener('click', function () {
