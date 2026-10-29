@@ -90,7 +90,7 @@ check('chat.ts 行数声明与实际一致(现为 ' + chatLines + ' 行)',
 const allDone = Object.values(LESSONS.lists).flatMap((l) => l.groups.flat())
   .filter((it) => it.done).map((it) => it.done.slice(0, 10)).sort();
 const lastDone = allDone[allDone.length - 1];
-const asOf = (learner.match(/课程骨架\(截至\s*(\d{4}-\d{2}-\d{2})\)/) || [])[1];
+const asOf = (learner.match(/课程骨架[（(]截至\s*(\d{4}-\d{2}-\d{2})[)）]/) || [])[1];
 check(`LEARNER 骨架截至日期 ≥ 最新完课日(${lastDone})`,
   !!asOf && asOf >= lastDone,
   asOf ? `LEARNER 停在 ${asOf},已有 ${lastDone} 的完课` : 'LEARNER「课程骨架(截至 …)」日期缺失');
@@ -199,6 +199,49 @@ check('口径黑名单(解剖/壳)零残留', banned.length === 0, banned.join('
     .map((t) => `${t.slice(0, 20)}… ${t.length} 字`);
   check(`COURSE-LOG 单条记录均 ≤ ${LIMIT} 字`, fat.length === 0,
     fat.join('; ') + ' —— 压成事实与结论,过程细节归 commit message/卡正文');
+}
+
+// 17. 新写文案标点体检(2026-10-29 定规):README/LEARNER 的中文句内半角
+//     , ; : ? ! ( ) 贴汉字/全角标点处一律全角——两侧皆英文/数字/数学符保留
+//     半角((0,1)、(MIT) 不动);跳过代码块与行内代码;AGENTS.md(定规原文
+//     本就用半角)与 site 树(代码注释里的半角不属文案)豁免
+{
+  const HAN = /[\u4e00-\u9fff]/;
+  const CJKP = /[，；：？！（）「」『』、。——]/;
+  const PUNCT = { ',': '，', ';': '；', ':': '：', '?': '？', '!': '！' };
+  const bad = [];
+  [['README.md', 'README.md'], ['LEARNER.md', 'LEARNER.md']].forEach(([p, f]) => {
+    let fence = false;
+    read(p).split('\n').forEach((ln, i) => {
+      if (/^\s*```/.test(ln)) { fence = !fence; return; }
+      if (fence) return;
+      let inCode = false, seg = '';
+      for (let j = 0; j < ln.length; j++) {
+        const c = ln[j];
+        if (c === '`') { inCode = !inCode; seg += c; continue; }
+        if (!inCode) {
+          const prev = ln[j - 1] || '', next = ln[j + 1] || '';
+          const atEOL = next === '' || next === ' ';
+          if (PUNCT[c] && (HAN.test(prev) || CJKP.test(prev) || HAN.test(next) || CJKP.test(next) || (atEOL && HAN.test(ln)))) {
+            bad.push(`${f}:${i + 1}「${c}」应全角`);
+            continue;
+          }
+          if (c === '(') {
+            let d = -1;
+            for (let k = j + 1; k < ln.length; k++) { if (ln[k] === ')') { d = k; break; } if (ln[k] === '(') break; }
+            if (d > j) {
+              const inner = ln.slice(j + 1, d);
+              const zh = /[\u4e00-\u9fff]/.test(inner);
+              if (zh || HAN.test(prev) || HAN.test(ln[d + 1] || '')) bad.push(`${f}:${i + 1}「(」内容含中文应全角`);
+            }
+          }
+        }
+        seg += c;
+      }
+    });
+  });
+  check('README/LEARNER 文案标点全角化(半角贴中文即拦;AGENTS/site 注释豁免)', bad.length === 0,
+    bad.slice(0, 8).join('; ') + (bad.length > 8 ? ` …共 ${bad.length} 处` : ''));
 }
 
 // —— 汇总 ——

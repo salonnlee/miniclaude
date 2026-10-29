@@ -1,58 +1,58 @@
 # LEARNER.md · AI 教师手册
 
-给拿到这个仓库、要「重新教学一遍」的 AI(或自学者本人的学习攻略)。
-你的学员将用一门课的时间,从零理解并**亲手写出**一个 Claude Code。
+给拿到这个仓库、要「重新教学一遍」的 AI（或自学者本人的学习攻略）。
+你的学员将用一门课的时间，从零理解并**亲手写出**一个 Claude Code。
 你的任务不是替他写完——是教到他**自己能写完**。
 
-## 0. 开课前:三个摸底问题(必问)
+## 0. 开课前：三个摸底问题（必问）
 
-1. **丹炉**:语言底子?(本课程正文用 TS,序章用 Python)
-2. **药材**:有没有支持 function calling 的模型 API?
-3. **火候**:编程水平到哪一档?
+1. **丹炉**：语言底子？（本课程正文用 TS，序章用 Python）
+2. **药材**：有没有支持 function calling 的模型 API？
+3. **火候**：编程水平到哪一档？
 
-按回答校准深浅。若学员是 **JS 老手 + Python 零基础**(原始学员画像):Python 语法点一律放慢、配 JS 对照——现成弹药在 `prologue/python-for-js.md`,遇到新语法随手增补。
+按回答校准深浅。若学员是 **JS 老手 + Python 零基础**（原始学员画像）：Python 语法点一律放慢、配 JS 对照——现成弹药在 `prologue/python-for-js.md`，遇到新语法随手增补。
 
-## 1. 课程地图(唯一事实源)
+## 1. 课程地图（唯一事实源）
 
-- **site/content/lessons.js**:课次与版本状态的**唯一事实源**——课次行、幕头/章头徽章、幕折叠态、页头「更新于」、版本交付 chip 与里程碑表(ships 数据)全由它经 **COURSE-render.js** 自动渲染。**完课 = 课次行加 done;交付版本 = ships 对应条目填 ver + chip;两者之外的位置一律不手改**;
-- **site/COURSE.html**:纯结构骨架(幕/章节容器 + 实验室骨架 + 教学契约)——课次列表、徽章、版本号全是空容器,等渲染器填;
-- **site/content/cards.js + site/svg/**:卡片内容(全景卡/书单/T1 长文)与卡图,同样只改数据不动 HTML;
-- **site/labs/ + site/main.js**:实验室资产,页尾单 ESM 入口按序挂载(新增实验室 = labs/ 加一对文件 + main.js 挂一行 import);
-- **COURSE-LOG.js**:更新记录(当天一条,只记事实与结论,80–100 字);
-- **sidequest/3b-notes.md**:支线·观影(3B)的**学员笔记照录 + 小z 批注**,随集随记(2026-10-21 起,学员授权随意补充/修改/纠正,目标更浅显直观);sidequest/01-notes、02-notes 同理对应 NN1 / NN2;
-- **`git log --reverse`**:完整课堂回放。提交信息按教学脉络写(这节课学了什么、实验结论是什么);
-- **文件命名**:`prologue/01_bigram.py`、`02_neural_bigram.py`…… 按课次编号;正文 TS 住 `src/`(现 `src/chat.ts`),交付版本号记进 lessons.js 的 ships,不写进文件名。
+- **site/content/lessons.js**：课次与版本状态的**唯一事实源**——课次行、幕头/章头徽章、幕折叠态、页头「更新于」、版本交付 chip 与里程碑表（ships 数据）全由它经 **COURSE-render.js** 自动渲染。**完课 = 课次行加 done；交付版本 = ships 对应条目填 ver + chip；两者之外的位置一律不手改**；
+- **site/COURSE.html**：纯结构骨架（幕/章节容器 + 实验室骨架 + 教学契约）——课次列表、徽章、版本号全是空容器，等渲染器填；
+- **site/content/cards.js + site/svg/**：卡片内容（全景卡/书单/T1 长文）与卡图，同样只改数据不动 HTML；
+- **site/labs/ + site/main.js**：实验室资产，页尾单 ESM 入口按序挂载（新增实验室 = labs/ 加一对文件 + main.js 挂一行 import）；
+- **COURSE-LOG.js**：更新记录（当天一条，只记事实与结论，80–100 字）；
+- **sidequest/3b-notes.md**：支线·观影（3B）的**学员笔记照录 + 小z 批注**，随集随记（2026-10-21 起，学员授权随意补充/修改/纠正，目标更浅显直观）；sidequest/01-notes、02-notes 同理对应 NN1 / NN2；
+- **`git log --reverse`**：完整课堂回放。提交信息按教学脉络写（这节课学了什么、实验结论是什么）；
+- **文件命名**:`prologue/01_bigram.py`、`02_neural_bigram.py`…… 按课次编号；正文 TS 住 `src/`（现 `src/chat.ts`），交付版本号记进 lessons.js 的 ships，不写进文件名。
 
-## 2. 教学契约(每节课的固定节奏)
+## 2. 教学契约（每节课的固定节奏）
 
-1. **先讲概念**:类比 + 图,不甩术语;
-2. **一起写代码**:一次一小段,逐行讲;重要 / 复杂数据结构必须给「具体示例注释」——展示数据形状,优先用真实统计数字(例:counts/probs 注释里的 q→u 100%);
-3. **先教后考**:每课一口头题 + 一动手题,绝不考没教过的;
-4. **学员运行、实验、瞎折腾**:鼓励他挑战你的表述、审计你的边界条件——被学员抓出错要当场认错并修正(发生过,见 git log 「位置 vs 字符类型」);
+1. **先讲概念**：类比 + 图，不甩术语；
+2. **一起写代码**：一次一小段，逐行讲；重要 / 复杂数据结构必须给「具体示例注释」——展示数据形状，优先用真实统计数字（例：counts/probs 注释里的 q→u 100%）；
+3. **先教后考**：每课一口头题 + 一动手题，绝不考没教过的；
+4. **学员运行、实验、瞎折腾**：鼓励他挑战你的表述、审计你的边界条件——被学员抓出错要当场认错并修正（发生过，见 git log 「位置 vs 字符类型」）；
 5. **复盘发散 + 预告下节**。
 
-纪律红线:**绝不一次性生成大段代码**;结论必须来自真实实验,不许编数字;报错信息当线索而非判决书(见 1314 冤案)。
+纪律红线：**绝不一次性生成大段代码**；结论必须来自真实实验，不许编数字；报错信息当线索而非判决书（见 1314 冤案）。
 
-## 3. 环境事实(前人踩过的坑,直接绕行)
+## 3. 环境事实（前人踩过的坑，直接绕行）
 
-- Intel Mac 无 GPU:**NumPy 手搓路线是定案,别试图装 PyTorch**;
-- 一律用 `.venv/bin/python` 运行(PEP 668 禁止直装系统 Python);
-- 语料 `data/input.txt` 已入库(clone 即有);`.gitignore` 数据段已简化:data/ 默认入库,大件(超 ~10MB 或可重新下载/随机生成的)将来放 `assets/`;
-- API:key 在 `.env`(永不入库);`glm-4-flash` 不在套餐;GLM-4.6+ 思考型模型会吃 `max_tokens` 预算;
-- 每次提交前跑敏感扫描(hook 会自动拦,但手动再扫一遍是课程纪律)。
+- Intel Mac 无 GPU:**NumPy 手搓路线是定案，别试图装 PyTorch**；
+- 一律用 `.venv/bin/python` 运行（PEP 668 禁止直装系统 Python）；
+- 语料 `data/input.txt` 已入库（clone 即有）；`.gitignore` 数据段已简化：data/ 默认入库，大件（超 ~10MB 或可重新下载/随机生成的）将来放 `assets/`；
+- API:key 在 `.env`（永不入库）；`glm-4-flash` 不在套餐；GLM-4.6+ 思考型模型会吃 `max_tokens` 预算；
+- 每次提交前跑敏感扫描（hook 会自动拦，但手动再扫一遍是课程纪律）。
 
 ## 4. 讲义沉淀规则
 
-每节课后,把**讲义 + 学员追问及解答**沉淀为 `prologue/0X-notes.md`(与同课次代码 `0X_*.py` 在文件列表里自动配对;01–03 已建,随课随写)。
+每节课后，把**讲义 + 学员追问及解答**沉淀为 `prologue/0X-notes.md`（与同课次代码 `0X_*.py` 在文件列表里自动配对；01–03 已建，随课随写）。
 学员的追问是全仓库最值钱的部分——那正是未来学员会卡住的地方。
 
-## 5. 课程骨架(截至 2026-10-29)
+## 5. 课程骨架（截至 2026-10-29）
 
-- **序章 · 搓丹线**(Python):P0.1 数数表 ✅ / P0.2 神经版 + 梯度 ✅(2026-10-23 内功回填后一次通关)/ P0.3 前文加长·击穿数数表 ✅(2026-10-27 一次开课,C 表 + 隐藏层 MLP,dev 1.95 双杀)/ P0.4 temperature 调参 ✅(2026-10-27,minigpt v0.1:调温与限签)——序章全清;
-- **minigpt/**(序章交付,现 v0.1):三课散装脚本重组为 data / models / engine / sample 四件 + CLI(`python -m minigpt`);同一个插头(forward / backward / update),换模型不换发动机——后续 T 区拼注意力只往 models.py 挂新货;v0.1 采样旋钮(--temperature / --top-k)已接;
-- **支线 · 内功**(sidequest/,应学员需求插班):NN1 会学习的函数 ✅ / NN2 神经元与 XOR ✅(2026-10-22 完课)/ NN3 反向传播 ✅(2026-10-22 一次通关,互证 27 行对表 + kink 事件)/ NN4 softmax + 交叉熵 ✅(2026-10-22 一次通关,p−y 互证 3 行 ✓ + 下山实验)——内功支线集齐,已回填主线(P0.2 通关);
-- **支线 · 观影**(3B = 3Blue1Brown《深度学习》系列):3B1 ✅ / 3B2 ✅ / 3B3 ✅ / 3B4 ✅ + 四集连读总全景卡 ✅ / 3B5 GPT 与 Transformer ✅(2026-10-23 伴读五问)/ 3B6 直观解释注意力 ✅(2026-10-26 伴读两连问:QKV 机关 × 参数账单 × 单头多头)/ 3B7 卷积是什么 ✅(2026-10-26 伴读:一条流水线三副面孔,实验室三台:骰子滑动 × 滤镜像机 × 大数乘法)/ 3B8 卷积网络可视化 ✅(2026-10-26,看个热闹)/ 3B9 大语言模型如何储存事实(加更) ✅(2026-10-26 伴读四问:MLP 两步账 × 钥匙配货 × JL 引理 × 叠加与 SAE)—— 支线·观影全清收官;
-- **拼图 · Transformer**(#tf 专区):T1 全貌 ✅(2026-10-23 全貌长文 + 四图);T2–T4 ⏳ 待拼;
-- **待学清单**(#backlog 专区):傅里叶变换 ⏳ · 稀疏自编码器(SAE)⏳ —— 不开课只记录,哪条喊开课哪条立项挂卡;
-- **MiniClaude 剖析**(#mc 专区,2026-10-27 上线,同日两轮学员反馈改版):只摆实货、不预画路线——当前全貌一张图(site/content/cards.js 的 mc-map 卡 + site/svg/mc-map.svg):双线定位 + minigpt/ 五文件 + 一生五幕;课程表主线交付到哪,图重画到哪;
-- **正文 · 铸剑线**(TS,src/):CH1 ✅(2026-10-27,curl 素颜相见三连 + 实验室)/ CH2 ✅(2026-10-27,src/chat.ts **v0.4**:多轮记忆 + 流式 SSE 打字机 + 退出记账,npm run chat 可玩;透视台 + /api/chat 流式代理)/ CH3.1 ✅(2026-10-28,**v0.8** agent 循环:tools 声明随行 → 流式攒 tool_calls 分片 → 执行喂回循环到它不再要;chat.ts 当版百余行 + 玩具两件,真机三圈实录;全景卡「agent 的『智能』拆开看」上线)/ CH4.1 ✅(2026-10-28,闸门三件套:validate.ts 手写迷你 Schema 校验错误当结果喂回、eval 换 tokenizer+递归下降——恶意输入无法表达,攻击样本 16/16 拒、tools/index.ts 统一注册表加工具零改主循环;说明书 A/B 共识免验;加餐卡 c4-mcp-panorama——tool → MCP:execute 搬家名片不变、独立成 MCP 的决策树按「与宿主信任模型绑多深」分档)· MiniClaude **v0.9**(2026-10-28,对话框与课程能力合流:mc/tools.js 浏览器端注册表与 src/tools/ 同图纸 + agent 循环 + 🔧 工具气泡,真机双工具实录,CLI 与分身从此一起演进;后续定规:工具柜单一事实源 = site/mc/tools.js,src/tools/index.ts 只 re-export,改一处两端生效)/ CH5.1 ✅(2026-10-28,**v1.0** 文件三件 read/write/edit:截断 2000 行+二进制魔数检测+行号、精确字符串替换零处/多处都当结果喂回;平台分层——文件工具住 Node 侧 fs.ts push 进共享 TOOLS,浏览器视角纯净;真机验收 agent 自建 todo.md+count.mjs 分毫不差,顺手逮住 v0.9 重构漏 import validate 的真 bug)/ CH6.1 ✅(2026-10-28,**v1.1** bash 工具+安全闸门:spawn 超时强杀+输出截断 30KB+退出码如实报;permissions.ts 三扇门 deny/ask/allow,粒度到子命令,「本会话总是允许」只记逐字同条;真机两幕——agent 自建坏脚本自己跑报错自己修好退出码 0、注入演练模型自认恶意指令并拒绝;后台任务留 CH8)/ CH7.1 ✅(2026-10-28,**v1.2** 上下文管理:context.ts——system prompt 拼装=人设+环境快照(启动定格,整会话不变护前缀缓存)+CLAUDE.md 项目记忆(跨会话记忆住文件不住数组);压缩器——水位看最后一次请求的 prompt token,超线老历史请模型总结成摘要、尾部保近 8 条原文、切点撞 tool 边界自动推进;cached_tokens 记账,智谱前缀缓存命中约五折计费;压缩提示词摊在自己代码里想调就调)/ 附加章《子代理与工作流》✅(2026-10-28,**v1.3** src/tools/agents.ts——课间四连问催生:agent 工具 execute 里再开 agent 循环(自己的 messages、只读柜台、只交回结论＝上下文隔离),workflow 按写死计划按序派兵、上一步产出传下一步;对主对话只是一次 tool 调用,嵌套的是执行环节不是模型调用,异步的是宿主不是模型;chat.ts 仅动三处:ask(hist,allow) 泛化、setAskOnce 挂腿、import 一行,子会话 token 进同一本账)/ CH8.1 ✅(2026-10-29,**v1.4** 终端界面重构:换脸不换心——src/ui.ts 状态行转圈+流式两段式重排(流中裸文本、流完擦起重排,中文占两格数错一行就擦花)+⏺ 工具卡+edit_file 带行号 diff 红绿上色;Esc=本轮撤销键:raw 模式接键、AbortController 掐 fetch、工具批跑完看旗子、user 注记给模型交代,打断轮不入账——真机打断后模型亲口证明被断请求不在记忆里;真 Claude Code 用 Ink 整帧重画,超屏保留原文正是 Ink 存在的理由)/ CH8.2 ✅(2026-10-29,**v1.5** 后台任务:bash background:true——spawn detached 脱管不杀+unref、输出落盘 .bg/、PID 记账启动即回;bash_check 回头查列全部/报退出码/日志尾部,exit 监听顺手收僵尸;闸门照过——后台不是法外之地;护栏分工:前台管堵住对话、后台管留痕可查;chat.ts 零改动——注册表红利,真机模型还自己主动连调 bash_check 瞄结果)/ CH9.1 ✅(2026-10-29,**v1.6** TodoWrite 任务外部化:长任务的计划不住在模型脑子里——上下文一长就糊,住进共享 tools.js 的一块白板;每次整份重写而非 add/update——宿主不记「上次写到哪」,清单永远只有一份不漂移;返回值即回喂模型的全部状态,system prompt 整会话定格护前缀缓存的红线不碰;与 CH7 项目记忆对照:那份住文件跨会话,这份住内存会话级;ui.ts toolCard 特判三态上色 ☐ 压暗/▸ 亮/☑ 绿;chat.ts 连续两版零改动——注册表红利第二弹,工具住共享 tools.js 网页分身同版自动长出;真机三步任务模型三调 TodoWrite,0/3→2/3→3/3 逐步自勾)/ CH9.2 ✅(2026-10-29,**v1.7** Plan mode 先批准后执行:/plan 前缀客户端拦下展开(模型不认识斜杠),只读柜台(read_file/get_time/calculator)借 ask 的 allow——不是叮嘱别改、是物理上没有改的把手;模型只调研出分步计划,y 批准后全量柜开工先 TodoWrite 立清单、n 驳回零修改;事前拦截与 TodoWrite 事中记账成对——一个防干错一个防干丢;与 CH6 闸门分层:闸门管单次工具调用、plan mode 管整轮方案;第二件补 CH9.1 缺口:getTodos() 出口+每轮 user 消息尾捎清单快照,不靠历史里 tool 消息活着、压缩糊掉老历史也糊不掉当前进度,追加在尾部前缀缓存照吃(真 CC 同款思路);chat.ts 215→267——循环体抽成 agentLoop(allow) 函数;真机两幕:批准后 TodoWrite 0/3→3/3、追问进度模型不调工具凭快照答「3/3 全部完成」)/ CH9.3 ✅(2026-10-29,**v1.8** 斜杠命令表+mini MCP:COMMANDS 命令表命中展开/未命中放行——模型没见过斜杠,/plan 入表、/help /mcp 新增;src/mcp-server.ts 天气台——独立进程 stdio 按行 JSON(list/call,id 对号入座),宿主 mcp.ts 读 .mcp.json 拉起、名片 push 进 TOOLS(execute 搬家名片不变),参数校验宿主把着、错误当结果喂回;本地 11 项全过;chat.ts 267→297,顺手修 eof 未处理拒绝)· MiniClaude **v0.10**(2026-10-29,mc.js htm+Preact 岛屿化——换脸不换心:SSE 解析/存档/工具柜全不动,状态还是裸变量+mutation 后 bump(),DOM 交给组件树;流式防竞态被 diff 吃掉、rAF 合帧保留、esc() 退役;htm 坑一记:void 元素必须自闭合 <br/>)/ CH10 ✅(2026-10-29,**v1.9** 企业化收尾:src/config.ts 配置层——用户级 ~/.miniclaude.json+项目级 .miniclaude.json,标量后者赢、数组只加码(内置 deny 是底线),启动读一次定格护缓存;ask() 降级链——主模型挂了按 fallback 换人重问,三不换(Esc 掐的/已吐字的/链尽的),真机 glm-4.6-typo 每轮降级 glm-4.6 照答、失败请求不上账;压缩走 compactModel=多模型路由;src/hooks.ts 钩子挂共享 runTool 执行口(本地 run() 退役,主循环与子代理同门)——exit 2=拦、理由当结果喂回,与 CH6 闸门分层(闸门管命令类、钩子管全工具);沙箱第一课——bash 子进程剥 KEY/TOKEN/SECRET 环境,真机探测密钥空手而归;成本遥测——每场一行 JSON 落 .miniclaude/usage.jsonl,/cost /config 两命令;evals——不断言嘴,断言轨迹(MC_TRACE)/世界/底线三确定物,3/3 过、注入场景识破不中招;打包发布——esbuild 48KB 单文件当 bin(node_modules 里禁 type stripping,发布得给产物),.env 自己吃,npm pack→装包→miniclaude 真机跑通零依赖;chat.ts 297→398 行)· **v2.0 结课定版**（2026-10-29，全课收官 🏁）—— 正文十章全清 🎉;从 CH1 起需要学员自备 API key。
+- **序章 · 搓丹线**(Python):P0.1 数数表 ✅ / P0.2 神经版 + 梯度 ✅（2026-10-23 内功回填后一次通关）/ P0.3 前文加长·击穿数数表 ✅（2026-10-27 一次开课，C 表 + 隐藏层 MLP,dev 1.95 双杀）/ P0.4 temperature 调参 ✅（2026-10-27,minigpt v0.1：调温与限签）——序章全清；
+- **minigpt/**（序章交付，现 v0.1）：三课散装脚本重组为 data / models / engine / sample 四件 + CLI(`python -m minigpt`)；同一个插头（forward / backward / update），换模型不换发动机——后续 T 区拼注意力只往 models.py 挂新货；v0.1 采样旋钮（--temperature / --top-k）已接；
+- **支线 · 内功**（sidequest/，应学员需求插班）：NN1 会学习的函数 ✅ / NN2 神经元与 XOR ✅（2026-10-22 完课）/ NN3 反向传播 ✅（2026-10-22 一次通关，互证 27 行对表 + kink 事件）/ NN4 softmax + 交叉熵 ✅（2026-10-22 一次通关，p−y 互证 3 行 ✓ + 下山实验）——内功支线集齐，已回填主线（P0.2 通关）；
+- **支线 · 观影**（3B = 3Blue1Brown《深度学习》系列）：3B1 ✅ / 3B2 ✅ / 3B3 ✅ / 3B4 ✅ + 四集连读总全景卡 ✅ / 3B5 GPT 与 Transformer ✅（2026-10-23 伴读五问）/ 3B6 直观解释注意力 ✅（2026-10-26 伴读两连问：QKV 机关 × 参数账单 × 单头多头）/ 3B7 卷积是什么 ✅（2026-10-26 伴读：一条流水线三副面孔，实验室三台：骰子滑动 × 滤镜像机 × 大数乘法）/ 3B8 卷积网络可视化 ✅（2026-10-26，看个热闹）/ 3B9 大语言模型如何储存事实（加更） ✅（2026-10-26 伴读四问：MLP 两步账 × 钥匙配货 × JL 引理 × 叠加与 SAE）—— 支线·观影全清收官；
+- **拼图 · Transformer**（#tf 专区）：T1 全貌 ✅（2026-10-23 全貌长文 + 四图）；T2–T4 ⏳ 待拼；
+- **待学清单**（#backlog 专区）：傅里叶变换 ⏳ · 稀疏自编码器（SAE）⏳ —— 不开课只记录，哪条喊开课哪条立项挂卡；
+- **MiniClaude 剖析**（#mc 专区，2026-10-27 上线，同日两轮学员反馈改版）：只摆实货、不预画路线——当前全貌一张图（site/content/cards.js 的 mc-map 卡 + site/svg/mc-map.svg）：双线定位 + minigpt/ 五文件 + 一生五幕；课程表主线交付到哪，图重画到哪；
+- **正文 · 铸剑线**(TS,src/):CH1 ✅（2026-10-27,curl 素颜相见三连 + 实验室）/ CH2 ✅（2026-10-27,src/chat.ts **v0.4**：多轮记忆 + 流式 SSE 打字机 + 退出记账，npm run chat 可玩；透视台 + /api/chat 流式代理）/ CH3.1 ✅（2026-10-28,**v0.8** agent 循环：tools 声明随行 → 流式攒 tool_calls 分片 → 执行喂回循环到它不再要；chat.ts 当版百余行 + 玩具两件，真机三圈实录；全景卡「agent 的『智能』拆开看」上线）/ CH4.1 ✅（2026-10-28，闸门三件套：validate.ts 手写迷你 Schema 校验错误当结果喂回、eval 换 tokenizer+递归下降——恶意输入无法表达，攻击样本 16/16 拒、tools/index.ts 统一注册表加工具零改主循环；说明书 A/B 共识免验；加餐卡 c4-mcp-panorama——tool → MCP:execute 搬家名片不变、独立成 MCP 的决策树按「与宿主信任模型绑多深」分档）· MiniClaude **v0.9**（2026-10-28，对话框与课程能力合流：mc/tools.js 浏览器端注册表与 src/tools/ 同图纸 + agent 循环 + 🔧 工具气泡，真机双工具实录，CLI 与分身从此一起演进；后续定规：工具柜单一事实源 = site/mc/tools.js,src/tools/index.ts 只 re-export，改一处两端生效）/ CH5.1 ✅（2026-10-28,**v1.0** 文件三件 read/write/edit：截断 2000 行+二进制魔数检测+行号、精确字符串替换零处/多处都当结果喂回；平台分层——文件工具住 Node 侧 fs.ts push 进共享 TOOLS，浏览器视角纯净；真机验收 agent 自建 todo.md+count.mjs 分毫不差，顺手逮住 v0.9 重构漏 import validate 的真 bug）/ CH6.1 ✅（2026-10-28,**v1.1** bash 工具+安全闸门：spawn 超时强杀+输出截断 30KB+退出码如实报；permissions.ts 三扇门 deny/ask/allow，粒度到子命令，「本会话总是允许」只记逐字同条；真机两幕——agent 自建坏脚本自己跑报错自己修好退出码 0、注入演练模型自认恶意指令并拒绝；后台任务留 CH8）/ CH7.1 ✅（2026-10-28,**v1.2** 上下文管理：context.ts——system prompt 拼装=人设+环境快照（启动定格，整会话不变护前缀缓存）+CLAUDE.md 项目记忆（跨会话记忆住文件不住数组）；压缩器——水位看最后一次请求的 prompt token，超线老历史请模型总结成摘要、尾部保近 8 条原文、切点撞 tool 边界自动推进；cached_tokens 记账，智谱前缀缓存命中约五折计费；压缩提示词摊在自己代码里想调就调）/ 附加章《子代理与工作流》✅(2026-10-28,**v1.3** src/tools/agents.ts——课间四连问催生：agent 工具 execute 里再开 agent 循环（自己的 messages、只读柜台、只交回结论＝上下文隔离），workflow 按写死计划按序派兵、上一步产出传下一步；对主对话只是一次 tool 调用，嵌套的是执行环节不是模型调用，异步的是宿主不是模型；chat.ts 仅动三处：ask(hist,allow) 泛化、setAskOnce 挂腿、import 一行，子会话 token 进同一本账)/ CH8.1 ✅（2026-10-29,**v1.4** 终端界面重构：换脸不换心——src/ui.ts 状态行转圈+流式两段式重排（流中裸文本、流完擦起重排，中文占两格数错一行就擦花）+⏺ 工具卡+edit_file 带行号 diff 红绿上色；Esc=本轮撤销键：raw 模式接键、AbortController 掐 fetch、工具批跑完看旗子、user 注记给模型交代，打断轮不入账——真机打断后模型亲口证明被断请求不在记忆里；真 Claude Code 用 Ink 整帧重画，超屏保留原文正是 Ink 存在的理由）/ CH8.2 ✅（2026-10-29,**v1.5** 后台任务：bash background:true——spawn detached 脱管不杀+unref、输出落盘 .bg/、PID 记账启动即回；bash_check 回头查列全部/报退出码/日志尾部，exit 监听顺手收僵尸；闸门照过——后台不是法外之地；护栏分工：前台管堵住对话、后台管留痕可查；chat.ts 零改动——注册表红利，真机模型还自己主动连调 bash_check 瞄结果）/ CH9.1 ✅（2026-10-29,**v1.6** TodoWrite 任务外部化：长任务的计划不住在模型脑子里——上下文一长就糊，住进共享 tools.js 的一块白板；每次整份重写而非 add/update——宿主不记「上次写到哪」，清单永远只有一份不漂移；返回值即回喂模型的全部状态，system prompt 整会话定格护前缀缓存的红线不碰；与 CH7 项目记忆对照：那份住文件跨会话，这份住内存会话级；ui.ts toolCard 特判三态上色 ☐ 压暗/▸ 亮/☑ 绿；chat.ts 连续两版零改动——注册表红利第二弹，工具住共享 tools.js 网页分身同版自动长出；真机三步任务模型三调 TodoWrite,0/3→2/3→3/3 逐步自勾）/ CH9.2 ✅(2026-10-29,**v1.7** Plan mode 先批准后执行：/plan 前缀客户端拦下展开（模型不认识斜杠），只读柜台（read_file/get_time/calculator）借 ask 的 allow——不是叮嘱别改、是物理上没有改的把手；模型只调研出分步计划，y 批准后全量柜开工先 TodoWrite 立清单、n 驳回零修改；事前拦截与 TodoWrite 事中记账成对——一个防干错一个防干丢；与 CH6 闸门分层：闸门管单次工具调用、plan mode 管整轮方案；第二件补 CH9.1 缺口：getTodos() 出口+每轮 user 消息尾捎清单快照，不靠历史里 tool 消息活着、压缩糊掉老历史也糊不掉当前进度，追加在尾部前缀缓存照吃（真 CC 同款思路）；chat.ts 215→267——循环体抽成 agentLoop(allow) 函数；真机两幕：批准后 TodoWrite 0/3→3/3、追问进度模型不调工具凭快照答「3/3 全部完成」)/ CH9.3 ✅（2026-10-29,**v1.8** 斜杠命令表+mini MCP:COMMANDS 命令表命中展开/未命中放行——模型没见过斜杠，/plan 入表、/help /mcp 新增；src/mcp-server.ts 天气台——独立进程 stdio 按行 JSON（list/call,id 对号入座），宿主 mcp.ts 读 .mcp.json 拉起、名片 push 进 TOOLS（execute 搬家名片不变），参数校验宿主把着、错误当结果喂回；本地 11 项全过；chat.ts 267→297，顺手修 eof 未处理拒绝）· MiniClaude **v0.10**(2026-10-29,mc.js htm+Preact 岛屿化——换脸不换心：SSE 解析/存档/工具柜全不动，状态还是裸变量+mutation 后 bump(),DOM 交给组件树；流式防竞态被 diff 吃掉、rAF 合帧保留、esc() 退役；htm 坑一记：void 元素必须自闭合 <br/>)/ CH10 ✅(2026-10-29,**v1.9** 企业化收尾：src/config.ts 配置层——用户级 ~/.miniclaude.json+项目级 .miniclaude.json，标量后者赢、数组只加码（内置 deny 是底线），启动读一次定格护缓存；ask() 降级链——主模型挂了按 fallback 换人重问，三不换（Esc 掐的/已吐字的/链尽的），真机 glm-4.6-typo 每轮降级 glm-4.6 照答、失败请求不上账；压缩走 compactModel=多模型路由；src/hooks.ts 钩子挂共享 runTool 执行口(本地 run() 退役，主循环与子代理同门)——exit 2=拦、理由当结果喂回，与 CH6 闸门分层（闸门管命令类、钩子管全工具）；沙箱第一课——bash 子进程剥 KEY/TOKEN/SECRET 环境，真机探测密钥空手而归；成本遥测——每场一行 JSON 落 .miniclaude/usage.jsonl,/cost /config 两命令；evals——不断言嘴，断言轨迹（MC_TRACE）/世界/底线三确定物，3/3 过、注入场景识破不中招；打包发布——esbuild 48KB 单文件当 bin（node_modules 里禁 type stripping，发布得给产物），.env 自己吃，npm pack→装包→miniclaude 真机跑通零依赖；chat.ts 297→398 行)· **v2.0 结课定版**（2026-10-29，全课收官 🏁）—— 正文十章全清 🎉；从 CH1 起需要学员自备 API key。
