@@ -43,6 +43,7 @@ export const LESSONS = {
     { "at": "ch8", "ver": "v1.4", "chip": "交付 v1.4 · src/ui.ts", "what": "终端界面重构——换脸不换心:状态行转圈+流式两段式重排+工具卡+Esc 打断+diff 上色", "range": "第 8 章" },
     { "at": "ch8", "ver": "v1.5", "chip": "交付 v1.5 · src/tools/bash.ts", "what": "后台任务——spawn 脱管不杀、PID 记账、日志回头查(bash_check)", "range": "第 8 章" },
     { "at": "ch9", "ver": "v1.6", "chip": "交付 v1.6 · site/mc/tools.js + src/ui.ts", "what": "TodoWrite 任务外部化——整份重写的任务白板,终端三态上色,两端同版长出", "range": "第 9 章" },
+    { "at": "ch9", "ver": "v1.7", "chip": "交付 v1.7 · src/chat.ts + site/mc/tools.js", "what": "计划模式(/plan 只读柜台→批准→执行)+ 清单快照每轮重注入——事前拦截与事中记账成对", "range": "第 9 章" },
     { "ver": null, "what": "子代理 / 计划模式 / 技能 / MCP", "range": "第 9 章" },
     { "ver": null, "what": "配置、缓存、沙箱、发布——企业级收尾", "range": "第 10 章" }
   ],
@@ -216,7 +217,7 @@ export const LESSONS = {
             "code": "CH2.1",
             "name": "v0.4 · 聊天机器人",
             "done": "2026-10-27（四步长成：脚手架 TS+Node → 非流式最小循环（记忆即 messages 数组）→ 流式 SSE（缓冲区攒换行才算一条事件，打字机逐词上屏）→ 记账（退出报 75+232 token≈¥0.0035））",
-            "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（215 行代码可点 × 透视卡 × 真机连线）"
+            "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（267 行代码可点 × 透视卡 × 真机连线）"
           },
           {
             "label": "知识点",
@@ -387,11 +388,17 @@ export const LESSONS = {
           {
             "code": "CH9.2",
             "name": "Plan mode 先批准后执行",
+            "done": "2026-10-29(v1.7 两件:/plan 先批准后执行——只读柜台(read_file/get_time/calculator)借 ask 的 allow 这扇门,会改世界的工具一概不发,不是叮嘱它别改、是物理上没有改的把手;模型只调研出分步计划,y 批准后全量柜开工、先 TodoWrite 立清单再执行,n 驳回则零修改——事前拦截面世,与 TodoWrite 的事中记账凑成一对:一个防干错、一个防干丢;与 CH6 闸门分层:闸门管单次工具调用、plan mode 管整轮方案。第二件补 CH9.1 的缺口:getTodos() 出口+每轮 user 消息尾捎一张清单快照——不靠历史里那条 tool 消息活着,压缩糊掉老历史也糊不掉当前进度,追加在尾部前缀缓存照吃(真 CC 同款思路)。chat.ts 215→267 行:循环体抽成 agentLoop(allow) 函数、/plan 前缀客户端拦下展开(模型不认识斜杠)。真机两幕:计划阶段只调研不改文件、批准后 TodoWrite 0/3→3/3;追问进度模型不调工具、凭快照答「3/3 全部完成」)",
+            "tail": "—— npm run chat 可玩 · /plan <任务> 看先批准后执行,再问「现在进度如何」看快照"
+          },
+          {
+            "code": "CH9.3",
+            "name": "slash commands 与 mini MCP 实践",
             "mark": "⏭ 下一站"
           },
           {
             "label": "知识点",
-            "text": "Subagent 上下文隔离与并行；Plan mode 先批准后执行；slash commands"
+            "text": "Subagent 上下文隔离与并行；slash commands"
           },
           {
             "label": "实践",

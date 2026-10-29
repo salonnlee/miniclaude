@@ -5,7 +5,7 @@
 // push 进 TOOLS——浏览器端 import 同一个 TOOLS 时不会经过这里,看不见,各长各的胳膊。
 // bash 的确认流也在这挂:permissions 判 ask 的命令走 readline 问用户
 // (y 允许/n 拒绝/a 本会话总是允许),chat.ts 对此零感知、一行不用改。
-export { TOOLS, runTool, validate } from '../../site/mc/tools.js';
+export { TOOLS, runTool, validate, getTodos } from '../../site/mc/tools.js';
 export { setConfirm } from './bash.ts';
 export { setAskOnce } from './agents.ts';
 import { registerFsTools } from './fs.ts';

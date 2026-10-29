@@ -12,6 +12,7 @@ var DAYS = [
   {
     "date": "2026-10-29",
     "items": [
+      "CH9.2《Plan mode 先批准后执行》完课：v1.7 两件——/plan 只读柜台（借 ask 的 allow，物理上没有改的把手）调研出计划、y 批准后全量柜开工先立清单，与 CH6 闸门分层（管单次调用 vs 管整轮方案）；补 CH9.1 缺口：getTodos() 每轮随 user 消息尾捎清单快照，压缩糊不掉当前进度。chat.ts 215→267 行（抽 agentLoop），真机两幕：批准后 TodoWrite 0/3→3/3；追问进度模型不调工具凭快照答「3/3 全部完成」。",
       "CH9.1《TodoWrite 任务外部化》完课（第五幕开课）：v1.6 共享 tools.js 加 TodoWrite——整份重写而非 add/update，清单永远只有一份不漂移；ui.ts toolCard 特判三态上色（☐ 压暗/▸ 亮/☑ 绿）；chat.ts 连续两版零改动，网页分身同版自动长出同款工具。真机三步任务模型三调 TodoWrite，0/3→2/3→3/3 逐步自勾。",
       "CH8.2《后台任务》完课：v1.5 bash 加 background:true——spawn detached 脱管不杀、输出落盘 .bg/、PID 记账启动即回；bash_check 回头查(列全部/退出码/日志尾部)，exit 监听顺手收僵尸；闸门照过，后台不是法外之地。chat.ts 零改动——注册表红利。真机：模型扔后台 sleep 3 后还自己主动 bash_check 瞄结果。",
       "CH8.1《终端界面重构》完课：v1.4 src/ui.ts 换脸不换心——状态行转圈、流式两段式重排(流中裸文本、流完擦起重排,中文占两格)、⏺ 工具卡、edit_file 带行号 diff 红绿上色；Esc 打断(AbortController 掐 fetch:打断轮不入账、工具批跑完才停、user 注记给模型交代)。真机:打断后模型亲口证明被断请求不在记忆里。",

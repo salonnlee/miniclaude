@@ -42,16 +42,16 @@ var pinSync = function () {};
   addEventListener('resize', sync);
 })();
 
-/* 八段代码与 src/chat.ts 逐字一致(v1.4 终端界面重构,215 行) */
+/* 八段代码与 src/chat.ts 逐字一致(v1.7 计划模式与清单快照,267 行) */
 var SEGS = [
   {
     id: 'gear',
     tag: '① 装备区',
-    code: "// v1.4 · 终端界面重构 —— 换脸不换心:agent 循环、工具柜、上下文管理一行没动,\n" +
-      "// 脸面全交给 ui.ts(状态行转圈、流式两段式重排、工具卡、Esc 打断、diff 上色)\n" +
+    code: "// v1.7 · 计划模式 + 清单快照 —— /plan 先批准后执行(只读柜台借 ask 的 allow),\n" +
+      "// 每轮 user 消息尾捎一张 TodoWrite 快照(压缩糊掉老历史也糊不掉当前进度)\n" +
       "// 跑法:npm run chat(node 26 原生跑 TS,key 住 .env 不进代码)\n" +
       "import * as readline from 'node:readline/promises';\n" +
-      "import { TOOLS, validate, setConfirm, setAskOnce } from './tools/index.ts';\n" +
+      "import { TOOLS, validate, setConfirm, setAskOnce, getTodos } from './tools/index.ts';\n" +
       "import { buildSystemPrompt, shouldCompact, compactHistory, COMPACT_AT, type Msg, type ToolCall, type ApiToolCall } from './context.ts';\n" +
       "import * as ui from './ui.ts';\n" +
       "\n" +
@@ -223,7 +223,45 @@ var SEGS = [
       "// 收窄的工具柜在 ask 里过滤;两套循环跑在同一个进程里\n" +
       "// (不传 onText:子会话的过程不刷屏,结论走工具卡回家)\n" +
       "setAskOnce((msgs, allow) => ask(msgs, allow));\n" +
-      "ui.say(`${ui.c.bold('小c上线')}${ui.c.dim('(exit 退出 · 回答途中按 Esc 打断)')}`);\n" +
+      "ui.say(`${ui.c.bold('小c上线')}${ui.c.dim('(exit 退出 · 回答途中按 Esc 打断 · /plan 计划模式)')}`);\n" +
+      "\n" +
+      "// 一回合的 agent 循环:ask 一轮 → 执行它要的工具 → 再 ask,直到它不再要。\n" +
+      "// allow 收窄柜台——计划模式借这扇门只留只读工具,会改世界的一概不发(v1.7)\n" +
+      "async function agentLoop(allow?: string[], signal?: AbortSignal): Promise<void> {\n" +
+      "  while (true) {\n" +
+      "    ui.think('小c在想…');\n" +
+      "    const { text, toolCalls } = await ask(messages, allow, { signal, onText: ui.stream });\n" +
+      "    if (toolCalls.length === 0) { // 退出条件 = 这一轮没有 tool_calls,它只想说话\n" +
+      "      ui.commit(ui.md(text)); // 两段式:流完把裸文本擦起重排(粗体/行内码/码块)\n" +
+      "      messages.push({ role: 'assistant', content: text });\n" +
+      "      return;\n" +
+      "    }\n" +
+      "    if (text) ui.commit(ui.md(text)); // 它边说旁白边要工具:旁白先落定,再亮动作\n" +
+      "    else ui.end(); // 纯要工具没说话:收掉转圈,直接进动作\n" +
+      "    messages.push({\n" +
+      "      role: 'assistant',\n" +
+      "      content: text,\n" +
+      "      tool_calls: toolCalls.map(c => ({\n" +
+      "        id: c.id, type: 'function' as const,\n" +
+      "        function: { name: c.name, arguments: c.args },\n" +
+      "      })),\n" +
+      "    });\n" +
+      "    for (const c of toolCalls) {\n" +
+      "      ui.status(`${ui.c.cyan('⏺')} ${c.name} ${ui.c.dim(c.args.length > 50 ? c.args.slice(0, 50) + '…' : c.args || '{}')}`);\n" +
+      "      const result = await run(c);\n" +
+      "      messages.push({ role: 'tool', tool_call_id: c.id, content: result });\n" +
+      "      ui.say(ui.toolCard(c.name, c.args, result)); // 动作要亮出来:diff 行在这里上色\n" +
+      "    }\n" +
+      "    if (signal?.aborted) { // 打断检查点:整批工具结果已入账,不再发下一轮\n" +
+      "      messages.push({ role: 'user', content: '(用户按 Esc 打断了这一轮,先停,等下一句)' });\n" +
+      "      ui.say(ui.c.yellow('⏹ 已打断——工具结果已入账,等下一句'));\n" +
+      "      return;\n" +
+      "    }\n" +
+      "  }\n" +
+      "}\n" +
+      "\n" +
+      "// 计划模式的只读柜台:能看不能改——不是叮嘱它别改,是物理上没有改的把手\n" +
+      "const READ_ONLY = ['read_file', 'get_time', 'calculator'];\n" +
       "\n" +
       "while (true) {\n" +
       "  let line: string;\n" +
@@ -235,6 +273,49 @@ var SEGS = [
       "  if (line === 'exit') break;\n" +
       "  if (!line) continue;\n" +
       "\n" +
+      "  // /plan 前缀:客户端拦下展开,模型不认识斜杠——先调研出计划,人点头才动手\n" +
+      "  if (line.startsWith('/plan')) {\n" +
+      "    const task = line.slice(5).trim();\n" +
+      "    if (!task) { ui.say(ui.c.yellow('用法:/plan <任务>')); continue; }\n" +
+      "    const ac = new AbortController();\n" +
+      "    const offEsc = ui.onEsc(() => ac.abort());\n" +
+      "    const rollback = messages.length;\n" +
+      "    try {\n" +
+      "      ui.say(`${ui.c.cyan('⏸ 计划模式')}${ui.c.dim('(只调研不改文件,计划出来你批准才动手)')}`);\n" +
+      "      messages.push({ role: 'user', content: `(计划模式)${task}\\n只调研、不要修改任何文件;想清楚后给出分步执行计划,到此为止,不要动手。` });\n" +
+      "      await agentLoop(READ_ONLY, ac.signal); // 只读柜台逛到它交出计划为止\n" +
+      "      const ans = (await rl.question(`${ui.c.bold('  批准这份计划并执行?(y/n) ')}`)).trim().toLowerCase();\n" +
+      "      if (ans === 'y') {\n" +
+      "        messages.push({ role: 'user', content: '(计划已批准。请先用 TodoWrite 立清单,再按计划执行,逐步更新状态。)' });\n" +
+      "        await agentLoop(undefined, ac.signal); // 全量柜台开工,清单跟着记\n" +
+      "      } else {\n" +
+      "        ui.say(ui.c.yellow('已驳回——计划阶段只读,未做任何修改。'));\n" +
+      "      }\n" +
+      "    } catch (e) {\n" +
+      "      messages.length = rollback;\n" +
+      "      if (ac.signal.aborted) ui.say(ui.c.yellow('⏹ 已打断——这轮不入账'));\n" +
+      "      else ui.say(ui.c.red(`出错:${e instanceof Error ? e.message : e}`));\n" +
+      "    } finally {\n" +
+      "      offEsc();\n" +
+      "      const rlBuf = rl as unknown as { line: string; cursor: number };\n" +
+      "      rlBuf.line = ''; rlBuf.cursor = 0;\n" +
+      "      ui.end();\n" +
+      "    }\n" +
+      "    if (shouldCompact(usage.lastPrompt)) {\n" +
+      "      ui.say(`  🗜 上下文 ${usage.lastPrompt} token 超过水位 ${COMPACT_AT},压缩老历史…`);\n" +
+      "      if (await compactHistory(messages, askPlain)) ui.say('  🗜 已压缩:老历史换摘要,尾部原文保留');\n" +
+      "    }\n" +
+      "    continue;\n" +
+      "  }\n" +
+      "\n" +
+      "  // 清单快照(v1.7):宿主手里的真账每轮拍一张,捎在 user 消息尾——不靠历史里\n" +
+      "  // 那条 tool 消息活着,压缩把老历史糊成摘要也糊不掉当前进度;追加在尾部,\n" +
+      "  // 前面的缓存照吃\n" +
+      "  const todos = getTodos();\n" +
+      "  if (todos.length) {\n" +
+      "    const mark: Record<string, string> = { pending: '☐', in_progress: '▸', done: '☑' };\n" +
+      "    line += '\\n\\n(当前任务清单:\\n' + todos.map((t, i) => `${mark[t.status]} ${i + 1}. ${t.content}`).join('\\n') + ')';\n" +
+      "  }\n" +
       "  messages.push({ role: 'user', content: line });\n" +
       "  const rollback = messages.length - 1; // 失败回滚到这轮 user 消息之前\n" +
       "  // Esc = 本轮的撤销键:ui.onEsc 在 raw 模式接住按键,一按就掐 abort。\n" +
@@ -244,36 +325,7 @@ var SEGS = [
       "  const ac = new AbortController();\n" +
       "  const offEsc = ui.onEsc(() => ac.abort());\n" +
       "  try {\n" +
-      "    while (true) { // agent 循环:ask 一轮 → 执行它要的工具 → 再 ask,直到它不再要\n" +
-      "      ui.think('小c在想…');\n" +
-      "      const { text, toolCalls } = await ask(messages, undefined, { signal: ac.signal, onText: ui.stream });\n" +
-      "      if (toolCalls.length === 0) { // 退出条件 = 这一轮没有 tool_calls,它只想说话\n" +
-      "        ui.commit(ui.md(text)); // 两段式:流完把裸文本擦起重排(粗体/行内码/码块)\n" +
-      "        messages.push({ role: 'assistant', content: text });\n" +
-      "        break;\n" +
-      "      }\n" +
-      "      if (text) ui.commit(ui.md(text)); // 它边说旁白边要工具:旁白先落定,再亮动作\n" +
-      "      else ui.end(); // 纯要工具没说话:收掉转圈,直接进动作\n" +
-      "      messages.push({\n" +
-      "        role: 'assistant',\n" +
-      "        content: text,\n" +
-      "        tool_calls: toolCalls.map(c => ({\n" +
-      "          id: c.id, type: 'function' as const,\n" +
-      "          function: { name: c.name, arguments: c.args },\n" +
-      "        })),\n" +
-      "      });\n" +
-      "      for (const c of toolCalls) {\n" +
-      "        ui.status(`${ui.c.cyan('⏺')} ${c.name} ${ui.c.dim(c.args.length > 50 ? c.args.slice(0, 50) + '…' : c.args || '{}')}`);\n" +
-      "        const result = await run(c);\n" +
-      "        messages.push({ role: 'tool', tool_call_id: c.id, content: result });\n" +
-      "        ui.say(ui.toolCard(c.name, c.args, result)); // 动作要亮出来:diff 行在这里上色\n" +
-      "      }\n" +
-      "      if (ac.signal.aborted) { // 打断检查点:整批工具结果已入账,不再发下一轮\n" +
-      "        messages.push({ role: 'user', content: '(用户按 Esc 打断了这一轮,先停,等下一句)' });\n" +
-      "        ui.say(ui.c.yellow('⏹ 已打断——工具结果已入账,等下一句'));\n" +
-      "        break;\n" +
-      "      }\n" +
-      "    }\n" +
+      "    await agentLoop(undefined, ac.signal);\n" +
       "    // 上下文水位:超线就把老历史压成摘要(水位看的是最后一次请求的 prompt token,\n" +
       "    // 而不是消息条数——token 才是要花钱的那个单位)\n" +
       "    if (shouldCompact(usage.lastPrompt)) {\n" +
@@ -296,7 +348,7 @@ var SEGS = [
       "}\n" +
       "\n",
     card: ['双层循环:外圈读人,内圈跑 agent,Esc 是撤销键',
-      '<b>agent 循环</b>本体没变:ask 一轮 → 它要工具就执行、喂回、再 ask,直到某轮 <b>toolCalls 为空</b>(考点:退出条件 = 它不再要,不是调够 N 次)。v1.4 换的全是脸:转圈 <b>ui.think</b> 第一个字到达即停;流完 <b>ui.commit</b>把裸文本擦起重排(两段式,网页对话框 v0.7 同款);工具跑前亮 <b>ui.status</b>、跑完打 ⏺ <b>工具卡</b>(edit_file 的 diff 行在这里红绿上色)。<b>Esc 打断</b>三处竞态:流中被 signal 直接掐断,这轮不入账(半句话不进记忆);工具批跑完看旗子——一整批 tool 结果都在历史才合法,assistant 要了俩只回一个 = API 400;打断完给模型一句 <b>user 注记</b>,别让它对着空气猜(真 Claude Code 同款)。回合收尾清 rl 行缓冲(流式中手滑打的字别带进下一问)、raw 模式只在回合内接管。v1.2 的<b>压缩触发</b>照旧:出口看 lastPrompt 水位,token 才是要花钱的那个单位。']
+      '<b>agent 循环</b>本体没变:ask 一轮 → 它要工具就执行、喂回、再 ask,直到某轮 <b>toolCalls 为空</b>(考点:退出条件 = 它不再要,不是调够 N 次)。v1.4 换的全是脸:转圈 <b>ui.think</b> 第一个字到达即停;流完 <b>ui.commit</b>把裸文本擦起重排(两段式,网页对话框 v0.7 同款);工具跑前亮 <b>ui.status</b>、跑完打 ⏺ <b>工具卡</b>(edit_file 的 diff 行在这里红绿上色)。<b>Esc 打断</b>三处竞态:流中被 signal 直接掐断,这轮不入账(半句话不进记忆);工具批跑完看旗子——一整批 tool 结果都在历史才合法,assistant 要了俩只回一个 = API 400;打断完给模型一句 <b>user 注记</b>,别让它对着空气猜(真 Claude Code 同款)。v1.7 循环体抽成 <b>agentLoop(allow)</b> 函数——allow 收窄柜台这扇门原本给子代理开,计划模式借同一扇门:<b>/plan</b> 前缀进来先逛只读柜台(READ_ONLY:能看不能改,物理上没有写的把手)调研出计划,y 确认后全量柜开工,先 TodoWrite 立清单再执行;普通输入则每轮在 user 消息尾<b>捎一张清单快照</b>——宿主手里的真账拍照发给模型,不靠历史里那条 tool 消息活着,压缩糊掉老历史也糊不掉当前进度,追加在尾部前缀缓存照吃。回合收尾清 rl 行缓冲、出口看 lastPrompt 水位,token 才是要花钱的那个单位。']
   },
   {
     id: 'bill',

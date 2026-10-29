@@ -1,8 +1,8 @@
-// v1.4 · 终端界面重构 —— 换脸不换心:agent 循环、工具柜、上下文管理一行没动,
-// 脸面全交给 ui.ts(状态行转圈、流式两段式重排、工具卡、Esc 打断、diff 上色)
+// v1.7 · 计划模式 + 清单快照 —— /plan 先批准后执行(只读柜台借 ask 的 allow),
+// 每轮 user 消息尾捎一张 TodoWrite 快照(压缩糊掉老历史也糊不掉当前进度)
 // 跑法:npm run chat(node 26 原生跑 TS,key 住 .env 不进代码)
 import * as readline from 'node:readline/promises';
-import { TOOLS, validate, setConfirm, setAskOnce } from './tools/index.ts';
+import { TOOLS, validate, setConfirm, setAskOnce, getTodos } from './tools/index.ts';
 import { buildSystemPrompt, shouldCompact, compactHistory, COMPACT_AT, type Msg, type ToolCall, type ApiToolCall } from './context.ts';
 import * as ui from './ui.ts';
 
@@ -137,7 +137,45 @@ setConfirm(async (cmd) => {
 // 收窄的工具柜在 ask 里过滤;两套循环跑在同一个进程里
 // (不传 onText:子会话的过程不刷屏,结论走工具卡回家)
 setAskOnce((msgs, allow) => ask(msgs, allow));
-ui.say(`${ui.c.bold('小c上线')}${ui.c.dim('(exit 退出 · 回答途中按 Esc 打断)')}`);
+ui.say(`${ui.c.bold('小c上线')}${ui.c.dim('(exit 退出 · 回答途中按 Esc 打断 · /plan 计划模式)')}`);
+
+// 一回合的 agent 循环:ask 一轮 → 执行它要的工具 → 再 ask,直到它不再要。
+// allow 收窄柜台——计划模式借这扇门只留只读工具,会改世界的一概不发(v1.7)
+async function agentLoop(allow?: string[], signal?: AbortSignal): Promise<void> {
+  while (true) {
+    ui.think('小c在想…');
+    const { text, toolCalls } = await ask(messages, allow, { signal, onText: ui.stream });
+    if (toolCalls.length === 0) { // 退出条件 = 这一轮没有 tool_calls,它只想说话
+      ui.commit(ui.md(text)); // 两段式:流完把裸文本擦起重排(粗体/行内码/码块)
+      messages.push({ role: 'assistant', content: text });
+      return;
+    }
+    if (text) ui.commit(ui.md(text)); // 它边说旁白边要工具:旁白先落定,再亮动作
+    else ui.end(); // 纯要工具没说话:收掉转圈,直接进动作
+    messages.push({
+      role: 'assistant',
+      content: text,
+      tool_calls: toolCalls.map(c => ({
+        id: c.id, type: 'function' as const,
+        function: { name: c.name, arguments: c.args },
+      })),
+    });
+    for (const c of toolCalls) {
+      ui.status(`${ui.c.cyan('⏺')} ${c.name} ${ui.c.dim(c.args.length > 50 ? c.args.slice(0, 50) + '…' : c.args || '{}')}`);
+      const result = await run(c);
+      messages.push({ role: 'tool', tool_call_id: c.id, content: result });
+      ui.say(ui.toolCard(c.name, c.args, result)); // 动作要亮出来:diff 行在这里上色
+    }
+    if (signal?.aborted) { // 打断检查点:整批工具结果已入账,不再发下一轮
+      messages.push({ role: 'user', content: '(用户按 Esc 打断了这一轮,先停,等下一句)' });
+      ui.say(ui.c.yellow('⏹ 已打断——工具结果已入账,等下一句'));
+      return;
+    }
+  }
+}
+
+// 计划模式的只读柜台:能看不能改——不是叮嘱它别改,是物理上没有改的把手
+const READ_ONLY = ['read_file', 'get_time', 'calculator'];
 
 while (true) {
   let line: string;
@@ -149,6 +187,49 @@ while (true) {
   if (line === 'exit') break;
   if (!line) continue;
 
+  // /plan 前缀:客户端拦下展开,模型不认识斜杠——先调研出计划,人点头才动手
+  if (line.startsWith('/plan')) {
+    const task = line.slice(5).trim();
+    if (!task) { ui.say(ui.c.yellow('用法:/plan <任务>')); continue; }
+    const ac = new AbortController();
+    const offEsc = ui.onEsc(() => ac.abort());
+    const rollback = messages.length;
+    try {
+      ui.say(`${ui.c.cyan('⏸ 计划模式')}${ui.c.dim('(只调研不改文件,计划出来你批准才动手)')}`);
+      messages.push({ role: 'user', content: `(计划模式)${task}\n只调研、不要修改任何文件;想清楚后给出分步执行计划,到此为止,不要动手。` });
+      await agentLoop(READ_ONLY, ac.signal); // 只读柜台逛到它交出计划为止
+      const ans = (await rl.question(`${ui.c.bold('  批准这份计划并执行?(y/n) ')}`)).trim().toLowerCase();
+      if (ans === 'y') {
+        messages.push({ role: 'user', content: '(计划已批准。请先用 TodoWrite 立清单,再按计划执行,逐步更新状态。)' });
+        await agentLoop(undefined, ac.signal); // 全量柜台开工,清单跟着记
+      } else {
+        ui.say(ui.c.yellow('已驳回——计划阶段只读,未做任何修改。'));
+      }
+    } catch (e) {
+      messages.length = rollback;
+      if (ac.signal.aborted) ui.say(ui.c.yellow('⏹ 已打断——这轮不入账'));
+      else ui.say(ui.c.red(`出错:${e instanceof Error ? e.message : e}`));
+    } finally {
+      offEsc();
+      const rlBuf = rl as unknown as { line: string; cursor: number };
+      rlBuf.line = ''; rlBuf.cursor = 0;
+      ui.end();
+    }
+    if (shouldCompact(usage.lastPrompt)) {
+      ui.say(`  🗜 上下文 ${usage.lastPrompt} token 超过水位 ${COMPACT_AT},压缩老历史…`);
+      if (await compactHistory(messages, askPlain)) ui.say('  🗜 已压缩:老历史换摘要,尾部原文保留');
+    }
+    continue;
+  }
+
+  // 清单快照(v1.7):宿主手里的真账每轮拍一张,捎在 user 消息尾——不靠历史里
+  // 那条 tool 消息活着,压缩把老历史糊成摘要也糊不掉当前进度;追加在尾部,
+  // 前面的缓存照吃
+  const todos = getTodos();
+  if (todos.length) {
+    const mark: Record<string, string> = { pending: '☐', in_progress: '▸', done: '☑' };
+    line += '\n\n(当前任务清单:\n' + todos.map((t, i) => `${mark[t.status]} ${i + 1}. ${t.content}`).join('\n') + ')';
+  }
   messages.push({ role: 'user', content: line });
   const rollback = messages.length - 1; // 失败回滚到这轮 user 消息之前
   // Esc = 本轮的撤销键:ui.onEsc 在 raw 模式接住按键,一按就掐 abort。
@@ -158,36 +239,7 @@ while (true) {
   const ac = new AbortController();
   const offEsc = ui.onEsc(() => ac.abort());
   try {
-    while (true) { // agent 循环:ask 一轮 → 执行它要的工具 → 再 ask,直到它不再要
-      ui.think('小c在想…');
-      const { text, toolCalls } = await ask(messages, undefined, { signal: ac.signal, onText: ui.stream });
-      if (toolCalls.length === 0) { // 退出条件 = 这一轮没有 tool_calls,它只想说话
-        ui.commit(ui.md(text)); // 两段式:流完把裸文本擦起重排(粗体/行内码/码块)
-        messages.push({ role: 'assistant', content: text });
-        break;
-      }
-      if (text) ui.commit(ui.md(text)); // 它边说旁白边要工具:旁白先落定,再亮动作
-      else ui.end(); // 纯要工具没说话:收掉转圈,直接进动作
-      messages.push({
-        role: 'assistant',
-        content: text,
-        tool_calls: toolCalls.map(c => ({
-          id: c.id, type: 'function' as const,
-          function: { name: c.name, arguments: c.args },
-        })),
-      });
-      for (const c of toolCalls) {
-        ui.status(`${ui.c.cyan('⏺')} ${c.name} ${ui.c.dim(c.args.length > 50 ? c.args.slice(0, 50) + '…' : c.args || '{}')}`);
-        const result = await run(c);
-        messages.push({ role: 'tool', tool_call_id: c.id, content: result });
-        ui.say(ui.toolCard(c.name, c.args, result)); // 动作要亮出来:diff 行在这里上色
-      }
-      if (ac.signal.aborted) { // 打断检查点:整批工具结果已入账,不再发下一轮
-        messages.push({ role: 'user', content: '(用户按 Esc 打断了这一轮,先停,等下一句)' });
-        ui.say(ui.c.yellow('⏹ 已打断——工具结果已入账,等下一句'));
-        break;
-      }
-    }
+    await agentLoop(undefined, ac.signal);
     // 上下文水位:超线就把老历史压成摘要(水位看的是最后一次请求的 prompt token,
     // 而不是消息条数——token 才是要花钱的那个单位)
     if (shouldCompact(usage.lastPrompt)) {

@@ -139,6 +139,12 @@ var todoWrite = {
   },
 };
 
+// 宿主手里的真账只此一份;调用方(如 chat.ts)每轮拍一张快照捎给模型,
+// 不靠历史里那条 tool 消息还活着——压缩把老历史糊掉也糊不掉当前进度
+export function getTodos() {
+  return TODOS.slice();
+}
+
 // 统一注册表:CLI 端加工具时这里跟着添一行,对话框的能力面就同步长
 /** @typedef {{name:string,description:string,parameters:object,execute:(args:any)=>Promise<string>}} Tool Tool 形状:前三件发给模型,execute 留在本地 */
 /** @type {Tool[]} */
