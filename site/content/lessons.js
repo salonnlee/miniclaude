@@ -41,6 +41,7 @@ export const LESSONS = {
     { "at": "ch7", "ver": "v1.2", "chip": "交付 v1.2 · src/context.ts", "what": "上下文管理——system 拼装 + CLAUDE.md 记忆 + 自动压缩 + 缓存记账", "range": "第 7 章" },
     { "at": "ch3b", "ver": "v1.3", "chip": "交付 v1.3 · src/tools/agents.ts", "what": "子代理与工作流——agent 工具 execute 里再开循环(上下文隔离),workflow 按写死计划按序派兵", "range": "第二幕附加章" },
     { "at": "ch8", "ver": "v1.4", "chip": "交付 v1.4 · src/ui.ts", "what": "终端界面重构——换脸不换心:状态行转圈+流式两段式重排+工具卡+Esc 打断+diff 上色", "range": "第 8 章" },
+    { "at": "ch8", "ver": "v1.5", "chip": "交付 v1.5 · src/tools/bash.ts", "what": "后台任务——spawn 脱管不杀、PID 记账、日志回头查(bash_check)", "range": "第 8 章" },
     { "ver": null, "what": "子代理 / 计划模式 / 技能 / MCP", "range": "第 9 章" },
     { "ver": null, "what": "配置、缓存、沙箱、发布——企业级收尾", "range": "第 10 章" }
   ],
@@ -359,7 +360,8 @@ export const LESSONS = {
           {
             "code": "CH8.2",
             "name": "后台任务(spawn 不杀/记 PID/回头查日志)",
-            "mark": "⏭ 下一站"
+            "done": "2026-10-29(v1.5 后台三件套:bash 加 background:true——spawn detached 脱管不杀(新进程组+新会话,宿主退了它也活着;unref 让事件循环不等它)、输出落盘 .bg/jobN.log、PID 记账启动即回;bash_check 回头查——不传 pid 列全部、传 pid 报运行状态/退出码/日志尾部,exit 监听记退出码顺手收僵尸(不监听,退出的孩子挂成僵尸、探活还探成「活着」);闸门照过——后台不是法外之地,deny 照拦管道进 shell。护栏分工:前台管「堵住对话」(超时强杀/输出截断),后台管「留痕可查」(落盘/回头查);chat.ts 零改动——注册表红利,加能力不动循环)",
+            "tail": "—— npm run chat 可玩 · 记账是会话级(住内存),日志是持久的(.bg/ 文件,read_file 随可读)"
           },
           {
             "label": "知识点",
@@ -367,7 +369,7 @@ export const LESSONS = {
           },
           {
             "label": "实践",
-            "text": "UI 重构：内核不动换张脸——这也是一堂重构课"
+            "text": "UI 重构：内核不动换张脸——这也是一堂重构课；后台任务：长命令扔后台不等人，PID 记账、回头查日志收尸"
           }
         ]
       ]
@@ -375,6 +377,11 @@ export const LESSONS = {
     "ch9": {
       "groups": [
         [
+          {
+            "code": "CH9.1",
+            "name": "TodoWrite 任务外部化",
+            "mark": "⏭ 下一站"
+          },
           {
             "label": "知识点",
             "text": "TodoWrite 任务外部化；Subagent 上下文隔离与并行；Plan mode 先批准后执行；slash commands"

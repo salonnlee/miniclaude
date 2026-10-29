@@ -12,6 +12,7 @@ var DAYS = [
   {
     "date": "2026-10-29",
     "items": [
+      "CH8.2《后台任务》完课：v1.5 bash 加 background:true——spawn detached 脱管不杀、输出落盘 .bg/、PID 记账启动即回；bash_check 回头查(列全部/退出码/日志尾部)，exit 监听顺手收僵尸；闸门照过，后台不是法外之地。chat.ts 零改动——注册表红利。真机：模型扔后台 sleep 3 后还自己主动 bash_check 瞄结果。",
       "CH8.1《终端界面重构》完课：v1.4 src/ui.ts 换脸不换心——状态行转圈、流式两段式重排(流中裸文本、流完擦起重排,中文占两格)、⏺ 工具卡、edit_file 带行号 diff 红绿上色；Esc 打断(AbortController 掐 fetch:打断轮不入账、工具批跑完才停、user 注记给模型交代)。真机:打断后模型亲口证明被断请求不在记忆里。",
     ]
   },
