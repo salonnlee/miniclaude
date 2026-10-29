@@ -5,6 +5,8 @@
    ② 锚点滚动联动——URL 的 #锚点 随滚动实时同步(replaceState，不写历史记录),
      刷新即可回到当前区块；滚回顶部自动清掉锚点。
      ③ 右上角快捷导航——hero 滚出视口后浮现，链接与当前区块哈希联动高亮，↑ 回顶部。
+     ④ 章节互引跳转——文案里提到别章（如「正是 CH6 的 Bash」）时 CHn 自动变成跳转钮，
+       点了跳过去并浮出「↩ 返回」钮；用户的滚动/点击别处/按键任一出现即视为不回去，钮隐、交互结束。
      带锚点加载的 cloak 配合逻辑见 COURSE.html 的 head 内联脚本与 COURSE.css 的 html.cloak。 */
 (function () {
   var root = document.querySelector('.arch-stack');
@@ -118,4 +120,106 @@
   }, { passive: true });
   window.addEventListener('load', sync);
   sync();
+})();
+
+/* ④ 章节互引跳转：正文提到 CHn → 可点跳到该章；返回钮随跳转出现，用户一动就隐 */
+(function () {
+  // 章号 → 章块（article.chapter）；正文 CHn 互引只在课次行与卡片文案里链接化，
+  // 章号本身（.ch-no）、行首课号（<b>）、代码与实验室正文不动
+  var chapters = {};
+  document.querySelectorAll('article.chapter').forEach(function (ch) {
+    var no = ch.querySelector('.ch-no');
+    if (no) chapters[no.textContent.trim()] = ch;
+  });
+  var SKIP = { CODE: 1, B: 1, A: 1, SUMMARY: 1, SCRIPT: 1, STYLE: 1 };
+  var walker = document.createTreeWalker(
+    document.querySelector('.sec-wrap, body') || document.body,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode: function (n) {
+        var p = n.parentElement;
+        if (!p || SKIP[p.tagName]) return NodeFilter.FILTER_REJECT;
+        if (p.closest('.ch-no, .act-no, .badge, .ch-lab, .mile, #fly-nav, #mc')) return NodeFilter.FILTER_REJECT;
+        if (!/CH([1-9]|10)\b/.test(n.nodeValue)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    }
+  );
+
+  function linkify(node) {
+    var frag = document.createDocumentFragment();
+    var re = /CH([1-9]|10)(?![\w.\d])/g, last = 0, m;
+    while ((m = re.exec(node.nodeValue))) {
+      if (!chapters['CH' + m[1]]) continue;
+      frag.appendChild(document.createTextNode(node.nodeValue.slice(last, m.index)));
+      var a = document.createElement('a');
+      a.className = 'ch-ref';
+      a.href = 'javascript:void(0)';
+      a.dataset.to = 'CH' + m[1];
+      a.textContent = m[0];
+      frag.appendChild(a);
+      last = m.index + m[0].length;
+    }
+    frag.appendChild(document.createTextNode(node.nodeValue.slice(last)));
+    node.parentNode.replaceChild(frag, node);
+  }
+
+  var nodes = [], n;
+  while ((n = walker.nextNode())) nodes.push(n);
+  nodes.forEach(linkify);
+
+  // 返回钮：跳转后出现；用户滚动(wheel/touchmove)、点击别处、按键任一发生即隐
+  var back = document.createElement('button');
+  back.className = 'ref-back';
+  back.type = 'button';
+  document.body.appendChild(back);
+  var from = null;
+
+  function openUp(el) {
+    for (var d = el.closest('details'); d; d = d.parentElement && d.parentElement.closest('details'))
+      d.open = true;
+  }
+  var settle = null; // 落点上方懒加载图片撑高版面会把目标推走，落定后再校一次位
+  function jumpTo(el) {
+    openUp(el);
+    el.scrollIntoView({ block: 'start' }); // 瞬跳：展开幕会改布局，平滑滚动易被打断停在半路
+    clearTimeout(settle);
+    settle = setTimeout(function () {
+      settle = null;
+      el.scrollIntoView({ block: 'start' });
+    }, 350);
+  }
+  function dismiss() { clearTimeout(settle); settle = null; back.classList.remove('is-on'); from = null; disarm(); }
+  function onAct(e) {
+    if (e.type === 'pointerdown' && e.target.closest('.ref-back')) return;
+    dismiss();
+  }
+  var EVTS = ['wheel', 'touchmove', 'keydown', 'pointerdown'];
+  function arm() { EVTS.forEach(function (ev) { window.addEventListener(ev, onAct, { passive: true, capture: true }); }); }
+  function disarm() { EVTS.forEach(function (ev) { window.removeEventListener(ev, onAct, { passive: true, capture: true }); }); }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('.ch-ref');
+    if (!a) return;
+    e.preventDefault();
+    var target = chapters[a.dataset.to];
+    if (!target) return;
+    var src = a.closest('article.chapter') || a.closest('[data-card-body]') || a.closest('details.act');
+    var srcNo = src && src.querySelector('.ch-no');
+    from = {
+      el: src || target,
+      label: srcNo ? srcNo.textContent.trim() : '原处'
+    };
+    jumpTo(target);
+    back.textContent = '↩ 返回 ' + from.label;
+    back.classList.add('is-on');
+    setTimeout(arm, 600); // 缓一口气，别让触发点击自己把钮掐灭
+  });
+
+  back.addEventListener('click', function () {
+    if (!from) return;
+    var el = from.el;
+    dismiss(); // 先收摊再跳，免得 dismiss 掐掉校位定时器
+    jumpTo(el);
+  });
 })();
