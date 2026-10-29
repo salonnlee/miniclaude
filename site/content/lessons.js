@@ -7,14 +7,15 @@
    不再手改。
 
    常见操作:
-   · 完课        → 该课次条目加 done: '2026-10-26'(备注写进同一字符串: '2026-10-26(伴读模式)');
+   · 完课        → 该课次条目加 done: '2026-10-26'(备注限一句短语,约 15 字内,如 '2026-10-26(伴读模式)';
+                    复盘细节一律进 COURSE-LOG.js——课次行只报日期与一句话,不背长文);
                     幕徽章/折叠/「更新于」自动跟着变。
    · 加课次      → 往对应章最后一组(或新起一组,新组需在 HTML 加一个空容器)末尾加一条。
    · 加待学条目  → backlog 组加一条,写法同课次行。
    · 拼图(T 区)  → done 即「已拼上」(sem: 'puzzle')。
 
    行字段:
-   · done      'YYYY-MM-DD',可带全角括号备注;有 done 不写 mark
+   · done      'YYYY-MM-DD',可带全角括号备注(一句短语);有 done 不写 mark
    · mark      待开标记: '⏭ 下一站' / '⏳ 待拼' / '⏳'
    · tail      行尾追加文字(不含前导空格,渲染器自动补),如 '—— 拓展视野:…'
    · noGap     仅当 name 结尾紧贴 ✅ 且原文无空格时为 true(全表只有 P0.1、NN2)
@@ -196,7 +197,7 @@ export const LESSONS = {
           {
             "code": "CH1.1",
             "name": "素颜相见实验",
-            "done": "2026-10-27（裸调看 messages/usage 形状 → 不带历史问「刚才说了什么」一脸茫然 → 问答原文塞回数组立刻「记起」，17 → 40 prompt tokens，记忆按 token 收费）",
+            "done": "2026-10-27（curl 三幕：裸调 → 无历史失忆 → 塞回数组记起）",
             "tail": "—— 实验室已解锁：curl 素颜相见 + messages 透视台"
           },
           {
@@ -216,7 +217,7 @@ export const LESSONS = {
           {
             "code": "CH2.1",
             "name": "v0.4 · 聊天机器人",
-            "done": "2026-10-27（四步长成：脚手架 TS+Node → 非流式最小循环（记忆即 messages 数组）→ 流式 SSE（缓冲区攒换行才算一条事件，打字机逐词上屏）→ 记账（退出报 75+232 token≈¥0.0035））",
+            "done": "2026-10-27（v0.4 四步长成：脚手架 → 非流式 → 流式 SSE → 退出记账）",
             "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（267 行代码可点 × 透视卡 × 真机连线）"
           },
           {
@@ -236,7 +237,7 @@ export const LESSONS = {
           {
             "code": "CH3.1",
             "name": "工具调用",
-            "done": "2026-10-28（v0.8 三步曲长成：tools 声明随行 → 流式攒 tool_calls 分片 → 执行喂回循环到它不再要；真机三圈实录 get_time → 10+3 心算没用 calculator → 纯文本退出——触发是概率的不是规则的，description 塑形）",
+            "done": "2026-10-28（v0.8 三步曲：声明随行 → 攒分片 → 喂回循环）",
             "tail": "—— npm run chat 可玩 · 全景卡已上：agent 的「智能」拆开看"
           },
           {
@@ -256,7 +257,7 @@ export const LESSONS = {
           {
             "code": "CH4.1",
             "name": "工具注册表与说明书工程",
-            "done": "2026-10-28（闸门三件套一次落齐：validate.ts 手写迷你 Schema 校验——错误当结果喂回让模型自己改；eval 换 tokenizer+递归下降——恶意输入不是被拦，是无法表达，攻击样本 16/16 倒在门口；tools/index.ts 统一注册表——加工具零改主循环。AB 实验跳过：说明书改成「无论难易必须调用」则 10+3 必触发，共识免验）",
+            "done": "2026-10-28（校验/递归下降 eval/统一注册表三件一次落齐）",
             "tail": "—— npm run chat 可玩 · 说明书 A/B 玩法留作自选实验 · 全景卡已上：Tool 四件套逐件透视 · 加餐卡已上：tool → MCP 演化全景（execute 搬家，名片不变）"
           },
           {
@@ -276,7 +277,7 @@ export const LESSONS = {
           {
             "code": "CH5.1",
             "name": "文件读写工具",
-            "done": "2026-10-28（三件一次落齐：read_file 截断 2000 行+二进制魔数检测+行号输出；write_file 自动建目录带落盘回报；edit_file 精确字符串替换——零处/多处都当结果喂回。平台分层定规：浏览器碰不了文件系统，共享底座照旧 site/mc/tools.js，文件三件住 Node 侧 fs.ts push 进 TOOLS，浏览器视角纯净已验。真机验收：agent 自建 todo.md+count.mjs 分毫不差，如实报告「没有跑命令的工具」——闭环差的那环正是 CH6 的 Bash）",
+            "done": "2026-10-28（v1.0 文件三件：读截断、写建目录、精确替换）",
             "tail": "—— npm run chat 可玩 · 顺手逮住 v0.9 重构漏 import validate 的真 bug（验收仪式充当了免费测试）"
           },
           {
@@ -296,7 +297,7 @@ export const LESSONS = {
           {
             "code": "CH6.1",
             "name": "命令执行与安全闸门",
-            "done": "2026-10-28（bash.ts spawn+超时强杀(120s)+输出截断 30KB+退出码如实报；permissions.ts 三扇门——deny 黑名单管道进 shell/rm -rf、allow 白名单只读命令、ask 弹 y/n/a 确认且「本会话总是允许」只记逐字同条；粒度到子命令：git status:* 放行而 git push 要问。真机两幕：自建带语法错误的 count.mjs 自己跑出报错自己修好退出码 0；注入演练模型自认 HTML 注释里的恶意指令并拒绝——模型层防御与闸门各守各的）",
+            "done": "2026-10-28（v1.1 三扇门 deny/ask/allow＋超时强杀，粒度到子命令）",
             "tail": "—— npm run chat 可玩 · 后台任务(不杀/记 PID/回头查)留 CH8"
           },
           {
@@ -316,7 +317,7 @@ export const LESSONS = {
           {
             "code": "CH7.1",
             "name": "上下文管理与压缩",
-            "done": "2026-10-28（v1.2 四味药一次落齐：context.ts——system prompt 拼装＝人设＋环境快照（启动时定格，整会话不变护前缀缓存）＋CLAUDE.md 项目记忆（启动读一次，跨会话记忆住文件不住数组）；压缩器——水位看最后一次请求的 prompt token 而非消息条数，超线老历史请模型自己总结成摘要、尾部保留近 8 条原文、切点撞 tool 消息推进到合法边界；cached_tokens 记账——前缀缓存命中约五折计费，退出账单折算；压缩提示词摊在自己代码里，想调就调——真实产品内置改不了，这是自己造轮子的红利）",
+            "done": "2026-10-28（v1.2 四味药：system 定格、CLAUDE.md、水位压缩、缓存记账）",
             "tail": "—— npm run chat 可玩 · COMPACT_AT 环境变量可调低水位看压缩触发"
           },
           {
@@ -336,7 +337,7 @@ export const LESSONS = {
           {
             "code": "附.1",
             "name": "v1.3 · 子代理与工作流",
-            "done": "2026-10-28(课间四连问直接催生:subagent 与 workflow 差在哪 → 父 agent 只吐字,谁懂异步(宿主) → 子 agent 本质是不是 tool 调用(是,重的是 execute) → 最小实现长什么样。src/tools/agents.ts 一次落齐:agent 工具 execute 里再开一个 agent 循环——自己的 messages 从零攒、只读工具柜、出口只带最后一段话回家,中间过程不进主对话=上下文隔离;workflow=写死的步骤计划按序派兵,上一步产出传下一步,控制流在代码不在模型;SUB_TOOLS 不含 agent——孩子不能再生孩子。chat.ts 只动三处:ask(hist,allow) 泛化、setAskOnce 挂腿、import 一行,子会话 token 自动进总账。真机两幕:派子代理读 package.json 只报 name/version;workflow 两步读 README 首行再概括,carry 传递全程可见,一场 ¥0.03)",
+            "done": "2026-10-28（v1.3 agent 工具里再开循环=上下文隔离，workflow 计划是参数）",
             "tail": "—— npm run chat 可玩 · 全景卡已上:循环里再开循环(核心代码五段可点 × 透视卡)"
           },
           {
@@ -356,13 +357,13 @@ export const LESSONS = {
           {
             "code": "CH8.1",
             "name": "终端界面重构",
-            "done": "2026-10-29(v1.4 换脸不换心:agent 循环/工具柜/上下文管理一行没动,脸面全进 src/ui.ts——终端是字符网格不是只进不出的水管,ANSI 光标上移+整行擦掉就是全部底牌;真 Claude Code 用 Ink(React 渲染终端)整帧重画,我们手搓同款思想的小轮子:状态行钉在最新一行随事件重画、流式两段式(流中裸文本、流完擦起重排,中文占两格,数错一行就擦花)、⏺ 工具卡、edit_file 出带行号 diff 红绿上色;Esc=本轮撤销键——raw 模式接键、AbortController 掐 fetch、工具批跑完看旗子(半批 tool 结果=API 400)、打断给模型一句 user 注记;真机四幕全过,打断后模型亲口证明被断请求不在记忆里)",
+            "done": "2026-10-29（v1.4 换脸不换心：脸面全进 src/ui.ts，Esc=撤销键）",
             "tail": "—— npm run chat 可玩 · 正文超一屏保留原文不重排,这正是 Ink 整帧管理的理由"
           },
           {
             "code": "CH8.2",
             "name": "后台任务(spawn 不杀/记 PID/回头查日志)",
-            "done": "2026-10-29(v1.5 后台三件套:bash 加 background:true——spawn detached 脱管不杀(新进程组+新会话,宿主退了它也活着;unref 让事件循环不等它)、输出落盘 .bg/jobN.log、PID 记账启动即回;bash_check 回头查——不传 pid 列全部、传 pid 报运行状态/退出码/日志尾部,exit 监听记退出码顺手收僵尸(不监听,退出的孩子挂成僵尸、探活还探成「活着」);闸门照过——后台不是法外之地,deny 照拦管道进 shell。护栏分工:前台管「堵住对话」(超时强杀/输出截断),后台管「留痕可查」(落盘/回头查);chat.ts 零改动——注册表红利,加能力不动循环)",
+            "done": "2026-10-29（v1.5 后台三件套：background 脱管、日志落盘、bash_check 回头查）",
             "tail": "—— npm run chat 可玩 · 记账是会话级(住内存),日志是持久的(.bg/ 文件,read_file 随可读)"
           },
           {
@@ -382,13 +383,13 @@ export const LESSONS = {
           {
             "code": "CH9.1",
             "name": "TodoWrite 任务外部化",
-            "done": "2026-10-29(v1.6 长任务的计划不住在模型脑子里——上下文一长就糊,住进一块白板:site/mc/tools.js 加 TodoWrite,每次整份重写而非 add/update——宿主不记「上次写到哪」,清单永远只有一份、不会漂移;返回值即回喂模型的全部状态,system prompt 整会话定格护前缀缓存的红线一点不碰;与 CH7 项目记忆对照:那份住文件跨会话,这份住内存会话级。ui.ts toolCard 特判三态上色:☐ 压暗/▸ 亮/☑ 绿;chat.ts 连续两版零改动——注册表红利第二弹,工具住共享 tools.js,网页分身同版自动长出同一工具。真机一场三步任务模型三调 TodoWrite:立清单 0/3、办完两件勾到 2/3、读回核对 3/3,逐步自勾分毫不差)",
+            "done": "2026-10-29（v1.6 TodoWrite 整份重写白板，三态上色 ☐▸☑）",
             "tail": "—— npm run chat 可玩 · 给它一个多步任务,看清单从 ☐ 一路勾到 ☑"
           },
           {
             "code": "CH9.2",
             "name": "Plan mode 先批准后执行",
-            "done": "2026-10-29(v1.7 两件:/plan 先批准后执行——只读柜台(read_file/get_time/calculator)借 ask 的 allow 这扇门,会改世界的工具一概不发,不是叮嘱它别改、是物理上没有改的把手;模型只调研出分步计划,y 批准后全量柜开工、先 TodoWrite 立清单再执行,n 驳回则零修改——事前拦截面世,与 TodoWrite 的事中记账凑成一对:一个防干错、一个防干丢;与 CH6 闸门分层:闸门管单次工具调用、plan mode 管整轮方案。第二件补 CH9.1 的缺口:getTodos() 出口+每轮 user 消息尾捎一张清单快照——不靠历史里那条 tool 消息活着,压缩糊掉老历史也糊不掉当前进度,追加在尾部前缀缓存照吃(真 CC 同款思路)。chat.ts 215→267 行:循环体抽成 agentLoop(allow) 函数、/plan 前缀客户端拦下展开(模型不认识斜杠)。真机两幕:计划阶段只调研不改文件、批准后 TodoWrite 0/3→3/3;追问进度模型不调工具、凭快照答「3/3 全部完成」)",
+            "done": "2026-10-29（v1.7 /plan 只读柜台调研 → y 批准 → 执行＋清单快照重注入）",
             "tail": "—— npm run chat 可玩 · /plan <任务> 看先批准后执行,再问「现在进度如何」看快照"
           },
           {
