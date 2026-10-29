@@ -183,26 +183,33 @@
     for (var d = el.closest('details'); d; d = d.parentElement && d.parentElement.closest('details'))
       d.open = true;
   }
-  var settle = null; // 落点上方懒加载图片撑高版面会把目标推走，落定后再校一次位
-  function snap(el) {
-    // 用户首动后全局 scroll-behavior 会变 smooth，互引跳转必须瞬跳——
-    // 平滑滚动是动画，基点记在动画前、落点在动画后，一偏就误杀返回钮
-    var de = document.documentElement, prev = de.style.scrollBehavior;
-    de.style.scrollBehavior = 'auto';
-    el.scrollIntoView({ block: 'start' });
-    de.style.scrollBehavior = prev;
-    if (from) baseY = window.scrollY; // scroll 事件异步派发，同步记基点不会误杀跳转自身
+  // 平滑跳转：基线不记在起跳时——滚动动画期间的 scroll 事件不算数，
+  // 轮询 scrollY 连续 3 拍不动才算落定，落定那一刻才记基线
+  var settleTimer = null, pollTimer = null;
+  function stopPoll() { if (pollTimer) { clearInterval(pollTimer); pollTimer = null; } }
+  function armBase() {
+    stopPoll();
+    var last = -1, still = 0;
+    pollTimer = setInterval(function () {
+      var y = Math.round(window.scrollY);
+      if (y === last) { if (++still >= 3) { stopPoll(); if (from) baseY = y; } }
+      else still = 0;
+      last = y;
+    }, 60);
   }
   function jumpTo(el) {
     openUp(el);
-    snap(el); // 瞬跳：展开幕会改布局，平滑滚动易被打断停在半路
-    clearTimeout(settle);
-    settle = setTimeout(function () {
-      settle = null;
-      snap(el);
-    }, 350);
+    baseY = null; // 校位动画起步先清旧基线，动画中的 scroll 不拿它判距
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    armBase();
+    clearTimeout(settleTimer); // 落点上方懒加载图片撑高版面会把目标推走，动画后再校一次位
+    settleTimer = setTimeout(function () {
+      baseY = null;
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      armBase();
+    }, 400);
   }
-  function dismiss() { clearTimeout(settle); settle = null; back.classList.remove('is-on'); from = null; baseY = null; disarm(); }
+  function dismiss() { clearTimeout(settleTimer); settleTimer = null; stopPoll(); back.classList.remove('is-on'); from = null; baseY = null; disarm(); }
   function onScroll() {
     if (!from || baseY === null) return;
     if (Math.abs(window.scrollY - baseY) > 120) dismiss(); // 上下滚离落点超过 120px 才算「不回去」
