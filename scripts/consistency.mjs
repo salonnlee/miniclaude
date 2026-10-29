@@ -174,6 +174,20 @@ check('口径黑名单(解剖/壳)零残留', banned.length === 0, banned.join('
     fat.join('; ') + ' —— 压成一句短语,复盘细节写进 COURSE-LOG.js 当天条目');
 }
 
+// 15. 幕统计完整性(2026-10-29 定规,act-m5 误报完课事故):幕徽章只数带 code 的
+//     课次行(label 行被 itemsOf 滤掉)——act 引用的章若零课次行,整章从幕统计里
+//     静默消失,幕可能提前亮「完课」。防再犯:act 引用的每章至少一条课次行
+{
+  const chKeys = new Set(Object.values(LESSONS.acts || {}).flatMap((a) => [].concat(a.from)));
+  const empty = [...chKeys].filter((k) => {
+    const items = (LESSONS.lists[k]?.groups || []).flat().filter((it) => !it.label);
+    return items.length === 0;
+  });
+  check('act 引用的每章至少一条课次行(零课次行 = 整章从幕统计静默消失)',
+    empty.length === 0,
+    empty.map((k) => `lists.${k} 没有带 code 的课次行——幕徽章数不到它`).join('; '));
+}
+
 // —— 汇总 ——
 oks.forEach((n) => console.log('  ✓ ' + n));
 if (fails.length) {

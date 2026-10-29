@@ -414,6 +414,11 @@ export const LESSONS = {
       "groups": [
         [
           {
+            "code": "CH10.1",
+            "name": "企业化收尾（多模型路由/配置/hooks/沙箱/evals/发布）",
+            "mark": "⏭ 下一站"
+          },
+          {
             "label": "知识点",
             "text": "多模型路由与降级；成本遥测；用户级 / 项目级配置；hooks；沙箱执行；evals（怎么给不确定的 agent 写测试）；打包发布"
           },
