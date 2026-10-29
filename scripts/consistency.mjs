@@ -163,6 +163,17 @@ check('口径黑名单(解剖/壳)零残留', banned.length === 0, banned.join('
      mcpOk ? '' : 'mcp.ts 必须 import 底座 TOOLS 并由 index.ts 出口 registerMcpTools'].filter(Boolean).join('; '));
 }
 
+// 14. 课次行 done 备注瘦身(2026-10-29 定规,commit 34a0486):日期＋一句短语,
+//     细节只归 COURSE-LOG 一处——超长即拦,防「修过的问题再犯」
+{
+  const LIMIT = 80; // 字符(含日期),短语体例见 CH9.1/CH9.2
+  const fat = Object.values(LESSONS.lists).flatMap((l) => l.groups.flat())
+    .filter((it) => it.done && it.done.length > LIMIT)
+    .map((it) => `${it.code || it.label}:done ${it.done.length} 字`);
+  check(`课次行 done 备注均 ≤ ${LIMIT} 字(细节归 COURSE-LOG)`, fat.length === 0,
+    fat.join('; ') + ' —— 压成一句短语,复盘细节写进 COURSE-LOG.js 当天条目');
+}
+
 // —— 汇总 ——
 oks.forEach((n) => console.log('  ✓ ' + n));
 if (fails.length) {

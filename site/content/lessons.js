@@ -396,7 +396,7 @@ export const LESSONS = {
           {
             "code": "CH9.3",
             "name": "slash commands 与 mini MCP 实践",
-            "done": "2026-10-29(v1.8 两件:①斜杠命令长成表——/ 开头先查 COMMANDS,命中展开执行、未命中原样放行当普通说话,/plan 从一处特判入表,/help 列命令、/mcp 看外挂;模型自始至终没见过斜杠,它收到的只是展开后的普通 user 消息(真 CC 同款机制)。②mini MCP 实践件:src/mcp-server.ts 天气台——独立进程,stdio 每行一个 JSON(list 问名片/call 派活,id 对号入座),execute 全住 server 侧;宿主 src/tools/mcp.ts 读 .mcp.json 拉起子进程、list 回来的名片原样 push 进 TOOLS——对模型与 runTool,外挂工具与本地工具零区别,正是 CH4 加餐卡「execute 搬家名片不变」的落点;参数校验照旧宿主这关把着,坏参数不浪费一趟跨进程;错误当结果喂回,老规矩;本地测试 11 项全过(list/call/坏JSON不崩/全链路桥接/宿主侧拦截)。chat.ts 267→297 行——命令表+maybeCompact 抽函数+启动接 MCP;顺手修 eof 未处理拒绝:等 MCP list 时 stdin 关了,reject 没人 race 会炸进程)",
+            "done": "2026-10-29（v1.8 斜杠命令表＋mini MCP 天气台——名片进柜子、execute 住子进程）",
             "tail": "—— npm run chat 可玩 · /help 看命令表 · .mcp.json 配 server,删掉即卸载"
           },
           {
