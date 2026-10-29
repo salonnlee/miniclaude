@@ -12,6 +12,7 @@
 // 下一步——谁来派、什么时候派由代码说了算,不劳主对话一轮轮盯。
 
 import { TOOLS, runTool } from '../../site/mc/tools.js';
+import { say } from '../ui.ts'; // 输出走 ui:让开主对话的状态行再打印,打完画回来
 import type { Msg, ToolCall } from '../context.ts';
 
 // 子代理的工具柜:只读三件。干活够用、闯祸没门——没有 bash/edit_file,
@@ -33,7 +34,7 @@ export async function runSubagent(goal: string): Promise<string> {
     { role: 'system', content: '你是被派出的子代理,独立完成一项自包含的小任务。只干交代的事,结论一段话交回,不要寒暄。' },
     { role: 'user', content: goal },
   ];
-  console.log(`\n  🤖 子代理开工:${goal.split('\n')[0].slice(0, 30)}…`);
+  say(`  🤖 子代理开工:${goal.split('\n')[0].slice(0, 30)}…`);
   while (true) {
     const { text, toolCalls } = await askOnce(msgs, SUB_TOOLS);
     if (toolCalls.length === 0) return text; // 只要结论:中间过程全部丢弃,这就是上下文隔离
@@ -48,7 +49,7 @@ export async function runSubagent(goal: string): Promise<string> {
     for (const c of toolCalls) {
       const { res } = await runTool({ name: c.name, args: c.args }); // 注册表的统一执行口,四道兜底一样不少
       msgs.push({ role: 'tool', tool_call_id: c.id, content: res });
-      console.log(`    🔧 ${c.name}(${c.args})`);
+      say(`    🔧 ${c.name}(${c.args})`);
     }
   }
 }
@@ -59,7 +60,7 @@ export async function runSubagent(goal: string): Promise<string> {
 export async function runWorkflow(steps: string[]): Promise<string> {
   let carry = '';
   for (let i = 0; i < steps.length; i++) {
-    console.log(`\n  🧩 工作流 第 ${i + 1}/${steps.length} 步`);
+    say(`  🧩 工作流 第 ${i + 1}/${steps.length} 步`);
     const back = i ? `\n\n(上一步的产出,接着用)\n${carry}` : '';
     carry = await runSubagent(`${steps[i]}${back}`);
   }

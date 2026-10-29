@@ -1,8 +1,10 @@
-// v1.3 · agent 循环 + 上下文管理 + 子代理 —— 聊天 + 工具调用 + 记忆不再无限长(压缩) + 缓存记账 + 循环里再开循环
+// v1.4 · 终端界面重构 —— 换脸不换心:agent 循环、工具柜、上下文管理一行没动,
+// 脸面全交给 ui.ts(状态行转圈、流式两段式重排、工具卡、Esc 打断、diff 上色)
 // 跑法:npm run chat(node 26 原生跑 TS,key 住 .env 不进代码)
 import * as readline from 'node:readline/promises';
 import { TOOLS, validate, setConfirm, setAskOnce } from './tools/index.ts';
 import { buildSystemPrompt, shouldCompact, compactHistory, COMPACT_AT, type Msg, type ToolCall, type ApiToolCall } from './context.ts';
+import * as ui from './ui.ts';
 
 const KEY = process.env.GLM_API_KEY;
 if (!KEY) {
@@ -21,7 +23,10 @@ const messages: Msg[] = [{ role: 'system', content: buildSystemPrompt() }];
 // 发全部历史,流式收回「这一轮发生了什么」(说话了还是要工具了),顺手记账。
 // v1.3 泛化两参:hist 默认主对话的 messages,allow 收窄工具柜——
 // 子代理借同一扇门问模型,只是拎自己的历史、逛缩水的柜台
-async function ask(hist: Msg[] = messages, allow?: string[]): Promise<{ text: string; toolCalls: ToolCall[] }> {
+// v1.4 再加 opts:signal 把 Esc 的 AbortController 递进 fetch(飞行中的请求
+// 从这被掐断);onText 把打字机交给调用方——主对话传流式上屏,子代理不传
+type AskOpts = { signal?: AbortSignal; onText?: (s: string) => void };
+async function ask(hist: Msg[] = messages, allow?: string[], opts: AskOpts = {}): Promise<{ text: string; toolCalls: ToolCall[] }> {
   const res = await fetch(API, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${KEY}` },
@@ -34,6 +39,7 @@ async function ask(hist: Msg[] = messages, allow?: string[]): Promise<{ text: st
         function: { name: t.name, description: t.description, parameters: t.parameters },
       })),
     }),
+    signal: opts.signal,
   });
   if (!res.ok || !res.body) throw new Error(`API ${res.status}:${await res.text()}`);
 
@@ -68,7 +74,7 @@ async function ask(hist: Msg[] = messages, allow?: string[]): Promise<{ text: st
       const d = c.choices?.[0]?.delta;
       if (d?.content) {
         text += d.content;
-        process.stdout.write(d.content); // 打字机:来一个词念一个词
+        opts.onText?.(d.content); // 打字机:来一个词念一个词(脸面归调用方管)
       }
       for (const tc of d?.tool_calls ?? []) {
         const slot = (toolAcc[tc.index] ??= { id: '', name: '', args: '' });
@@ -115,6 +121,9 @@ async function run(call: ToolCall): Promise<string> {
 }
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+// Ctrl-D / 管道断流:pending 的 question 不会自己醒——用 close 事件替它喊一声,
+// 输了 race 就走下面的 catch 收摊结账(否则进程带着未决 await 裸退,账单不结)
+const eof = new Promise<never>((_, rej) => rl.on('close', () => rej(new Error('stdin 关了'))));
 // ask 档命令的确认流:必须复用同一个 rl——两个 readline 抢 stdin 会互吞输入行
 setConfirm(async (cmd) => {
   try {
@@ -126,13 +135,14 @@ setConfirm(async (cmd) => {
 });
 // 子代理的腿(v1.3):复用同一个 ask——子会话的 token 自动记进总账,
 // 收窄的工具柜在 ask 里过滤;两套循环跑在同一个进程里
+// (不传 onText:子会话的过程不刷屏,结论走工具卡回家)
 setAskOnce((msgs, allow) => ask(msgs, allow));
-console.log('小c上线(exit 退出)');
+ui.say(`${ui.c.bold('小c上线')}${ui.c.dim('(exit 退出 · 回答途中按 Esc 打断)')}`);
 
 while (true) {
   let line: string;
   try {
-    line = (await rl.question('你> ')).trim();
+    line = (await Promise.race([rl.question('你> '), eof])).trim();
   } catch {
     break; // Ctrl-D / 管道 EOF
   }
@@ -141,15 +151,23 @@ while (true) {
 
   messages.push({ role: 'user', content: line });
   const rollback = messages.length - 1; // 失败回滚到这轮 user 消息之前
+  // Esc = 本轮的撤销键:ui.onEsc 在 raw 模式接住按键,一按就掐 abort。
+  // 竞态处理在循环里:流中被 fetch 直接断;工具批跑完看旗子(一整批
+  // tool 结果都在,历史才合法——半批 assistant 要了俩只回了一个 = API 400);
+  // 断完给模型一句交代,别让它对着空气猜
+  const ac = new AbortController();
+  const offEsc = ui.onEsc(() => ac.abort());
   try {
     while (true) { // agent 循环:ask 一轮 → 执行它要的工具 → 再 ask,直到它不再要
-      process.stdout.write('小c> ');
-      const { text, toolCalls } = await ask();
+      ui.think('小c在想…');
+      const { text, toolCalls } = await ask(messages, undefined, { signal: ac.signal, onText: ui.stream });
       if (toolCalls.length === 0) { // 退出条件 = 这一轮没有 tool_calls,它只想说话
+        ui.commit(ui.md(text)); // 两段式:流完把裸文本擦起重排(粗体/行内码/码块)
         messages.push({ role: 'assistant', content: text });
         break;
       }
-      // 它要了工具:先把它「开口要」这条原样入史,再逐个执行、逐条喂回
+      if (text) ui.commit(ui.md(text)); // 它边说旁白边要工具:旁白先落定,再亮动作
+      else ui.end(); // 纯要工具没说话:收掉转圈,直接进动作
       messages.push({
         role: 'assistant',
         content: text,
@@ -159,21 +177,35 @@ while (true) {
         })),
       });
       for (const c of toolCalls) {
+        ui.status(`${ui.c.cyan('⏺')} ${c.name} ${ui.c.dim(c.args.length > 50 ? c.args.slice(0, 50) + '…' : c.args || '{}')}`);
         const result = await run(c);
         messages.push({ role: 'tool', tool_call_id: c.id, content: result });
-        console.log(`\n  🔧 ${c.name}(${c.args}) → ${result}`); // 动作要亮出来
+        ui.say(ui.toolCard(c.name, c.args, result)); // 动作要亮出来:diff 行在这里上色
+      }
+      if (ac.signal.aborted) { // 打断检查点:整批工具结果已入账,不再发下一轮
+        messages.push({ role: 'user', content: '(用户按 Esc 打断了这一轮,先停,等下一句)' });
+        ui.say(ui.c.yellow('⏹ 已打断——工具结果已入账,等下一句'));
+        break;
       }
     }
-    process.stdout.write('\n\n');
     // 上下文水位:超线就把老历史压成摘要(水位看的是最后一次请求的 prompt token,
     // 而不是消息条数——token 才是要花钱的那个单位)
     if (shouldCompact(usage.lastPrompt)) {
-      console.log(`  🗜 上下文 ${usage.lastPrompt} token 超过水位 ${COMPACT_AT},压缩老历史…`);
-      if (await compactHistory(messages, askPlain)) console.log('  🗜 已压缩:老历史换摘要,尾部原文保留');
+      ui.say(`  🗜 上下文 ${usage.lastPrompt} token 超过水位 ${COMPACT_AT},压缩老历史…`);
+      if (await compactHistory(messages, askPlain)) ui.say('  🗜 已压缩:老历史换摘要,尾部原文保留');
     }
   } catch (e) {
     messages.length = rollback; // 失败这轮不入账,别留半截对话
-    console.error(`出错:${e instanceof Error ? e.message : e}\n`);
+    if (ac.signal.aborted) ui.say(ui.c.yellow('⏹ 已打断——这轮不入账')); // 流中被掐断:半句话不进记忆
+    else ui.say(ui.c.red(`出错:${e instanceof Error ? e.message : e}`));
+  } finally {
+    offEsc(); // 按键还给终端:raw 模式只在回合内接管
+    // 回合里手滑打的字没进对话,却落进了 rl 的行缓冲(它一直在听 stdin)——
+    // 清掉别带进下一问。真 Claude Code 会把流式中打的字排队成下一条消息,
+    // 排队是宿主循环上的器官,留给以后
+    const rlBuf = rl as unknown as { line: string; cursor: number };
+    rlBuf.line = ''; rlBuf.cursor = 0;
+    ui.end();
   }
 }
 

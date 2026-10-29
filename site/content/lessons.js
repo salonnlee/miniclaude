@@ -40,7 +40,7 @@ export const LESSONS = {
     { "ver": null, "what": "跑命令,且有安全闸门", "range": "第 6 章" },
     { "at": "ch7", "ver": "v1.2", "chip": "交付 v1.2 · src/context.ts", "what": "上下文管理——system 拼装 + CLAUDE.md 记忆 + 自动压缩 + 缓存记账", "range": "第 7 章" },
     { "at": "ch3b", "ver": "v1.3", "chip": "交付 v1.3 · src/tools/agents.ts", "what": "子代理与工作流——agent 工具 execute 里再开循环(上下文隔离),workflow 按写死计划按序派兵", "range": "第二幕附加章" },
-    { "ver": null, "what": "Claude Code 级的终端手感", "range": "第 8 章" },
+    { "at": "ch8", "ver": "v1.4", "chip": "交付 v1.4 · src/ui.ts", "what": "终端界面重构——换脸不换心:状态行转圈+流式两段式重排+工具卡+Esc 打断+diff 上色", "range": "第 8 章" },
     { "ver": null, "what": "子代理 / 计划模式 / 技能 / MCP", "range": "第 9 章" },
     { "ver": null, "what": "配置、缓存、沙箱、发布——企业级收尾", "range": "第 10 章" }
   ],
@@ -214,7 +214,7 @@ export const LESSONS = {
             "code": "CH2.1",
             "name": "v0.4 · 聊天机器人",
             "done": "2026-10-27（四步长成：脚手架 TS+Node → 非流式最小循环（记忆即 messages 数组）→ 流式 SSE（缓冲区攒换行才算一条事件，打字机逐词上屏）→ 记账（退出报 75+232 token≈¥0.0035））",
-            "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（183 行代码可点 × 透视卡 × 真机连线）"
+            "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（215 行代码可点 × 透视卡 × 真机连线）"
           },
           {
             "label": "知识点",
@@ -353,11 +353,17 @@ export const LESSONS = {
           {
             "code": "CH8.1",
             "name": "终端界面重构",
+            "done": "2026-10-29(v1.4 换脸不换心:agent 循环/工具柜/上下文管理一行没动,脸面全进 src/ui.ts——终端是字符网格不是只进不出的水管,ANSI 光标上移+整行擦掉就是全部底牌;真 Claude Code 用 Ink(React 渲染终端)整帧重画,我们手搓同款思想的小轮子:状态行钉在最新一行随事件重画、流式两段式(流中裸文本、流完擦起重排,中文占两格,数错一行就擦花)、⏺ 工具卡、edit_file 出带行号 diff 红绿上色;Esc=本轮撤销键——raw 模式接键、AbortController 掐 fetch、工具批跑完看旗子(半批 tool 结果=API 400)、打断给模型一句 user 注记;真机四幕全过,打断后模型亲口证明被断请求不在记忆里)",
+            "tail": "—— npm run chat 可玩 · 正文超一屏保留原文不重排,这正是 Ink 整帧管理的理由"
+          },
+          {
+            "code": "CH8.2",
+            "name": "后台任务(spawn 不杀/记 PID/回头查日志)",
             "mark": "⏭ 下一站"
           },
           {
             "label": "知识点",
-            "text": "为什么它用 Ink（React 渲染终端）；流式 markdown；工具调用可视化；Esc 打断与竞态处理；diff 高亮"
+            "text": "为什么它用 Ink（React 渲染终端）；流式 markdown；工具调用可视化；Esc 打断与竞态处理；diff 高亮；后台任务——spawn 脱管不杀、PID 记账、日志回头查"
           },
           {
             "label": "实践",

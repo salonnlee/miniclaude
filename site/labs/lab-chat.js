@@ -42,16 +42,18 @@ var pinSync = function () {};
   addEventListener('resize', sync);
 })();
 
-/* 八段代码与 src/chat.ts 逐字一致(v1.3 子代理与工作流,183 行) */
+/* 八段代码与 src/chat.ts 逐字一致(v1.4 终端界面重构,215 行) */
 var SEGS = [
   {
     id: 'gear',
     tag: '① 装备区',
-    code: "// v1.3 · agent 循环 + 上下文管理 + 子代理 —— 聊天 + 工具调用 + 记忆不再无限长(压缩) + 缓存记账 + 循环里再开循环\n" +
+    code: "// v1.4 · 终端界面重构 —— 换脸不换心:agent 循环、工具柜、上下文管理一行没动,\n" +
+      "// 脸面全交给 ui.ts(状态行转圈、流式两段式重排、工具卡、Esc 打断、diff 上色)\n" +
       "// 跑法:npm run chat(node 26 原生跑 TS,key 住 .env 不进代码)\n" +
       "import * as readline from 'node:readline/promises';\n" +
       "import { TOOLS, validate, setConfirm, setAskOnce } from './tools/index.ts';\n" +
       "import { buildSystemPrompt, shouldCompact, compactHistory, COMPACT_AT, type Msg, type ToolCall, type ApiToolCall } from './context.ts';\n" +
+      "import * as ui from './ui.ts';\n" +
       "\n" +
       "const KEY = process.env.GLM_API_KEY;\n" +
       "if (!KEY) {\n" +
@@ -61,16 +63,18 @@ var SEGS = [
       "\n" +
       "const API = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';\n" +
       "const PRICE = { in: 4, out: 14 }; // 元 / 百万 token\n" +
-      "const usage = { in: 0, out: 0, cached: 0, lastPrompt: 0 };\n",
-    card: ['装备区:开战前的五样东西',
-      '工具从哪来?从 <b>注册表</b>——tools/index.ts 统一出口:tools/ 目录一件一个文件,统一的 <b>Tool</b> 形状(名字/说明书/参数表/execute)住在 types.ts,加工具 = 加文件 + 注册表添一行,主循环一行不用改(Claude Code 上百个工具背后就是这么一张表)。<b>KEY</b>——从环境变量来(.env),不写死在代码里;<b>API</b> 换厂商就是换域名;<b>PRICE</b> 价目表(输入 4 元、输出 14 元,每百万 token);<b>usage</b> 从 0 记账——v1.2 多了两栏:<b>cached</b>(缓存命中的 token,约五折计)和 <b>lastPrompt</b>(当前上下文水位,压缩器看它)。v1.3 再挂一个钩子 <b>setAskOnce</b>:子代理「问一轮模型」的腿,由这里递进去(附加章讲)。']
+      "const usage = { in: 0, out: 0, cached: 0, lastPrompt: 0 };\n" +
+      "\n",
+    card: ['装备区:开战前的六样东西',
+      '工具从哪来?从 <b>注册表</b>——tools/index.ts 统一出口:tools/ 目录一件一个文件,统一的 <b>Tool</b> 形状(名字/说明书/参数表/execute)住在 types.ts,加工具 = 加文件 + 注册表添一行,主循环一行不用改(Claude Code 上百个工具背后就是这么一张表)。<b>KEY</b>——从环境变量来(.env),不写死在代码里;<b>API</b> 换厂商就是换域名;<b>PRICE</b> 价目表(输入 4 元、输出 14 元,每百万 token);<b>usage</b> 从 0 记账——v1.2 多了两栏:<b>cached</b>(缓存命中的 token,约五折计)和 <b>lastPrompt</b>(当前上下文水位,压缩器看它)。v1.3 挂钩子 <b>setAskOnce</b>:子代理「问一轮模型」的腿(附加章讲)。v1.4 装备区多一件:<b>ui.ts</b>——脸面独立成文件,状态行/流式重排/工具卡/Esc 全住那边,chat.ts 换脸不动心。']
   },
   {
     id: 'types',
     tag: '② 记忆与形状',
     code: "// 消息数组就是记忆:system/user/assistant/tool 四种角色,tool 消息必须绑 tool_call_id\n" +
       "// v1.2 形状与拼装搬进 context.ts:system prompt 不再是裸一句人设,而是人设+环境快照+CLAUDE.md\n" +
-      "const messages: Msg[] = [{ role: 'system', content: buildSystemPrompt() }];\n",
+      "const messages: Msg[] = [{ role: 'system', content: buildSystemPrompt() }];\n" +
+      "\n",
     card: ['记忆:形状搬走,拼装升级',
       '四种角色(system/user/assistant/tool)的形状定义 v1.2 搬进了 <b>context.ts</b>——上下文的账本和记账的笔住一处。messages 初始化那一行也换了血:不再是裸一句人设,而是 <b>buildSystemPrompt()</b> 拼出来的三段——人设 + 环境快照(工作目录/会话始于) + CLAUDE.md 项目记忆。关键在「快照」二字:环境信息取启动那一刻定格,整会话一字不改——前缀缓存从第一个字开始匹配,system prompt 改一个字、缓存全部作废。']
   },
@@ -80,7 +84,10 @@ var SEGS = [
     code: "// 发全部历史,流式收回「这一轮发生了什么」(说话了还是要工具了),顺手记账。\n" +
       "// v1.3 泛化两参:hist 默认主对话的 messages,allow 收窄工具柜——\n" +
       "// 子代理借同一扇门问模型,只是拎自己的历史、逛缩水的柜台\n" +
-      "async function ask(hist: Msg[] = messages, allow?: string[]): Promise<{ text: string; toolCalls: ToolCall[] }> {\n" +
+      "// v1.4 再加 opts:signal 把 Esc 的 AbortController 递进 fetch(飞行中的请求\n" +
+      "// 从这被掐断);onText 把打字机交给调用方——主对话传流式上屏,子代理不传\n" +
+      "type AskOpts = { signal?: AbortSignal; onText?: (s: string) => void };\n" +
+      "async function ask(hist: Msg[] = messages, allow?: string[], opts: AskOpts = {}): Promise<{ text: string; toolCalls: ToolCall[] }> {\n" +
       "  const res = await fetch(API, {\n" +
       "    method: 'POST',\n" +
       "    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${KEY}` },\n" +
@@ -93,11 +100,12 @@ var SEGS = [
       "        function: { name: t.name, description: t.description, parameters: t.parameters },\n" +
       "      })),\n" +
       "    }),\n" +
+      "    signal: opts.signal,\n" +
       "  });\n" +
       "  if (!res.ok || !res.body) throw new Error(`API ${res.status}:${await res.text()}`);\n" +
       "\n",
     card: ['ask·说明书随行一起寄',
-      '比 v0.4 多一个 <b>tools</b> 字段:把工具柜每层的三张标签(name/description/parameters)随消息一起寄出去——模型「知道有工具可调」全靠这一眼。坑在形状:OpenAI 口径要<b>套一层 function 壳</b>(type:“function” 包着本体),拍扁直接发,回你 tools[0].function 不能为空(真机踩过)。返回值也从「一段话」变成 <b>Turn</b>:这一轮它说了什么、要了哪些工具,两头都收。v1.3 把它泛化成两参:<b>hist</b> 默认还是主对话的 messages、<b>allow</b> 收窄工具柜——子代理借同一扇门问模型(附加章)。']
+      '比 v0.4 多一个 <b>tools</b> 字段:把工具柜每层的三张标签(name/description/parameters)随消息一起寄出去——模型「知道有工具可调」全靠这一眼。坑在形状:OpenAI 口径要<b>套一层 function 壳</b>(type:“function” 包着本体),拍扁直接发,回你 tools[0].function 不能为空(真机踩过)。返回值也从「一段话」变成 <b>Turn</b>:这一轮它说了什么、要了哪些工具,两头都收。v1.4 再加 <b>opts</b> 两件:<b>signal</b> 把 Esc 的 AbortController 递进 fetch——飞行中的请求从这被掐断;<b>onText</b> 把打字机交给调用方——主对话传流式上屏,子代理不传(过程不刷屏,结论走工具卡回家)。']
   },
   {
     id: 'sse',
@@ -133,7 +141,7 @@ var SEGS = [
       "      const d = c.choices?.[0]?.delta;\n" +
       "      if (d?.content) {\n" +
       "        text += d.content;\n" +
-      "        process.stdout.write(d.content); // 打字机:来一个词念一个词\n" +
+      "        opts.onText?.(d.content); // 打字机:来一个词念一个词(脸面归调用方管)\n" +
       "      }\n" +
       "      for (const tc of d?.tool_calls ?? []) {\n" +
       "        const slot = (toolAcc[tc.index] ??= { id: '', name: '', args: '' });\n" +
@@ -144,9 +152,10 @@ var SEGS = [
       "    }\n" +
       "  }\n" +
       "  return done(text, toolAcc); // 没等到 [DONE] 就断流:攒到多少算多少\n" +
-      "}\n",
+      "}\n" +
+      "\n",
     card: ['拆流:老三样之外,工具申请也要攒',
-      '攒→切→解析还是 v0.4 那三步(下方 B 台亲手玩),新活是 <b>toolAcc</b>:流式下模型回的工具调用不是整块,是按 <b>index</b> 开槽、name 和 arguments 一片一片挤出来的——所以逐片 <b>+=</b> 拼,id 却是整块赋值(只来一次)。v1.2 记账多了两笔:<b>cached_tokens</b> 藏在 prompt_tokens_details 里——前缀缓存命中了多少,一目了然;lastPrompt 记下当前水位,出了这个循环压缩器就要看它。',
+      '攒→切→解析还是 v0.4 那三步(下方 B 台亲手玩),新活是 <b>toolAcc</b>:流式下模型回的工具调用不是整块,是按 <b>index</b> 开槽、name 和 arguments 一片一片挤出来的——所以逐片 <b>+=</b> 拼,id 却是整块赋值(只来一次)。v1.2 记账多了两笔:<b>cached_tokens</b> 藏在 prompt_tokens_details 里——前缀缓存命中了多少,一目了然;lastPrompt 记下当前水位,出了这个循环压缩器就要看它。v1.4 打字机换了个姿势:正文不再直写 stdout,交给调用方递来的 <b>onText</b>——拆流归拆流,脸面归脸面(与 setConfirm 同款的依赖注入)。',
       'sse']
   },
   {
@@ -164,7 +173,8 @@ var SEGS = [
       "  const text = data.choices?.[0]?.message?.content ?? '';\n" +
       "  if (text) process.stdout.write(text); // 压缩摘要当场亮出来,压了什么看得见\n" +
       "  return text;\n" +
-      "}\n",
+      "}\n" +
+      "\n",
     card: ['askPlain·压缩器的腿',
       'v1.2 新增:不带 tools、不流式、发什么收什么的一段素请求。为什么单独造?因为<b>压缩历史这个活不需要工具</b>——总结对话是纯语言任务,给模型递工具清单反而引它分心。ask() 与 askPlain() 一浓一淡:前者是 agent 的嘴(带说明书、流式、攒申请),后者是干活的腿(轻装、整块收)。依赖注入的思路:context.ts 的压缩器收一个 askPlain 参数,由 chat.ts 注入——context.ts 只管记忆的账,不碰 key 与网络。']
   },
@@ -188,7 +198,8 @@ var SEGS = [
       "  } catch (e) {\n" +
       "    return `工具执行出错:${e instanceof Error ? e.message : e}`;\n" +
       "  }\n" +
-      "}\n",
+      "}\n" +
+      "\n",
     card: ['run·执行在代码,错误当结果',
       '执行权在谁手里?在 <b>你的代码</b>——模型只递申请单,execute 是柜子里你写的函数。四道兜底一个不崩:名字没见过、arguments 不是合法 JSON、<b>参数校验不过</b>(说明书不只发给模型看,还反过来约束进门的参数——validate.ts 手写的迷你 JSON Schema 校验器)、执行抛异常——统统<b>当字符串结果喂回去</b>,让模型看着错误自己改(它真会:参数写错一次,下一轮它自己修)。agent 鲁棒性的头号秘密。done() 是收尾小工:把攒的槽位滤成清单。']
   },
@@ -196,6 +207,9 @@ var SEGS = [
     id: 'loop',
     tag: '⑦ agent 主循环',
     code: "const rl = readline.createInterface({ input: process.stdin, output: process.stdout });\n" +
+      "// Ctrl-D / 管道断流:pending 的 question 不会自己醒——用 close 事件替它喊一声,\n" +
+      "// 输了 race 就走下面的 catch 收摊结账(否则进程带着未决 await 裸退,账单不结)\n" +
+      "const eof = new Promise<never>((_, rej) => rl.on('close', () => rej(new Error('stdin 关了'))));\n" +
       "// ask 档命令的确认流:必须复用同一个 rl——两个 readline 抢 stdin 会互吞输入行\n" +
       "setConfirm(async (cmd) => {\n" +
       "  try {\n" +
@@ -207,13 +221,14 @@ var SEGS = [
       "});\n" +
       "// 子代理的腿(v1.3):复用同一个 ask——子会话的 token 自动记进总账,\n" +
       "// 收窄的工具柜在 ask 里过滤;两套循环跑在同一个进程里\n" +
+      "// (不传 onText:子会话的过程不刷屏,结论走工具卡回家)\n" +
       "setAskOnce((msgs, allow) => ask(msgs, allow));\n" +
-      "console.log('小c上线(exit 退出)');\n" +
+      "ui.say(`${ui.c.bold('小c上线')}${ui.c.dim('(exit 退出 · 回答途中按 Esc 打断)')}`);\n" +
       "\n" +
       "while (true) {\n" +
       "  let line: string;\n" +
       "  try {\n" +
-      "    line = (await rl.question('你> ')).trim();\n" +
+      "    line = (await Promise.race([rl.question('你> '), eof])).trim();\n" +
       "  } catch {\n" +
       "    break; // Ctrl-D / 管道 EOF\n" +
       "  }\n" +
@@ -222,15 +237,23 @@ var SEGS = [
       "\n" +
       "  messages.push({ role: 'user', content: line });\n" +
       "  const rollback = messages.length - 1; // 失败回滚到这轮 user 消息之前\n" +
+      "  // Esc = 本轮的撤销键:ui.onEsc 在 raw 模式接住按键,一按就掐 abort。\n" +
+      "  // 竞态处理在循环里:流中被 fetch 直接断;工具批跑完看旗子(一整批\n" +
+      "  // tool 结果都在,历史才合法——半批 assistant 要了俩只回了一个 = API 400);\n" +
+      "  // 断完给模型一句交代,别让它对着空气猜\n" +
+      "  const ac = new AbortController();\n" +
+      "  const offEsc = ui.onEsc(() => ac.abort());\n" +
       "  try {\n" +
       "    while (true) { // agent 循环:ask 一轮 → 执行它要的工具 → 再 ask,直到它不再要\n" +
-      "      process.stdout.write('小c> ');\n" +
-      "      const { text, toolCalls } = await ask();\n" +
+      "      ui.think('小c在想…');\n" +
+      "      const { text, toolCalls } = await ask(messages, undefined, { signal: ac.signal, onText: ui.stream });\n" +
       "      if (toolCalls.length === 0) { // 退出条件 = 这一轮没有 tool_calls,它只想说话\n" +
+      "        ui.commit(ui.md(text)); // 两段式:流完把裸文本擦起重排(粗体/行内码/码块)\n" +
       "        messages.push({ role: 'assistant', content: text });\n" +
       "        break;\n" +
       "      }\n" +
-      "      // 它要了工具:先把它「开口要」这条原样入史,再逐个执行、逐条喂回\n" +
+      "      if (text) ui.commit(ui.md(text)); // 它边说旁白边要工具:旁白先落定,再亮动作\n" +
+      "      else ui.end(); // 纯要工具没说话:收掉转圈,直接进动作\n" +
       "      messages.push({\n" +
       "        role: 'assistant',\n" +
       "        content: text,\n" +
@@ -240,25 +263,40 @@ var SEGS = [
       "        })),\n" +
       "      });\n" +
       "      for (const c of toolCalls) {\n" +
+      "        ui.status(`${ui.c.cyan('⏺')} ${c.name} ${ui.c.dim(c.args.length > 50 ? c.args.slice(0, 50) + '…' : c.args || '{}')}`);\n" +
       "        const result = await run(c);\n" +
       "        messages.push({ role: 'tool', tool_call_id: c.id, content: result });\n" +
-      "        console.log(`\\n  🔧 ${c.name}(${c.args}) → ${result}`); // 动作要亮出来\n" +
+      "        ui.say(ui.toolCard(c.name, c.args, result)); // 动作要亮出来:diff 行在这里上色\n" +
+      "      }\n" +
+      "      if (ac.signal.aborted) { // 打断检查点:整批工具结果已入账,不再发下一轮\n" +
+      "        messages.push({ role: 'user', content: '(用户按 Esc 打断了这一轮,先停,等下一句)' });\n" +
+      "        ui.say(ui.c.yellow('⏹ 已打断——工具结果已入账,等下一句'));\n" +
+      "        break;\n" +
       "      }\n" +
       "    }\n" +
-      "    process.stdout.write('\\n\\n');\n" +
       "    // 上下文水位:超线就把老历史压成摘要(水位看的是最后一次请求的 prompt token,\n" +
       "    // 而不是消息条数——token 才是要花钱的那个单位)\n" +
       "    if (shouldCompact(usage.lastPrompt)) {\n" +
-      "      console.log(`  🗜 上下文 ${usage.lastPrompt} token 超过水位 ${COMPACT_AT},压缩老历史…`);\n" +
-      "      if (await compactHistory(messages, askPlain)) console.log('  🗜 已压缩:老历史换摘要,尾部原文保留');\n" +
+      "      ui.say(`  🗜 上下文 ${usage.lastPrompt} token 超过水位 ${COMPACT_AT},压缩老历史…`);\n" +
+      "      if (await compactHistory(messages, askPlain)) ui.say('  🗜 已压缩:老历史换摘要,尾部原文保留');\n" +
       "    }\n" +
       "  } catch (e) {\n" +
       "    messages.length = rollback; // 失败这轮不入账,别留半截对话\n" +
-      "    console.error(`出错:${e instanceof Error ? e.message : e}\\n`);\n" +
+      "    if (ac.signal.aborted) ui.say(ui.c.yellow('⏹ 已打断——这轮不入账')); // 流中被掐断:半句话不进记忆\n" +
+      "    else ui.say(ui.c.red(`出错:${e instanceof Error ? e.message : e}`));\n" +
+      "  } finally {\n" +
+      "    offEsc(); // 按键还给终端:raw 模式只在回合内接管\n" +
+      "    // 回合里手滑打的字没进对话,却落进了 rl 的行缓冲(它一直在听 stdin)——\n" +
+      "    // 清掉别带进下一问。真 Claude Code 会把流式中打的字排队成下一条消息,\n" +
+      "    // 排队是宿主循环上的器官,留给以后\n" +
+      "    const rlBuf = rl as unknown as { line: string; cursor: number };\n" +
+      "    rlBuf.line = ''; rlBuf.cursor = 0;\n" +
+      "    ui.end();\n" +
       "  }\n" +
-      "}\n",
-    card: ['双层循环:外圈读人,内圈跑 agent,出口看水位',
-      'v0.8 套的 <b>agent 循环</b>:ask 一轮 → 它要工具就执行、喂回、再 ask,直到某轮 <b>toolCalls 为空</b>(考点 1:退出条件 = 它不再要,不是调够 N 次)。动作要亮出来——🔧 一行让人看得见「它决定了什么」。回滚记 <b>rollback 深度</b>一刀切平——失败这轮彻底不入账。v1.1 循环门口挂了 <b>确认流</b>(ask 档命令借这个 rl 问 y/n/a)。v1.2 循环出口多了一环 <b>压缩触发</b>:每轮收尾看 lastPrompt 水位,超线就把老历史交给压缩器换摘要——水位看 token 不看消息条数,token 才是要花钱的那个单位。v1.3 确认流下面再挂一条 <b>setAskOnce</b>(子代理的腿):execute 里再开的那套循环,借同一个 ask 问模型、token 进同一本账(附加章)。']
+      "}\n" +
+      "\n",
+    card: ['双层循环:外圈读人,内圈跑 agent,Esc 是撤销键',
+      '<b>agent 循环</b>本体没变:ask 一轮 → 它要工具就执行、喂回、再 ask,直到某轮 <b>toolCalls 为空</b>(考点:退出条件 = 它不再要,不是调够 N 次)。v1.4 换的全是脸:转圈 <b>ui.think</b> 第一个字到达即停;流完 <b>ui.commit</b>把裸文本擦起重排(两段式,网页对话框 v0.7 同款);工具跑前亮 <b>ui.status</b>、跑完打 ⏺ <b>工具卡</b>(edit_file 的 diff 行在这里红绿上色)。<b>Esc 打断</b>三处竞态:流中被 signal 直接掐断,这轮不入账(半句话不进记忆);工具批跑完看旗子——一整批 tool 结果都在历史才合法,assistant 要了俩只回一个 = API 400;打断完给模型一句 <b>user 注记</b>,别让它对着空气猜(真 Claude Code 同款)。回合收尾清 rl 行缓冲(流式中手滑打的字别带进下一问)、raw 模式只在回合内接管。v1.2 的<b>压缩触发</b>照旧:出口看 lastPrompt 水位,token 才是要花钱的那个单位。']
   },
   {
     id: 'bill',

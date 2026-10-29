@@ -101,7 +101,15 @@ const editFileTool = {
       throw new Error(`old_string 在 ${args.path} 里出现不止一处——多带几行上下文让它唯一`);
     }
     await fs.writeFile(abs, src.slice(0, first) + args.new_string + src.slice(first + args.old_string.length), 'utf8');
-    return `已替换 ${args.path} 的 1 处(${args.old_string.length} 字符 → ${args.new_string.length} 字符)`;
+    // diff 不用事后猜:精确替换天然知道改了哪几行。-/+ 前缀给终端上色用
+    // (ui.toolCard 见前缀染色),模型也顺带看见自己改了什么——两头受益
+    const lineNo = src.slice(0, first).split('\n').length;
+    const mark = (ls: string[], sign: string) => (ls.length <= 8
+      ? ls.map((l, i) => `${sign} ${lineNo + i}│ ${l}`)
+      : [...ls.slice(0, 6).map((l, i) => `${sign} ${lineNo + i}│ ${l}`), `${sign} …(共 ${ls.length} 行)`]
+    ).join('\n');
+    const diff = [mark(args.old_string.split('\n'), '-'), mark(args.new_string.split('\n'), '+')].join('\n');
+    return `已替换 ${args.path}:${lineNo} 的 1 处(${args.old_string.length} 字符 → ${args.new_string.length} 字符)\n${diff}`;
   },
 };
 

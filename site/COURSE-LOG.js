@@ -10,6 +10,12 @@
    ============================================================================ */
 var DAYS = [
   {
+    "date": "2026-10-29",
+    "items": [
+      "CH8.1《终端界面重构》完课：v1.4 src/ui.ts 换脸不换心——状态行转圈、流式两段式重排(流中裸文本、流完擦起重排,中文占两格)、⏺ 工具卡、edit_file 带行号 diff 红绿上色；Esc 打断(AbortController 掐 fetch:打断轮不入账、工具批跑完才停、user 注记给模型交代)。真机:打断后模型亲口证明被断请求不在记忆里。",
+    ]
+  },
+  {
     "date": "2026-10-28",
     "items": [
       "第二幕附加章上线（课间四连问催生：subagent 与 workflow 差在哪→谁懂异步→本质是不是 tool 调用→最小实现）：附.1《子代理与工作流》完课，v1.3 src/tools/agents.ts——agent 工具 execute 里再开 agent 循环（自己的 messages、只读柜台、只交结论＝上下文隔离），workflow 按写死计划按序派兵、carry 传产出；chat.ts 仅动三处（ask(hist,allow) 泛化/setAskOnce 挂腿/import），子会话 token 自动进总账；SUB_TOOLS 不含 agent——孩子不能再生孩子。真机两幕全过，一场 ¥0.03。",
