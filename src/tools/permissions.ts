@@ -8,6 +8,10 @@
 //                  'git statusx' 不放;'git:*' 能吞 git push,粒度要到子命令
 //   '*| sh*'       包含匹配——管道进 shell 这类埋在句子中间的坏东西
 // 判定顺序:先 deny 后 allow,全不中 → ask(用户点头才算)。
+// v1.9 名单不再只住在代码里:config.ts 合并的用户级/项目级 deny/allow 追加在
+// 内置名单后面——内置是底线(配置清不掉),配置往上加码(自己放行自己的 git push)。
+
+import { config } from '../config.ts';
 
 export type Decision = { action: 'allow' | 'deny' | 'ask'; rule?: string };
 
@@ -39,8 +43,10 @@ function match(cmd: string, pattern: string): boolean {
 
 export function decide(cmd: string): Decision {
   const c = cmd.trim();
-  for (const p of DENY) if (match(c, p)) return { action: 'deny', rule: p };
-  for (const p of [...sessionAllow, ...ALLOW]) if (match(c, p)) return { action: 'allow', rule: p };
+  const deny = [...DENY, ...config.permissions.deny];
+  const allow = [...sessionAllow, ...ALLOW, ...config.permissions.allow];
+  for (const p of deny) if (match(c, p)) return { action: 'deny', rule: p };
+  for (const p of allow) if (match(c, p)) return { action: 'allow', rule: p };
   return { action: 'ask' };
 }
 

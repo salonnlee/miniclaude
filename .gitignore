@@ -30,6 +30,9 @@ node_modules/
 dist/
 *.log
 npm-debug.log*
+# v1.9 运行时目录:成本遥测流水住这(配置样例是 .miniclaude.json,入库;这个目录是本地账本,不入)
+.miniclaude/
+.bg/
 
 # ===== macOS / 编辑器 =====
 .DS_Store

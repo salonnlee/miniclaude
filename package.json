@@ -1,21 +1,25 @@
 {
   "name": "miniclaude",
-  "version": "0.10.0",
-  "private": true,
+  "version": "1.9.0",
   "type": "module",
   "description": "从零搓一个 Claude Code 克隆:教学课程仓库(序章迷你 GPT + 正文 agent)",
+  "bin": { "miniclaude": "dist/miniclaude.mjs" },
+  "engines": { "node": ">=20" },
+  "files": ["dist/", ".miniclaude.json", "README.md", "LICENSE"],
   "scripts": {
-    "chat": "node --env-file=.env src/chat.ts",
+    "chat": "node src/chat.ts",
     "course": "node scripts/serve.mjs",
+    "eval": "node scripts/eval.mjs",
+    "build": "esbuild src/chat.ts --bundle --platform=node --format=esm --outfile=dist/miniclaude.mjs --banner:js='#!/usr/bin/env node'",
+    "prepack": "npm run build",
     "typecheck": "tsc --noEmit",
     "check": "node scripts/consistency.mjs"
   },
   "devDependencies": {
-    "@types/node": "^26.0.0",
-    "typescript": "^5.9.3"
-  },
-  "dependencies": {
     "@hono/node-server": "^2.1.5",
-    "hono": "^4.13.14"
+    "esbuild": "^0.28.2",
+    "hono": "^4.13.14",
+    "typescript": "^5.9.3",
+    "@types/node": "^26.0.0"
   }
 }

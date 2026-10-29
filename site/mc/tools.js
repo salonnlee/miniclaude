@@ -150,8 +150,25 @@ export function getTodos() {
 /** @type {Tool[]} */
 export var TOOLS = [getTime, calculator, todoWrite];
 
+// v1.9 执行口拦截器：宿主（CLI）可挂一道 pre/post——钩子（hooks）、工具轨迹
+// （evals 的眼睛）全靠它。不挂就分毫不变：浏览器端永远不挂，注入与
+// setConfirm 同款思路（能力递进来，不改这里的行为）
+var interceptor = null;
+export function setToolInterceptor(fn) { interceptor = fn; }
+
 // 执行一个工具调用：名字没见过、参数不是 JSON、校验不过、执行抛错——都当结果喂回
+// pre 拦下的话（拦截器返回字符串）同样当结果喂回——模型看着理由自己改
 export async function runTool(call) {
+  if (interceptor) {
+    var block = await interceptor(call, 'pre');
+    if (block) return { ok: false, res: block };
+  }
+  var r = await execTool(call);
+  if (interceptor) await interceptor(call, 'post', r.res);
+  return r;
+}
+
+async function execTool(call) {
   var tool = null;
   for (var i = 0; i < TOOLS.length; i++) if (TOOLS[i].name === call.name) tool = TOOLS[i];
   if (!tool) return { ok: false, res: '未知工具：' + call.name };

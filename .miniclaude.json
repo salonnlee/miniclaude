@@ -1,0 +1,8 @@
+{
+  "_readme": "项目级配置(v1.9):默认 ← ~/.miniclaude.json ← 本文件——标量后者赢、数组只加码。这份跟着仓库走:protect-env 钩子挡在工具执行口,让 .env 连读带写都过不了——钥匙不进模型上下文。钩子约定:exit 2 = 拦,stdout 末行当理由(现场在 MC_TOOL/MC_ARGS 环境变量里)",
+  "hooks": {
+    "preToolUse": [
+      "case \"$MC_TOOL\" in write_file|edit_file|read_file) case \"$MC_ARGS\" in *.env*) echo '.env 是钥匙的家,工具不碰——要改自己手工改'; exit 2;; esac;; esac"
+    ]
+  }
+}

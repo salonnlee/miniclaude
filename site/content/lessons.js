@@ -47,6 +47,7 @@ export const LESSONS = {
     { "at": "ch9", "ver": "v1.7", "chip": "交付 v1.7 · src/chat.ts + site/mc/tools.js", "what": "计划模式(/plan 只读柜台→批准→执行)+ 清单快照每轮重注入——事前拦截与事中记账成对", "range": "第 9 章" },
     { "at": "ch9", "ver": "v1.8", "chip": "交付 v1.8 · src/mcp-server.ts + src/tools/mcp.ts", "what": "斜杠命令表(/help /mcp 入表,未命中放行)+ mini MCP server——名片进柜子、execute 住子进程", "range": "第 9 章" },
     { "ver": "v0.10", "what": "对话框 htm+Preact 岛屿化——状态还在裸变量、DOM 交给组件树,流式/工具/抽屉/记账换脸不换心", "range": "主线间隙" },
+    { "at": "ch10", "ver": "v1.9", "chip": "交付 v1.9 · src/config.ts + src/hooks.ts", "what": "企业化收尾——配置合并/降级链/成本遥测/hooks/沙箱剥密钥/evals/esbuild 打包发布", "range": "第 10 章" },
     { "ver": null, "what": "子代理 / 计划模式 / 技能 / MCP", "range": "第 9 章" },
     { "ver": null, "what": "配置、缓存、沙箱、发布——企业级收尾", "range": "第 10 章" }
   ],
@@ -220,7 +221,7 @@ export const LESSONS = {
             "code": "CH2.1",
             "name": "v0.4 · 聊天机器人",
             "done": "2026-10-27（v0.4 四步长成：脚手架 → 非流式 → 流式 SSE → 退出记账）",
-            "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（297 行代码可点 × 透视卡 × 真机连线）"
+            "tail": "—— npm run chat 可玩 · 实验室已解锁：chat.ts 透视台（398 行代码可点 × 透视卡 × 真机连线）"
           },
           {
             "label": "知识点",
@@ -417,7 +418,7 @@ export const LESSONS = {
           {
             "code": "CH10.1",
             "name": "企业化收尾（多模型路由/配置/hooks/沙箱/evals/发布）",
-            "mark": "⏭ 下一站"
+            "done": "2026-10-29(v1.9 企业化七件套:配置/降级链/遥测/hooks/沙箱/evals/发布,正文十章全清)"
           },
           {
             "label": "知识点",

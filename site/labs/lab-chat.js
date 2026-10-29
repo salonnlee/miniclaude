@@ -42,18 +42,31 @@ var pinSync = function () {};
   addEventListener('resize', sync);
 })();
 
-/* 八段代码与 src/chat.ts 逐字一致(v1.8 斜杠命令表与 mini MCP,297 行) */
+/* 八段代码与 src/chat.ts 逐字一致(v1.9 企业化收尾,398 行) */
 var SEGS = [
   {
     id: 'gear',
     tag: '① 装备区',
-    code: "// v1.8 · 斜杠命令表 + mini MCP —— / 开头先查表:命中展开执行、未命中原样放行\n" +
-      "// (模型不认识斜杠);.mcp.json 里的 server 拉起子进程,名片注册进 TOOLS\n" +
+    code: "// v1.9 · 企业化收尾 —— 配置(config.ts)、降级链、hooks、成本遥测、工具轨迹\n" +
+      "// (v1.8:斜杠命令表 + mini MCP;/ 开头先查表,命中展开执行、未命中原样放行)\n" +
       "// 跑法:npm run chat(node 26 原生跑 TS,key 住 .env 不进代码)\n" +
       "import * as readline from 'node:readline/promises';\n" +
-      "import { TOOLS, validate, setConfirm, setAskOnce, getTodos, registerMcpTools, getMcpStatus } from './tools/index.ts';\n" +
+      "import * as fs from 'node:fs';\n" +
+      "import { TOOLS, runTool, setConfirm, setAskOnce, setToolInterceptor, getTodos, registerMcpTools, getMcpStatus } from './tools/index.ts';\n" +
       "import { buildSystemPrompt, shouldCompact, compactHistory, COMPACT_AT, type Msg, type ToolCall, type ApiToolCall } from './context.ts';\n" +
+      "import { config } from './config.ts';\n" +
+      "import { runHooks } from './hooks.ts';\n" +
       "import * as ui from './ui.ts';\n" +
+      "\n" +
+      "// .env 自己吃(v1.9):发布成 npm 包后没有 scripts 帮你挂 --env-file 旗子,钥匙的\n" +
+      "// 加载搬进自己代码。环境变量优先——CI/容器里注入的 key 不被文件盖掉\n" +
+      "(function loadDotEnv() {\n" +
+      "  if (process.env.GLM_API_KEY) return;\n" +
+      "  try {\n" +
+      "    const kv = fs.readFileSync('.env', 'utf8').match(/^GLM_API_KEY=(.*)$/m);\n" +
+      "    if (kv) process.env.GLM_API_KEY = kv[1].trim();\n" +
+      "  } catch { /* 没有 .env:靠环境变量,再没有下面会喊 */ }\n" +
+      "})();\n" +
       "\n" +
       "const KEY = process.env.GLM_API_KEY;\n" +
       "if (!KEY) {\n" +
@@ -63,10 +76,10 @@ var SEGS = [
       "\n" +
       "const API = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';\n" +
       "const PRICE = { in: 4, out: 14 }; // 元 / 百万 token\n" +
-      "const usage = { in: 0, out: 0, cached: 0, lastPrompt: 0 };\n" +
+      "const usage = { in: 0, out: 0, cached: 0, lastPrompt: 0, models: {} as Record<string, number> }; // models:每个模型问了几轮——遥测知道钱花在谁身上\n" +
       "\n",
     card: ['装备区:开战前的六样东西',
-      '工具从哪来?从 <b>注册表</b>——tools/index.ts 统一出口:tools/ 目录一件一个文件,统一的 <b>Tool</b> 形状(名字/说明书/参数表/execute)住在 types.ts,加工具 = 加文件 + 注册表添一行,主循环一行不用改(Claude Code 上百个工具背后就是这么一张表)。<b>KEY</b>——从环境变量来(.env),不写死在代码里;<b>API</b> 换厂商就是换域名;<b>PRICE</b> 价目表(输入 4 元、输出 14 元,每百万 token);<b>usage</b> 从 0 记账——v1.2 多了两栏:<b>cached</b>(缓存命中的 token,约五折计)和 <b>lastPrompt</b>(当前上下文水位,压缩器看它)。v1.3 挂钩子 <b>setAskOnce</b>:子代理「问一轮模型」的腿(附加章讲)。v1.4 装备区多一件:<b>ui.ts</b>——脸面独立成文件,状态行/流式重排/工具卡/Esc 全住那边,chat.ts 换脸不动心。']
+      '工具从哪来?从 <b>注册表</b>——tools/index.ts 统一出口:tools/ 目录一件一个文件,统一的 <b>Tool</b> 形状(名字/说明书/参数表/execute)住在 types.ts,加工具 = 加文件 + 注册表添一行,主循环一行不用改(Claude Code 上百个工具背后就是这么一张表)。<b>KEY</b>——从环境变量来(.env),不写死在代码里;<b>API</b> 换厂商就是换域名;<b>PRICE</b> 价目表(输入 4 元、输出 14 元,每百万 token);<b>usage</b> 从 0 记账——v1.2 多了两栏:<b>cached</b>(缓存命中的 token,约五折计)和 <b>lastPrompt</b>(当前上下文水位,压缩器看它)。v1.3 挂钩子 <b>setAskOnce</b>:子代理「问一轮模型」的腿(附加章讲)。v1.4 装备区多一件:<b>ui.ts</b>——脸面独立成文件,状态行/流式重排/工具卡/Esc 全住那边,chat.ts 换脸不动心。v1.9 再添一件:<b>config.ts</b>——模型/降级链/名单/钩子搬进配置文件(用户级 ~/.miniclaude.json,项目级 .miniclaude.json,标量后者赢、数组只加码),换模型不改代码;usage 多一栏 <b>models</b>:每个模型问了几轮——遥测知道钱花在谁身上。']
   },
   {
     id: 'types',
@@ -82,91 +95,119 @@ var SEGS = [
     id: 'req',
     tag: '③ ask·发请求',
     code: "// 发全部历史,流式收回「这一轮发生了什么」(说话了还是要工具了),顺手记账。\n" +
+      "// v1.9 外面套一层降级链:主模型挂了(429/5xx/模型不存在)按 config.fallback\n" +
+      "// 换人再问,链走完才认输——真产品在这之外还有指数退避重试,教学版取「换人」。\n" +
       "// v1.3 泛化两参:hist 默认主对话的 messages,allow 收窄工具柜——\n" +
       "// 子代理借同一扇门问模型,只是拎自己的历史、逛缩水的柜台\n" +
       "// v1.4 再加 opts:signal 把 Esc 的 AbortController 递进 fetch(飞行中的请求\n" +
       "// 从这被掐断);onText 把打字机交给调用方——主对话传流式上屏,子代理不传\n" +
       "type AskOpts = { signal?: AbortSignal; onText?: (s: string) => void };\n" +
       "async function ask(hist: Msg[] = messages, allow?: string[], opts: AskOpts = {}): Promise<{ text: string; toolCalls: ToolCall[] }> {\n" +
-      "  const res = await fetch(API, {\n" +
-      "    method: 'POST',\n" +
-      "    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${KEY}` },\n" +
-      "    body: JSON.stringify({\n" +
-      "      model: 'glm-4.6', messages: hist,\n" +
-      "      max_tokens: 4096,\n" +
-      "      stream: true,\n" +
-      "      tools: (allow ? TOOLS.filter(t => allow.includes(t.name)) : TOOLS).map(t => ({\n" +
-      "        type: 'function' as const,\n" +
-      "        function: { name: t.name, description: t.description, parameters: t.parameters },\n" +
-      "      })),\n" +
-      "    }),\n" +
-      "    signal: opts.signal,\n" +
-      "  });\n" +
-      "  if (!res.ok || !res.body) throw new Error(`API ${res.status}:${await res.text()}`);\n" +
+      "  const chain = [config.model, ...config.fallback];\n" +
+      "  for (let i = 0; ; i++) {\n" +
+      "    try {\n" +
+      "      return await askOnce(chain[i], hist, allow, opts);\n" +
+      "    } catch (e) {\n" +
+      "      const next = chain[i + 1];\n" +
+      "      // 三种情况不降级直接抛:用户主动掐的(Esc);字已经吐给脸面了(重试会把\n" +
+      "      // 半句再说一遍,宁可报错);链走完了\n" +
+      "      if (opts.signal?.aborted || (e as { spoke?: boolean }).spoke || !next) throw e;\n" +
+      "      const brief = e instanceof Error ? e.message.split('\\n')[0].slice(0, 80) : String(e);\n" +
+      "      ui.say(ui.c.yellow(`  ⚠️ ${chain[i]} 出错(${brief}),降级换 ${next} 重试`));\n" +
+      "    }\n" +
+      "  }\n" +
+      "}\n" +
+      "\n" +
+      "async function askOnce(model: string, hist: Msg[], allow: string[] | undefined, opts: AskOpts): Promise<{ text: string; toolCalls: ToolCall[] }> {\n" +
+      "  let spoke = false; // 有没有向脸面吐过字——降级链看它定夺(吐过就不换人重试)\n" +
+      "  const onText = opts.onText ? (s: string) => { spoke = true; opts.onText?.(s); } : undefined;\n" +
+      "  try {\n" +
+      "    const res = await fetch(API, {\n" +
+      "      method: 'POST',\n" +
+      "      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${KEY}` },\n" +
+      "      body: JSON.stringify({\n" +
+      "        model, messages: hist,\n" +
+      "        max_tokens: 4096,\n" +
+      "        stream: true,\n" +
+      "        tools: (allow ? TOOLS.filter(t => allow.includes(t.name)) : TOOLS).map(t => ({\n" +
+      "          type: 'function' as const,\n" +
+      "          function: { name: t.name, description: t.description, parameters: t.parameters },\n" +
+      "        })),\n" +
+      "      }),\n" +
+      "      signal: opts.signal,\n" +
+      "    });\n" +
+      "    if (!res.ok || !res.body) throw new Error(`API ${res.status}:${await res.text()}`);\n" +
+      "    usage.models[model] = (usage.models[model] ?? 0) + 1; // 请求进门才上账:被拒之门外的不上\n" +
       "\n",
-    card: ['ask·说明书随行一起寄',
-      '比 v0.4 多一个 <b>tools</b> 字段:把工具柜每层的三张标签(name/description/parameters)随消息一起寄出去——模型「知道有工具可调」全靠这一眼。坑在形状:OpenAI 口径要<b>套一层 function 壳</b>(type:“function” 包着本体),拍扁直接发,回你 tools[0].function 不能为空(真机踩过)。返回值也从「一段话」变成 <b>Turn</b>:这一轮它说了什么、要了哪些工具,两头都收。v1.4 再加 <b>opts</b> 两件:<b>signal</b> 把 Esc 的 AbortController 递进 fetch——飞行中的请求从这被掐断;<b>onText</b> 把打字机交给调用方——主对话传流式上屏,子代理不传(过程不刷屏,结论走工具卡回家)。']
+    card: ['ask·说明书随行,外面套降级链',
+      '<b>tools</b> 字段把工具柜每层的三张标签(name/description/parameters)随消息一起寄出去——模型「知道有工具可调」全靠这一眼。坑在形状:OpenAI 口径要<b>套一层 function 壳</b>(type:"function" 包着本体),拍扁直接发,回你 tools[0].function 不能为空(真机踩过)。v1.4 的 <b>opts</b> 两件:<b>signal</b> 把 Esc 的 AbortController 递进 fetch——飞行中的请求从这被掐断;<b>onText</b> 把打字机交给调用方——主对话传流式上屏,子代理不传(过程不刷屏,结论走工具卡回家)。v1.9 外面套<b>降级链</b>:主模型挂了(429/5xx/名字写错)按 config.fallback 换人重问,链走完才认输——产品不能因为一座机房抖一下就死。换人的判定有三不换:用户 Esc 掐的、字已吐给脸面的、链走完的。']
   },
   {
     id: 'sse',
     tag: '④ ask·拆流攒申请',
-    code: "  // SSE 分块不讲道理:一个 chunk 可能装半个事件、也可能仨——攒到换行才算拿到一条\n" +
-      "  const dec = new TextDecoder();\n" +
-      "  let text = '';\n" +
-      "  const toolAcc: (ToolCall | undefined)[] = []; // 流式下 arguments 按 index 分片挤出来,攒!\n" +
-      "  let buf = '';\n" +
-      "  for await (const chunk of res.body) {\n" +
-      "    buf += dec.decode(chunk);\n" +
-      "    for (let nl = buf.indexOf('\\n'); nl !== -1; nl = buf.indexOf('\\n')) {\n" +
-      "      const line = buf.slice(0, nl).trim();\n" +
-      "      buf = buf.slice(nl + 1);\n" +
-      "      if (!line.startsWith('data:')) continue; // 空行,跳过\n" +
-      "      const payload = line.slice(5).trim();\n" +
-      "      if (payload === '[DONE]') return done(text, toolAcc); // 流的终点\n" +
-      "      const c = JSON.parse(payload) as {\n" +
-      "        choices?: {\n" +
-      "          delta?: {\n" +
-      "            content?: string;\n" +
-      "            tool_calls?: { index: number; id?: string; function?: { name?: string; arguments?: string } }[];\n" +
-      "          };\n" +
-      "        }[];\n" +
-      "        usage?: { prompt_tokens?: number; completion_tokens?: number; prompt_tokens_details?: { cached_tokens?: number } };\n" +
-      "      };\n" +
-      "      if (c.usage) {\n" +
-      "        usage.in += c.usage.prompt_tokens ?? 0; // 账单只挂在最后一个事件\n" +
-      "        usage.out += c.usage.completion_tokens ?? 0;\n" +
-      "        usage.cached += c.usage.prompt_tokens_details?.cached_tokens ?? 0; // 前缀缓存命中:命中部分约五折计费\n" +
-      "        usage.lastPrompt = c.usage.prompt_tokens ?? usage.lastPrompt; // 当前上下文水位,压缩看它\n" +
-      "      }\n" +
-      "      const d = c.choices?.[0]?.delta;\n" +
-      "      if (d?.content) {\n" +
-      "        text += d.content;\n" +
-      "        opts.onText?.(d.content); // 打字机:来一个词念一个词(脸面归调用方管)\n" +
-      "      }\n" +
-      "      for (const tc of d?.tool_calls ?? []) {\n" +
-      "        const slot = (toolAcc[tc.index] ??= { id: '', name: '', args: '' });\n" +
-      "        if (tc.id) slot.id = tc.id; // id 整块只来一次;name/arguments 是增量\n" +
-      "        if (tc.function?.name) slot.name += tc.function.name;\n" +
-      "        if (tc.function?.arguments) slot.args += tc.function.arguments;\n" +
+    code: "    // SSE 分块不讲道理:一个 chunk 可能装半个事件、也可能仨——攒到换行才算拿到一条\n" +
+      "    const dec = new TextDecoder();\n" +
+      "    let text = '';\n" +
+      "    const toolAcc: (ToolCall | undefined)[] = []; // 流式下 arguments 按 index 分片挤出来,攒!\n" +
+      "    let buf = '';\n" +
+      "    for await (const chunk of res.body) {\n" +
+      "      buf += dec.decode(chunk);\n" +
+      "      for (let nl = buf.indexOf('\\n'); nl !== -1; nl = buf.indexOf('\\n')) {\n" +
+      "        const line = buf.slice(0, nl).trim();\n" +
+      "        buf = buf.slice(nl + 1);\n" +
+      "        if (!line.startsWith('data:')) continue; // 空行,跳过\n" +
+      "        const payload = line.slice(5).trim();\n" +
+      "        if (payload === '[DONE]') return done(text, toolAcc); // 流的终点\n" +
+      "        const c = JSON.parse(payload) as {\n" +
+      "          choices?: {\n" +
+      "            delta?: {\n" +
+      "              content?: string;\n" +
+      "              tool_calls?: { index: number; id?: string; function?: { name?: string; arguments?: string } }[];\n" +
+      "            };\n" +
+      "          }[];\n" +
+      "          usage?: { prompt_tokens?: number; completion_tokens?: number; prompt_tokens_details?: { cached_tokens?: number } };\n" +
+      "        };\n" +
+      "        if (c.usage) {\n" +
+      "          usage.in += c.usage.prompt_tokens ?? 0; // 账单只挂在最后一个事件\n" +
+      "          usage.out += c.usage.completion_tokens ?? 0;\n" +
+      "          usage.cached += c.usage.prompt_tokens_details?.cached_tokens ?? 0; // 前缀缓存命中:命中部分约五折计费\n" +
+      "          usage.lastPrompt = c.usage.prompt_tokens ?? usage.lastPrompt; // 当前上下文水位,压缩看它\n" +
+      "        }\n" +
+      "        const d = c.choices?.[0]?.delta;\n" +
+      "        if (d?.content) {\n" +
+      "          text += d.content;\n" +
+      "          onText?.(d.content); // 打字机:来一个词念一个词(脸面归调用方管)\n" +
+      "        }\n" +
+      "        for (const tc of d?.tool_calls ?? []) {\n" +
+      "          const slot = (toolAcc[tc.index] ??= { id: '', name: '', args: '' });\n" +
+      "          if (tc.id) slot.id = tc.id; // id 整块只来一次;name/arguments 是增量\n" +
+      "          if (tc.function?.name) slot.name += tc.function.name;\n" +
+      "          if (tc.function?.arguments) slot.args += tc.function.arguments;\n" +
+      "        }\n" +
       "      }\n" +
       "    }\n" +
+      "    return done(text, toolAcc); // 没等到 [DONE] 就断流:攒到多少算多少\n" +
+      "  } catch (e) {\n" +
+      "    (e as { spoke?: boolean }).spoke = spoke; // 把「吐没吐过字」捎给降级链\n" +
+      "    throw e;\n" +
       "  }\n" +
-      "  return done(text, toolAcc); // 没等到 [DONE] 就断流:攒到多少算多少\n" +
       "}\n" +
       "\n",
     card: ['拆流:老三样之外,工具申请也要攒',
-      '攒→切→解析还是 v0.4 那三步(下方 B 台亲手玩),新活是 <b>toolAcc</b>:流式下模型回的工具调用不是整块,是按 <b>index</b> 开槽、name 和 arguments 一片一片挤出来的——所以逐片 <b>+=</b> 拼,id 却是整块赋值(只来一次)。v1.2 记账多了两笔:<b>cached_tokens</b> 藏在 prompt_tokens_details 里——前缀缓存命中了多少,一目了然;lastPrompt 记下当前水位,出了这个循环压缩器就要看它。v1.4 打字机换了个姿势:正文不再直写 stdout,交给调用方递来的 <b>onText</b>——拆流归拆流,脸面归脸面(与 setConfirm 同款的依赖注入)。',
+      '攒→切→解析还是 v0.4 那三步(下方 B 台亲手玩),新活是 <b>toolAcc</b>:流式下模型回的工具调用不是整块,是按 <b>index</b> 开槽、name 和 arguments 一片一片挤出来的——所以逐片 <b>+=</b> 拼,id 却是整块赋值(只来一次)。v1.2 记账多了两笔:<b>cached_tokens</b> 藏在 prompt_tokens_details 里——前缀缓存命中了多少,一目了然;lastPrompt 记下当前水位,出了这个循环压缩器就要看它。v1.9 的 <b>spoke</b> 旗子:字已吐给脸面就不降级重试——重试会把半句再说一遍,宁可报错;出错时把旗子捎在异常上,降级链看它定夺。',
       'sse']
   },
   {
     id: 'plain',
     tag: '⑤ askPlain·素请求',
-    code: "// 素请求:不带 tools、直接收整段文本——压缩器要的就是它(总结历史不需要工具)\n" +
+    code: "// 素请求:不带 tools、直接收整段文本——压缩器要的就是它(总结历史不需要工具)。\n" +
+      "// v1.9 路由:压缩用 config.compactModel——总结老历史是后台活,用不上旗舰脑力,\n" +
+      "// 同一条生产线不同岗位派不同的人(CH10 多模型路由的落点)\n" +
       "async function askPlain(msgs: Msg[]): Promise<string> {\n" +
       "  const res = await fetch(API, {\n" +
       "    method: 'POST',\n" +
       "    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${KEY}` },\n" +
-      "    body: JSON.stringify({ model: 'glm-4.6', messages: msgs, max_tokens: 4096, stream: false }),\n" +
+      "    body: JSON.stringify({ model: config.compactModel, messages: msgs, max_tokens: 4096, stream: false }),\n" +
       "  });\n" +
       "  if (!res.ok) throw new Error(`API ${res.status}:${await res.text()}`);\n" +
       "  const data = (await res.json()) as { choices?: { message?: { content?: string } }[] };\n" +
@@ -175,29 +216,46 @@ var SEGS = [
       "  return text;\n" +
       "}\n" +
       "\n",
-    card: ['askPlain·压缩器的腿',
-      'v1.2 新增:不带 tools、不流式、发什么收什么的一段素请求。为什么单独造?因为<b>压缩历史这个活不需要工具</b>——总结对话是纯语言任务,给模型递工具清单反而引它分心。ask() 与 askPlain() 一浓一淡:前者是 agent 的嘴(带说明书、流式、攒申请),后者是干活的腿(轻装、整块收)。依赖注入的思路:context.ts 的压缩器收一个 askPlain 参数,由 chat.ts 注入——context.ts 只管记忆的账,不碰 key 与网络。']
+    card: ['askPlain·压缩器的腿,派便宜款',
+      'v1.2 新增:不带 tools、不流式、发什么收什么的一段素请求。为什么单独造?因为<b>压缩历史这个活不需要工具</b>——总结对话是纯语言任务,给模型递工具清单反而引它分心。ask() 与 askPlain() 一浓一淡:前者是 agent 的嘴(带说明书、流式、攒申请),后者是干活的腿(轻装、整块收)。依赖注入的思路:context.ts 的压缩器收一个 askPlain 参数,由 chat.ts 注入——context.ts 只管记忆的账,不碰 key 与网络。v1.9 给它上了<b>路由</b>:压缩改用 config.compactModel——总结老历史是后台活,用不上旗舰脑力,派便宜款;同一条生产线,不同岗位派不同的人。']
   },
   {
     id: 'run',
-    tag: '⑥ 工具执行',
+    tag: '⑥ 执行口·钩子接线',
     code: "function done(text: string, acc: (ToolCall | undefined)[]): { text: string; toolCalls: ToolCall[] } {\n" +
       "  return { text, toolCalls: acc.filter((c): c is ToolCall => !!c?.name) };\n" +
       "}\n" +
       "\n" +
-      "// 执行一个工具调用:名字没见过、参数不是合法 JSON、校验不过、执行抛错——\n" +
-      "// 都当结果喂回而不是崩溃,模型看着错误自己改(CH4 的头号秘密)\n" +
-      "async function run(call: ToolCall): Promise<string> {\n" +
-      "  const tool = TOOLS.find(t => t.name === call.name);\n" +
-      "  if (!tool) return `未知工具:${call.name}`;\n" +
+      "// 执行口 v1.9 收归共享 runTool:主循环与子代理(agents.ts)走同一扇门,四道兜底\n" +
+      "// (名字没见过/参数不是 JSON/校验不过/执行抛错——都当结果喂回,模型看着错误\n" +
+      "// 自己改,CH4 的头号秘密)只此一份;钩子与轨迹挂在门上,一处挂全卡位\n" +
+      "\n" +
+      "// 工具轨迹:MC_TRACE 指向一个文件时,每次工具调用(含被钩子拦下的)追加一行\n" +
+      "// {tool,args,result} JSON——evals 的眼睛:不猜模型说了什么,看它动了什么\n" +
+      "function trace(tool: string, args: unknown, result: string): void {\n" +
+      "  if (!process.env.MC_TRACE) return;\n" +
+      "  try { fs.appendFileSync(process.env.MC_TRACE, JSON.stringify({ tool, args, result }) + '\\n'); } catch { /* 轨迹写不进不能带崩对话 */ }\n" +
+      "}\n" +
+      "\n" +
+      "// 一条公式结账:缓存命中的 token 约五折计费(智谱前缀缓存)——\n" +
+      "// /cost、退出小结、遥测落盘三处共用,公式只写一遍\n" +
+      "function costOf(u: typeof usage): number {\n" +
+      "  return ((u.in - u.cached) * PRICE.in + u.cached * PRICE.in * 0.5 + u.out * PRICE.out) / 1e6;\n" +
+      "}\n" +
+      "\n" +
+      "// 成本遥测:每场一行 JSON 落 .miniclaude/usage.jsonl——账本不再进程一退就没,\n" +
+      "// /cost 随时翻旧账;记不上(只读目录之类)也不带崩告别\n" +
+      "function logUsage(): void {\n" +
       "  try {\n" +
-      "    const args = JSON.parse(call.args || '{}');\n" +
-      "    const errs = validate(args, tool.parameters); // 说明书不只发给模型看,还反过来约束进门的参数\n" +
-      "    if (errs.length) return `参数校验不过:${errs.join(';')}`;\n" +
-      "    return await tool.execute(args);\n" +
-      "  } catch (e) {\n" +
-      "    return `工具执行出错:${e instanceof Error ? e.message : e}`;\n" +
-      "  }\n" +
+      "    fs.mkdirSync('.miniclaude', { recursive: true });\n" +
+      "    fs.appendFileSync('.miniclaude/usage.jsonl', JSON.stringify({ at: new Date().toISOString(), ...usage, cost: +costOf(usage).toFixed(6) }) + '\\n');\n" +
+      "  } catch { /* 遥测是外挂不是器官 */ }\n" +
+      "}\n" +
+      "\n" +
+      "function readUsageLog(): { cost?: number }[] {\n" +
+      "  try {\n" +
+      "    return fs.readFileSync('.miniclaude/usage.jsonl', 'utf8').trim().split('\\n').filter(Boolean).map((l) => JSON.parse(l));\n" +
+      "  } catch { return []; } // 还没记过账 = 空表\n" +
       "}\n" +
       "\n" +
       "const rl = readline.createInterface({ input: process.stdin, output: process.stdout });\n" +
@@ -218,10 +276,32 @@ var SEGS = [
       "// 收窄的工具柜在 ask 里过滤;两套循环跑在同一个进程里\n" +
       "// (不传 onText:子会话的过程不刷屏,结论走工具卡回家)\n" +
       "setAskOnce((msgs, allow) => ask(msgs, allow));\n" +
+      "// 工具拦截口(v1.9):钩子(hooks.ts,配置说了算)+ 轨迹(MC_TRACE,evals 的眼睛)。\n" +
+      "// 挂在共享 runTool 上——主循环与子代理同一条执行口,一处挂全卡位;网页分身\n" +
+      "// 不挂它,行为分毫不变(与 setConfirm 同款的依赖注入)\n" +
+      "setToolInterceptor(async (call: ToolCall, phase: 'pre' | 'post', result?: string): Promise<string | void> => {\n" +
+      "  let args: unknown;\n" +
+      "  try { args = JSON.parse(call.args || '{}'); } catch { args = {}; }\n" +
+      "  if (phase === 'pre') {\n" +
+      "    const v = runHooks('preToolUse', call.name, args);\n" +
+      "    if (v.blocked) { trace(call.name, args, v.blocked); return v.blocked; } // 拦下的话当结果喂回,轨迹里也看得见\n" +
+      "    if (v.warn) ui.say(ui.c.yellow(`  ⚠️ ${v.warn}`));\n" +
+      "    return;\n" +
+      "  }\n" +
+      "  const v = runHooks('postToolUse', call.name, args, result ?? '');\n" +
+      "  if (v.blocked || v.warn) ui.say(ui.c.yellow(`  ⚠️ ${v.blocked ?? v.warn}(执行已发生,拦的只能是下一次)`));\n" +
+      "  trace(call.name, args, result ?? '');\n" +
+      "});\n" +
       "await registerMcpTools(); // 外挂按 .mcp.json 接入:名片进柜子,execute 留在子进程(CH9.3)\n" +
       "ui.say(`${ui.c.bold('小c上线')}${ui.c.dim('(exit 退出 · 回答途中按 Esc 打断 · /help 看命令表)')}`);\n" +
-      "\n" +
-      "// 一回合的 agent 循环:ask 一轮 → 执行它要的工具 → 再 ask,直到它不再要。\n" +
+      "\n",
+    card: ['执行口收归一处,钩子挂在门上',
+      'v1.9 的头一刀:本地 run() 退役,主循环与子代理(agents.ts)全走共享 <b>runTool</b>——四道兜底(名字没见过/参数不是 JSON/校验不过/执行抛错,统统当结果喂回让模型自己改,CH4 的头号秘密)只此一份。<b>setToolInterceptor</b> 把钩子与轨迹挂上这扇门:<b>pre</b> 档钩子(hooks.ts,配置说了算,exit 2 = 拦)拦下的理由当结果喂回;<b>post</b> 档只剩黄牌——执行已发生,拦的只能是下一次。<b>trace</b>:MC_TRACE 指向文件时每次调用落一行 JSON——evals 的眼睛,不猜模型说了什么,看它动了什么。<b>costOf/logUsage</b>:一条公式三处共用(/cost、退出小结、遥测落盘);每场一行 JSON 进 .miniclaude/usage.jsonl,进程退了账还在。确认流 setConfirm 复用同一个 rl——两个 readline 抢 stdin 会互吞输入行(CH6 的坑)。']
+  },
+  {
+    id: 'loop',
+    tag: '⑦ agent 主循环',
+    code: "// 一回合的 agent 循环:ask 一轮 → 执行它要的工具 → 再 ask,直到它不再要。\n" +
       "// allow 收窄柜台——计划模式借这扇门只留只读工具,会改世界的一概不发(v1.7)\n" +
       "async function agentLoop(allow?: string[], signal?: AbortSignal): Promise<void> {\n" +
       "  while (true) {\n" +
@@ -244,7 +324,7 @@ var SEGS = [
       "    });\n" +
       "    for (const c of toolCalls) {\n" +
       "      ui.status(`${ui.c.cyan('⏺')} ${c.name} ${ui.c.dim(c.args.length > 50 ? c.args.slice(0, 50) + '…' : c.args || '{}')}`);\n" +
-      "      const result = await run(c);\n" +
+      "      const { res: result } = await runTool(c); // 统一执行口:四道兜底+钩子+轨迹都在这扇门里\n" +
       "      messages.push({ role: 'tool', tool_call_id: c.id, content: result });\n" +
       "      ui.say(ui.toolCard(c.name, c.args, result)); // 动作要亮出来:diff 行在这里上色\n" +
       "    }\n" +
@@ -259,14 +339,8 @@ var SEGS = [
       "// 计划模式的只读柜台:能看不能改——不是叮嘱它别改,是物理上没有改的把手\n" +
       "const READ_ONLY = ['read_file', 'get_time', 'calculator'];\n" +
       "\n" +
-      "// 上下文水位超线就压老历史:/plan 与普通回合共用,抽成一个函数各喊一声\n",
-    card: ['run·执行在代码,错误当结果',
-      '执行权在谁手里?在 <b>你的代码</b>——模型只递申请单,execute 是柜子里你写的函数。四道兜底一个不崩:名字没见过、arguments 不是合法 JSON、<b>参数校验不过</b>(说明书不只发给模型看,还反过来约束进门的参数——validate.ts 手写的迷你 JSON Schema 校验器)、执行抛异常——统统<b>当字符串结果喂回去</b>,让模型看着错误自己改(它真会:参数写错一次,下一轮它自己修)。agent 鲁棒性的头号秘密。done() 是收尾小工:把攒的槽位滤成清单。']
-  },
-  {
-    id: 'loop',
-    tag: '⑦ agent 主循环',
-    code: "async function maybeCompact(): Promise<void> {\n" +
+      "// 上下文水位超线就压老历史:/plan 与普通回合共用,抽成一个函数各喊一声\n" +
+      "async function maybeCompact(): Promise<void> {\n" +
       "  if (!shouldCompact(usage.lastPrompt)) return;\n" +
       "  ui.say(`  🗜 上下文 ${usage.lastPrompt} token 超过水位 ${COMPACT_AT},压缩老历史…`);\n" +
       "  if (await compactHistory(messages, askPlain)) ui.say('  🗜 已压缩:老历史换摘要,尾部原文保留');\n" +
@@ -319,6 +393,33 @@ var SEGS = [
       "      ui.say(st.length\n" +
       "        ? [ui.c.bold('已接入的 MCP server:'), ...st.map((s) => `  ${ui.c.cyan(s.server)} → ${s.tools.join(', ')}(execute 住在子进程)`)].join('\\n')\n" +
       "        : '未接入任何 MCP server(.mcp.json 未配置或没拉起)');\n" +
+      "    },\n" +
+      "  },\n" +
+      "  '/cost': {\n" +
+      "    desc: '看账:本场明细 + 历场累计(账本在 .miniclaude/usage.jsonl)',\n" +
+      "    run() {\n" +
+      "      const lines = readUsageLog();\n" +
+      "      const total = lines.reduce((s, l) => s + (l.cost ?? 0), 0);\n" +
+      "      const models = Object.entries(usage.models).map(([m, n]) => `${m}×${n}`).join(' · ') || '(还没问过模型)';\n" +
+      "      ui.say([\n" +
+      "        `${ui.c.bold('本场:')}${ui.c.dim(`输入 ${usage.in}(缓存命中 ${usage.cached},五折计)+ 输出 ${usage.out} token ≈ ¥${costOf(usage).toFixed(4)}`)}`,\n" +
+      "        `  模型用量:${models}`,\n" +
+      "        `  历场:${lines.length} 场累计 ≈ ¥${total.toFixed(4)}${lines.length ? ui.c.dim('(本场退出时会再记一行)') : ''}`,\n" +
+      "      ].join('\\n'));\n" +
+      "    },\n" +
+      "  },\n" +
+      "  '/config': {\n" +
+      "    desc: '看生效配置:模型/降级链/名单/钩子(默认 ← ~/.miniclaude.json ← .miniclaude.json)',\n" +
+      "    run() {\n" +
+      "      const p = config.permissions;\n" +
+      "      const h = config.hooks;\n" +
+      "      ui.say([\n" +
+      "        ui.c.bold('生效配置(项目级覆盖用户级,数组只能加码):'),\n" +
+      "        `  主模型 ${ui.c.cyan(config.model)} · 压缩用 ${ui.c.cyan(config.compactModel)}${config.compactModel === config.model ? '' : '(后台活派便宜款)'}`,\n" +
+      "        `  降级链 ${[config.model, ...config.fallback].join(' → ')}${config.fallback.length ? '' : '(空:主模型挂了不换人)'}`,\n" +
+      "        `  名单追加 deny ${p.deny.length} 条 · allow ${p.allow.length} 条(内置名单另算,见 permissions.ts)`,\n" +
+      "        `  钩子 preToolUse ${h.preToolUse.length} 条 · postToolUse ${h.postToolUse.length} 条(配置写在 .miniclaude.json)`,\n" +
+      "      ].join('\\n'));\n" +
       "    },\n" +
       "  },\n" +
       "};\n" +
@@ -378,17 +479,17 @@ var SEGS = [
       "}\n" +
       "\n",
     card: ['双层循环:外圈读人,内圈跑 agent,Esc 是撤销键',
-      '<b>agent 循环</b>本体没变:ask 一轮 → 它要工具就执行、喂回、再 ask,直到某轮 <b>toolCalls 为空</b>(考点:退出条件 = 它不再要,不是调够 N 次)。v1.4 换的全是脸:转圈 <b>ui.think</b> 第一个字到达即停;流完 <b>ui.commit</b>把裸文本擦起重排(两段式,网页对话框 v0.7 同款);工具跑前亮 <b>ui.status</b>、跑完打 ⏺ <b>工具卡</b>(edit_file 的 diff 行在这里红绿上色)。<b>Esc 打断</b>三处竞态:流中被 signal 直接掐断,这轮不入账(半句话不进记忆);工具批跑完看旗子——一整批 tool 结果都在历史才合法,assistant 要了俩只回一个 = API 400;打断完给模型一句 <b>user 注记</b>,别让它对着空气猜(真 Claude Code 同款)。回合收尾清 rl 行缓冲(流式中手滑打的字别带进下一问)、raw 模式只在回合内接管。v1.7 循环体抽成 <b>agentLoop(allow)</b> 函数,/plan 借它逛只读柜台;v1.8 外圈进门先查<b>斜杠命令表</b>(命中展开执行、未命中原样放行——模型自始至终没见过斜杠),压缩触发抽成 <b>maybeCompact</b> 两处共用;启动时 <b>await registerMcpTools()</b> 把 .mcp.json 里的 server 拉起——名片注册进 TOOLS,execute 住在子进程(CH9.3:tool → MCP,搬家名片不变)。']
+      '<b>agent 循环</b>本体没变:ask 一轮 → 它要工具就执行、喂回、再 ask,直到某轮 <b>toolCalls 为空</b>(考点:退出条件 = 它不再要,不是调够 N 次)。v1.4 换的全是脸:转圈 <b>ui.think</b> 第一个字到达即停;流完 <b>ui.commit</b>把裸文本擦起重排(两段式,网页对话框 v0.7 同款);工具跑前亮 <b>ui.status</b>、跑完打 ⏺ <b>工具卡</b>(edit_file 的 diff 行在这里红绿上色)。<b>Esc 打断</b>三处竞态:流中被 signal 直接掐断,这轮不入账(半句话不进记忆);工具批跑完看旗子——一整批 tool 结果都在历史才合法,assistant 要了俩只回一个 = API 400;打断完给模型一句 <b>user 注记</b>,别让它对着空气猜(真 Claude Code 同款)。v1.7 循环体抽成 <b>agentLoop(allow)</b> 函数,/plan 借它逛只读柜台;v1.8 外圈进门先查<b>斜杠命令表</b>(命中展开执行、未命中原样放行——模型自始至终没见过斜杠),压缩触发抽成 <b>maybeCompact</b> 两处共用;启动时 <b>await registerMcpTools()</b> 把 .mcp.json 里的 server 拉起——名片注册进 TOOLS,execute 住在子进程(CH9.3:tool → MCP,搬家名片不变)。v1.9 执行口换成 <b>runTool</b>(钩子与轨迹全住在那扇门里),命令表添 <b>/cost</b>(看账:本场明细+历场累计)与 <b>/config</b>(看生效配置:模型/降级链/名单/钩子)。']
   },
   {
     id: 'bill',
     tag: '⑧ 记账收尾',
     code: "rl.close();\n" +
       "// 缓存命中的 token 约五折计费(智谱上下文缓存),折算进总账看真便宜\n" +
-      "const cost = ((usage.in - usage.cached) * PRICE.in + usage.cached * PRICE.in * 0.5 + usage.out * PRICE.out) / 1e6;\n" +
-      "console.log(`再见。输入 ${usage.in}(缓存命中 ${usage.cached},五折计)+ 输出 ${usage.out} token,约 ¥${cost.toFixed(4)}`);\n",
-    card: ['记账:退出时把账算了——缓存命中五折',
-      '每轮 ask() 顺手记账,退出时一条公式结账——v1.2 的公式长了半截:<code>(输入−命中)×4 + 命中×4×0.5 + 输出×14 ÷ 100万</code>。前缀缓存命中的 token 约五折计费,同一段 system prompt 与老历史每轮原样重发,<b>第二轮起就该在 cached_tokens 里涨起来</b>——这正是 CH7 的落点:省钱的功夫不在少发,在「发一样的」。',
+      "logUsage(); // 遥测先行:告别的话还没说,账已经落了盘(/cost 与历场累计靠它)\n" +
+      "console.log(`再见。输入 ${usage.in}(缓存命中 ${usage.cached},五折计)+ 输出 ${usage.out} token,约 ¥${costOf(usage).toFixed(4)}`);\n",
+    card: ['记账:退出时把账算了——缓存命中五折,账本落盘',
+      '每轮 ask() 顺手记账,退出时一条公式结账——v1.2 的公式长了半截:<code>(输入−命中)×4 + 命中×4×0.5 + 输出×14 ÷ 100万</code>。前缀缓存命中的 token 约五折计费,同一段 system prompt 与老历史每轮原样重发,<b>第二轮起就该在 cached_tokens 里涨起来</b>——这正是 CH7 的落点:省钱的功夫不在少发,在「发一样的」。v1.9 告别前先 <b>logUsage()</b>:每场一行 JSON 落 .miniclaude/usage.jsonl——账本不再进程一退就没,/cost 翻旧账、历场累计全靠它。',
       'bill']
   }
 ];

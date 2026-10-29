@@ -17,6 +17,19 @@ import { decide, rememberAllow } from './permissions.ts';
 const MAX_OUT = 30 * 1024; // 输出上限:30KB,超了就是上下文炸弹
 const DEFAULT_TIMEOUT = 120_000;
 
+// 沙箱第一课(v1.9):子进程不继承钥匙串。spawn 不传 env 孩子会拿到宿主的全部
+// 环境变量——此前 bash 里 echo $GLM_API_KEY 真能看见钥匙。带 KEY/TOKEN/SECRET/
+// PASSWORD 字样的变量一律不带出差。这是「最小权限」的第一刀,真沙箱(OS 级
+// seatbelt/容器、只读文件系统)是下一站,但钥匙不外泄这条今天就该成立。
+function childEnv(): NodeJS.ProcessEnv {
+  const env: Record<string, string> = {};
+  for (const [k, v] of Object.entries(process.env)) {
+    if (/KEY|TOKEN|SECRET|PASSWORD|CREDENTIAL/i.test(k)) continue;
+    env[k] = v ?? '';
+  }
+  return env;
+}
+
 // ---- 后台任务(v1.5) --------------------------------------------------------
 // 记账是会话级的(住内存,宿主重启就没了);日志是持久的(.bg/ 文件,
 // read_file 随时可读)。exit 事件除了记退出码,还顺手把僵尸进程收了——
@@ -31,6 +44,7 @@ function runBackground(cmd: string): string {
   const fd = fs.openSync(log, 'a'); // 日志文件先开好,孩子的 stdout/stderr 直接往里流
   const child = spawn('bash', ['-c', cmd], {
     cwd: process.cwd(),
+    env: childEnv(), // 钥匙不出差(CH10:后台孩子更没人盯,更不能带)
     detached: true, // 新进程组+新会话:不吃宿主进程组的信号,宿主退了它也活着
     stdio: ['ignore', fd, fd], // stdin 不理;两头输出合流进同一个日志
   });
@@ -66,7 +80,7 @@ export function setConfirm(fn: (cmd: string) => Promise<'y' | 'n' | 'a'>) {
 
 function runShell(cmd: string, timeoutMs: number): Promise<string> {
   return new Promise((resolve) => {
-    const child = spawn('bash', ['-c', cmd], { cwd: process.cwd() });
+    const child = spawn('bash', ['-c', cmd], { cwd: process.cwd(), env: childEnv() });
     let out = '';
     let overflow = false;
     const take = (d: Buffer) => {
