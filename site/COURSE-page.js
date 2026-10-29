@@ -149,7 +149,7 @@
       acceptNode: function (n) {
         var p = n.parentElement;
         if (!p || SKIP[p.tagName]) return NodeFilter.FILTER_REJECT;
-        if (p.closest('.ch-no, .act-no, .badge, .ch-lab, .mile, #fly-nav, #mc')) return NodeFilter.FILTER_REJECT;
+        if (p.closest('.ch-no, .act-no, .act-head, .badge, .ch-lab, .mile, #fly-nav, #mc')) return NodeFilter.FILTER_REJECT;
         if (!REF_TEST.test(n.nodeValue)) return NodeFilter.FILTER_REJECT;
         return NodeFilter.FILTER_ACCEPT;
       }
