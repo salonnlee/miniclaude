@@ -122,16 +122,26 @@
   sync();
 })();
 
-/* ④ 章节互引跳转：正文提到 CHn → 可点跳到该章；返回钮随跳转出现，用户一动就隐 */
+/* ④ 章节互引跳转：正文提到别章（CHn、支线 P0.x/NNn/3Bn/T1）→ 可点跳到该章；
+   返回钮随跳转出现，滚离落点超 120px 才隐 */
 (function () {
-  // 章号 → 章块（article.chapter）；正文 CHn 互引只在课次行与卡片文案里链接化，
-  // 章号本身（.ch-no）、行首课号（<b>）、代码与实验室正文不动
+  // 章号 → 章块（article.chapter）；正文互引只在课次行与卡片文案里链接化，
+  // 章号本身（.ch-no）、行首课号（<b>）、代码与实验室正文不动；
+  // CH3.1 这类课号写法落到所在章 CH3，NN1/3B6/P0.3/T1 落到支线章——同章自引不导
   var chapters = {};
   document.querySelectorAll('article.chapter').forEach(function (ch) {
     var no = ch.querySelector('.ch-no');
     if (no) chapters[no.textContent.trim()] = ch;
   });
   var SKIP = { CODE: 1, B: 1, A: 1, SUMMARY: 1, SCRIPT: 1, STYLE: 1 };
+  var REF_RE = /(CH(?:[1-9]|10)(?:\.\d)?|NN[1-4]|3B[1-9]|P0\.[1-4]|T1)(?![\w.\d])/g;
+  var REF_TEST = /(CH(?:[1-9]|10)(?:\.\d)?|NN[1-4]|3B[1-9]|P0\.[1-4]|T1)(?![\w.\d])/;
+  function targetOf(tok) {
+    if (tok.charAt(0) === 'C') return tok.split('.')[0]; // CH3.1 → CH3
+    if (tok === 'T1') return 'T1';
+    if (tok.charAt(0) === 'P') return 'P0'; // P0.3 → P0（0 是章名的一部分，不能当课号剥）
+    return tok.replace(/\d+$/, ''); // NN1→NN、3B6→3B
+  }
   var walker = document.createTreeWalker(
     document.querySelector('.sec-wrap, body') || document.body,
     NodeFilter.SHOW_TEXT,
@@ -140,7 +150,7 @@
         var p = n.parentElement;
         if (!p || SKIP[p.tagName]) return NodeFilter.FILTER_REJECT;
         if (p.closest('.ch-no, .act-no, .badge, .ch-lab, .mile, #fly-nav, #mc')) return NodeFilter.FILTER_REJECT;
-        if (!/CH([1-9]|10)\b/.test(n.nodeValue)) return NodeFilter.FILTER_REJECT;
+        if (!REF_TEST.test(n.nodeValue)) return NodeFilter.FILTER_REJECT;
         return NodeFilter.FILTER_ACCEPT;
       }
     }
@@ -151,15 +161,17 @@
     var homeNo = home && home.querySelector('.ch-no');
     homeNo = homeNo ? homeNo.textContent.trim() : '';
     var frag = document.createDocumentFragment();
-    var re = /CH([1-9]|10)(?![\w.\d])/g, last = 0, m;
-    while ((m = re.exec(node.nodeValue))) {
-      if (!chapters['CH' + m[1]]) continue;
-      if (homeNo === 'CH' + m[1]) continue; // 本小节引自己，不导航
+    var last = 0, m;
+    REF_RE.lastIndex = 0;
+    while ((m = REF_RE.exec(node.nodeValue))) {
+      var to = targetOf(m[0]);
+      if (!chapters[to]) continue;
+      if (homeNo === to) continue; // 本小节引自己，不导航
       frag.appendChild(document.createTextNode(node.nodeValue.slice(last, m.index)));
       var a = document.createElement('a');
       a.className = 'ch-ref';
       a.href = 'javascript:void(0)';
-      a.dataset.to = 'CH' + m[1];
+      a.dataset.to = to;
       a.textContent = m[0];
       frag.appendChild(a);
       last = m.index + m[0].length;
@@ -226,8 +238,8 @@
     var src = a.closest('article.chapter') || a.closest('[data-card-body]') || a.closest('details.act');
     var srcNo = src && src.querySelector('.ch-no');
     from = {
-      el: src || target,
-      label: srcNo ? srcNo.textContent.trim() : '原处'
+      el: src || a, // 黑话表等无章容器里的链接，拿链接自己当返回锚点
+      label: srcNo ? srcNo.textContent.trim() : '原文'
     };
     jumpTo(target);
     back.textContent = '↩ 返回 ' + from.label;
