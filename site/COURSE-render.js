@@ -1,20 +1,20 @@
 /* ============================================================================
-   COURSE-render.js —— 课次渲染器(配 content/lessons.js)
+   COURSE-render.js —— 课次渲染器（配 content/lessons.js）
    ----------------------------------------------------------------------------
-职责只有四件:
+职责只有四件：
   · 把 content/lessons.js 的课次行填进 HTML 里的空容器 <ul data-lessons="key">;
-  · 由 lessons.ships 点亮章交付 chip(foot-chip ver)与里程碑表——版本号单一事实源,
-    HTML 里只放空占位;
-   · 由数据推导幕头/章头徽章(🔥 进行中 / ✅ 完课·日期 / 未开始,拼图区:已拼上)
-     与幕的折叠态(进行中展开,其余折叠;data 里 open 可强制覆写);
-   · 页头「更新于」= 全表最新完课日期(data 的 updated 可手动覆写)。
-   新增/修改课次只动 content/lessons.js,本文件与 COURSE.html 都不用碰。
+  · 由 lessons.ships 点亮章交付 chip(foot-chip ver)与里程碑表——版本号单一事实源，
+    HTML 里只放空占位；
+   · 由数据推导幕头/章头徽章（🔥 进行中 / ✅ 完课·日期 / 未开始，拼图区：已拼上）
+     与幕的折叠态(进行中展开，其余折叠；data 里 open 可强制覆写);
+   · 页头「更新于」= 全表最新完课日期（data 的 updated 可手动覆写）。
+   新增/修改课次只动 content/lessons.js，本文件与 COURSE.html 都不用碰。
    ============================================================================ */
 import { LESSONS as L } from './content/lessons.js';
 import { CARDS as C } from './content/cards.js';
 (function () {
 
-  // —— 行模板(改空格前先想清楚:这里与原手写 HTML 逐字对齐) ——
+  // —— 行模板(改空格前先想清楚：这里与原手写 HTML 逐字对齐) ——
   function lessonLi(it) {
     if (it.label) return '<li><b>' + it.label + '</b> ' + it.text + '</li>';
     var h = '<li><b>' + it.code + '</b>' + (it.name ? ' ' + it.name : '');
@@ -24,7 +24,7 @@ import { CARDS as C } from './content/cards.js';
     return h + '</li>';
   }
 
-  // —— 填行组:同名容器按页面出现顺序 = groups 的组序 ——
+  // —— 填行组：同名容器按页面出现顺序 = groups 的组序 ——
   var byKey = {};
   Array.prototype.forEach.call(document.querySelectorAll('ul[data-lessons]'), function (ul) {
     var k = ul.getAttribute('data-lessons');
@@ -37,7 +37,7 @@ import { CARDS as C } from './content/cards.js';
     });
   });
 
-  // —— 状态推导:done 全勾=完课 / 有勾有未勾=进行中 / 全未勾或无课次=未开始 ——
+  // —— 状态推导：done 全勾=完课 / 有勾有未勾=进行中 / 全未勾或无课次=未开始 ——
   function itemsOf(cfg) {
     var keys = [].concat(cfg.from);
     var out = [];
@@ -76,7 +76,7 @@ import { CARDS as C } from './content/cards.js';
   }
 
   // —— 填内容卡(全景卡/书单/T1 长文):content/cards.js → 空占位
-  //     必须先于徽章替换:T1 正文里带着 ch:tf1 的徽章锚点,注入后才轮得到徽章逻辑找它 ——
+  //     必须先于徽章替换：T1 正文里带着 ch:tf1 的徽章锚点，注入后才轮得到徽章逻辑找它 ——
   Array.prototype.forEach.call(document.querySelectorAll('details.ch-recap[data-card]'), function (d) {
     var c = C[d.getAttribute('data-card')];
     if (!c) return;
@@ -88,8 +88,8 @@ import { CARDS as C } from './content/cards.js';
     if (c) el.innerHTML = c.body;
   });
 
-  // —— mermaid 流程图懒渲染:卡 body 里的 <pre class="mermaid"> 在所在卡首次
-  //     展开时才动态加载 vendor/mermaid.umd.min.js(3.4MB 自包含,不进首屏)就地渲染;
+  // —— mermaid 流程图懒渲染：卡 body 里的 <pre class="mermaid"> 在所在卡首次
+  //     展开时才动态加载 vendor/mermaid.umd.min.js(3.4MB 自包含，不进首屏)就地渲染；
   //     主题钉课程表配色(蓝 #066fd1 代码侧 / 橙 #f76707 模型侧由 classDef 分色) ——
   Array.prototype.forEach.call(document.querySelectorAll('.mermaid'), function (el) {
     var host = el.closest('details');
@@ -100,7 +100,7 @@ import { CARDS as C } from './content/cards.js';
         window.mermaid.initialize({
           startOnLoad: false,
           theme: 'base',
-          /* look:neo = 圆角+卡片投影,贴站内 Tabler 白卡质感;
+          /* look:neo = 圆角+卡片投影，贴站内 Tabler 白卡质感；
              色板取 COURSE.css 的 token(蓝 #066fd1 / 橙 #f76707 / tint 底 / 边 #e6e7e9),
              classDef 再按代码侧蓝、模型侧橙分色 */
           look: 'neo',
@@ -111,8 +111,8 @@ import { CARDS as C } from './content/cards.js';
             fontSize: '13px',
             fontFamily: '-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif'
           },
-          /* htmlLabels:false → 纯 SVG <text> 标签:foreignObject 里的 HTML 标签
-             会被页面全局 CSS(宽度/overflow 约束)裁字,SVG 文本不受牵连 */
+          /* htmlLabels:false → 纯 SVG <text> 标签：foreignObject 里的 HTML 标签
+             会被页面全局 CSS(宽度/overflow 约束)裁字，SVG 文本不受牵连 */
           flowchart: { curve: 'basis', htmlLabels: false, padding: 14 }
         });
         window.mermaid.run({ nodes: [el] });
@@ -127,14 +127,14 @@ import { CARDS as C } from './content/cards.js';
     } else render();
   });
 
-  // —— 章头徽章:<span data-badge="ch:key"></span> ——
+  // —— 章头徽章：<span data-badge="ch:key"></span> ——
   Object.keys(L.chBadges || {}).forEach(function (k) {
     Array.prototype.forEach.call(document.querySelectorAll('[data-badge="ch:' + k + '"]'), function (el) {
       el.outerHTML = badgeHtml(L.chBadges[k]);
     });
   });
 
-  // —— 幕:徽章 + 折叠态 ——
+  // —— 幕：徽章 + 折叠态 ——
   Object.keys(L.acts || {}).forEach(function (k) {
     var act = document.querySelector('[data-act="' + k + '"]');
     if (!act) return;
@@ -145,8 +145,8 @@ import { CARDS as C } from './content/cards.js';
     else act.open = statusOf(cfg) === 'doing';
   });
 
-  // —— 版本交付 chip + 里程碑表(lessons.ships):HTML 只放空占位,
-  //    已交付的章 chip 填 chip 文本,未交付的占位整个移除——版本号永不手写 ——
+  // —— 版本交付 chip + 里程碑表(lessons.ships):HTML 只放空占位，
+  //    已交付的章 chip 填 chip 文本，未交付的占位整个移除——版本号永不手写 ——
   var ships = L.ships || [];
   Array.prototype.forEach.call(document.querySelectorAll('[data-ship]'), function (el) {
     var s = null;
@@ -162,7 +162,7 @@ import { CARDS as C } from './content/cards.js';
     }).join('');
   }
 
-  // —— 页头「更新于」:全表最新完课日期(updated 可手动覆写) ——
+  // —— 页头「更新于」：全表最新完课日期(updated 可手动覆写) ——
   var upd = document.getElementById('hero-updated');
   if (upd) {
     var d = L.updated || '';

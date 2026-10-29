@@ -9,10 +9,10 @@
 <link rel="stylesheet" href="mc/mc.css">
 <script>
 /* 带 #区块 锚点打开/刷新时先藏内容(见 COURSE.css 的 html.cloak),
-   由页尾脚本瞬时跳到目标位置后再显示——否则浏览器先画顶部一帧再恢复滚动,看起来闪一下 */
+   由页尾脚本瞬时跳到目标位置后再显示——否则浏览器先画顶部一帧再恢复滚动，看起来闪一下 */
 if (/^#(arch|acts|mc|backlog|miles|pact|tf|log)$/.test(location.hash)) {
   document.documentElement.classList.add('cloak');
-  setTimeout(function () { document.documentElement.classList.remove('cloak'); }, 1500); // 保险:页尾脚本万一没跑也不至于白屏
+  setTimeout(function () { document.documentElement.classList.remove('cloak'); }, 1500); // 保险：页尾脚本万一没跑也不至于白屏
 }
 </script>
 </head>
@@ -33,7 +33,7 @@ if (/^#(arch|acts|mc|backlog|miles|pact|tf|log)$/.test(location.hash)) {
   </div>
 </header>
 
-<!-- 跟随视窗的快捷导航:hero 滚出视口后由 COURSE-page.js 点亮(加 .is-on),当前区块高亮 -->
+<!-- 跟随视窗的快捷导航：hero 滚出视口后由 COURSE-page.js 点亮（加 .is-on），当前区块高亮 -->
 <nav class="fly-nav" id="fly-nav" aria-label="区块快捷导航">
   <a href="#arch">全景架构</a><a href="#acts">课程表</a><a href="#tf">Transformer</a><a href="#mc">剖析</a><a href="#backlog">待学</a><a href="#miles">里程碑</a><a href="#pact">契约</a><a href="#log">记录</a>
   <a href="#top" class="fly-top" title="回到顶部">↑</a>
@@ -122,11 +122,11 @@ flowchart TD
   U(["👤 你"]) -->|"打字"| CTX
   subgraph LOOP["🔄 Agent 循环 · 心脏——一圈又一圈，直到不再要工具"]
     CTX["① 组装上下文&lt;br/&gt;📖 skill · 📣 斜杠命令 · 🗂️ memory 从这进"]
-    LLM["② 问 LLM&lt;br/&gt;无状态 · 每次带全部历史"]
+    LLM["② 问 LLM&lt;br/&gt；无状态 · 每次带全部历史"]
     ASK{"③ 要工具？"}
     PERM["④ 权限把关"]
     EXEC["⑤ 执行工具"]
-    STOP(["出口 · 最终回答&lt;br/&gt;流式渲染给你"])
+    STOP(["出口 · 最终回答&lt;br/&gt；流式渲染给你"])
     CTX --> LLM
     LLM --> ASK
     ASK -->|"是"| PERM
@@ -134,8 +134,8 @@ flowchart TD
     PERM --> EXEC
     EXEC -->|"tool_result 喂回 ①·每要一次就多转一圈"| CTX
   end
-  HK["🪝 hook 门禁&lt;br/&gt;调用前 · 执行后 · Stop——挂在事件上，不进数据流"]
-  MOD["🧩 🔀 workflow · 👥 subagent&lt;br/&gt;伪装成工具，execute = 再开嵌套循环"]
+  HK["🪝 hook 门禁&lt;br/&gt；调用前 · 执行后 · Stop——挂在事件上，不进数据流"]
+  MOD["🧩 🔀 workflow · 👥 subagent&lt;br/&gt；伪装成工具，execute = 再开嵌套循环"]
   PERM -.- HK
   EXEC -.- HK
   STOP -.- HK
@@ -215,7 +215,7 @@ flowchart TD
       <details class="ch-recap" data-card="p04-panorama"></details>
       <ul class="ch-list tight-top" data-lessons="p0">
       </ul>
-      <div class="ch-foot"><span class="foot-chip ver" data-ship="p0"></span><span class="foot-chip">✅ 已解 · 贪心走进自我闭合的圈,没有随机性捞它出来——采样本身就是解药</span></div>
+      <div class="ch-foot"><span class="foot-chip ver" data-ship="p0"></span><span class="foot-chip">✅ 已解 · 贪心走进自我闭合的圈，没有随机性捞它出来——采样本身就是解药</span></div>
           <details class="ch-lab" id="bigram-lab">
         <summary><span class="ch-lab-arrow">▶</span>🔬 实验室 · bigram 工作原理 + 互动抽签台</summary>
         <div class="ch-lab-body">
@@ -383,7 +383,7 @@ flowchart TD
       <div id="nnl-preds"></div>
     </div>
   </div>
-  <p class="bg-hint">玩法：先用 🧊 0 号一把梭,亲眼看 loss 卡在 0.25、四题全答 0.499——NN2 的投降书；换 2 号再一把梭，loss 掉到 0.00003 四题全对。死区是常态（40 个种子里只有 4 个爬得出来），种子就是第一批超参数；LR 拉到 2 试试大步长会不会翻车。</p>
+  <p class="bg-hint">玩法：先用 🧊 0 号一把梭，亲眼看 loss 卡在 0.25、四题全答 0.499——NN2 的投降书；换 2 号再一把梭，loss 掉到 0.00003 四题全对。死区是常态（40 个种子里只有 4 个爬得出来），种子就是第一批超参数；LR 拉到 2 试试大步长会不会翻车。</p>
 
   <div class="lab-cap">B · softmax 试押台 —— 拉一拉分数，看 p − y 怎么动</div>
   <div class="lab-grid">
@@ -638,7 +638,7 @@ flowchart TD
   <span class="c1-sg" data-exp="choices">"choices"</span>: [{
     "message": {
       <span class="c1-sg" data-exp="content">"content"</span>: "我是一个致力于通过处理信息和生成创意来帮助你实现目标的人工智能助手。",
-      <span class="c1-sg" data-exp="reason">"reasoning_content"</span>: "…(思考草稿，1,204 个 token，此处折叠)…",
+      <span class="c1-sg" data-exp="reason">"reasoning_content"</span>: "…（思考草稿，1,204 个 token，此处折叠）…",
       "role": "assistant"
     },
     "finish_reason": "stop"
@@ -717,27 +717,27 @@ flowchart TD
       <div class="cx-evts" id="cx-evts"></div>
       <div class="lab-cap" style="margin-top:12px">打字机输出（delta 逐词拼接）</div>
       <pre class="cx-pre cx-type" id="cx-type"></pre>
-      <div class="lab-stat" style="margin-top:12px" id="cx-bill">账单:还没收到</div>
+      <div class="lab-stat" style="margin-top:12px" id="cx-bill">账单：还没收到</div>
     </div>
   </div>
   <div class="lab-cap" style="margin-top:18px">C · 真机连线 —— 同一份代码跑在浏览器里（key 在服务端，页面代码碰不到它）</div>
   <div class="lab-grid cx-bgrid">
     <div class="lab-box">
       <div class="lab-row">
-        <input class="cx-in" id="cx-in" type="text" placeholder="说点什么，回车发送（如:用一句话自我介绍）" />
+        <input class="cx-in" id="cx-in" type="text" placeholder="说点什么，回车发送（如：用一句话自我介绍）" />
         <span class="lab-mini" id="cx-send">发送</span>
       </div>
       <div class="lab-cap">回复（打字机——与 src/chat.ts 同一套解析）</div>
       <pre class="cx-pre cx-type cx-live" id="cx-live">还没开口</pre>
-      <div class="lab-stat" style="margin-top:10px" id="cx-acc">账本:1 条 system · 累计 0 token</div>
-      <div class="lab-stat" id="cx-acc2">账单:¥0.0000（输入 4 / 输出 14 元每百万 token）</div>
+      <div class="lab-stat" style="margin-top:10px" id="cx-acc">账本：1 条 system · 累计 0 token</div>
+      <div class="lab-stat" id="cx-acc2">账单：¥0.0000（输入 4 / 输出 14 元每百万 token）</div>
     </div>
     <div class="lab-box">
       <div class="lab-cap">原始 SSE 事件流（透视：思考草稿 reasoning_content 在流里，chat.ts 不理它）——一行一事件，长行左右滑</div>
       <div class="cx-evts" id="cx-raw">发一条消息，这里直播服务器吐的每一行</div>
     </div>
   </div>
-  <p class="bg-hint">玩法：A 台把八段代码点一遍——267 行每行都有来处,⑦ 段看 agent 循环怎么转。B 台先看「整包到达」再点「劈成碎片」：碎片模式下缓冲区长期滞留半截 JSON，这就是为什么不能「来一块解析一块」，必须攒到换行。C 台是真机：打字机上屏的同时，右侧直播原始事件流——灰色 reasoning_content 是模型的思考草稿，chat.ts 只取 content，但草稿照样计费，账单一栏见分晓。</p>
+  <p class="bg-hint">玩法：A 台把八段代码点一遍——267 行每行都有来处，⑦ 段看 agent 循环怎么转。B 台先看「整包到达」再点「劈成碎片」：碎片模式下缓冲区长期滞留半截 JSON，这就是为什么不能「来一块解析一块」，必须攒到换行。C 台是真机：打字机上屏的同时，右侧直播原始事件流——灰色 reasoning_content 是模型的思考草稿，chat.ts 只取 content，但草稿照样计费，账单一栏见分晓。</p>
         </div>
       </details>
       <div class="ch-foot"><span class="foot-chip ver" data-ship="ch2"></span><span class="foot-chip">🔍 考点 · 为什么每次请求都重发完整历史？代价是什么？</span></div>
@@ -860,7 +860,7 @@ flowchart TD
 <section class="block" id="mc">
   <div class="sec-kicker">04 / MINICLAUDE</div>
   <h2 class="sec">MiniClaude 剖析</h2>
-  <p class="sec-sub">与 Transformer 拼图互为镜像:那边钉标本,这边摆实货——透视窗里只放当前真实长成的项目,课程表主线走到哪,这张图重画到哪,不预画路线。</p>
+  <p class="sec-sub">与 Transformer 拼图互为镜像：那边钉标本，这边摆实货——透视窗里只放当前真实长成的项目，课程表主线走到哪，这张图重画到哪，不预画路线。</p>
   <div data-card-body="mc-map"></div>
 </section>
 

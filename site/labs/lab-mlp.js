@@ -1,10 +1,10 @@
-/* labs/lab-mlp.js —— P0.4 MLP 调音台(序章实验室 · minigpt v0.1 真前向)
+/* labs/lab-mlp.js —— P0.4 MLP 调音台（序章实验室 · minigpt v0.1 真前向）
    ----------------------------------------------------------------------------
-   参数来自 labs/mlp-params.js(MLPLM 训练后导出,dev 1.9777):
-   前向同款三查一拼→W1 搅拌→tanh→W2 表决,浏览器里现场真算——
-   分布不是示意,是 12,739 个参数此刻的输出;
-   temperature / top-k 旋钮与 minigpt sample.py 同构:
-   logits ÷ T → 榜外 −∞ → softmax → 抽签,参数与考卷 loss 一概不动。
+   参数来自 labs/mlp-params.js(MLPLM 训练后导出，dev 1.9777):
+   前向同款三查一拼→W1 搅拌→tanh→W2 表决，浏览器里现场真算——
+   分布不是示意，是 12,739 个参数此刻的输出；
+   temperature / top-k 旋钮与 minigpt sample.py 同构：
+   logits ÷ T → 榜外 −∞ → softmax → 抽签，参数与考卷 loss 一概不动。
    依赖 labs/shared.js、labs/mlp-params.js。 */
 import { $id as $ } from './shared.js';
 import { MLP } from './mlp-params.js';
@@ -13,10 +13,10 @@ import { MLP } from './mlp-params.js';
   var fmt = function (s) { return s === '\n' ? '⏎' : (s === ' ' ? '␣' : s); };
   var STOI = {}; MLP.vocab.forEach(function (c, i) { STOI[c] = i; });
 
-  // —— 真前向:窗口(3 字符下标)→ 67 个 logits,与 models.py 逐步同款 ——
+  // —— 真前向：窗口(3 字符下标)→ 67 个 logits，与 models.py 逐步同款 ——
   function forward(ctxIdx) {
     var h = [], i, j;
-    for (i = 0; i < BLK * MLP.meta.dim; i++) {          // 三查一拼:C[t]+C[h]+C[e] 拼成 48
+    for (i = 0; i < BLK * MLP.meta.dim; i++) {          // 三查一拼：C[t]+C[h]+C[e] 拼成 48
       var c = Math.floor(i / MLP.meta.dim), d = i % MLP.meta.dim;
       h.push(MLP.C[ctxIdx[c]][d]);
     }
@@ -34,7 +34,7 @@ import { MLP } from './mlp-params.js';
     }
     return logits;
   }
-  function adj(logits) {                                // 旋钮:÷T → top-k 清场 → softmax
+  function adj(logits) {                                // 旋钮：÷T → top-k 清场 → softmax
     var T = +$('mlp-temp').value, K = +$('mlp-topk').value, lg = logits.slice(), i;
     if (K > 0) {
       var srt = lg.slice().sort(function (a, b) { return b - a; });
@@ -50,13 +50,13 @@ import { MLP } from './mlp-params.js';
   var seedText = '\n\n\n', out = '', timer = null, last = -1;
   var elOut = $('mlp-out'), elSteps = $('mlp-steps'), elLast = $('mlp-last'), elWin = $('mlp-win');
 
-  function ctx() {                                       // 不足 3 字时前面垫换行(与 data.py 垫法同款)
+  function ctx() {                                       // 不足 3 字时前面垫换行（与 data.py 垫法同款）
     var s = out.slice(-BLK);
     while (s.length < BLK) s = '\n' + s;
     return s;
   }
   function stepTo(j) { last = j; out += MLP.vocab[j]; render(); }
-  function step() {                                     // 一字:前向→旋钮→抽签
+  function step() {                                     // 一字：前向→旋钮→抽签
     var ctxIdx = [], cs = ctx();
     for (var i = 0; i < BLK; i++) ctxIdx.push(STOI[cs[i]]);
     var p = adj(forward(ctxIdx)), r = Math.random(), acc = 0;
@@ -70,7 +70,7 @@ import { MLP } from './mlp-params.js';
     for (k = 1; k < V; k++) if (p[k] > p[mi]) mi = k;
     elWin.textContent = cs.slice(-BLK).split('').map(fmt).join(' ');
     elSteps.textContent = '第 ' + out.length + ' 字';
-    elLast.textContent = '上次:' + (last < 0 ? '—' : fmt(MLP.vocab[last]));
+    elLast.textContent = '上次：' + (last < 0 ? '—' : fmt(MLP.vocab[last]));
     var srt = p.map(function (v, j) { return [j, v]; }).sort(function (a, b) { return b[1] - a[1]; });
     var top = srt.filter(function (x) { return x[1] > 0.0005; }).slice(0, 8), html = '';
     for (k = 0; k < top.length; k++) {
@@ -93,8 +93,8 @@ import { MLP } from './mlp-params.js';
     elOut.textContent = out.slice(-120).split('').map(fmt).join('');
     var T = +$('mlp-temp').value, K = +$('mlp-topk').value;
     $('mlp-knob').textContent = (T === 1 && K === 0)
-      ? '模型本色(T=1,不限签)'
-      : '旋钮生效:T=' + T.toFixed(1) + (K ? ' · 前 ' + K + ' 名' : '') + '(参数没动,抽签变了)';
+      ? '模型本色（T=1，不限签）'
+      : '旋钮生效：T=' + T.toFixed(1) + (K ? ' · 前 ' + K + ' 名' : '') + '(参数没动，抽签变了)';
   }
   function stopAuto() {
     if (timer) { clearInterval(timer); timer = null; $('mlp-auto').textContent = '▶ 自动接龙'; $('mlp-auto').classList.remove('is-on'); }

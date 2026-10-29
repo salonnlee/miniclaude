@@ -1,8 +1,8 @@
-/* labs/lab-3b.js —— 观影三台(支线·观影 3B1–3B4 实验室)
+/* labs/lab-3b.js —— 观影三台（支线·观影 3B1–3B4 实验室）
    ----------------------------------------------------------------------------
-   从 COURSE.html 内嵌 <script> 迁出;A = 神经元打分台(3B1,权重×输入 + 偏置门槛),
-   B = loss 山小球场(3B2,负梯度下山 + SGD 噪声),C = 链式法则对表台(3B3/3B4,
-   连乘 vs 数值梯度)。依赖 labs/shared.js;交互元素在 COURSE.html 的 #lab3b 区块。 */
+   从 COURSE.html 内嵌 <script> 迁出；A = 神经元打分台(3B1，权重×输入 + 偏置门槛),
+   B = loss 山小球场(3B2，负梯度下山 + SGD 噪声),C = 链式法则对表台(3B3/3B4,
+   连乘 vs 数值梯度)。依赖 labs/shared.js；交互元素在 COURSE.html 的 #lab3b 区块。 */
 import { $id, fmt, chips } from './shared.js';
 (function () {
 

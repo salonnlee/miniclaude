@@ -1,10 +1,10 @@
-/* labs/lab-3b7.js —— 卷积三台(支线·观影 3B7 实验室)
+/* labs/lab-3b7.js —— 卷积三台（支线·观影 3B7 实验室）
    ----------------------------------------------------------------------------
-   从 COURSE.html 内嵌 <script> 迁出;A = 骰子滑动台(和的分布:翻转·滑动·乘加),
-   B = 滤镜像机(32×32 程序绘猫 × 四核,B 台算法与全景卡图二实算源同款),
-   C = 大数乘法台(拆位→乘法表→对角线收账→进位清洗,收在 BigInt 对表)。
-   依赖 labs/shared.js;交互元素在 COURSE.html 的 #lab3b7 区块。
-   验收钩子:控制台 window.L7FAST = true 走快速时序(无头截图验收用)。 */
+   从 COURSE.html 内嵌 <script> 迁出；A = 骰子滑动台(和的分布：翻转·滑动·乘加),
+   B = 滤镜像机(32×32 程序绘猫 × 四核，B 台算法与全景卡图二实算源同款),
+   C = 大数乘法台（拆位→乘法表→对角线收账→进位清洗，收在 BigInt 对表）。
+   依赖 labs/shared.js；交互元素在 COURSE.html 的 #lab3b7 区块。
+   验收钩子：控制台 window.L7FAST = true 走快速时序（无头截图验收用）。 */
 import { $id, chips } from './shared.js';
 (function () {
   var FAST = function () { return !!window.L7FAST; };

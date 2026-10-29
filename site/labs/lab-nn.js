@@ -1,12 +1,12 @@
-/* labs/lab-nn.js —— NN 内功合成台(支线·内功「从旋钮到反向传播」实验室)
+/* labs/lab-nn.js —— NN 内功合成台（支线·内功「从旋钮到反向传播」实验室）
    ----------------------------------------------------------------------------
-   从 COURSE.html 内嵌 <script> 迁出;A 台 = 2-2-1 九旋钮 XOR 训练台(NN1 下坡循环
-   + NN3 反向梯度,NN2 死区种子可复现),B 台 = softmax 试押台(拉分数看 p − y)。
-   依赖 labs/shared.js;交互元素在 COURSE.html 的 #nn-lab 区块。 */
+   从 COURSE.html 内嵌 <script> 迁出；A 台 = 2-2-1 九旋钮 XOR 训练台(NN1 下坡循环
+   + NN3 反向梯度，NN2 死区种子可复现),B 台 = softmax 试押台（拉分数看 p − y）。
+   依赖 labs/shared.js；交互元素在 COURSE.html 的 #nn-lab 区块。 */
 import { $id, fmt, chips } from './shared.js';
 (function () {
 
-  /* A 台:九旋钮 XOR 训练 */
+  /* A 台：九旋钮 XOR 训练 */
   var DATA = [[0,0,0],[0,1,1],[1,0,1],[1,1,0]];
   function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
   function initP(seed){var r=mulberry32(seed),p=[];for(var i=0;i<9;i++)p.push(r()*2-1);return p}
@@ -38,7 +38,7 @@ import { $id, fmt, chips } from './shared.js';
   $id('nnl-re').onclick=reset;
   reset();
 
-  /* B 台:softmax 试押 */
+  /* B 台：softmax 试押 */
   var zs=[2,1,0.1],ans=2,names=['a','b','c'];
   function smx(z){var m=Math.max.apply(null,z),e=z.map(function(v){return Math.exp(v-m)}),s=e.reduce(function(a,b){return a+b},0);return e.map(function(v){return v/s})}
   function renderS(){

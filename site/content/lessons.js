@@ -1,49 +1,49 @@
 /* ============================================================================
-   content/lessons.js —— 课次数据(唯一事实源,配 COURSE-render.js 渲染)
+   content/lessons.js —— 课次数据（唯一事实源，配 COURSE-render.js 渲染）
    ----------------------------------------------------------------------------
-   COURSE.html 里不再手写课次行:每个 <ul class="ch-list" data-lessons="key">
-   是空容器,渲染器把下面的 groups 按出现顺序填进去(第 i 组 → 第 i 个容器)。
-   页头「更新于」、幕头/章头徽章、幕的折叠态,全部由这里的数据自动推导,
+   COURSE.html 里不再手写课次行：每个 <ul class="ch-list" data-lessons="key">
+   是空容器，渲染器把下面的 groups 按出现顺序填进去（第 i 组 → 第 i 个容器）。
+   页头「更新于」、幕头/章头徽章、幕的折叠态，全部由这里的数据自动推导，
    不再手改。
 
-   常见操作:
-   · 完课        → 该课次条目加 done: '2026-10-26'(备注限一句短语,约 15 字内,如 '2026-10-26(伴读模式)';
-                    复盘细节一律进 COURSE-LOG.js——课次行只报日期与一句话,不背长文);
+   常见操作：
+   · 完课        → 该课次条目加 done: '2026-10-26'(备注限一句短语，约 15 字内，如 '2026-10-26(伴读模式)';
+                    复盘细节一律进 COURSE-LOG.js——课次行只报日期与一句话，不背长文);
                     幕徽章/折叠/「更新于」自动跟着变。
-   · 加课次      → 往对应章最后一组(或新起一组,新组需在 HTML 加一个空容器)末尾加一条。
-   · 加待学条目  → backlog 组加一条,写法同课次行。
-   · 拼图(T 区)  → done 即「已拼上」(sem: 'puzzle')。
+   · 加课次      → 往对应章最后一组（或新起一组，新组需在 HTML 加一个空容器）末尾加一条。
+   · 加待学条目  → backlog 组加一条，写法同课次行。
+   · 拼图(T 区)  → done 即「已拼上」（sem: 'puzzle'）。
 
-   行字段:
-   · done      'YYYY-MM-DD',可带全角括号备注(一句短语);有 done 不写 mark
-   · mark      待开标记: '⏭ 下一站' / '⏳ 待拼' / '⏳'
-   · tail      行尾追加文字(不含前导空格,渲染器自动补),如 '—— 拓展视野:…'
+   行字段：
+   · done      'YYYY-MM-DD'，可带全角括号备注（一句短语）；有 done 不写 mark
+   · mark      待开标记： '⏭ 下一站' / '⏳ 待拼' / '⏳'
+   · tail      行尾追加文字（不含前导空格，渲染器自动补），如 '—— 拓展视野：…'
    · noGap     仅当 name 结尾紧贴 ✅ 且原文无空格时为 true(全表只有 P0.1、NN2)
-   · label     非课次的说明行(知识点/实践/总结/仪式),不参与状态推导
+   · label     非课次的说明行（知识点/实践/总结/仪式），不参与状态推导
    ============================================================================ */
 export const LESSONS = {
   "updated": "",
-  // —— 版本交付表(单一事实源):渲染器据此点亮章交付 chip(foot-chip ver)
-  //    与里程碑表;COURSE.html 不再手写任何版本号。
-  //    交付新版本 = 对应条目填 ver + chip + at(chip 挂哪章);未交付条目
-  //    ver 置 null,页面显示「—」、章 chip 自动隐藏。
+  // —— 版本交付表（单一事实源）：渲染器据此点亮章交付 chip(foot-chip ver)
+  //    与里程碑表；COURSE.html 不再手写任何版本号。
+  //    交付新版本 = 对应条目填 ver + chip + at(chip 挂哪章)；未交付条目
+  //    ver 置 null，页面显示「—」、章 chip 自动隐藏。
   "ships": [
     { "at": "p0",  "ver": "v0.1", "chip": "交付 v0.1 · minigpt/",    "what": "莎士比亚嘴替——你手搓的真·迷你 GPT(CPU 训练)", "range": "序章" },
-    { "at": "ch2", "ver": "v0.4", "chip": "交付 v0.4 · src/chat.ts", "what": "流式多轮聊天,退出时报账", "range": "第 1–2 章" },
-    { "ver": "v0.5", "what": "网页对话框——右下角气泡唤起,流式聊天 + 多会话 + 记账", "range": "主线间隙" },
+    { "at": "ch2", "ver": "v0.4", "chip": "交付 v0.4 · src/chat.ts", "what": "流式多轮聊天，退出时报账", "range": "第 1–2 章" },
+    { "ver": "v0.5", "what": "网页对话框——右下角气泡唤起，流式聊天 + 多会话 + 记账", "range": "主线间隙" },
     { "ver": "v0.6", "what": "对话框升级——Markdown 真排版 + 问题库 100 条随机三问", "range": "主线间隙" },
     { "ver": "v0.7", "what": "对话框再升级——流式实时排版 + 代码高亮", "range": "主线间隙" },
-    { "at": "ch3", "ver": "v0.8", "chip": "交付 v0.8 · src/chat.ts + tools/", "what": "会调工具的 Agent 循环(玩具工具)", "range": "第 3–4 章" },
-    { "ver": "v0.9", "what": "对话框长出工具调用——浏览器端 agent 循环 + 🔧 工具气泡,与 CLI 同一张图纸", "range": "主线间隙" },
-  { "at": "ch5", "ver": "v1.0", "chip": "交付 v1.0 · src/tools/fs.ts", "what": "文件读写三件——agent 开始碰真文件(截断/二进制检测/精确替换)", "range": "第 5 章" },
-  { "at": "ch6", "ver": "v1.1", "chip": "交付 v1.1 · src/tools/bash.ts + permissions.ts", "what": "跑命令且有安全闸门(deny/ask/allow 三扇门 + 确认流)", "range": "第 6 章" },
-    { "ver": null, "what": "读写你的代码,自己发现并修好 bug", "range": "第 5 章" },
-    { "ver": null, "what": "跑命令,且有安全闸门", "range": "第 6 章" },
+    { "at": "ch3", "ver": "v0.8", "chip": "交付 v0.8 · src/chat.ts + tools/", "what": "会调工具的 Agent 循环（玩具工具）", "range": "第 3–4 章" },
+    { "ver": "v0.9", "what": "对话框长出工具调用——浏览器端 agent 循环 + 🔧 工具气泡，与 CLI 同一张图纸", "range": "主线间隙" },
+  { "at": "ch5", "ver": "v1.0", "chip": "交付 v1.0 · src/tools/fs.ts", "what": "文件读写三件——agent 开始碰真文件（截断/二进制检测/精确替换）", "range": "第 5 章" },
+  { "at": "ch6", "ver": "v1.1", "chip": "交付 v1.1 · src/tools/bash.ts + permissions.ts", "what": "跑命令且有安全闸门（deny/ask/allow 三扇门 + 确认流）", "range": "第 6 章" },
+    { "ver": null, "what": "读写你的代码，自己发现并修好 bug", "range": "第 5 章" },
+    { "ver": null, "what": "跑命令，且有安全闸门", "range": "第 6 章" },
     { "at": "ch7", "ver": "v1.2", "chip": "交付 v1.2 · src/context.ts", "what": "上下文管理——system 拼装 + CLAUDE.md 记忆 + 自动压缩 + 缓存记账", "range": "第 7 章" },
     { "at": "ch3b", "ver": "v1.3", "chip": "交付 v1.3 · src/tools/agents.ts", "what": "子代理与工作流——agent 工具 execute 里再开循环(上下文隔离),workflow 按写死计划按序派兵", "range": "第二幕附加章" },
-    { "at": "ch8", "ver": "v1.4", "chip": "交付 v1.4 · src/ui.ts", "what": "终端界面重构——换脸不换心:状态行转圈+流式两段式重排+工具卡+Esc 打断+diff 上色", "range": "第 8 章" },
-    { "at": "ch8", "ver": "v1.5", "chip": "交付 v1.5 · src/tools/bash.ts", "what": "后台任务——spawn 脱管不杀、PID 记账、日志回头查(bash_check)", "range": "第 8 章" },
-    { "at": "ch9", "ver": "v1.6", "chip": "交付 v1.6 · site/mc/tools.js + src/ui.ts", "what": "TodoWrite 任务外部化——整份重写的任务白板,终端三态上色,两端同版长出", "range": "第 9 章" },
+    { "at": "ch8", "ver": "v1.4", "chip": "交付 v1.4 · src/ui.ts", "what": "终端界面重构——换脸不换心：状态行转圈+流式两段式重排+工具卡+Esc 打断+diff 上色", "range": "第 8 章" },
+    { "at": "ch8", "ver": "v1.5", "chip": "交付 v1.5 · src/tools/bash.ts", "what": "后台任务——spawn 脱管不杀、PID 记账、日志回头查（bash_check）", "range": "第 8 章" },
+    { "at": "ch9", "ver": "v1.6", "chip": "交付 v1.6 · site/mc/tools.js + src/ui.ts", "what": "TodoWrite 任务外部化——整份重写的任务白板，终端三态上色，两端同版长出", "range": "第 9 章" },
     { "at": "ch9", "ver": "v1.7", "chip": "交付 v1.7 · src/chat.ts + site/mc/tools.js", "what": "计划模式(/plan 只读柜台→批准→执行)+ 清单快照每轮重注入——事前拦截与事中记账成对", "range": "第 9 章" },
     { "ver": null, "what": "子代理 / 计划模式 / 技能 / MCP", "range": "第 9 章" },
     { "ver": null, "what": "配置、缓存、沙箱、发布——企业级收尾", "range": "第 10 章" }
@@ -298,7 +298,7 @@ export const LESSONS = {
             "code": "CH6.1",
             "name": "命令执行与安全闸门",
             "done": "2026-10-28（v1.1 三扇门 deny/ask/allow＋超时强杀，粒度到子命令）",
-            "tail": "—— npm run chat 可玩 · 后台任务(不杀/记 PID/回头查)留 CH8"
+            "tail": "—— npm run chat 可玩 · 后台任务（不杀/记 PID/回头查）留 CH8"
           },
           {
             "label": "知识点",
@@ -338,15 +338,15 @@ export const LESSONS = {
             "code": "附.1",
             "name": "v1.3 · 子代理与工作流",
             "done": "2026-10-28（v1.3 agent 工具里再开循环=上下文隔离，workflow 计划是参数）",
-            "tail": "—— npm run chat 可玩 · 全景卡已上:循环里再开循环(核心代码五段可点 × 透视卡)"
+            "tail": "—— npm run chat 可玩 · 全景卡已上：循环里再开循环（核心代码五段可点 × 透视卡）"
           },
           {
             "label": "知识点",
-            "text": "子代理=一次性小 agent:自己的 messages、收窄的工具柜、只交回结论(上下文隔离);工作流=宿主写死的控制流:计划是参数、执行是代码;两者对主对话都只是一次 tool 调用;异步=宿主注入通知重新唤醒,模型自始至终只吐字"
+            "text": "子代理=一次性小 agent：自己的 messages、收窄的工具柜、只交回结论（上下文隔离）；工作流=宿主写死的控制流：计划是参数、执行是代码；两者对主对话都只是一次 tool 调用；异步=宿主注入通知重新唤醒，模型自始至终只吐字"
           },
           {
             "label": "总结",
-            "text": "嵌套的是执行环节,不是模型调用——模型到今天只见过「吐申请、收文本」,并行与类型化返回是宿主循环上长的器官"
+            "text": "嵌套的是执行环节，不是模型调用——模型到今天只见过「吐申请、收文本」，并行与类型化返回是宿主循环上长的器官"
           }
         ]
       ]
@@ -358,13 +358,13 @@ export const LESSONS = {
             "code": "CH8.1",
             "name": "终端界面重构",
             "done": "2026-10-29（v1.4 换脸不换心：脸面全进 src/ui.ts，Esc=撤销键）",
-            "tail": "—— npm run chat 可玩 · 正文超一屏保留原文不重排,这正是 Ink 整帧管理的理由"
+            "tail": "—— npm run chat 可玩 · 正文超一屏保留原文不重排，这正是 Ink 整帧管理的理由"
           },
           {
             "code": "CH8.2",
-            "name": "后台任务(spawn 不杀/记 PID/回头查日志)",
+            "name": "后台任务（spawn 不杀/记 PID/回头查日志）",
             "done": "2026-10-29（v1.5 后台三件套：background 脱管、日志落盘、bash_check 回头查）",
-            "tail": "—— npm run chat 可玩 · 记账是会话级(住内存),日志是持久的(.bg/ 文件,read_file 随可读)"
+            "tail": "—— npm run chat 可玩 · 记账是会话级（住内存），日志是持久的（.bg/ 文件，read_file 随可读）"
           },
           {
             "label": "知识点",
@@ -384,13 +384,13 @@ export const LESSONS = {
             "code": "CH9.1",
             "name": "TodoWrite 任务外部化",
             "done": "2026-10-29（v1.6 TodoWrite 整份重写白板，三态上色 ☐▸☑）",
-            "tail": "—— npm run chat 可玩 · 给它一个多步任务,看清单从 ☐ 一路勾到 ☑"
+            "tail": "—— npm run chat 可玩 · 给它一个多步任务，看清单从 ☐ 一路勾到 ☑"
           },
           {
             "code": "CH9.2",
             "name": "Plan mode 先批准后执行",
             "done": "2026-10-29（v1.7 /plan 只读柜台调研 → y 批准 → 执行＋清单快照重注入）",
-            "tail": "—— npm run chat 可玩 · /plan <任务> 看先批准后执行,再问「现在进度如何」看快照"
+            "tail": "—— npm run chat 可玩 · /plan <任务> 看先批准后执行，再问「现在进度如何」看快照"
           },
           {
             "code": "CH9.3",

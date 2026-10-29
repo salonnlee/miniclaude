@@ -1,17 +1,17 @@
-/* labs/lab-chat.js —— CH2 实验室:chat.ts 透视台
+/* labs/lab-chat.js —— CH2 实验室：chat.ts 透视台
    ----------------------------------------------------------------------------
-   A 台:src/chat.ts 全文八段,点击段落 → 透视卡交代它干什么、数据什么形状
-        (透视卡机制同 CH1 素颜相见台,升格为整份代码可透视——代码分析标配)。
-   B 台:SSE 缓冲实验——同一段流两种到达方式(整包 vs 劈成碎片),
-        逐字进缓冲区、见换行切事件,亲眼看半截 JSON 为什么不能解析。
-   C 台:真机连线——POST /api/chat(scripts/serve.mjs 流式代理,key 只住服务端),
-        前端解析与 src/chat.ts 逐行同款;右侧直播原始 SSE,思考草稿在流里可见。 */
+   A 台：src/chat.ts 全文八段，点击段落 → 透视卡交代它干什么、数据什么形状
+        (透视卡机制同 CH1 素颜相见台，升格为整份代码可透视——代码分析标配)。
+   B 台：SSE 缓冲实验——同一段流两种到达方式(整包 vs 劈成碎片),
+        逐字进缓冲区、见换行切事件，亲眼看半截 JSON 为什么不能解析。
+   C 台：真机连线——POST /api/chat(scripts/serve.mjs 流式代理，key 只住服务端),
+        前端解析与 src/chat.ts 逐行同款；右侧直播原始 SSE，思考草稿在流里可见。 */
 import { $id } from './shared.js';
 
 /* ================= A · 代码透视(段落与透视卡) ================= */
 
-/* 卡列跟随:幕折叠的 ::details-content 会劫持 sticky/fixed 的包含块(实测 fixed 钉到伪元素顶),
-   只剩绝对定位可靠——position:absolute 挂在网格上,滚动时重算 top */
+/* 卡列跟随：幕折叠的 ::details-content 会劫持 sticky/fixed 的包含块(实测 fixed 钉到伪元素顶),
+   只剩绝对定位可靠——position:absolute 挂在网格上，滚动时重算 top */
 var pinSync = function () {};
 (function pin() {
   var grid = document.querySelector('#chat-lab .cx-grid');
@@ -22,7 +22,7 @@ var pinSync = function () {};
     var vh = innerHeight;
     var gr = grid.getBoundingClientRect();
     var cardH = card.offsetHeight;
-    /* 只有「网格比视口高、代码列比卡高」时才钉;其余时候各回各位 */
+    /* 只有「网格比视口高、代码列比卡高」时才钉；其余时候各回各位 */
     var need = wide && gr.height > vh && code.offsetHeight > cardH;
     if (!need || gr.top > 12 || gr.bottom < 0) {
       card.classList.remove('cx-stick');
@@ -42,7 +42,7 @@ var pinSync = function () {};
   addEventListener('resize', sync);
 })();
 
-/* 八段代码与 src/chat.ts 逐字一致(v1.7 计划模式与清单快照,267 行) */
+/* 八段代码与 src/chat.ts 逐字一致(v1.7 计划模式与清单快照，267 行) */
 var SEGS = [
   {
     id: 'gear',
@@ -348,7 +348,7 @@ var SEGS = [
       "}\n" +
       "\n",
     card: ['双层循环:外圈读人,内圈跑 agent,Esc 是撤销键',
-      '<b>agent 循环</b>本体没变:ask 一轮 → 它要工具就执行、喂回、再 ask,直到某轮 <b>toolCalls 为空</b>(考点:退出条件 = 它不再要,不是调够 N 次)。v1.4 换的全是脸:转圈 <b>ui.think</b> 第一个字到达即停;流完 <b>ui.commit</b>把裸文本擦起重排(两段式,网页对话框 v0.7 同款);工具跑前亮 <b>ui.status</b>、跑完打 ⏺ <b>工具卡</b>(edit_file 的 diff 行在这里红绿上色)。<b>Esc 打断</b>三处竞态:流中被 signal 直接掐断,这轮不入账(半句话不进记忆);工具批跑完看旗子——一整批 tool 结果都在历史才合法,assistant 要了俩只回一个 = API 400;打断完给模型一句 <b>user 注记</b>,别让它对着空气猜(真 Claude Code 同款)。v1.7 循环体抽成 <b>agentLoop(allow)</b> 函数——allow 收窄柜台这扇门原本给子代理开,计划模式借同一扇门:<b>/plan</b> 前缀进来先逛只读柜台(READ_ONLY:能看不能改,物理上没有写的把手)调研出计划,y 确认后全量柜开工,先 TodoWrite 立清单再执行;普通输入则每轮在 user 消息尾<b>捎一张清单快照</b>——宿主手里的真账拍照发给模型,不靠历史里那条 tool 消息活着,压缩糊掉老历史也糊不掉当前进度,追加在尾部前缀缓存照吃。回合收尾清 rl 行缓冲、出口看 lastPrompt 水位,token 才是要花钱的那个单位。']
+      '<b>agent 循环</b>本体没变:ask 一轮 → 它要工具就执行、喂回、再 ask,直到某轮 <b>toolCalls 为空</b>(考点:退出条件 = 它不再要,不是调够 N 次)。v1.4 换的全是脸:转圈 <b>ui.think</b> 第一个字到达即停;流完 <b>ui.commit</b>把裸文本擦起重排(两段式,网页对话框 v0.7 同款);工具跑前亮 <b>ui.status</b>、跑完打 ⏺ <b>工具卡</b>(edit_file 的 diff 行在这里红绿上色)。<b>Esc 打断</b>三处竞态:流中被 signal 直接掐断,这轮不入账(半句话不进记忆);工具批跑完看旗子——一整批 tool 结果都在历史才合法,assistant 要了俩只回一个 = API 400;打断完给模型一句 <b>user 注记</b>,别让它对着空气猜(真 Claude Code 同款)。回合收尾清 rl 行缓冲(流式中手滑打的字别带进下一问)、raw 模式只在回合内接管。v1.2 的<b>压缩触发</b>照旧:出口看 lastPrompt 水位,token 才是要花钱的那个单位。']
   },
   {
     id: 'bill',
@@ -362,7 +362,7 @@ var SEGS = [
       'bill']
   }
 ];
-/* 迷你高亮:一次正则分词(注释/字符串/关键字/数字),避免「注释里的引号」互相污染 */
+/* 迷你高亮：一次正则分词（注释/字符串/关键字/数字），避免「注释里的引号」互相污染 */
 function hl(src) {
   var esc = function (s) {
     return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -405,29 +405,29 @@ function hl(src) {
         runMode('shred');
         $id('cx-chunk').scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
-      /* 卡不完全在视口里(含只裁一半)就把它居中到眼前——手算 scrollTo,
+      /* 卡不完全在视口里（含只裁一半）就把它居中到眼前——手算 scrollTo,
          scrollIntoView 在个别嵌入环境/平滑滚动状态下会静默失灵 */
       var r = exp.getBoundingClientRect();
       if (r.top < 0 || r.bottom > innerHeight) {
         window.scrollTo(0, scrollY + r.top - (innerHeight - r.height) / 2);
       }
-      pinSync(); /* 卡高随段落变,钉住的位置要重算 */
+      pinSync(); /* 卡高随段落变，钉住的位置要重算 */
     });
   });
   box.firstChild.click(); /* 默认展开第一段 */
-  /* 代码面板展开/收起开关:限高模式下 macOS 滚动条默认隐形,看着像截断 */
+  /* 代码面板展开/收起开关：限高模式下 macOS 滚动条默认隐形，看着像截断 */
   var fold = $id('cx-fold');
   if (fold) fold.addEventListener('click', function () {
     var full = $id('cx-code').classList.toggle('full');
     fold.classList.toggle('on', full);
     fold.textContent = full ? '⤡ 收起' : '⤢ 展开全部';
-    pinSync(); /* 代码列高变了,跟随模式可能要开关 */
+    pinSync(); /* 代码列高变了，跟随模式可能要开关 */
   });
 })();
 
 /* ================= B · SSE 缓冲实验 ================= */
 
-/* 一段三词回复的完整 SSE 流(形状照真机缩样:delta×3 → 账单 → 终点) */
+/* 一段三词回复的完整 SSE 流(形状照真机缩样：delta×3 → 账单 → 终点) */
 var B_EVENTS = [
   '{"choices":[{"delta":{"content":"你"}}]}',
   '{"choices":[{"delta":{"content":"好"}}]}',
@@ -444,7 +444,7 @@ function bReset() {
   $id('cx-buf').innerHTML = '';
   $id('cx-evts').innerHTML = '';
   $id('cx-type').textContent = '';
-  $id('cx-bill').textContent = '账单:还没收到';
+  $id('cx-bill').textContent = '账单：还没收到';
   $id('cx-chunk').classList.remove('hot');
 }
 
@@ -457,36 +457,36 @@ function bAddEvt(kind, text) {
   list.scrollTop = list.scrollHeight;
 }
 
-/* runMode('whole'|'shred'):把 B_TEXT 按 chunk 喂进缓冲区,逐字演同一段解析逻辑 */
+/* runMode('whole'|'shred')：把 B_TEXT 按 chunk 喂进缓冲区，逐字演同一段解析逻辑 */
 function runMode(mode) {
   bReset();
-  /* [\s\S] 而不是 .:正则的点号不吃换行符,用 . 会把 \n 全丢在切碎的路上 */
+  /* [\s\S] 而不是 .：正则的点号不吃换行符，用 . 会把 \n 全丢在切碎的路上 */
   var chunks = mode === 'whole' ? [B_TEXT] : B_TEXT.match(/[\s\S]{1,9}/g) || [];
   var ci = 0, pos = 0, buf = '';
   var chunk = $id('cx-chunk');
-  chunk.textContent = '共 ' + chunks.length + ' 个 chunk' + (mode === 'shred' ? '(每 9 字符一段,JSON 劈得稀碎)' : '(一次全到)');
+  chunk.textContent = '共 ' + chunks.length + ' 个 chunk' + (mode === 'shred' ? '(每 9 字符一段，JSON 劈得稀碎)' : '(一次全到)');
   chunk.classList.add('hot');
 
   function drawBuf() {
     var shown = buf.replace(/\n/g, '⏎\n');
-    /* 切出来的部分已移出 buf——留在 buf 里的全是「半截,还不能解析」 */
+    /* 切出来的部分已移出 buf——留在 buf 里的全是「半截，还不能解析」 */
     $id('cx-buf').innerHTML = shown ? '<span class="cx-pend">' + shown + '</span>' : '(空——全切成事件了)';
   }
   drawBuf();
 
   function drain() {
-    /* 与 src/chat.ts 同款:见换行就切一条 */
+    /* 与 src/chat.ts 同款：见换行就切一条 */
     var nl = buf.indexOf('\n');
     while (nl !== -1) {
       var line = buf.slice(0, nl).trim();
       buf = buf.slice(nl + 1);
       if (line.indexOf('data:') === 0) {
         var payload = line.slice(5).trim();
-        if (payload === '[DONE]') { bAddEvt('done', line + ' → 流的终点,收工'); return true; }
+        if (payload === '[DONE]') { bAddEvt('done', line + ' → 流的终点，收工'); return true; }
         var c;
-        try { c = JSON.parse(payload); } catch (e) { bAddEvt('done', '解析失败:' + e.message); return true; }
+        try { c = JSON.parse(payload); } catch (e) { bAddEvt('done', '解析失败：' + e.message); return true; }
         if (c.usage) {
-          $id('cx-bill').textContent = '账单:输入 ' + c.usage.prompt_tokens + ' + 输出 ' + c.usage.completion_tokens + ' token(挂在最后一个带内容的事件上)';
+          $id('cx-bill').textContent = '账单：输入 ' + c.usage.prompt_tokens + ' + 输出 ' + c.usage.completion_tokens + ' token(挂在最后一个带内容的事件上)';
           bAddEvt('usage', line);
         }
         var d = c.choices && c.choices[0] && c.choices[0].delta && c.choices[0].delta.content;
@@ -522,14 +522,14 @@ function runMode(mode) {
 
 /* ================= C · 真机连线(解析与 src/chat.ts 同款) ================= */
 
-var cMsgs = [{ role: 'system', content: '你是小c,简洁直接的中文助手。' }];
+var cMsgs = [{ role: 'system', content: '你是小c，简洁直接的中文助手。' }];
 var cUsage = { in: 0, out: 0 };
 var cBusy = false;
 
 function cAcc() {
-  $id('cx-acc').textContent = '账本:' + cMsgs.length + ' 条(1 system + ' + (cMsgs.length - 1) + ' 轮)· 累计 ' + (cUsage.in + cUsage.out) + ' token';
+  $id('cx-acc').textContent = '账本：' + cMsgs.length + ' 条（1 system + ' + (cMsgs.length - 1) + ' 轮）· 累计 ' + (cUsage.in + cUsage.out) + ' token';
   var cost = (cUsage.in * 4 + cUsage.out * 14) / 1e6;
-  $id('cx-acc2').textContent = '账单:¥' + cost.toFixed(4) + '(输入 ' + cUsage.in + ' ×4 + 输出 ' + cUsage.out + ' ×14,每百万 token)';
+  $id('cx-acc2').textContent = '账单：¥' + cost.toFixed(4) + '(输入 ' + cUsage.in + ' ×4 + 输出 ' + cUsage.out + ' ×14，每百万 token)';
 }
 
 function cRaw(kind, text) {
@@ -554,7 +554,7 @@ async function cSend() {
   cMsgs.push({ role: 'user', content: text });
   $id('cx-live').textContent = '';
   $id('cx-raw').innerHTML = '';
-  cRaw('done', '→ POST /api/chat(messages ' + cMsgs.length + ' 条,整本重寄)');
+  cRaw('done', '→ POST /api/chat(messages ' + cMsgs.length + ' 条，整本重寄)');
   try {
     var res = await fetch('/api/chat', {
       method: 'POST',
@@ -562,7 +562,7 @@ async function cSend() {
       body: JSON.stringify({ messages: cMsgs })
     });
     if (!res.ok || !res.body) throw new Error('API ' + res.status + ':' + (await res.text()).slice(0, 120));
-    /* ↓ 与 src/chat.ts 逐行同款:攒 → 切 → 解析 */
+    /* ↓ 与 src/chat.ts 逐行同款：攒 → 切 → 解析 */
     var dec = new TextDecoder();
     var full = '';
     var buf = '';
@@ -581,7 +581,7 @@ async function cSend() {
         try { c = JSON.parse(payload); } catch (e) { continue; }
         var ch = c.choices && c.choices[0];
         var d = ch && ch.delta || {};
-        if (d.reasoning_content) cRaw('think', 'data: {…reasoning_content:"' + String(d.reasoning_content).slice(0, 18) + '"…} → 思考草稿,chat.ts 不理');
+        if (d.reasoning_content) cRaw('think', 'data: {…reasoning_content:"' + String(d.reasoning_content).slice(0, 18) + '"…} → 思考草稿，chat.ts 不理');
         if (d.content) {
           full += d.content;
           $id('cx-live').textContent = full;

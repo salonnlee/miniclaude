@@ -1,11 +1,11 @@
-/* labs/shared.js —— 实验室共用小工具(ESM)
+/* labs/shared.js —— 实验室共用小工具（ESM）
    ----------------------------------------------------------------------------
    各 lab-*.js 一律 `import { $id, fmt, chips } from './shared.js'`:
-   · $id(id)      —— document.getElementById 简写,四家实验室原各自抄过一份;
-   · fmt(v, n)    —— toFixed 包装,不传 n 默认 2 位;
-   · chips(…​)    —— 芯片组互斥开关:点击高亮 .on 并回调 data 属性值,
-                     返回 { sync(value) } 供程序侧反选(如 3B7 setPreset('blur'))。
-                     list 传元素集合,attr 是 data- 属性名('k' 对应 data-k)。 */
+   · $id(id)      —— document.getElementById 简写，四家实验室原各自抄过一份；
+   · fmt(v, n)    —— toFixed 包装，不传 n 默认 2 位；
+   · chips(…​)    —— 芯片组互斥开关：点击高亮 .on 并回调 data 属性值，
+                     返回 { sync(value) } 供程序侧反选（如 3B7 setPreset('blur')）。
+                     list 传元素集合，attr 是 data- 属性名（'k' 对应 data-k）。 */
 export function $id(id) { return document.getElementById(id); }
 
 export function fmt(v, n) { return v.toFixed(n == null ? 2 : n); }

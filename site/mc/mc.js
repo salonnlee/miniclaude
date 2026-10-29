@@ -1,23 +1,23 @@
 /* mc/mc.js —— MiniClaude v0.9 网页对话框
    ----------------------------------------------------------------------------
-   右下角气泡唤起的对话面板:流式打字机 + 多会话(localStorage 持久化)
-   + token 记账 + Markdown 真排版(markdown-it + highlight.js,流式中实时渲染)
+   右下角气泡唤起的对话面板：流式打字机 + 多会话（localStorage 持久化）
+   + token 记账 + Markdown 真排版（markdown-it + highlight.js，流式中实时渲染）
    + 开场问题库随机三问。
-   v0.9 起长出 agent 循环(与 src/chat.ts 同款):工具柜(mc/tools.js,全项目
-   单一事实源,src/tools/index.ts 也 re-export 它)→ 模型回 tool_calls →
-   本地执行喂回 → 循环到它不再要;
-   🔧 气泡直播每次工具调用。CLI 长什么能力,这只分身跟着长。
-   前端 SSE 解析与 src/chat.ts 逐行同款——攒到换行才算一条事件;
-   流式走 POST /api/chat(scripts/serve.mjs 代理,key 只住服务端,tools 字段只透传)。
-   system 提示词不进会话存储,发送时现拼——存储里只有真实对话。 */
+   v0.9 起长出 agent 循环（与 src/chat.ts 同款）：工具柜(mc/tools.js，全项目
+   单一事实源，src/tools/index.ts 也 re-export 它)→ 模型回 tool_calls →
+   本地执行喂回 → 循环到它不再要；
+   🔧 气泡直播每次工具调用。CLI 长什么能力，这只分身跟着长。
+   前端 SSE 解析与 src/chat.ts 逐行同款——攒到换行才算一条事件；
+   流式走 POST /api/chat(scripts/serve.mjs 代理，key 只住服务端，tools 字段只透传)。
+   system 提示词不进会话存储，发送时现拼——存储里只有真实对话。 */
 
-import mdit from '../vendor/markdown-it.esm.min.mjs'; // 官方浏览器 ESM 整包(v15,vendored 进 site/vendor/)
-import hljs from '../vendor/hljs.esm.min.mjs'; // highlight.js(core+8 语言,同上 vendored)
+import mdit from '../vendor/markdown-it.esm.min.mjs'; // 官方浏览器 ESM 整包（v15,vendored 进 site/vendor/）
+import hljs from '../vendor/hljs.esm.min.mjs'; // highlight.js(core+8 语言，同上 vendored)
 import { QUESTIONS } from './questions.js';
 import { TOOLS, runTool } from './tools.js'; // 浏览器端工具柜 + 四道兜底的执行口
 
-var SYSTEM = '你是 MiniClaude,简洁直接的中文助手。';
-var PRICE = { in: 4, out: 14 }; // 元 / 百万 token,与 chat.ts 同账本
+var SYSTEM = '你是 MiniClaude，简洁直接的中文助手。';
+var PRICE = { in: 4, out: 14 }; // 元 / 百万 token，与 chat.ts 同账本
 var LS = 'mc-sessions-v1';
 
 var sessions = [];   // [{id,title,msgs:[{role,content}],usage:{in,out},born}]
@@ -37,7 +37,7 @@ function load() {
 }
 function save() {
   try { localStorage.setItem(LS, JSON.stringify({ sessions: sessions, activeId: activeId })); }
-  catch (e) { /* 存爆了就算了,当次会话照聊 */ }
+  catch (e) { /* 存爆了就算了，当次会话照聊 */ }
 }
 function cur() { return sessions.find(function (s) { return s.id === activeId; }); }
 function newSession() {
@@ -70,7 +70,7 @@ function mount() {
       '  <div id="mc-msgs"></div>' +
       '  <div class="mc-meter"><span id="mc-meter">——</span><span>GLM-4.6</span></div>' +
       '  <div class="mc-input">' +
-      '    <textarea id="mc-ta" rows="1" placeholder="给 MiniClaude 发消息…(Enter 发送,Shift+Enter 换行)"></textarea>' +
+      '    <textarea id="mc-ta" rows="1" placeholder="给 MiniClaude 发消息…（Enter 发送，Shift+Enter 换行）"></textarea>' +
       '    <button id="mc-send" aria-label="发送">➤</button>' +
       '  </div>' +
       '  <div class="mc-veil"></div>' +
@@ -78,7 +78,7 @@ function mount() {
       '    <div class="mc-dhead">会话<button class="mc-ico" id="mc-dx" aria-label="关闭列表">✕</button></div>' +
       '    <button class="mc-new">＋ 新对话</button>' +
       '    <div id="mc-list"></div>' +
-      '    <div class="mc-dfoot">后续章节的能力面板(工具、文件树…)长在这只面板里</div>' +
+      '    <div class="mc-dfoot">后续章节的能力面板（工具、文件树…）长在这只面板里</div>' +
       '  </div>' +
       '</div>'
     )
@@ -94,10 +94,10 @@ var esc = function (s) {
     return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
   });
 };
-/* markdown-it 真排版(v0.6):表格/列表/标题/链接/引用全认,替掉旧版手写 rich() 的三个正则。
-   html:false——模型输出的原始 HTML 一律按文字显示,防线语义与旧版「先转义」一脉相承;
-   breaks:true 单换行即换行(聊天手感);linkify 裸网址自动成链;
-   highlight(v0.7):围栏代码块按语言交给 highlight.js,不认识的语言返回空串落回转义。 */
+/* markdown-it 真排版（v0.6）：表格/列表/标题/链接/引用全认，替掉旧版手写 rich() 的三个正则。
+   html:false——模型输出的原始 HTML 一律按文字显示，防线语义与旧版「先转义」一脉相承；
+   breaks:true 单换行即换行(聊天手感);linkify 裸网址自动成链；
+   highlight(v0.7)：围栏代码块按语言交给 highlight.js，不认识的语言返回空串落回转义。 */
 var md = mdit({
   html: false,
   breaks: true,
@@ -118,7 +118,7 @@ function bubble(role, html) {
   return m;
 }
 
-/* 问题库随机抽 3 条不重复;🎲 换一批 = 当场重抽 */
+/* 问题库随机抽 3 条不重复；🎲 换一批 = 当场重抽 */
 function pick3() {
   var pool = QUESTIONS.slice(), out = [];
   for (var i = 0; i < 3; i++) out.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
@@ -129,7 +129,7 @@ function hello() {
   msgs.append(el(
     '<div class="mc-hello">' +
     '  <h4>MiniClaude v0.9</h4>' +
-    '  <p>铸剑线的网页分身——多轮记忆 + 流式打字机 + token 记账 + Markdown 排版,<br>已长出 agent 循环:🔧 调工具(get_time / calculator)、自己决定要不要、要不要再来一轮。</p>' +
+    '  <p>铸剑线的网页分身——多轮记忆 + 流式打字机 + token 记账 + Markdown 排版，<br>已长出 agent 循环：🔧 调工具（get_time / calculator）、自己决定要不要、要不要再来一轮。</p>' +
     '  <div class="mc-chips"></div>' +
     '</div>'
   ));
@@ -138,7 +138,7 @@ function hello() {
 
 function drawChips() {
   var box = msgs.querySelector('.mc-chips');
-  if (!box) return; // 已开聊,hello 被撤了
+  if (!box) return; // 已开聊，hello 被撤了
   box.innerHTML = '';
   pick3().forEach(function (q) {
     var c = el('<button class="mc-chip"></button>');
@@ -151,8 +151,8 @@ function drawChips() {
   box.append(dice);
 }
 
-/* 切会话 / 首开:全量重绘。tool 消息按 tool_call_id 回前面 assistant 的
-   tool_calls 里找名字与参数,重放出同款 🔧 气泡 */
+/* 切会话 / 首开：全量重绘。tool 消息按 tool_call_id 回前面 assistant 的
+   tool_calls 里找名字与参数，重放出同款 🔧 气泡 */
 function renderMsgs() {
   msgs.innerHTML = '';
   var s = cur();
@@ -171,14 +171,14 @@ function renderMsgs() {
         ? tb.fail(m.content) : tb.done(m.content);
       return;
     }
-    if (m.role === 'assistant' && m.tool_calls && !m.content) return; // 纯开口要工具,不占气泡
+    if (m.role === 'assistant' && m.tool_calls && !m.content) return; // 纯开口要工具，不占气泡
     bubble(m.role, m.role === 'user' ? esc(m.content) : rich(m.content));
   });
   stick();
 }
 
-/* 流式中的 assistant 占位:v0.7 起每个增量都过 md.render 实时排版——rAF 节流,
-   一帧最多渲一次;光标节点常驻内容尾部,done/fail 置 finished 让迟到的帧不再覆写 */
+/* 流式中的 assistant 占位：v0.7 起每个增量都过 md.render 实时排版——rAF 节流，
+   一帧最多渲一次；光标节点常驻内容尾部，done/fail 置 finished 让迟到的帧不再覆写 */
 function botStreaming() {
   var m = el('<div class="mc-m mc-bot"></div>');
   var cur = el('<span class="mc-cur"></span>');
@@ -248,13 +248,13 @@ function renderMeter() {
   meterEl.textContent = '输入 ' + s.usage.in + ' + 输出 ' + s.usage.out + ' token · ¥' + cost.toFixed(4);
 }
 
-/* 滚动:贴底才跟随,用户上翻就别打扰 */
+/* 滚动：贴底才跟随，用户上翻就别打扰 */
 function nearBottom() { return msgs.scrollHeight - msgs.scrollTop - msgs.clientHeight < 60; }
 function stick() { if (autoScroll) msgs.scrollTop = msgs.scrollHeight; }
 
 /* ================= 流式请求(解析与 chat.ts 同款)=================
-   v0.9:请求带 tools(浏览器注册表的说明书),响应多解析一路 tool_calls 分片——
-   按 index 开槽、name/arguments 一片片挤出来,攒到 [DONE] 才算收齐申请清单 */
+   v0.9：请求带 tools(浏览器注册表的说明书)，响应多解析一路 tool_calls 分片——
+   按 index 开槽、name/arguments 一片片挤出来，攒到 [DONE] 才算收齐申请清单 */
 async function ask(history, onDelta, signal) {
   var res = await fetch('/api/chat', {
     method: 'POST',
@@ -271,13 +271,13 @@ async function ask(history, onDelta, signal) {
 
   var dec = new TextDecoder();
   var full = '', buf = '', uIn = 0, uOut = 0;
-  var toolAcc = []; // 流式下 arguments 按 index 分片挤出来,攒!
+  var toolAcc = []; // 流式下 arguments 按 index 分片挤出来，攒！
   for await (var chunk of res.body) {
     buf += dec.decode(chunk);
     for (var nl = buf.indexOf('\n'); nl !== -1; nl = buf.indexOf('\n')) {
       var line = buf.slice(0, nl).trim();
       buf = buf.slice(nl + 1);
-      if (!line.startsWith('data:')) continue; // 空行,跳过
+      if (!line.startsWith('data:')) continue; // 空行，跳过
       var payload = line.slice(5).trim();
       if (payload === '[DONE]') return doneAsk(full, toolAcc, uIn, uOut);
       var c = JSON.parse(payload);
@@ -287,20 +287,20 @@ async function ask(history, onDelta, signal) {
       if (d.content) { full += d.content; onDelta(full); }
       (d.tool_calls || []).forEach(function (tc) {
         var slot = toolAcc[tc.index] || (toolAcc[tc.index] = { id: '', name: '', args: '' });
-        if (tc.id) slot.id = tc.id; // id 整块只来一次;name/arguments 是增量
+        if (tc.id) slot.id = tc.id; // id 整块只来一次；name/arguments 是增量
         if (tc.function && tc.function.name) slot.name += tc.function.name;
         if (tc.function && tc.function.arguments) slot.args += tc.function.arguments;
       });
     }
   }
-  return doneAsk(full, toolAcc, uIn, uOut); // 断流:攒到多少算多少
+  return doneAsk(full, toolAcc, uIn, uOut); // 断流：攒到多少算多少
 }
 function doneAsk(full, toolAcc, uIn, uOut) {
   var calls = toolAcc.filter(function (c) { return c && c.name; });
   return { full: full, toolCalls: calls, usage: { in: uIn, out: uOut } };
 }
 
-/* 🔧 工具气泡:调用一行 + 结果一行,失败染红 */
+/* 🔧 工具气泡：调用一行 + 结果一行，失败染红 */
 function toolBubble(name, args) {
   var t = el(
     '<div class="mc-m mc-tool"><div class="mc-tool-call">🔧 <code></code></div>' +
@@ -343,22 +343,22 @@ async function sendMsg() {
   var node = botStreaming();
   setBusy(true);
   aborter = new AbortController();
-  var rollback = s.msgs.length - 1; // 失败回滚到这轮 user 消息之前(与 chat.ts 同款)
+  var rollback = s.msgs.length - 1; // 失败回滚到这轮 user 消息之前（与 chat.ts 同款）
   try {
-    while (true) { // agent 循环:ask 一轮 → 执行它要的工具 → 再 ask,直到它不再要
+    while (true) { // agent 循环：ask 一轮 → 执行它要的工具 → 再 ask，直到它不再要
       var r = await ask(
-        s.msgs, // 含刚 push 的这条 user——上一版照 chat.ts 抄了个 slice(0,-1),把唯一的话切没了,上游 1214
+        s.msgs, // 含刚 push 的这条 user——上一版照 chat.ts 抄了个 slice(0,-1)，把唯一的话切没了，上游 1214
         function (t) { node.update(t); },
         aborter.signal
       );
       s.usage.in += r.usage.in;
       s.usage.out += r.usage.out;
-      if (!r.toolCalls.length) { // 退出条件 = 这一轮没有 tool_calls,它只想说话
+      if (!r.toolCalls.length) { // 退出条件 = 这一轮没有 tool_calls，它只想说话
         if (r.full) { s.msgs.push({ role: 'assistant', content: r.full }); node.done(r.full); }
         else { s.msgs.length = rollback; node.fail('空回复'); }
         break;
       }
-      // 它要了工具:先把它「开口要」这条原样入史,再逐个执行、逐条喂回
+      // 它要了工具：先把它「开口要」这条原样入史，再逐个执行、逐条喂回
       s.msgs.push({
         role: 'assistant',
         content: r.full,
@@ -367,26 +367,26 @@ async function sendMsg() {
         }),
       });
       if (r.full) node.done(r.full);
-      else node.node.remove(); // 纯开口要工具,不留空占位
+      else node.node.remove(); // 纯开口要工具，不留空占位
       for (var i = 0; i < r.toolCalls.length; i++) {
         var c = r.toolCalls[i];
         var tb = toolBubble(c.name, c.args);
-        var out = await runTool(c); // 执行在浏览器本地,四道兜底全当结果
+        var out = await runTool(c); // 执行在浏览器本地，四道兜底全当结果
         out.ok ? tb.done(out.res) : tb.fail(out.res);
         s.msgs.push({ role: 'tool', tool_call_id: c.id, content: out.res });
       }
-      node = botStreaming(); // 喂回完毕,新开一轮占位
+      node = botStreaming(); // 喂回完毕，新开一轮占位
     }
   } catch (e) {
     if (e.name === 'AbortError') {
-      // 主动停止:半截回复照入账,与 chat.ts「断流攒到多少算多少」同语义;
+      // 主动停止：半截回复照入账，与 chat.ts「断流攒到多少算多少」同语义；
       // 已完成的工具调用与喂回也保留——那是真花过钱的动作
       if (node.text) { s.msgs.push({ role: 'assistant', content: node.text }); node.done(node.text); }
       else if (!node.node.isConnected) { /* 纯占位已被撤 */ }
-      else node.fail('已停止——还没等到第一个字,这轮没入账', true);
+      else node.fail('已停止——还没等到第一个字，这轮没入账', true);
     } else {
-      s.msgs.length = rollback; // 失败这轮不入账,别留半截对话
-      node.fail('出错:' + (e instanceof Error ? e.message : String(e)) + '(这轮没入账,重发一次)');
+      s.msgs.length = rollback; // 失败这轮不入账，别留半截对话
+      node.fail('出错：' + (e instanceof Error ? e.message : String(e)) + '(这轮没入账，重发一次)');
     }
   } finally {
     setBusy(false);
@@ -404,7 +404,7 @@ function fit() {
 }
 function switchTo(id) {
   if (id === activeId) { panel.classList.remove('drawer'); return; }
-  if (busy) aborter.abort(); // 切走先停流,半截已入账
+  if (busy) aborter.abort(); // 切走先停流，半截已入账
   activeId = id;
   autoScroll = true;
   save(); renderMsgs(); renderDrawer(); renderMeter();
