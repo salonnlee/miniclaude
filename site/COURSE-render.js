@@ -156,7 +156,13 @@ import { CARDS as C } from './content/cards.js';
   });
   var mileBody = document.querySelector('[data-milestones]');
   if (mileBody) {
-    mileBody.innerHTML = ships.map(function (s) {
+    // 里程碑按版本号排序展示(v0.1→v0.10→v1.x);ships 数组本身保持交付时间序
+    var byVer = ships.slice().sort(function (a, b) {
+      var pa = (a.ver || '0.0').slice(1).split('.').map(Number);
+      var pb = (b.ver || '0.0').slice(1).split('.').map(Number);
+      return pa[0] - pb[0] || (pa[1] || 0) - (pb[1] || 0);
+    });
+    mileBody.innerHTML = byVer.map(function (s) {
       return '<tr><td class="ver">' + (s.ver || '—') + '</td><td>' + s.what +
         '</td><td class="range">' + s.range + '</td></tr>';
     }).join('');

@@ -13,6 +13,7 @@ var DAYS = [
     "date": "2026-10-29",
     "items": [
       "全库一致性排查（收官后清账）：里程碑表删 4 条已被交付覆盖的占位行（CH5/CH6 两条与 v1.0/v1.1 重复、CH9「技能」与 CH10 收尾两条被 v1.3–v1.9 覆盖），里程碑不再有「—」；README 快速开始 npm run chat 注释停在 v1.3，改到 v1.9 补闸门/计划模式//cost；gitignore 补 scratch/ 与 .zcode/。check 16 项全绿。",
+      "里程碑表改按版本号排序展示（v0.10 不再夹在 v1.8/v1.9 中间）：排序放渲染器，ships 数组本身保持交付时间序——数组仍是课程生长时间线，页面是版本总账；学员拍板：时间序仅此一处不合号序，不碍事。",
       "CH10 全景卡 c10-panorama 上线（终章仪式）：解包真实 Claude Code 的 system prompt（社区存档 2025-08-19 快照，官方不发布），八段逐字引文配透视卡逐条对到自家章节——它的每个设计，我们都已懂。取档插曲：GitHub/jsDelivr 全断，gh-proxy.com 镜像拿到 13KB。",
       "CH10.1《企业化收尾》完课，正文十章全清，v1.9 七件套：配置层、ask() 降级链、多模型路由、hooks 挂 runTool、沙箱剥密钥、成本遥测 usage.jsonl、evals 3/3、esbuild 48KB 单文件装包真机跑通；真机验收 15/15，一场 ¥0.033。",
       "v1.8 真机补验（配额恢复后）CLI 两幕全过：命令表三连（/help /mcp /plan）＋模型真调 MCP 桥（get_weather 北京/上海、list_cities 报三城，子进程 stdio 桥分毫不差），一场约 ¥0.0191。drive 脚本顺手 v2：弃固定 sleep 改「提示符回来再喂下一句」（CH8 丢行教训）。",

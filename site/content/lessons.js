@@ -25,8 +25,8 @@ export const LESSONS = {
   "updated": "",
   // —— 版本交付表（单一事实源）：渲染器据此点亮章交付 chip(foot-chip ver)
   //    与里程碑表；COURSE.html 不再手写任何版本号。
-  //    交付新版本 = 对应条目填 ver + chip + at(chip 挂哪章)；未交付条目
-  //    ver 置 null，页面显示「—」、章 chip 自动隐藏。
+  //    交付新版本 = 对应条目填 ver + chip + at(chip 挂哪章)，条目按交付时间
+  //    追加在末位(数组即课程生长时间线)；里程碑表由渲染器按版本号排序展示。
   "ships": [
     { "at": "p0",  "ver": "v0.1", "chip": "交付 v0.1 · minigpt/",    "what": "莎士比亚嘴替——你手搓的真·迷你 GPT(CPU 训练)", "range": "序章" },
     { "at": "ch2", "ver": "v0.4", "chip": "交付 v0.4 · src/chat.ts", "what": "流式多轮聊天，退出时报账", "range": "第 1–2 章" },
