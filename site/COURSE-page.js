@@ -224,7 +224,7 @@
   function dismiss() { clearTimeout(settleTimer); settleTimer = null; stopPoll(); back.classList.remove('is-on'); from = null; baseY = null; disarm(); }
   function onScroll() {
     if (!from || baseY === null) return;
-    if (Math.abs(window.scrollY - baseY) > 120) dismiss(); // 上下滚离落点超过 120px 才算「不回去」
+    if (Math.abs(window.scrollY - baseY) > 240) dismiss(); // 上下滚离落点超过 240px 才算「不回去」
   }
   function arm() { window.addEventListener('scroll', onScroll, { passive: true }); }
   function disarm() { window.removeEventListener('scroll', onScroll, { passive: true }); }
