@@ -8,6 +8,7 @@
 export { TOOLS, runTool, validate, getTodos } from '../../site/mc/tools.js';
 export { setConfirm } from './bash.ts';
 export { setAskOnce } from './agents.ts';
+export { registerMcpTools, getMcpStatus } from './mcp.ts';
 import { registerFsTools } from './fs.ts';
 import { registerBashTools } from './bash.ts';
 import { registerAgentTools } from './agents.ts';
@@ -15,6 +16,8 @@ import { registerAgentTools } from './agents.ts';
 registerFsTools();
 registerBashTools();
 registerAgentTools();
+// MCP 外挂(v1.8)不在 import 时自动接:拉子进程要 await(list 问完才有名片),
+// 由 chat.ts 启动时显式 await registerMcpTools()——外挂是配置说了算,不是代码说了算
 // 子代理/工作流(v1.3)住 agents.ts:execute 里再开一个 agent 循环,
 // 「问一轮模型」的腿由 chat.ts 以 setAskOnce 注入(它才有 key 与记账)。
 // 确认钩子(ask 档弹 y/n/a)由 chat.ts 挂——必须复用它自己那个 readline:

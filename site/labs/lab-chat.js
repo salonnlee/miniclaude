@@ -42,16 +42,16 @@ var pinSync = function () {};
   addEventListener('resize', sync);
 })();
 
-/* 八段代码与 src/chat.ts 逐字一致(v1.7 计划模式与清单快照，267 行) */
+/* 八段代码与 src/chat.ts 逐字一致(v1.8 斜杠命令表与 mini MCP,297 行) */
 var SEGS = [
   {
     id: 'gear',
     tag: '① 装备区',
-    code: "// v1.7 · 计划模式 + 清单快照 —— /plan 先批准后执行(只读柜台借 ask 的 allow),\n" +
-      "// 每轮 user 消息尾捎一张 TodoWrite 快照(压缩糊掉老历史也糊不掉当前进度)\n" +
+    code: "// v1.8 · 斜杠命令表 + mini MCP —— / 开头先查表:命中展开执行、未命中原样放行\n" +
+      "// (模型不认识斜杠);.mcp.json 里的 server 拉起子进程,名片注册进 TOOLS\n" +
       "// 跑法:npm run chat(node 26 原生跑 TS,key 住 .env 不进代码)\n" +
       "import * as readline from 'node:readline/promises';\n" +
-      "import { TOOLS, validate, setConfirm, setAskOnce, getTodos } from './tools/index.ts';\n" +
+      "import { TOOLS, validate, setConfirm, setAskOnce, getTodos, registerMcpTools, getMcpStatus } from './tools/index.ts';\n" +
       "import { buildSystemPrompt, shouldCompact, compactHistory, COMPACT_AT, type Msg, type ToolCall, type ApiToolCall } from './context.ts';\n" +
       "import * as ui from './ui.ts';\n" +
       "\n" +
@@ -199,17 +199,12 @@ var SEGS = [
       "    return `工具执行出错:${e instanceof Error ? e.message : e}`;\n" +
       "  }\n" +
       "}\n" +
-      "\n",
-    card: ['run·执行在代码,错误当结果',
-      '执行权在谁手里?在 <b>你的代码</b>——模型只递申请单,execute 是柜子里你写的函数。四道兜底一个不崩:名字没见过、arguments 不是合法 JSON、<b>参数校验不过</b>(说明书不只发给模型看,还反过来约束进门的参数——validate.ts 手写的迷你 JSON Schema 校验器)、执行抛异常——统统<b>当字符串结果喂回去</b>,让模型看着错误自己改(它真会:参数写错一次,下一轮它自己修)。agent 鲁棒性的头号秘密。done() 是收尾小工:把攒的槽位滤成清单。']
-  },
-  {
-    id: 'loop',
-    tag: '⑦ agent 主循环',
-    code: "const rl = readline.createInterface({ input: process.stdin, output: process.stdout });\n" +
+      "\n" +
+      "const rl = readline.createInterface({ input: process.stdin, output: process.stdout });\n" +
       "// Ctrl-D / 管道断流:pending 的 question 不会自己醒——用 close 事件替它喊一声,\n" +
       "// 输了 race 就走下面的 catch 收摊结账(否则进程带着未决 await 裸退,账单不结)\n" +
       "const eof = new Promise<never>((_, rej) => rl.on('close', () => rej(new Error('stdin 关了'))));\n" +
+      "eof.catch(() => {}); // 挂上才不是未处理拒绝:启动期(如等 MCP list 时)stdin 就关,race 还没跑起来\n" +
       "// ask 档命令的确认流:必须复用同一个 rl——两个 readline 抢 stdin 会互吞输入行\n" +
       "setConfirm(async (cmd) => {\n" +
       "  try {\n" +
@@ -223,7 +218,8 @@ var SEGS = [
       "// 收窄的工具柜在 ask 里过滤;两套循环跑在同一个进程里\n" +
       "// (不传 onText:子会话的过程不刷屏,结论走工具卡回家)\n" +
       "setAskOnce((msgs, allow) => ask(msgs, allow));\n" +
-      "ui.say(`${ui.c.bold('小c上线')}${ui.c.dim('(exit 退出 · 回答途中按 Esc 打断 · /plan 计划模式)')}`);\n" +
+      "await registerMcpTools(); // 外挂按 .mcp.json 接入:名片进柜子,execute 留在子进程(CH9.3)\n" +
+      "ui.say(`${ui.c.bold('小c上线')}${ui.c.dim('(exit 退出 · 回答途中按 Esc 打断 · /help 看命令表)')}`);\n" +
       "\n" +
       "// 一回合的 agent 循环:ask 一轮 → 执行它要的工具 → 再 ask,直到它不再要。\n" +
       "// allow 收窄柜台——计划模式借这扇门只留只读工具,会改世界的一概不发(v1.7)\n" +
@@ -263,6 +259,70 @@ var SEGS = [
       "// 计划模式的只读柜台:能看不能改——不是叮嘱它别改,是物理上没有改的把手\n" +
       "const READ_ONLY = ['read_file', 'get_time', 'calculator'];\n" +
       "\n" +
+      "// 上下文水位超线就压老历史:/plan 与普通回合共用,抽成一个函数各喊一声\n",
+    card: ['run·执行在代码,错误当结果',
+      '执行权在谁手里?在 <b>你的代码</b>——模型只递申请单,execute 是柜子里你写的函数。四道兜底一个不崩:名字没见过、arguments 不是合法 JSON、<b>参数校验不过</b>(说明书不只发给模型看,还反过来约束进门的参数——validate.ts 手写的迷你 JSON Schema 校验器)、执行抛异常——统统<b>当字符串结果喂回去</b>,让模型看着错误自己改(它真会:参数写错一次,下一轮它自己修)。agent 鲁棒性的头号秘密。done() 是收尾小工:把攒的槽位滤成清单。']
+  },
+  {
+    id: 'loop',
+    tag: '⑦ agent 主循环',
+    code: "async function maybeCompact(): Promise<void> {\n" +
+      "  if (!shouldCompact(usage.lastPrompt)) return;\n" +
+      "  ui.say(`  🗜 上下文 ${usage.lastPrompt} token 超过水位 ${COMPACT_AT},压缩老历史…`);\n" +
+      "  if (await compactHistory(messages, askPlain)) ui.say('  🗜 已压缩:老历史换摘要,尾部原文保留');\n" +
+      "}\n" +
+      "\n" +
+      "// 斜杠命令表(v1.8):客户端拦下查表——命中就展开执行,未命中原样放行当普通\n" +
+      "// 说话。模型自始至终没见过斜杠:它收到的只是展开后的普通 user 消息\n" +
+      "const COMMANDS: Record<string, { desc: string; run: (rest: string) => Promise<void> | void }> = {\n" +
+      "  '/plan': {\n" +
+      "    desc: '计划模式:先只读调研出分步计划,你批准才动手',\n" +
+      "    async run(task) {\n" +
+      "      if (!task) { ui.say(ui.c.yellow('用法:/plan <任务>')); return; }\n" +
+      "      const ac = new AbortController();\n" +
+      "      const offEsc = ui.onEsc(() => ac.abort());\n" +
+      "      const rollback = messages.length;\n" +
+      "      try {\n" +
+      "        ui.say(`${ui.c.cyan('⏸ 计划模式')}${ui.c.dim('(只调研不改文件,计划出来你批准才动手)')}`);\n" +
+      "        messages.push({ role: 'user', content: `(计划模式)${task}\\n只调研、不要修改任何文件;想清楚后给出分步执行计划,到此为止,不要动手。` });\n" +
+      "        await agentLoop(READ_ONLY, ac.signal); // 只读柜台逛到它交出计划为止\n" +
+      "        const ans = (await rl.question(`${ui.c.bold('  批准这份计划并执行?(y/n) ')}`)).trim().toLowerCase();\n" +
+      "        if (ans === 'y') {\n" +
+      "          messages.push({ role: 'user', content: '(计划已批准。请先用 TodoWrite 立清单,再按计划执行,逐步更新状态。)' });\n" +
+      "          await agentLoop(undefined, ac.signal); // 全量柜台开工,清单跟着记\n" +
+      "        } else {\n" +
+      "          ui.say(ui.c.yellow('已驳回——计划阶段只读,未做任何修改。'));\n" +
+      "        }\n" +
+      "      } catch (e) {\n" +
+      "        messages.length = rollback;\n" +
+      "        if (ac.signal.aborted) ui.say(ui.c.yellow('⏹ 已打断——这轮不入账'));\n" +
+      "        else ui.say(ui.c.red(`出错:${e instanceof Error ? e.message : e}`));\n" +
+      "      } finally {\n" +
+      "        offEsc();\n" +
+      "        const rlBuf = rl as unknown as { line: string; cursor: number };\n" +
+      "        rlBuf.line = ''; rlBuf.cursor = 0;\n" +
+      "        ui.end();\n" +
+      "      }\n" +
+      "      await maybeCompact();\n" +
+      "    },\n" +
+      "  },\n" +
+      "  '/help': {\n" +
+      "    desc: '列出全部命令',\n" +
+      "    run() {\n" +
+      "      ui.say([ui.c.bold('命令表:'), ...Object.entries(COMMANDS).map(([k, v]) => `  ${ui.c.cyan(k)}  ${ui.c.dim(v.desc)}`)].join('\\n'));\n" +
+      "    },\n" +
+      "  },\n" +
+      "  '/mcp': {\n" +
+      "    desc: '查看已接入的 MCP server 与外挂工具',\n" +
+      "    run() {\n" +
+      "      const st = getMcpStatus();\n" +
+      "      ui.say(st.length\n" +
+      "        ? [ui.c.bold('已接入的 MCP server:'), ...st.map((s) => `  ${ui.c.cyan(s.server)} → ${s.tools.join(', ')}(execute 住在子进程)`)].join('\\n')\n" +
+      "        : '未接入任何 MCP server(.mcp.json 未配置或没拉起)');\n" +
+      "    },\n" +
+      "  },\n" +
+      "};\n" +
+      "\n" +
       "while (true) {\n" +
       "  let line: string;\n" +
       "  try {\n" +
@@ -273,39 +333,12 @@ var SEGS = [
       "  if (line === 'exit') break;\n" +
       "  if (!line) continue;\n" +
       "\n" +
-      "  // /plan 前缀:客户端拦下展开,模型不认识斜杠——先调研出计划,人点头才动手\n" +
-      "  if (line.startsWith('/plan')) {\n" +
-      "    const task = line.slice(5).trim();\n" +
-      "    if (!task) { ui.say(ui.c.yellow('用法:/plan <任务>')); continue; }\n" +
-      "    const ac = new AbortController();\n" +
-      "    const offEsc = ui.onEsc(() => ac.abort());\n" +
-      "    const rollback = messages.length;\n" +
-      "    try {\n" +
-      "      ui.say(`${ui.c.cyan('⏸ 计划模式')}${ui.c.dim('(只调研不改文件,计划出来你批准才动手)')}`);\n" +
-      "      messages.push({ role: 'user', content: `(计划模式)${task}\\n只调研、不要修改任何文件;想清楚后给出分步执行计划,到此为止,不要动手。` });\n" +
-      "      await agentLoop(READ_ONLY, ac.signal); // 只读柜台逛到它交出计划为止\n" +
-      "      const ans = (await rl.question(`${ui.c.bold('  批准这份计划并执行?(y/n) ')}`)).trim().toLowerCase();\n" +
-      "      if (ans === 'y') {\n" +
-      "        messages.push({ role: 'user', content: '(计划已批准。请先用 TodoWrite 立清单,再按计划执行,逐步更新状态。)' });\n" +
-      "        await agentLoop(undefined, ac.signal); // 全量柜台开工,清单跟着记\n" +
-      "      } else {\n" +
-      "        ui.say(ui.c.yellow('已驳回——计划阶段只读,未做任何修改。'));\n" +
-      "      }\n" +
-      "    } catch (e) {\n" +
-      "      messages.length = rollback;\n" +
-      "      if (ac.signal.aborted) ui.say(ui.c.yellow('⏹ 已打断——这轮不入账'));\n" +
-      "      else ui.say(ui.c.red(`出错:${e instanceof Error ? e.message : e}`));\n" +
-      "    } finally {\n" +
-      "      offEsc();\n" +
-      "      const rlBuf = rl as unknown as { line: string; cursor: number };\n" +
-      "      rlBuf.line = ''; rlBuf.cursor = 0;\n" +
-      "      ui.end();\n" +
-      "    }\n" +
-      "    if (shouldCompact(usage.lastPrompt)) {\n" +
-      "      ui.say(`  🗜 上下文 ${usage.lastPrompt} token 超过水位 ${COMPACT_AT},压缩老历史…`);\n" +
-      "      if (await compactHistory(messages, askPlain)) ui.say('  🗜 已压缩:老历史换摘要,尾部原文保留');\n" +
-      "    }\n" +
-      "    continue;\n" +
+      "  // 斜杠先查表:命中展开执行(整轮都归命令管,走完 continue)、未命中放行——\n" +
+      "  // 「/xxx 是什么」这类话原样发给模型,它看到的只是个普通词\n" +
+      "  if (line.startsWith('/')) {\n" +
+      "    const [name, ...rest] = line.split(/\\s+/);\n" +
+      "    const cmd = COMMANDS[name];\n" +
+      "    if (cmd) { await cmd.run(rest.join(' ')); continue; }\n" +
       "  }\n" +
       "\n" +
       "  // 清单快照(v1.7):宿主手里的真账每轮拍一张,捎在 user 消息尾——不靠历史里\n" +
@@ -328,10 +361,7 @@ var SEGS = [
       "    await agentLoop(undefined, ac.signal);\n" +
       "    // 上下文水位:超线就把老历史压成摘要(水位看的是最后一次请求的 prompt token,\n" +
       "    // 而不是消息条数——token 才是要花钱的那个单位)\n" +
-      "    if (shouldCompact(usage.lastPrompt)) {\n" +
-      "      ui.say(`  🗜 上下文 ${usage.lastPrompt} token 超过水位 ${COMPACT_AT},压缩老历史…`);\n" +
-      "      if (await compactHistory(messages, askPlain)) ui.say('  🗜 已压缩:老历史换摘要,尾部原文保留');\n" +
-      "    }\n" +
+      "    await maybeCompact();\n" +
       "  } catch (e) {\n" +
       "    messages.length = rollback; // 失败这轮不入账,别留半截对话\n" +
       "    if (ac.signal.aborted) ui.say(ui.c.yellow('⏹ 已打断——这轮不入账')); // 流中被掐断:半句话不进记忆\n" +
@@ -348,7 +378,7 @@ var SEGS = [
       "}\n" +
       "\n",
     card: ['双层循环:外圈读人,内圈跑 agent,Esc 是撤销键',
-      '<b>agent 循环</b>本体没变:ask 一轮 → 它要工具就执行、喂回、再 ask,直到某轮 <b>toolCalls 为空</b>(考点:退出条件 = 它不再要,不是调够 N 次)。v1.4 换的全是脸:转圈 <b>ui.think</b> 第一个字到达即停;流完 <b>ui.commit</b>把裸文本擦起重排(两段式,网页对话框 v0.7 同款);工具跑前亮 <b>ui.status</b>、跑完打 ⏺ <b>工具卡</b>(edit_file 的 diff 行在这里红绿上色)。<b>Esc 打断</b>三处竞态:流中被 signal 直接掐断,这轮不入账(半句话不进记忆);工具批跑完看旗子——一整批 tool 结果都在历史才合法,assistant 要了俩只回一个 = API 400;打断完给模型一句 <b>user 注记</b>,别让它对着空气猜(真 Claude Code 同款)。回合收尾清 rl 行缓冲(流式中手滑打的字别带进下一问)、raw 模式只在回合内接管。v1.2 的<b>压缩触发</b>照旧:出口看 lastPrompt 水位,token 才是要花钱的那个单位。']
+      '<b>agent 循环</b>本体没变:ask 一轮 → 它要工具就执行、喂回、再 ask,直到某轮 <b>toolCalls 为空</b>(考点:退出条件 = 它不再要,不是调够 N 次)。v1.4 换的全是脸:转圈 <b>ui.think</b> 第一个字到达即停;流完 <b>ui.commit</b>把裸文本擦起重排(两段式,网页对话框 v0.7 同款);工具跑前亮 <b>ui.status</b>、跑完打 ⏺ <b>工具卡</b>(edit_file 的 diff 行在这里红绿上色)。<b>Esc 打断</b>三处竞态:流中被 signal 直接掐断,这轮不入账(半句话不进记忆);工具批跑完看旗子——一整批 tool 结果都在历史才合法,assistant 要了俩只回一个 = API 400;打断完给模型一句 <b>user 注记</b>,别让它对着空气猜(真 Claude Code 同款)。回合收尾清 rl 行缓冲(流式中手滑打的字别带进下一问)、raw 模式只在回合内接管。v1.7 循环体抽成 <b>agentLoop(allow)</b> 函数,/plan 借它逛只读柜台;v1.8 外圈进门先查<b>斜杠命令表</b>(命中展开执行、未命中原样放行——模型自始至终没见过斜杠),压缩触发抽成 <b>maybeCompact</b> 两处共用;启动时 <b>await registerMcpTools()</b> 把 .mcp.json 里的 server 拉起——名片注册进 TOOLS,execute 住在子进程(CH9.3:tool → MCP,搬家名片不变)。']
   },
   {
     id: 'bill',

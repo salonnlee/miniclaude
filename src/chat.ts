@@ -1,8 +1,8 @@
-// v1.7 · 计划模式 + 清单快照 —— /plan 先批准后执行(只读柜台借 ask 的 allow),
-// 每轮 user 消息尾捎一张 TodoWrite 快照(压缩糊掉老历史也糊不掉当前进度)
+// v1.8 · 斜杠命令表 + mini MCP —— / 开头先查表:命中展开执行、未命中原样放行
+// (模型不认识斜杠);.mcp.json 里的 server 拉起子进程,名片注册进 TOOLS
 // 跑法:npm run chat(node 26 原生跑 TS,key 住 .env 不进代码)
 import * as readline from 'node:readline/promises';
-import { TOOLS, validate, setConfirm, setAskOnce, getTodos } from './tools/index.ts';
+import { TOOLS, validate, setConfirm, setAskOnce, getTodos, registerMcpTools, getMcpStatus } from './tools/index.ts';
 import { buildSystemPrompt, shouldCompact, compactHistory, COMPACT_AT, type Msg, type ToolCall, type ApiToolCall } from './context.ts';
 import * as ui from './ui.ts';
 
@@ -124,6 +124,7 @@ const rl = readline.createInterface({ input: process.stdin, output: process.stdo
 // Ctrl-D / 管道断流:pending 的 question 不会自己醒——用 close 事件替它喊一声,
 // 输了 race 就走下面的 catch 收摊结账(否则进程带着未决 await 裸退,账单不结)
 const eof = new Promise<never>((_, rej) => rl.on('close', () => rej(new Error('stdin 关了'))));
+eof.catch(() => {}); // 挂上才不是未处理拒绝:启动期(如等 MCP list 时)stdin 就关,race 还没跑起来
 // ask 档命令的确认流:必须复用同一个 rl——两个 readline 抢 stdin 会互吞输入行
 setConfirm(async (cmd) => {
   try {
@@ -137,7 +138,8 @@ setConfirm(async (cmd) => {
 // 收窄的工具柜在 ask 里过滤;两套循环跑在同一个进程里
 // (不传 onText:子会话的过程不刷屏,结论走工具卡回家)
 setAskOnce((msgs, allow) => ask(msgs, allow));
-ui.say(`${ui.c.bold('小c上线')}${ui.c.dim('(exit 退出 · 回答途中按 Esc 打断 · /plan 计划模式)')}`);
+await registerMcpTools(); // 外挂按 .mcp.json 接入:名片进柜子,execute 留在子进程(CH9.3)
+ui.say(`${ui.c.bold('小c上线')}${ui.c.dim('(exit 退出 · 回答途中按 Esc 打断 · /help 看命令表)')}`);
 
 // 一回合的 agent 循环:ask 一轮 → 执行它要的工具 → 再 ask,直到它不再要。
 // allow 收窄柜台——计划模式借这扇门只留只读工具,会改世界的一概不发(v1.7)
@@ -177,6 +179,64 @@ async function agentLoop(allow?: string[], signal?: AbortSignal): Promise<void> 
 // 计划模式的只读柜台:能看不能改——不是叮嘱它别改,是物理上没有改的把手
 const READ_ONLY = ['read_file', 'get_time', 'calculator'];
 
+// 上下文水位超线就压老历史:/plan 与普通回合共用,抽成一个函数各喊一声
+async function maybeCompact(): Promise<void> {
+  if (!shouldCompact(usage.lastPrompt)) return;
+  ui.say(`  🗜 上下文 ${usage.lastPrompt} token 超过水位 ${COMPACT_AT},压缩老历史…`);
+  if (await compactHistory(messages, askPlain)) ui.say('  🗜 已压缩:老历史换摘要,尾部原文保留');
+}
+
+// 斜杠命令表(v1.8):客户端拦下查表——命中就展开执行,未命中原样放行当普通
+// 说话。模型自始至终没见过斜杠:它收到的只是展开后的普通 user 消息
+const COMMANDS: Record<string, { desc: string; run: (rest: string) => Promise<void> | void }> = {
+  '/plan': {
+    desc: '计划模式:先只读调研出分步计划,你批准才动手',
+    async run(task) {
+      if (!task) { ui.say(ui.c.yellow('用法:/plan <任务>')); return; }
+      const ac = new AbortController();
+      const offEsc = ui.onEsc(() => ac.abort());
+      const rollback = messages.length;
+      try {
+        ui.say(`${ui.c.cyan('⏸ 计划模式')}${ui.c.dim('(只调研不改文件,计划出来你批准才动手)')}`);
+        messages.push({ role: 'user', content: `(计划模式)${task}\n只调研、不要修改任何文件;想清楚后给出分步执行计划,到此为止,不要动手。` });
+        await agentLoop(READ_ONLY, ac.signal); // 只读柜台逛到它交出计划为止
+        const ans = (await rl.question(`${ui.c.bold('  批准这份计划并执行?(y/n) ')}`)).trim().toLowerCase();
+        if (ans === 'y') {
+          messages.push({ role: 'user', content: '(计划已批准。请先用 TodoWrite 立清单,再按计划执行,逐步更新状态。)' });
+          await agentLoop(undefined, ac.signal); // 全量柜台开工,清单跟着记
+        } else {
+          ui.say(ui.c.yellow('已驳回——计划阶段只读,未做任何修改。'));
+        }
+      } catch (e) {
+        messages.length = rollback;
+        if (ac.signal.aborted) ui.say(ui.c.yellow('⏹ 已打断——这轮不入账'));
+        else ui.say(ui.c.red(`出错:${e instanceof Error ? e.message : e}`));
+      } finally {
+        offEsc();
+        const rlBuf = rl as unknown as { line: string; cursor: number };
+        rlBuf.line = ''; rlBuf.cursor = 0;
+        ui.end();
+      }
+      await maybeCompact();
+    },
+  },
+  '/help': {
+    desc: '列出全部命令',
+    run() {
+      ui.say([ui.c.bold('命令表:'), ...Object.entries(COMMANDS).map(([k, v]) => `  ${ui.c.cyan(k)}  ${ui.c.dim(v.desc)}`)].join('\n'));
+    },
+  },
+  '/mcp': {
+    desc: '查看已接入的 MCP server 与外挂工具',
+    run() {
+      const st = getMcpStatus();
+      ui.say(st.length
+        ? [ui.c.bold('已接入的 MCP server:'), ...st.map((s) => `  ${ui.c.cyan(s.server)} → ${s.tools.join(', ')}(execute 住在子进程)`)].join('\n')
+        : '未接入任何 MCP server(.mcp.json 未配置或没拉起)');
+    },
+  },
+};
+
 while (true) {
   let line: string;
   try {
@@ -187,39 +247,12 @@ while (true) {
   if (line === 'exit') break;
   if (!line) continue;
 
-  // /plan 前缀:客户端拦下展开,模型不认识斜杠——先调研出计划,人点头才动手
-  if (line.startsWith('/plan')) {
-    const task = line.slice(5).trim();
-    if (!task) { ui.say(ui.c.yellow('用法:/plan <任务>')); continue; }
-    const ac = new AbortController();
-    const offEsc = ui.onEsc(() => ac.abort());
-    const rollback = messages.length;
-    try {
-      ui.say(`${ui.c.cyan('⏸ 计划模式')}${ui.c.dim('(只调研不改文件,计划出来你批准才动手)')}`);
-      messages.push({ role: 'user', content: `(计划模式)${task}\n只调研、不要修改任何文件;想清楚后给出分步执行计划,到此为止,不要动手。` });
-      await agentLoop(READ_ONLY, ac.signal); // 只读柜台逛到它交出计划为止
-      const ans = (await rl.question(`${ui.c.bold('  批准这份计划并执行?(y/n) ')}`)).trim().toLowerCase();
-      if (ans === 'y') {
-        messages.push({ role: 'user', content: '(计划已批准。请先用 TodoWrite 立清单,再按计划执行,逐步更新状态。)' });
-        await agentLoop(undefined, ac.signal); // 全量柜台开工,清单跟着记
-      } else {
-        ui.say(ui.c.yellow('已驳回——计划阶段只读,未做任何修改。'));
-      }
-    } catch (e) {
-      messages.length = rollback;
-      if (ac.signal.aborted) ui.say(ui.c.yellow('⏹ 已打断——这轮不入账'));
-      else ui.say(ui.c.red(`出错:${e instanceof Error ? e.message : e}`));
-    } finally {
-      offEsc();
-      const rlBuf = rl as unknown as { line: string; cursor: number };
-      rlBuf.line = ''; rlBuf.cursor = 0;
-      ui.end();
-    }
-    if (shouldCompact(usage.lastPrompt)) {
-      ui.say(`  🗜 上下文 ${usage.lastPrompt} token 超过水位 ${COMPACT_AT},压缩老历史…`);
-      if (await compactHistory(messages, askPlain)) ui.say('  🗜 已压缩:老历史换摘要,尾部原文保留');
-    }
-    continue;
+  // 斜杠先查表:命中展开执行(整轮都归命令管,走完 continue)、未命中放行——
+  // 「/xxx 是什么」这类话原样发给模型,它看到的只是个普通词
+  if (line.startsWith('/')) {
+    const [name, ...rest] = line.split(/\s+/);
+    const cmd = COMMANDS[name];
+    if (cmd) { await cmd.run(rest.join(' ')); continue; }
   }
 
   // 清单快照(v1.7):宿主手里的真账每轮拍一张,捎在 user 消息尾——不靠历史里
@@ -242,10 +275,7 @@ while (true) {
     await agentLoop(undefined, ac.signal);
     // 上下文水位:超线就把老历史压成摘要(水位看的是最后一次请求的 prompt token,
     // 而不是消息条数——token 才是要花钱的那个单位)
-    if (shouldCompact(usage.lastPrompt)) {
-      ui.say(`  🗜 上下文 ${usage.lastPrompt} token 超过水位 ${COMPACT_AT},压缩老历史…`);
-      if (await compactHistory(messages, askPlain)) ui.say('  🗜 已压缩:老历史换摘要,尾部原文保留');
-    }
+    await maybeCompact();
   } catch (e) {
     messages.length = rollback; // 失败这轮不入账,别留半截对话
     if (ac.signal.aborted) ui.say(ui.c.yellow('⏹ 已打断——这轮不入账')); // 流中被掐断:半句话不进记忆
