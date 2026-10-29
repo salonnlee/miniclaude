@@ -12,6 +12,7 @@ var DAYS = [
   {
     "date": "2026-10-29",
     "items": [
+      "CH9 全景卡 c9-panorama 上线：一条线串住 CH9 三课（长任务一半靠模型记性——TodoWrite 白板＋快照注入；一半靠宿主把关——Plan mode 事前拦截）＋ mini MCP 收口；核心代码六段可点（server 协议主循环/名片与搬家后的 execute/宿主拆流认领/名片进柜子/外挂配置说了算/chat.ts 斜杠命令表），代码按源码逐字（… 省略非核心）；390px 六段零溢出。",
       "CH9.3《slash commands 与 mini MCP 实践》完课：v1.8 两件——斜杠命令长成表（命中展开执行、未命中原样放行，/plan 入表、/help /mcp 新增，模型没见过斜杠）；mini MCP：src/mcp-server.ts 天气台独立进程（stdio 每行一个 JSON：list/call、id 对号入座），宿主读 .mcp.json 拉起、名片 push 进 TOOLS——execute 搬家名片不变。本地 11 项全过；chat.ts 267→297 行。",
       "课程页新功能·章节互引跳转：文案里的 CHn（如「正是 CH6 的 Bash」）自动链接化（同章自引不导），点了平滑跳到目标章并自动展开所在幕；左下角浮出「↩ 返回 CHx」，点它跳回原章、交互结束；判距等滚动动画落定（scrollY 连续 3 拍不动）才记基线，用户滚离落点超 120px 隐钮，点击/按键不隐。坑：懒加载图片撑高版面推走落点（动画后再校一次位）、校位动画起步要清旧基线免得动画中的 scroll 误杀。",
       "课程页全文标点体检：半角 , ; : ? ! ( ) 贴中文处一律转全角（约 1,100 处，覆盖 COURSE.html、lessons/cards/COURSE-LOG/labs/mc 全部文案），两侧皆英文/数字的不动；lab-chat SEGS 是 chat.ts 代码字面量，转换后用 gen-segs.mjs 从原文重切保持逐字一致。同场立两规：done 备注限一句短语、commit 只留一句摘要，细节都归本 LOG 一处。",

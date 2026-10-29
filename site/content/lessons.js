@@ -397,7 +397,7 @@ export const LESSONS = {
             "code": "CH9.3",
             "name": "slash commands 与 mini MCP 实践",
             "done": "2026-10-29（v1.8 斜杠命令表＋mini MCP 天气台——名片进柜子、execute 住子进程）",
-            "tail": "—— npm run chat 可玩 · /help 看命令表 · .mcp.json 配 server,删掉即卸载"
+            "tail": "—— npm run chat 可玩 · /help 看命令表 · 全景卡 c9-panorama 上线(mini MCP 核心代码六段可点 × 透视卡)"
           },
           {
             "label": "知识点",
