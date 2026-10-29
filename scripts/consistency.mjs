@@ -188,6 +188,19 @@ check('口径黑名单(解剖/壳)零残留', banned.length === 0, banned.join('
     empty.map((k) => `lists.${k} 没有带 code 的课次行——幕徽章数不到它`).join('; '));
 }
 
+// 16. COURSE-LOG 单条瘦身(2026-10-29 定规):一条记录 80–100 字,硬线上限 250,
+//     只记事实与结论,过程细节归 commit message 与卡正文——超长即拦
+{
+  const LIMIT = 250;
+  const logSrc = read('site/COURSE-LOG.js');
+  const fat = [...logSrc.matchAll(/"((?:[^"\\]|\\.)*)"/g)]
+    .map((m) => m[1])
+    .filter((t) => /[\u4e00-\u9fff]/.test(t) && t.length > LIMIT)
+    .map((t) => `${t.slice(0, 20)}… ${t.length} 字`);
+  check(`COURSE-LOG 单条记录均 ≤ ${LIMIT} 字`, fat.length === 0,
+    fat.join('; ') + ' —— 压成事实与结论,过程细节归 commit message/卡正文');
+}
+
 // —— 汇总 ——
 oks.forEach((n) => console.log('  ✓ ' + n));
 if (fails.length) {
