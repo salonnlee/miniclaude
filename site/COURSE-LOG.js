@@ -12,6 +12,7 @@ var DAYS = [
   {
     "date": "2026-10-29",
     "items": [
+      "MiniClaude v0.10：对话框 htm+Preact 岛屿化（内部重构不改功能）——mc.js 换脸不换心：SSE 解析、存档、工具柜、/api/chat 形状、CSS 类名全不动，状态仍是模块级裸变量、每个 mutation 后 bump()（rAF 合帧，一帧最多渲一次），DOM 从手动 innerHTML/appendChild 换成组件树（vendor/htm-preact-standalone.mjs 13KB 零构建 ESM）。v0.7 手写的流式防竞态三件套（pending 旗子/finished 防迟到帧/isConnected 检查）被 diff 吃掉；bot 气泡 md.render 按文本缓存成稳定对象，重渲时同引用直接跳过；文本插值自动转义，esc() 退役。htm 坑一记：模板里 void 元素必须自闭合 <br/>，裸 <br> 被当普通开标签等配对，整个模板退化成原始数组渲染成文字。真机全链验收：calculator+get_time 工具气泡（实时+重载回放）、表格排版、⏹ 停止灰条（半截语义与 v0.9 一致）、localStorage 跨版本恢复、390px 零溢出；顺带实证 IAB 窗格遮挡时 rAF 冻结、画面停摆但逻辑照跑，复见即追平。",
       "全景卡重复排查（学员二次追问催生）：bigram 相似度扫全库 29 卡——换措辞的整句复讲其实很少（唯一一对是有意的「上一节留了句话」回勾），多的是主题级复讲（链式法则、梯度下降在 NN/3B 两支线各讲一遍——首现处讲透、复现处只留一句挂回，即既有体例，不动）。真要删的只有主线两处：CH4 卡 execute 透视卡与 CH3.1 卡互抄「模型只能申请/执行权在你写的代码」，c31 开篇补「四件套透视台在 CH4」指针；c7 卡内部前缀缓存首现黑话必须当场解释，保留。顺手把互引跳转扩到支线：P0.x/NNn/3Bn/T1 全部链接化（CH3.1 这类课号落到 CH3），全站 213 处可点（P0×33/NN×53/3B×51/T1×15）；坑两个：P0.3 剥课号别把 0 剥掉、无章容器（黑话表）里的链接拿链接自己当返回锚点。超长段分行：8 卡 49 处句号后插 br（>380 字的段，code 区间/段尾不插），最长段 482→363 字。",
       "CH9 全景卡 c9-panorama 上线：一条线串住 CH9 三课（长任务一半靠模型记性——TodoWrite 白板＋快照注入；一半靠宿主把关——Plan mode 事前拦截）＋ mini MCP 收口；核心代码六段可点（server 协议主循环/名片与搬家后的 execute/宿主拆流认领/名片进柜子/外挂配置说了算/chat.ts 斜杠命令表），代码按源码逐字（… 省略非核心）；390px 六段零溢出。",
       "CH9.3《slash commands 与 mini MCP 实践》完课：v1.8 两件——斜杠命令长成表（命中展开执行、未命中原样放行，/plan 入表、/help /mcp 新增，模型没见过斜杠）；mini MCP：src/mcp-server.ts 天气台独立进程（stdio 每行一个 JSON：list/call、id 对号入座），宿主读 .mcp.json 拉起、名片 push 进 TOOLS——execute 搬家名片不变。本地 11 项全过；chat.ts 267→297 行。",
