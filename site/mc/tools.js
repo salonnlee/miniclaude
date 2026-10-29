@@ -95,10 +95,54 @@ var calculator = {
   },
 };
 
+// ---- TodoWrite:任务外部化(v1.6)---------------------------------------------
+// 长任务的计划不住在模型的脑子里(上下文会糊),住在这块白板上。
+// 每次整份重写而不是 add/update:宿主不记「上次写到哪」,清单永远只有一份、不会漂移。
+var TODOS = [];
+
+var todoWrite = {
+  name: 'TodoWrite',
+  description:
+    '写/更新任务清单。接手多步任务时先立清单,每完成一步就重写整份清单更新状态。' +
+    'todos 传完整数组(不是增量),status 只认 pending / in_progress / done。',
+  parameters: {
+    type: 'object',
+    properties: {
+      todos: {
+        type: 'array',
+        description: '完整的任务清单,每项 { content, status }',
+      },
+    },
+    required: ['todos'],
+  },
+  async execute(args) {
+    if (!Array.isArray(args.todos)) return 'todos 应是数组';
+    for (var i = 0; i < args.todos.length; i++) {
+      var it = args.todos[i];
+      if (!it || typeof it.content !== 'string' || !it.content.trim())
+        return '第 ' + (i + 1) + ' 项缺 content';
+      if (['pending', 'in_progress', 'done'].indexOf(it.status) < 0)
+        return '第 ' + (i + 1) + ' 项 status 只认 pending/in_progress/done';
+    }
+    TODOS = args.todos.map(function (it) {
+      return { content: it.content, status: it.status };
+    });
+    if (!TODOS.length) return '清单已清空';
+    var doneN = TODOS.filter(function (t) { return t.status === 'done'; }).length;
+    var mark = { pending: '☐', in_progress: '▸', done: '☑' };
+    return (
+      '清单已记 [' + doneN + '/' + TODOS.length + ' 完成]\n' +
+      TODOS.map(function (t, i) {
+        return mark[t.status] + ' ' + (i + 1) + '. ' + t.content + ' (' + t.status + ')';
+      }).join('\n')
+    );
+  },
+};
+
 // 统一注册表:CLI 端加工具时这里跟着添一行,对话框的能力面就同步长
 /** @typedef {{name:string,description:string,parameters:object,execute:(args:any)=>Promise<string>}} Tool Tool 形状:前三件发给模型,execute 留在本地 */
 /** @type {Tool[]} */
-export var TOOLS = [getTime, calculator];
+export var TOOLS = [getTime, calculator, todoWrite];
 
 // 执行一个工具调用:名字没见过、参数不是 JSON、校验不过、执行抛错——都当结果喂回
 export async function runTool(call) {

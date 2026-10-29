@@ -42,6 +42,7 @@ export const LESSONS = {
     { "at": "ch3b", "ver": "v1.3", "chip": "交付 v1.3 · src/tools/agents.ts", "what": "子代理与工作流——agent 工具 execute 里再开循环(上下文隔离),workflow 按写死计划按序派兵", "range": "第二幕附加章" },
     { "at": "ch8", "ver": "v1.4", "chip": "交付 v1.4 · src/ui.ts", "what": "终端界面重构——换脸不换心:状态行转圈+流式两段式重排+工具卡+Esc 打断+diff 上色", "range": "第 8 章" },
     { "at": "ch8", "ver": "v1.5", "chip": "交付 v1.5 · src/tools/bash.ts", "what": "后台任务——spawn 脱管不杀、PID 记账、日志回头查(bash_check)", "range": "第 8 章" },
+    { "at": "ch9", "ver": "v1.6", "chip": "交付 v1.6 · site/mc/tools.js + src/ui.ts", "what": "TodoWrite 任务外部化——整份重写的任务白板,终端三态上色,两端同版长出", "range": "第 9 章" },
     { "ver": null, "what": "子代理 / 计划模式 / 技能 / MCP", "range": "第 9 章" },
     { "ver": null, "what": "配置、缓存、沙箱、发布——企业级收尾", "range": "第 10 章" }
   ],
@@ -380,11 +381,17 @@ export const LESSONS = {
           {
             "code": "CH9.1",
             "name": "TodoWrite 任务外部化",
+            "done": "2026-10-29(v1.6 长任务的计划不住在模型脑子里——上下文一长就糊,住进一块白板:site/mc/tools.js 加 TodoWrite,每次整份重写而非 add/update——宿主不记「上次写到哪」,清单永远只有一份、不会漂移;返回值即回喂模型的全部状态,system prompt 整会话定格护前缀缓存的红线一点不碰;与 CH7 项目记忆对照:那份住文件跨会话,这份住内存会话级。ui.ts toolCard 特判三态上色:☐ 压暗/▸ 亮/☑ 绿;chat.ts 连续两版零改动——注册表红利第二弹,工具住共享 tools.js,网页分身同版自动长出同一工具。真机一场三步任务模型三调 TodoWrite:立清单 0/3、办完两件勾到 2/3、读回核对 3/3,逐步自勾分毫不差)",
+            "tail": "—— npm run chat 可玩 · 给它一个多步任务,看清单从 ☐ 一路勾到 ☑"
+          },
+          {
+            "code": "CH9.2",
+            "name": "Plan mode 先批准后执行",
             "mark": "⏭ 下一站"
           },
           {
             "label": "知识点",
-            "text": "TodoWrite 任务外部化；Subagent 上下文隔离与并行；Plan mode 先批准后执行；slash commands"
+            "text": "Subagent 上下文隔离与并行；Plan mode 先批准后执行；slash commands"
           },
           {
             "label": "实践",

@@ -185,6 +185,15 @@ function inline(line: string): string {
 // 全文反正已进模型那边的 tool 消息
 export function toolCard(name: string, args: string, result: string): string {
   const a = args.length > 60 ? args.slice(0, 60) + '…' : args;
+  // TodoWrite 的结果行自带状态记号:☐ 待办 ▸ 进行 ☑ 完了,三态各有脸色
+  if (name === 'TodoWrite') {
+    const body = result.split('\n').map((l) =>
+      l.startsWith('☑') ? c.green('  ' + l) :
+      l.startsWith('▸') ? c.cyan(c.bold('  ' + l)) :
+      c.dim('  ' + l)
+    ).join('\n');
+    return `${c.cyan('⏺ ' + name)}\n${body}`;
+  }
   const lines = result.split('\n');
   const shown = lines.slice(0, 14);
   const body = shown.map((l) =>
